@@ -148,7 +148,23 @@ class SignUpState extends State<SignUp> {
                     isDense: true,
                   ),
                 ),
-              )
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 16, right: 16, bottom: 24),
+                child:  new Center(
+                  child: new ButtonBar(
+                  mainAxisSize: MainAxisSize.min, // this will take space as minimum as posible(to center)
+                  children: <Widget>[
+                    RaisedButton(
+                      color: Theme.of(context).accentColor,
+                      onPressed: () => {},
+                      child: new Text(SignUpConstants.SUBMIT),
+                disabledColor: Colors.amber,
+                    )
+                  ]
+                  ),
+                ),
+              ),
             ],
           ),
         ),
