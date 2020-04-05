@@ -1,6 +1,10 @@
 class SignUpConstants{
   //form Titles
-  static const FORM_TITLE = 'Sign Up';
+  static const FORM_TITLE = "Sign Up";
+
+  //Form Buttons
+  static const SUBMIT = "Submit";
+  static const CANCEL = "Cancel";
 
   //label text
   static const String USERNAME = "Username";
