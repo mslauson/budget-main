@@ -5,4 +5,5 @@ class SignUpForm{
  String lastName;
  String phone;
  String emailAddress;
+ String password;
 }

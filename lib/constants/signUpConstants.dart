@@ -19,11 +19,12 @@ class SignUpConstants{
 
 
   //Invalid Messages
-  static const String INVALID_USERNAME = "Invalid Username";
+  static const String INVALID_USERNAME = "Username is required";
   static const String INVALID_EMAIL = "Invalid Email Address";
+  static const String INVALID_EMAIL_REQUIRED = "Email Address is required";
   static const String INVALID_FIRST_NAME = "Invalid First Name";
   static const String INVALID_MIDDLE_INITIAL = "Invalid Middle Initial";
   static const String INVALID_LAST_NAME = "Invalid Last Name";
-  static const String INVALID_PHONE = "Invalid Username";
-  static const String INVALID_PASSWORD = "INVALID_PASSWORD";
+  static const String INVALID_PHONE = "Username is required";
+  static const String INVALID_PASSWORD = "Password is required";
 }
