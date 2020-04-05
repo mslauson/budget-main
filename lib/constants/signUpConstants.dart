@@ -1,4 +1,7 @@
 class SignUpConstants{
+  //form Titles
+  static const FORM_TITLE = 'Sign Up';
+
   //label text
   static const String USERNAME = "Username";
   static const String FIRST_NAME = "First Name";

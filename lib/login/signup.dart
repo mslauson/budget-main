@@ -37,7 +37,7 @@ class SignUpState extends State<SignUp> {
               AppBar(
                 leading: Icon(Icons.verified_user),
                 elevation: 0,
-                title: Text('User Details'),
+                title: Text(SignUpConstants.FORM_TITLE),
                 backgroundColor: Theme.of(context).accentColor,
                 centerTitle: true,
                 // actions: <Widget>[
