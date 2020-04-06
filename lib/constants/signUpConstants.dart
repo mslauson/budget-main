@@ -30,6 +30,7 @@ class SignUpConstants{
   static const String INVALID_USERNAME_LENGTH = "Username must be between 5-10 characters";
   static const String INVALID_EMAIL = "Invalid Email Address";
   static const String INVALID_EMAIL_REQUIRED = "Email Address is required";
+  static const String INVALID_EMAIL_LENGTH = "Email address must be under 50 characters";
   static const String INVALID_FIRST_NAME = "Invalid First Name";
   static const String INVALID_MIDDLE_INITIAL = "Invalid Middle Initial";
   static const String INVALID_LAST_NAME = "Invalid Last Name";

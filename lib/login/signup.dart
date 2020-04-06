@@ -99,7 +99,7 @@ class SignUpState extends State<SignUp> {
                     padding: EdgeInsets.only(left: 16, right: 16, bottom: 24),
                     child: TextFormField(
                       initialValue: '',
-                      onSaved: (val) => signUpForm.firstName = val,
+                      onSaved: (val) => val.length > 0 && val.length < 30,
                       validator: (val) => val.length > 0
                           ? null
                           : SignUpConstants.INVALID_FIRST_NAME,
@@ -130,7 +130,7 @@ class SignUpState extends State<SignUp> {
                     child: TextFormField(
                       initialValue: '',
                       onSaved: (val) => signUpForm.lastName = val,
-                      validator: (val) => val.length > 0
+                      validator: (val) => val.length > 0 && val.length < 30
                           ? null
                           : SignUpConstants.INVALID_LAST_NAME,
                       decoration: InputDecoration(
@@ -187,12 +187,13 @@ class SignUpState extends State<SignUp> {
 }
 
 String validateUserName(String val){
-  if(val.length == 0){
+  if( val.length < 5 || val.length> 30){
     return SignUpConstants.INVALID_USERNAME_LENGTH;
   }
-  else if( val.length < 5 || val.length> 30){
+  else if(val.length == 0){
     return SignUpConstants.INVALID_USERNAME_LENGTH;
   }
+
   return null;
 }
 
@@ -200,7 +201,10 @@ String validateUserName(String val){
 String validateEmail(String value) {
   if (!value.contains('@')) {
     return SignUpConstants.INVALID_EMAIL;
-  } else if (value.length == 0) {
+  } else if(value.length> 50){
+    return SignUpConstants.INVALID_EMAIL_LENGTH;
+  }
+  else if (value.length == 0) {
     return SignUpConstants.INVALID_EMAIL_REQUIRED;
   }
 
