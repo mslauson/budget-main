@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:main/client/customerClient.dart';
 import 'package:main/constants/signUpConstants.dart';
 import 'package:main/model/otikaForm.dart';
@@ -55,7 +56,7 @@ class SignUpState extends State<SignUp> {
                     padding: EdgeInsets.only(left: 16, right: 16, top: 16),
                     child: TextFormField(
                       initialValue: '',
-                      onSaved: (val) => signUpForm.userName = val,
+                      onSaved: (val) => signUpForm.userName = val.trim(),
                       validator: (val) => validateUserName(val),
                       decoration: InputDecoration(
                         labelText: SignUpConstants.USERNAME,
@@ -69,7 +70,7 @@ class SignUpState extends State<SignUp> {
                     padding: EdgeInsets.only(left: 16, right: 16, bottom: 24),
                     child: TextFormField(
                       initialValue: '',
-                      onSaved: (val) => signUpForm.emailAddress = val,
+                      onSaved: (val) => signUpForm.emailAddress = val.trim(),
                       validator: (val) => validateEmail(val),
                       decoration: InputDecoration(
                         labelText: SignUpConstants.EMAIL_ADDRESS,
@@ -83,7 +84,7 @@ class SignUpState extends State<SignUp> {
                     padding: EdgeInsets.only(left: 16, right: 16, bottom: 24),
                     child: TextFormField(
                       initialValue: '',
-                      onSaved: (val) => otikaForm.password = val,
+                      onSaved: (val) => otikaForm.password = val.trim(),
                       validator: (val) => val.length > 0
                           ? null
                           : SignUpConstants.INVALID_PASSWORD,
@@ -99,8 +100,8 @@ class SignUpState extends State<SignUp> {
                     padding: EdgeInsets.only(left: 16, right: 16, bottom: 24),
                     child: TextFormField(
                       initialValue: '',
-                      onSaved: (val) => val.length > 0 && val.length < 30,
-                      validator: (val) => val.length > 0
+                      onSaved: (val) => signUpForm.firstName = val.trim(),
+                      validator: (val) => val.length > 0 && val.length < 30
                           ? null
                           : SignUpConstants.INVALID_FIRST_NAME,
                       decoration: InputDecoration(
@@ -115,7 +116,7 @@ class SignUpState extends State<SignUp> {
                     padding: EdgeInsets.only(left: 16, right: 16, bottom: 24),
                     child: TextFormField(
                       initialValue: '',
-                      onSaved: (val) => signUpForm.middleName = val,
+                      onSaved: (val) => signUpForm.middleName = val.trim(),
                       validator: (val) => validateMiddleIntial(val),
                       decoration: InputDecoration(
                         labelText: SignUpConstants.MIDDLE_INITIAL,
@@ -129,7 +130,7 @@ class SignUpState extends State<SignUp> {
                     padding: EdgeInsets.only(left: 16, right: 16, bottom: 24),
                     child: TextFormField(
                       initialValue: '',
-                      onSaved: (val) => signUpForm.lastName = val,
+                      onSaved: (val) => signUpForm.lastName = val.trim(),
                       validator: (val) => val.length > 0 && val.length < 30
                           ? null
                           : SignUpConstants.INVALID_LAST_NAME,
@@ -145,7 +146,7 @@ class SignUpState extends State<SignUp> {
                     padding: EdgeInsets.only(left: 16, right: 16, bottom: 24),
                     child: TextFormField(
                       initialValue: '',
-                      onSaved: (val) => signUpForm.phone = val,
+                      onSaved: (val) => signUpForm.phone = val.trim(),
                       validator: (val) => val.length != 9
                           ? null
                           : SignUpConstants.INVALID_PHONE,
@@ -186,11 +187,10 @@ class SignUpState extends State<SignUp> {
   }
 }
 
-String validateUserName(String val){
-  if( val.length < 5 || val.length> 30){
+String validateUserName(String val) {
+  if (val.length < 5 || val.length > 30) {
     return SignUpConstants.INVALID_USERNAME_LENGTH;
-  }
-  else if(val.length == 0){
+  } else if (val.length == 0) {
     return SignUpConstants.INVALID_USERNAME_LENGTH;
   }
 
@@ -201,10 +201,9 @@ String validateUserName(String val){
 String validateEmail(String value) {
   if (!value.contains('@')) {
     return SignUpConstants.INVALID_EMAIL;
-  } else if(value.length> 50){
+  } else if (value.length > 50) {
     return SignUpConstants.INVALID_EMAIL_LENGTH;
-  }
-  else if (value.length == 0) {
+  } else if (value.length == 0) {
     return SignUpConstants.INVALID_EMAIL_REQUIRED;
   }
 
@@ -220,14 +219,15 @@ String validateMiddleIntial(String middleInitial) {
   return null;
 }
 
-SignUpForm addCustomer(
-    bool validForm, SignUpForm signUpForm, OtikaForm otikaForm) {
+Future<void> addCustomer(
+    bool validForm, SignUpForm signUpForm, OtikaForm otikaForm) async {
   if (validForm) {
     CustomerClient client = new CustomerClient();
-    SignUpForm response = client.addCustomer(jsonEncode(signUpForm.toJson()));
+    var response = await client.addCustomer(jsonEncode(signUpForm.toJson()))
+    .catchError(print);
     log(response.toString());
     otikaForm.email = signUpForm.emailAddress;
-    return response;
+    return jsonDecode(response);
   }
   return null;
 }

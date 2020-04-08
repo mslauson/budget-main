@@ -1,20 +1,27 @@
-import 'dart:convert';
 import 'dart:developer';
 
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
-import 'package:main/model/signUpForm.dart';
 
 class CustomerClient {
-  addCustomer(String payload) async {
-    String url = 'http://customer-microservice-dev.blossombudgeting.io/api/v1/customer';
+  Future<String> addCustomer(String payload) async {
+    String url =
+        'http://customer-microservice-dev.blossombudgeting.io/api/v1/customer';
     Map<String, String> headers = {"Content-type": "application/json"};
-    
-    Response response = await post(url, headers: headers, body: payload);
-  
-    int statusCode = response.statusCode;
-      log(statusCode.toString());
-    String body = response.body;
-    log(body);
-    return jsonDecode(body);
+
+    var response = await post(url, headers: headers, body: payload);
+    //     .then((value) => value.body, onError: (error) {
+    //      print('handle original error: $error');
+    //      throw 'Registration failed';
+    // });
+    if(response.statusCode != 200){
+      onError(response, "Registration");
+    }
+    return response.body;
+  }
+
+  onError(Response response, String context){
+    log(context + "failed with status code: "+response.statusCode.toString()+" response: "+response.body+"");
+    throw context + " failed.";
   }
 }
