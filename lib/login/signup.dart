@@ -42,6 +42,7 @@ class SignUpState extends State<SignUp> {
             borderRadius: BorderRadius.circular(8),
             child: Form(
               key: formKey,
+              autovalidate: true,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
@@ -57,7 +58,7 @@ class SignUpState extends State<SignUp> {
                     child: TextFormField(
                       initialValue: '',
                       onSaved: (val) => signUpForm.userName = val.trim(),
-                      validator: (val) => validateUserName(val),
+                      validator:(String value) => validateUserName(value),
                       decoration: InputDecoration(
                         labelText: SignUpConstants.USERNAME,
                         hintText: SignUpConstants.USERNAME_HINT,
@@ -145,6 +146,7 @@ class SignUpState extends State<SignUp> {
                   Padding(
                     padding: EdgeInsets.only(left: 16, right: 16, bottom: 24),
                     child: TextFormField(
+                      keyboardType: TextInputType.phone,
                       initialValue: '',
                       onSaved: (val) => signUpForm.phone = val.trim(),
                       validator: (val) => val.length != 9
@@ -188,13 +190,20 @@ class SignUpState extends State<SignUp> {
       ),
     );
   }
-}
-
-String validateUserName(String val) {
+ bool usernameTaken;
+  void checkValidUsername(String value) {
+    CustomerClient client = new CustomerClient();
+      client.checkUserName(value).then((value) => usernameTaken = value);
+  }
+  String validateUserName(String val) {
+    checkValidUsername(val);
   if (val.length < 5 || val.length > 30) {
     return SignUpConstants.INVALID_USERNAME_LENGTH;
   } else if (val.length == 0) {
     return SignUpConstants.INVALID_USERNAME_LENGTH;
+  }
+  if(usernameTaken){
+    return SignUpConstants.USERNAME_TAKEN;
   }
 
   return null;
@@ -261,3 +270,6 @@ _showError(BuildContext context) {
     ),
   );
 }
+}
+
+

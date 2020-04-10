@@ -21,7 +21,7 @@ class SignUpConstants {
   static const String MIDDLE_INITIAL_HINT =
       "Please enter your middle initial (Optional)";
   static const String LAST_NAME_HINT = "Please enter your last name";
-  static const String PHONE_HINT = "Please enter your phone number";
+  static const String PHONE_HINT = "Pleas enter your phone number";
   static const String EMAIL_ADDRESS_HINT = "Please enter your email address";
   static const String PASSWORD_HINT = "Please choose a password";
 
@@ -38,10 +38,14 @@ class SignUpConstants {
   static const String INVALID_LAST_NAME = "Invalid Last Name";
   static const String INVALID_PHONE = "Phone is required";
   static const String INVALID_PASSWORD = "Password is required";
+  static const String USERNAME_TAKEN = "This username is Taken";
 
   //Failure Messages
   static const String CUSTOMER_REGISTRATION_FAILED =
       "Registration failed. \n  Please try again.";
 
       static const String DISMISS_BUTTON = "Dismiss";
+
+  //Response values
+  static const String USERNAME_TAKEN_KEY = "userNameTaken";
 }
