@@ -226,14 +226,13 @@ Future<bool> addCustomer(
     bool validForm, SignUpForm signUpForm, OtikaForm otikaForm) async {
   if (validForm) {
     CustomerClient client = new CustomerClient();
-    var response = await client
-        .addCustomer(jsonEncode(signUpForm.toJson()));
+    var response = await client.addCustomer(jsonEncode(signUpForm.toJson()));
     log(response.toString());
     otikaForm.email = signUpForm.emailAddress;
 
-    return jsonDecode(response);
+    return true;
   }
-  return null;
+  return false;
 }
 
 bool validateCurrentForm(GlobalKey<FormState> formKey) {
@@ -247,18 +246,18 @@ bool validateCurrentForm(GlobalKey<FormState> formKey) {
 
 _showError(BuildContext context) {
   showDialog(
-      context: context,
-     child: new AlertDialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0)), //this right here
-         title: Text("Error"),
-         content: Text(SignUpConstants.CUSTOMER_REGISTRATION_FAILED),
-          actions: [
-                new FlatButton(
-                  child: const Text("Ok"),
-                  onPressed: () => Navigator.pop(context),
-                ),
-              ],
+    context: context,
+    child: new AlertDialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0)), //this right here
+      title: Text("Error"),
+      content: Text(SignUpConstants.CUSTOMER_REGISTRATION_FAILED),
+      actions: [
+        new FlatButton(
+          child: const Text("Ok"),
+          onPressed: () => Navigator.pop(context),
         ),
-      );
+      ],
+    ),
+  );
 }
