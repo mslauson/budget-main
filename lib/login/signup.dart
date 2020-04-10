@@ -169,7 +169,10 @@ class SignUpState extends State<SignUp> {
                               color: Theme.of(context).accentColor,
                               onPressed: () => {
                                 validForm = validateCurrentForm(formKey),
-                                addCustomer(context, validForm, signUpForm, otikaForm)
+                                addCustomer(validForm, signUpForm, otikaForm)
+                                    .catchError((Object error) {
+                                  _showError(context);
+                                }),
                               },
                               child: new Text(SignUpConstants.SUBMIT),
                               disabledColor: Colors.amber,
@@ -219,14 +222,15 @@ String validateMiddleIntial(String middleInitial) {
   return null;
 }
 
-Future<void> addCustomer(
-    context, bool validForm, SignUpForm signUpForm, OtikaForm otikaForm) async {
+Future<bool> addCustomer(
+    bool validForm, SignUpForm signUpForm, OtikaForm otikaForm) async {
   if (validForm) {
     CustomerClient client = new CustomerClient();
-    var response = await client.addCustomer(jsonEncode(signUpForm.toJson()))
-    .catchError(showError(context, SignUpConstants.CUSTOMER_REGISTRATION_FAILED));
+    var response = await client
+        .addCustomer(jsonEncode(signUpForm.toJson()));
     log(response.toString());
     otikaForm.email = signUpForm.emailAddress;
+
     return jsonDecode(response);
   }
   return null;
@@ -241,15 +245,20 @@ bool validateCurrentForm(GlobalKey<FormState> formKey) {
   return false;
 }
 
-showError(context, String message){
-   AlertDialog(
-      title: Text(message),
-      actions: <Widget>[
-        FlatButton(child: Text(SignUpConstants.DISMISS_BUTTON),
-        onPressed: (){
-          Navigator.pop(context);
-        },
+_showError(BuildContext context) {
+  showDialog(
+      context: context,
+     child: new AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0)), //this right here
+         title: Text("Error"),
+         content: Text(SignUpConstants.CUSTOMER_REGISTRATION_FAILED),
+          actions: [
+                new FlatButton(
+                  child: const Text("Ok"),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ],
         ),
-      ],
-    );
+      );
 }
