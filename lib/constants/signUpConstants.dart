@@ -1,4 +1,4 @@
-class SignUpConstants{
+class SignUpConstants {
   //form Titles
   static const FORM_TITLE = "Sign Up";
 
@@ -18,22 +18,30 @@ class SignUpConstants{
   //hint text
   static const String USERNAME_HINT = "Please choose a username";
   static const String FIRST_NAME_HINT = "Please enter your first name";
-  static const String MIDDLE_INITIAL_HINT = "Please enter your middle initial (Optional)";
+  static const String MIDDLE_INITIAL_HINT =
+      "Please enter your middle initial (Optional)";
   static const String LAST_NAME_HINT = "Please enter your last name";
   static const String PHONE_HINT = "Please enter your phone number";
   static const String EMAIL_ADDRESS_HINT = "Please enter your email address";
   static const String PASSWORD_HINT = "Please choose a password";
 
-
   //Invalid Messages
   static const String INVALID_USERNAME = "Username is required";
-  static const String INVALID_USERNAME_LENGTH = "Username must be between 5-10 characters";
+  static const String INVALID_USERNAME_LENGTH =
+      "Username must be between 5-10 characters";
   static const String INVALID_EMAIL = "Invalid Email Address";
   static const String INVALID_EMAIL_REQUIRED = "Email Address is required";
-  static const String INVALID_EMAIL_LENGTH = "Email address must be under 50 characters";
+  static const String INVALID_EMAIL_LENGTH =
+      "Email address must be under 50 characters";
   static const String INVALID_FIRST_NAME = "Invalid First Name";
   static const String INVALID_MIDDLE_INITIAL = "Invalid Middle Initial";
   static const String INVALID_LAST_NAME = "Invalid Last Name";
   static const String INVALID_PHONE = "Phone is required";
   static const String INVALID_PASSWORD = "Password is required";
+
+  //Failure Messages
+  static const String CUSTOMER_REGISTRATION_FAILED =
+      "Registration failed. \n  Please try again.";
+
+      static const String DISMISS_BUTTON = "Dismiss";
 }

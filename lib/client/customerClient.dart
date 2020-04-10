@@ -10,10 +10,6 @@ class CustomerClient {
     Map<String, String> headers = {"Content-type": "application/json"};
 
     var response = await post(url, headers: headers, body: payload);
-    //     .then((value) => value.body, onError: (error) {
-    //      print('handle original error: $error');
-    //      throw 'Registration failed';
-    // });
     if(response.statusCode != 200){
       onError(response, "Registration");
     }

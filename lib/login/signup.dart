@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:js';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -169,7 +170,7 @@ class SignUpState extends State<SignUp> {
                               color: Theme.of(context).accentColor,
                               onPressed: () => {
                                 validForm = validateCurrentForm(formKey),
-                                addCustomer(validForm, signUpForm, otikaForm)
+                                addCustomer(context, validForm, signUpForm, otikaForm)
                               },
                               child: new Text(SignUpConstants.SUBMIT),
                               disabledColor: Colors.amber,
@@ -220,11 +221,11 @@ String validateMiddleIntial(String middleInitial) {
 }
 
 Future<void> addCustomer(
-    bool validForm, SignUpForm signUpForm, OtikaForm otikaForm) async {
+    context, bool validForm, SignUpForm signUpForm, OtikaForm otikaForm) async {
   if (validForm) {
     CustomerClient client = new CustomerClient();
     var response = await client.addCustomer(jsonEncode(signUpForm.toJson()))
-    .catchError(print);
+    .catchError(showError(context, SignUpConstants.CUSTOMER_REGISTRATION_FAILED));
     log(response.toString());
     otikaForm.email = signUpForm.emailAddress;
     return jsonDecode(response);
@@ -239,4 +240,17 @@ bool validateCurrentForm(GlobalKey<FormState> formKey) {
     return true;
   }
   return false;
+}
+
+showError(context, String message){
+   AlertDialog(
+      title: Text(message),
+      actions: <Widget>[
+        FlatButton(child: Text(SignUpConstants.DISMISS_BUTTON),
+        onPressed: (){
+          Navigator.pop(context);
+        },
+        ),
+      ],
+    );
 }
