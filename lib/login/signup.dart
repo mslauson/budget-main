@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:main/client/customerClient.dart';
@@ -42,7 +43,6 @@ class SignUpState extends State<SignUp> {
             borderRadius: BorderRadius.circular(8),
             child: Form(
               key: formKey,
-              autovalidate: true,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
@@ -57,6 +57,8 @@ class SignUpState extends State<SignUp> {
                     padding: EdgeInsets.only(left: 16, right: 16, top: 16),
                     child: TextFormField(
                       initialValue: '',
+                      onChanged:(String value) async { checkValidUsername(value);
+                      },
                       onSaved: (val) => signUpForm.userName = val.trim(),
                       validator:(String value) => validateUserName(value),
                       decoration: InputDecoration(
@@ -190,13 +192,12 @@ class SignUpState extends State<SignUp> {
       ),
     );
   }
- bool usernameTaken;
-  void checkValidUsername(String value) {
+ bool usernameTaken = false;
+  void checkValidUsername(String value) async {
     CustomerClient client = new CustomerClient();
-      client.checkUserName(value).then((value) => usernameTaken = value);
+     client.checkUserName(value).then((value) => usernameTaken = value);
   }
   String validateUserName(String val) {
-    checkValidUsername(val);
   if (val.length < 5 || val.length > 30) {
     return SignUpConstants.INVALID_USERNAME_LENGTH;
   } else if (val.length == 0) {
@@ -211,7 +212,7 @@ class SignUpState extends State<SignUp> {
 
 // validates that the email address is in the correct format and doesn't have a length of 0
 String validateEmail(String value) {
-  if (!value.contains('@')) {
+  if (!EmailValidator.validate(value)) {
     return SignUpConstants.INVALID_EMAIL;
   } else if (value.length > 50) {
     return SignUpConstants.INVALID_EMAIL_LENGTH;

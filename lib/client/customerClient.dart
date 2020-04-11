@@ -23,7 +23,7 @@ class CustomerClient {
     throw context + " failed.";
   }
 
-  Future<bool> checkUserName(String payload) async {
+  Future<bool> checkUserName(String payload)  async {
     String url =
         'http://customer-microservice-dev.blossombudgeting.io/api/v1/customer/validate/' + payload;
     Map<String, String> headers = {"Content-type": "application/json"};
