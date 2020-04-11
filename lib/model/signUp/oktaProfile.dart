@@ -3,7 +3,7 @@ class OktaProfile {
   String lastName;
   String email;
   String login;
-  double mobilePhone;
+  String mobilePhone;
   OktaProfile(
       {this.firstName,
       this.lastName,

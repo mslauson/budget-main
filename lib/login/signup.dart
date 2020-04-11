@@ -5,6 +5,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:main/client/customerClient.dart';
+import 'package:main/client/oktaClient.dart';
 import 'package:main/constants/signUpConstants.dart';
 import 'package:main/model/signUp/oktaForm.dart';
 import 'package:main/model/signUp/signUpForm.dart';
@@ -57,10 +58,11 @@ class SignUpState extends State<SignUp> {
                     padding: EdgeInsets.only(left: 16, right: 16, top: 16),
                     child: TextFormField(
                       initialValue: '',
-                      onChanged:(String value) async { checkValidUsername(value);
+                      onChanged: (String value) async {
+                        checkValidUsername(value);
                       },
                       onSaved: (val) => signUpForm.userName = val.trim(),
-                      validator:(String value) => validateUserName(value),
+                      validator: (String value) => validateUserName(value),
                       decoration: InputDecoration(
                         labelText: SignUpConstants.USERNAME,
                         hintText: SignUpConstants.USERNAME_HINT,
@@ -87,7 +89,8 @@ class SignUpState extends State<SignUp> {
                     padding: EdgeInsets.only(left: 16, right: 16, bottom: 24),
                     child: TextFormField(
                       initialValue: '',
-                      onSaved: (val) => oktaForm.credentials.password.value = val.trim(),
+                      onSaved: (val) =>
+                          oktaForm.credentials.password.value = val.trim(),
                       validator: (val) => val.length > 0
                           ? null
                           : SignUpConstants.INVALID_PASSWORD,
@@ -192,85 +195,96 @@ class SignUpState extends State<SignUp> {
       ),
     );
   }
- bool usernameTaken = false;
+
+  bool usernameTaken = false;
   void checkValidUsername(String value) async {
     CustomerClient client = new CustomerClient();
-     client.checkUserName(value).then((value) => usernameTaken = value);
-  }
-  String validateUserName(String val) {
-  if (val.length < 5 || val.length > 30) {
-    return SignUpConstants.INVALID_USERNAME_LENGTH;
-  } else if (val.length == 0) {
-    return SignUpConstants.INVALID_USERNAME_LENGTH;
-  }
-  if(usernameTaken){
-    return SignUpConstants.USERNAME_TAKEN;
+    client.checkUserName(value).then((value) => usernameTaken = value);
   }
 
-  return null;
-}
+  String validateUserName(String val) {
+    if (val.length < 5 || val.length > 30) {
+      return SignUpConstants.INVALID_USERNAME_LENGTH;
+    } else if (val.length == 0) {
+      return SignUpConstants.INVALID_USERNAME_LENGTH;
+    }
+    if (usernameTaken) {
+      return SignUpConstants.USERNAME_TAKEN;
+    }
+
+    return null;
+  }
 
 // validates that the email address is in the correct format and doesn't have a length of 0
-String validateEmail(String value) {
-  if (!EmailValidator.validate(value)) {
-    return SignUpConstants.INVALID_EMAIL;
-  } else if (value.length > 50) {
-    return SignUpConstants.INVALID_EMAIL_LENGTH;
-  } else if (value.length == 0) {
-    return SignUpConstants.INVALID_EMAIL_REQUIRED;
-  }
-
-  return null;
-}
-
-String validateMiddleIntial(String middleInitial) {
-  if (middleInitial.length > 0) {
-    if (middleInitial.length > 1) {
-      return SignUpConstants.INVALID_MIDDLE_INITIAL;
+  String validateEmail(String value) {
+    if (!EmailValidator.validate(value)) {
+      return SignUpConstants.INVALID_EMAIL;
+    } else if (value.length > 50) {
+      return SignUpConstants.INVALID_EMAIL_LENGTH;
+    } else if (value.length == 0) {
+      return SignUpConstants.INVALID_EMAIL_REQUIRED;
     }
+
+    return null;
   }
-  return null;
+
+  String validateMiddleIntial(String middleInitial) {
+    if (middleInitial.length > 0) {
+      if (middleInitial.length > 1) {
+        return SignUpConstants.INVALID_MIDDLE_INITIAL;
+      }
+    }
+    return null;
+  }
+
+  Future<bool> addCustomer(
+      bool validForm, SignUpForm signUpForm, OktaForm oktaForm) async {
+    if (validForm) {
+      CustomerClient customerClient = new CustomerClient();
+      OktaClient oktaClient = new OktaClient();
+      String customerResponse = await customerClient.addCustomer(jsonEncode(signUpForm.toJson()));
+      log(customerResponse.toString());
+      OktaForm request = buildOktaForm(signUpForm, oktaForm);
+      String oktaResponse = await oktaClient.addUserToOkta(jsonEncode(request.toJson()));
+      log(oktaResponse);
+      return true;
+    }
+    return false;
+  }
+
+  bool validateCurrentForm(GlobalKey<FormState> formKey) {
+    final currentState = formKey.currentState;
+    if (currentState.validate()) {
+      currentState.save();
+      return true;
+    }
+    return false;
+  }
+
+  _showError(BuildContext context) {
+    showDialog(
+      context: context,
+      child: new AlertDialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0)), //this right here
+        title: Text("Error"),
+        content: Text(SignUpConstants.CUSTOMER_REGISTRATION_FAILED),
+        actions: [
+          new FlatButton(
+            child: const Text("Ok"),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
-Future<bool> addCustomer(
-    bool validForm, SignUpForm signUpForm, OktaForm oktaForm) async {
-  if (validForm) {
-    CustomerClient client = new CustomerClient();
-    var response = await client.addCustomer(jsonEncode(signUpForm.toJson()));
-    log(response.toString());
+OktaForm buildOktaForm(SignUpForm signUpForm, OktaForm oktaForm) {
+    oktaForm.profile.firstName = signUpForm.firstName;
+    oktaForm.profile.lastName = signUpForm.lastName;
     oktaForm.profile.email = signUpForm.emailAddress;
-
-    return true;
-  }
-  return false;
+    oktaForm.profile.login = signUpForm.emailAddress;
+    oktaForm.profile.mobilePhone = signUpForm.phone;
+    return oktaForm;
 }
-
-bool validateCurrentForm(GlobalKey<FormState> formKey) {
-  final currentState = formKey.currentState;
-  if (currentState.validate()) {
-    currentState.save();
-    return true;
-  }
-  return false;
-}
-
-_showError(BuildContext context) {
-  showDialog(
-    context: context,
-    child: new AlertDialog(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.0)), //this right here
-      title: Text("Error"),
-      content: Text(SignUpConstants.CUSTOMER_REGISTRATION_FAILED),
-      actions: [
-        new FlatButton(
-          child: const Text("Ok"),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ],
-    ),
-  );
-}
-}
-
-
