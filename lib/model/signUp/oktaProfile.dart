@@ -5,11 +5,11 @@ class OktaProfile {
   String login;
   String mobilePhone;
   OktaProfile(
-      {this.firstName,
+      this.firstName,
       this.lastName,
       this.email,
       this.login,
-      this.mobilePhone});
+      this.mobilePhone);
 
   Map<String, dynamic> toJson() => {
         "firstName": firstName,

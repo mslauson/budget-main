@@ -7,8 +7,11 @@ import 'package:http/http.dart';
 import 'package:main/client/customerClient.dart';
 import 'package:main/client/oktaClient.dart';
 import 'package:main/constants/signUpConstants.dart';
+import 'package:main/model/signUp/oktaCredentials.dart';
 import 'package:main/model/signUp/oktaForm.dart';
+import 'package:main/model/signUp/oktaProfile.dart';
 import 'package:main/model/signUp/signUpForm.dart';
+import 'package:main/model/valueModel.dart';
 
 class SignUp extends StatefulWidget {
   final SignUpConstants signUpConstants;
@@ -33,7 +36,7 @@ class SignUpState extends State<SignUp> {
     // Build a Form widget using the _formKey created above.
     bool validForm;
     SignUpForm signUpForm = new SignUpForm();
-    OktaForm oktaForm = new OktaForm();
+    ValueModel valueModel = new ValueModel();
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -90,7 +93,7 @@ class SignUpState extends State<SignUp> {
                     child: TextFormField(
                       initialValue: '',
                       onSaved: (val) =>
-                          oktaForm.credentials.password.value = val.trim(),
+                          valueModel.value = val.trim(),
                       validator: (val) => val.length > 0
                           ? null
                           : SignUpConstants.INVALID_PASSWORD,
@@ -176,7 +179,7 @@ class SignUpState extends State<SignUp> {
                               color: Theme.of(context).accentColor,
                               onPressed: () => {
                                 validForm = validateCurrentForm(formKey),
-                                addCustomer(validForm, signUpForm, oktaForm)
+                                addCustomer(validForm, signUpForm, valueModel)
                                     .catchError((Object error) {
                                   _showError(context);
                                 }),
@@ -238,13 +241,13 @@ class SignUpState extends State<SignUp> {
   }
 
   Future<bool> addCustomer(
-      bool validForm, SignUpForm signUpForm, OktaForm oktaForm) async {
+      bool validForm, SignUpForm signUpForm, ValueModel valueModel) async {
     if (validForm) {
       CustomerClient customerClient = new CustomerClient();
       OktaClient oktaClient = new OktaClient();
       String customerResponse = await customerClient.addCustomer(jsonEncode(signUpForm.toJson()));
       log(customerResponse.toString());
-      OktaForm request = buildOktaForm(signUpForm, oktaForm);
+      OktaForm request = buildOktaForm(signUpForm, valueModel);
       String oktaResponse = await oktaClient.addUserToOkta(jsonEncode(request.toJson()));
       log(oktaResponse);
       return true;
@@ -280,11 +283,7 @@ class SignUpState extends State<SignUp> {
   }
 }
 
-OktaForm buildOktaForm(SignUpForm signUpForm, OktaForm oktaForm) {
-    oktaForm.profile.firstName = signUpForm.firstName;
-    oktaForm.profile.lastName = signUpForm.lastName;
-    oktaForm.profile.email = signUpForm.emailAddress;
-    oktaForm.profile.login = signUpForm.emailAddress;
-    oktaForm.profile.mobilePhone = signUpForm.phone;
-    return oktaForm;
+OktaForm buildOktaForm(SignUpForm signUpForm, ValueModel valueModel) {
+    OktaProfile profile = new OktaProfile(signUpForm.firstName,signUpForm.lastName, signUpForm.emailAddress, signUpForm.emailAddress, signUpForm.phone );
+    return new OktaForm(profile, new OktaCredentials(valueModel));
 }
