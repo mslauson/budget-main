@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:main/login/signup.dart';
+import 'package:main/ui/signUp/signup.dart';
 
 class Splash extends StatefulWidget {
   Splash({Key key, this.title}) : super(key: key);
