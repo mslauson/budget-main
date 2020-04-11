@@ -1,5 +1,7 @@
+import 'package:main/model/valueModel.dart';
+
 class OktaCredentials {
-  String password;
+  ValueModel password;
   OktaCredentials(this.password);
   Map<String, dynamic> toJson() => {"password": password};
 }

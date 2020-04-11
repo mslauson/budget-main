@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:main/client/customerClient.dart';
 import 'package:main/constants/signUpConstants.dart';
-import 'package:main/model/otikaForm.dart';
-import 'package:main/model/signUpForm.dart';
+import 'package:main/model/signUp/oktaForm.dart';
+import 'package:main/model/signUp/signUpForm.dart';
 
 class SignUp extends StatefulWidget {
   final SignUpConstants signUpConstants;
@@ -32,7 +32,7 @@ class SignUpState extends State<SignUp> {
     // Build a Form widget using the _formKey created above.
     bool validForm;
     SignUpForm signUpForm = new SignUpForm();
-    OtikaForm otikaForm = new OtikaForm();
+    OktaForm oktaForm = new OktaForm();
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -87,7 +87,7 @@ class SignUpState extends State<SignUp> {
                     padding: EdgeInsets.only(left: 16, right: 16, bottom: 24),
                     child: TextFormField(
                       initialValue: '',
-                      onSaved: (val) => otikaForm.password = val.trim(),
+                      onSaved: (val) => oktaForm.credentials.password.value = val.trim(),
                       validator: (val) => val.length > 0
                           ? null
                           : SignUpConstants.INVALID_PASSWORD,
@@ -173,7 +173,7 @@ class SignUpState extends State<SignUp> {
                               color: Theme.of(context).accentColor,
                               onPressed: () => {
                                 validForm = validateCurrentForm(formKey),
-                                addCustomer(validForm, signUpForm, otikaForm)
+                                addCustomer(validForm, signUpForm, oktaForm)
                                     .catchError((Object error) {
                                   _showError(context);
                                 }),
@@ -233,12 +233,12 @@ String validateMiddleIntial(String middleInitial) {
 }
 
 Future<bool> addCustomer(
-    bool validForm, SignUpForm signUpForm, OtikaForm otikaForm) async {
+    bool validForm, SignUpForm signUpForm, OktaForm oktaForm) async {
   if (validForm) {
     CustomerClient client = new CustomerClient();
     var response = await client.addCustomer(jsonEncode(signUpForm.toJson()));
     log(response.toString());
-    otikaForm.email = signUpForm.emailAddress;
+    oktaForm.profile.email = signUpForm.emailAddress;
 
     return true;
   }
