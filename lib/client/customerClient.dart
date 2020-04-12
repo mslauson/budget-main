@@ -2,7 +2,8 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:http/http.dart';
-import 'package:main/constants/signUpConstants.dart';
+import 'package:main/constants/iamConstants.dart';
+
 import 'package:main/error/errorHandler.dart';
 
 class CustomerClient {
@@ -29,6 +30,6 @@ class CustomerClient {
       ErrorHandler.onError(response, "Username Verification");
     }
     var booleanResponse = jsonDecode(response.body);
-    return booleanResponse[SignUpConstants.USERNAME_TAKEN_KEY];
+    return booleanResponse[IAMConstants.USERNAME_TAKEN_KEY];
   }
 }
