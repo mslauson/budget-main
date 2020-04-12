@@ -1,5 +1,6 @@
-import 'package:main/model/signUp/oktaCredentials.dart';
-import 'package:main/model/signUp/oktaProfile.dart';
+
+import 'oktaCredentials.dart';
+import 'oktaProfile.dart';
 
 class OktaForm {
   OktaProfile profile;

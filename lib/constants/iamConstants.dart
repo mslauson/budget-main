@@ -1,6 +1,7 @@
-class SignUpConstants {
+class IAMConstants {
   //form Titles
   static const FORM_TITLE = "Sign Up";
+  static const LOGIN_TITLE = "Login To Blossom";
 
   //Form Buttons
   static const SUBMIT = "Submit";

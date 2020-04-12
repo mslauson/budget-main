@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:main/ui/authenticate/authenticate.dart';
 import 'package:main/ui/signUp/signup.dart';
 
 class Splash extends StatelessWidget {
@@ -6,7 +7,7 @@ class Splash extends StatelessWidget {
 
   final String title;
 
-   @override
+  @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -26,7 +27,7 @@ class Splash extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const SizedBox(height: 30),
+            const SizedBox(height: 250),
             RaisedButton(
               onPressed: () {
                 Navigator.push(
@@ -36,10 +37,21 @@ class Splash extends StatelessWidget {
               },
               child: const Text('Sign Up', style: TextStyle(fontSize: 20)),
             ),
+            Padding(
+              padding: EdgeInsets.only(top: 8),
+              child: RaisedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => new Authenticate()),
+                  );
+                },
+                child: const Text('Sign In', style: TextStyle(fontSize: 20)),
+              ),
+            ),
           ],
         ),
       ),
-     
     );
   }
 }
