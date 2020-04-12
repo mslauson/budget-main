@@ -40,7 +40,7 @@ class SignUpState extends State<SignUp> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.only(left: 8, top: 32, right: 8),
+          padding: EdgeInsets.only(left: 8, top: 32, right: 8, bottom: 32),
           child: Material(
             elevation: 1,
             clipBehavior: Clip.antiAlias,
@@ -75,7 +75,7 @@ class SignUpState extends State<SignUp> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 16, right: 16, bottom: 24),
+                    padding: EdgeInsets.only(left: 16, right: 16),
                     child: TextFormField(
                       keyboardType: TextInputType.emailAddress,
                       initialValue: '',
@@ -90,7 +90,7 @@ class SignUpState extends State<SignUp> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 16, right: 16, bottom: 24),
+                    padding: EdgeInsets.only(left: 16, right: 16),
                     child: TextFormField(
                       obscureText: true,
                       initialValue: '',
@@ -108,7 +108,7 @@ class SignUpState extends State<SignUp> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 16, right: 16, bottom: 24),
+                    padding: EdgeInsets.only(left: 16, right: 16),
                     child: TextFormField(
                       initialValue: '',
                       onSaved: (val) => signUpForm.firstName = val.trim(),
@@ -124,7 +124,7 @@ class SignUpState extends State<SignUp> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 16, right: 16, bottom: 24),
+                    padding: EdgeInsets.only(left: 16, right: 16),
                     child: TextFormField(
                       initialValue: '',
                       onSaved: (val) => signUpForm.middleName = val.trim(),
@@ -138,7 +138,7 @@ class SignUpState extends State<SignUp> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 16, right: 16, bottom: 24),
+                    padding: EdgeInsets.only(left: 16, right: 16),
                     child: TextFormField(
                       initialValue: '',
                       onSaved: (val) => signUpForm.lastName = val.trim(),
@@ -154,7 +154,7 @@ class SignUpState extends State<SignUp> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 16, right: 16, bottom: 24),
+                    padding: EdgeInsets.only(left: 16, right: 16, bottom: 8),
                     child: TextFormField(
                       keyboardType: TextInputType.phone,
                       initialValue: '',
@@ -171,7 +171,7 @@ class SignUpState extends State<SignUp> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 16, right: 16, bottom: 24),
+                    padding: EdgeInsets.only(left: 16, right: 16),
                     child: new Center(
                       child: new ButtonBar(
                           mainAxisSize: MainAxisSize
@@ -184,7 +184,7 @@ class SignUpState extends State<SignUp> {
                                 addCustomer(validForm, signUpForm, valueModel)
                                     .catchError((Object error) {
                                   _showError(context, formKey);
-                                }),
+                                }).whenComplete(() => showSuccess()),
                               },
                               child: new Text(SignUpConstants.SUBMIT),
                               disabledColor: Colors.amber,
@@ -285,6 +285,26 @@ class SignUpState extends State<SignUp> {
       ),
     );
   }
+}
+
+showSuccess(BuildContext context, GlobalKey<FormState> formKey) {
+  final currentState = formKey.currentState;
+    currentState.reset();
+    showDialog(
+      context: context,
+      child: new AlertDialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0)), 
+        title: Text("Success"),
+        content: Text(SignUpConstants.REGISTRATION_SUCCESS),
+        actions: [
+          new FlatButton(
+            child: const Text("Ok"),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ],
+      ),
+    );
 }
 
 OktaForm buildOktaForm(SignUpForm signUpForm, ValueModel valueModel) {
