@@ -77,6 +77,7 @@ class SignUpState extends State<SignUp> {
                   Padding(
                     padding: EdgeInsets.only(left: 16, right: 16, bottom: 24),
                     child: TextFormField(
+                      keyboardType: TextInputType.emailAddress,
                       initialValue: '',
                       onSaved: (val) => signUpForm.emailAddress = val.trim(),
                       validator: (val) => validateEmail(val),
@@ -91,6 +92,7 @@ class SignUpState extends State<SignUp> {
                   Padding(
                     padding: EdgeInsets.only(left: 16, right: 16, bottom: 24),
                     child: TextFormField(
+                      obscureText: true,
                       initialValue: '',
                       onSaved: (val) =>
                           valueModel.value = val.trim(),
