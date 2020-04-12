@@ -65,7 +65,7 @@ class SignUpState extends State<SignUp> {
                         checkValidUsername(value);
                       },
                       onSaved: (val) => signUpForm.userName = val.trim(),
-                      validator: (String value) => validateUserName(value),
+                      validator: (String value) => validateUserName(value.trim()),
                       decoration: InputDecoration(
                         labelText: SignUpConstants.USERNAME,
                         hintText: SignUpConstants.USERNAME_HINT,
@@ -80,7 +80,7 @@ class SignUpState extends State<SignUp> {
                       keyboardType: TextInputType.emailAddress,
                       initialValue: '',
                       onSaved: (val) => signUpForm.emailAddress = val.trim(),
-                      validator: (val) => validateEmail(val),
+                      validator: (val) => validateEmail(val.trim()),
                       decoration: InputDecoration(
                         labelText: SignUpConstants.EMAIL_ADDRESS,
                         hintText: SignUpConstants.EMAIL_ADDRESS_HINT,
@@ -112,7 +112,7 @@ class SignUpState extends State<SignUp> {
                     child: TextFormField(
                       initialValue: '',
                       onSaved: (val) => signUpForm.firstName = val.trim(),
-                      validator: (val) => val.length > 0 && val.length < 30
+                      validator: (val) => val.trim().length > 0 && val.trim().length < 30
                           ? null
                           : SignUpConstants.INVALID_FIRST_NAME,
                       decoration: InputDecoration(
@@ -128,7 +128,7 @@ class SignUpState extends State<SignUp> {
                     child: TextFormField(
                       initialValue: '',
                       onSaved: (val) => signUpForm.middleName = val.trim(),
-                      validator: (val) => validateMiddleIntial(val),
+                      validator: (val) => validateMiddleIntial(val.trim()),
                       decoration: InputDecoration(
                         labelText: SignUpConstants.MIDDLE_INITIAL,
                         hintText: SignUpConstants.MIDDLE_INITIAL_HINT,
@@ -142,7 +142,7 @@ class SignUpState extends State<SignUp> {
                     child: TextFormField(
                       initialValue: '',
                       onSaved: (val) => signUpForm.lastName = val.trim(),
-                      validator: (val) => val.length > 0 && val.length < 30
+                     validator: (val) => val.trim().length > 0 && val.trim().length < 30
                           ? null
                           : SignUpConstants.INVALID_LAST_NAME,
                       decoration: InputDecoration(
@@ -159,7 +159,7 @@ class SignUpState extends State<SignUp> {
                       keyboardType: TextInputType.phone,
                       initialValue: '',
                       onSaved: (val) => signUpForm.phone = val.trim(),
-                      validator: (val) => val.length != 9
+                      validator: (val) => val.trim().length != 9
                           ? null
                           : SignUpConstants.INVALID_PHONE,
                       decoration: InputDecoration(
@@ -183,7 +183,7 @@ class SignUpState extends State<SignUp> {
                                 validForm = validateCurrentForm(formKey),
                                 addCustomer(validForm, signUpForm, valueModel)
                                     .catchError((Object error) {
-                                  _showError(context);
+                                  _showError(context, formKey);
                                 }),
                               },
                               child: new Text(SignUpConstants.SUBMIT),
@@ -266,7 +266,9 @@ class SignUpState extends State<SignUp> {
     return false;
   }
 
-  _showError(BuildContext context) {
+  _showError(BuildContext context, GlobalKey<FormState> formKey) {
+    final currentState = formKey.currentState;
+    currentState.reset();
     showDialog(
       context: context,
       child: new AlertDialog(
