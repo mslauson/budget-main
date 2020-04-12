@@ -40,6 +40,9 @@ class SignUpConstants {
   static const String INVALID_PASSWORD = "Password is required";
   static const String USERNAME_TAKEN = "This username is Taken";
 
+  //Success Message
+  static const String REGISTRATION_SUCCESS = "Thank You for signing up with Blossom\n\nPlease verify your email to sign in.";
+
   //Failure Messages
   static const String CUSTOMER_REGISTRATION_FAILED =
       "Registration failed. \n  Please try again.";
