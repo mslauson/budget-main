@@ -13,27 +13,17 @@ import 'package:main/model/signUp/oktaProfile.dart';
 import 'package:main/model/signUp/signUpForm.dart';
 import 'package:main/model/valueModel.dart';
 
-class SignUp extends StatefulWidget {
+class SignUp extends StatelessWidget {
   final SignUpConstants signUpConstants;
-  final CustomerClient customerClient;
   const SignUp({
     Key key,
     this.signUpConstants,
-    this.customerClient,
   }) : super(key: key);
 
-  @override
-  SignUpState createState() {
-    return SignUpState();
-  }
-}
 
-class SignUpState extends State<SignUp> {
-  final formKey = GlobalKey<FormState>();
-
-  @override
+ @override
   Widget build(BuildContext context) {
-    // Build a Form widget using the _formKey created above.
+     final formKey = GlobalKey<FormState>();
     bool validForm;
     SignUpForm signUpForm = new SignUpForm();
     ValueModel valueModel = new ValueModel();
@@ -186,8 +176,7 @@ class SignUpState extends State<SignUp> {
                                 addCustomer(validForm, signUpForm, valueModel)
                                     .catchError((Object error) {
                                   _showError(context, formKey);
-                                }).whenComplete(
-                                        () => showSuccess(context, formKey)),
+                                }),
                               },
                               child: new Text(SignUpConstants.SUBMIT),
                               disabledColor: Colors.amber,
@@ -203,6 +192,10 @@ class SignUpState extends State<SignUp> {
       ),
     );
   }
+}
+
+
+  
 
   bool usernameTaken = false;
   void checkValidUsername(String value) async {
@@ -290,7 +283,7 @@ class SignUpState extends State<SignUp> {
       ),
     );
   }
-}
+
 
 showSuccess(BuildContext context, GlobalKey<FormState> formKey) {
   final currentState = formKey.currentState;
