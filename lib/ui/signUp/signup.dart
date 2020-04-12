@@ -3,10 +3,10 @@ import 'dart:developer';
 
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:main/client/customerClient.dart';
 import 'package:main/client/oktaClient.dart';
 import 'package:main/constants/signUpConstants.dart';
+import 'package:main/ui/home/splash.dart';
 import 'package:main/model/signUp/oktaCredentials.dart';
 import 'package:main/model/signUp/oktaForm.dart';
 import 'package:main/model/signUp/oktaProfile.dart';
@@ -65,7 +65,8 @@ class SignUpState extends State<SignUp> {
                         checkValidUsername(value);
                       },
                       onSaved: (val) => signUpForm.userName = val.trim(),
-                      validator: (String value) => validateUserName(value.trim()),
+                      validator: (String value) =>
+                          validateUserName(value.trim()),
                       decoration: InputDecoration(
                         labelText: SignUpConstants.USERNAME,
                         hintText: SignUpConstants.USERNAME_HINT,
@@ -94,8 +95,7 @@ class SignUpState extends State<SignUp> {
                     child: TextFormField(
                       obscureText: true,
                       initialValue: '',
-                      onSaved: (val) =>
-                          valueModel.value = val.trim(),
+                      onSaved: (val) => valueModel.value = val.trim(),
                       validator: (val) => val.length > 0
                           ? null
                           : SignUpConstants.INVALID_PASSWORD,
@@ -112,9 +112,10 @@ class SignUpState extends State<SignUp> {
                     child: TextFormField(
                       initialValue: '',
                       onSaved: (val) => signUpForm.firstName = val.trim(),
-                      validator: (val) => val.trim().length > 0 && val.trim().length < 30
-                          ? null
-                          : SignUpConstants.INVALID_FIRST_NAME,
+                      validator: (val) =>
+                          val.trim().length > 0 && val.trim().length < 30
+                              ? null
+                              : SignUpConstants.INVALID_FIRST_NAME,
                       decoration: InputDecoration(
                         labelText: SignUpConstants.FIRST_NAME,
                         hintText: SignUpConstants.FIRST_NAME_HINT,
@@ -142,9 +143,10 @@ class SignUpState extends State<SignUp> {
                     child: TextFormField(
                       initialValue: '',
                       onSaved: (val) => signUpForm.lastName = val.trim(),
-                     validator: (val) => val.trim().length > 0 && val.trim().length < 30
-                          ? null
-                          : SignUpConstants.INVALID_LAST_NAME,
+                      validator: (val) =>
+                          val.trim().length > 0 && val.trim().length < 30
+                              ? null
+                              : SignUpConstants.INVALID_LAST_NAME,
                       decoration: InputDecoration(
                         labelText: SignUpConstants.LAST_NAME,
                         hintText: SignUpConstants.LAST_NAME_HINT,
@@ -184,7 +186,8 @@ class SignUpState extends State<SignUp> {
                                 addCustomer(validForm, signUpForm, valueModel)
                                     .catchError((Object error) {
                                   _showError(context, formKey);
-                                }).whenComplete(() => showSuccess()),
+                                }).whenComplete(
+                                        () => showSuccess(context, formKey)),
                               },
                               child: new Text(SignUpConstants.SUBMIT),
                               disabledColor: Colors.amber,
@@ -247,10 +250,12 @@ class SignUpState extends State<SignUp> {
     if (validForm) {
       CustomerClient customerClient = new CustomerClient();
       OktaClient oktaClient = new OktaClient();
-      String customerResponse = await customerClient.addCustomer(jsonEncode(signUpForm.toJson()));
+      String customerResponse =
+          await customerClient.addCustomer(jsonEncode(signUpForm.toJson()));
       log(customerResponse.toString());
       OktaForm request = buildOktaForm(signUpForm, valueModel);
-      String oktaResponse = await oktaClient.addUserToOkta(jsonEncode(request.toJson()));
+      String oktaResponse =
+          await oktaClient.addUserToOkta(jsonEncode(request.toJson()));
       log(oktaResponse);
       return true;
     }
@@ -289,25 +294,34 @@ class SignUpState extends State<SignUp> {
 
 showSuccess(BuildContext context, GlobalKey<FormState> formKey) {
   final currentState = formKey.currentState;
-    currentState.reset();
-    showDialog(
-      context: context,
-      child: new AlertDialog(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0)), 
-        title: Text("Success"),
-        content: Text(SignUpConstants.REGISTRATION_SUCCESS),
-        actions: [
-          new FlatButton(
-            child: const Text("Ok"),
-            onPressed: () => Navigator.pop(context),
-          ),
-        ],
-      ),
-    );
+  currentState.reset();
+  showDialog(
+    context: context,
+    child: new AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+      title: Text("Success"),
+      content: Text(SignUpConstants.REGISTRATION_SUCCESS),
+      actions: [
+        new FlatButton(
+          child: const Text("Ok"),
+          onPressed: () => {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => new Splash()),
+            ),
+          },
+        ),
+      ],
+    ),
+  );
 }
 
 OktaForm buildOktaForm(SignUpForm signUpForm, ValueModel valueModel) {
-    OktaProfile profile = new OktaProfile(signUpForm.firstName,signUpForm.lastName, signUpForm.emailAddress, signUpForm.emailAddress, signUpForm.phone );
-    return new OktaForm(profile, new OktaCredentials(valueModel));
+  OktaProfile profile = new OktaProfile(
+      signUpForm.firstName,
+      signUpForm.lastName,
+      signUpForm.emailAddress,
+      signUpForm.emailAddress,
+      signUpForm.phone);
+  return new OktaForm(profile, new OktaCredentials(valueModel));
 }
