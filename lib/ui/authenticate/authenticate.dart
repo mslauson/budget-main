@@ -52,6 +52,28 @@ class Authenticate extends StatelessWidget {
                       ),
                     ),
                   ),
+                   Padding(
+                    padding: EdgeInsets.only(left: 16, right: 16),
+                    child: new Center(
+                      child: new ButtonBar(
+                          mainAxisSize: MainAxisSize
+                              .min, // this will take space as minimum as posible(to center)
+                          children: <Widget>[
+                            RaisedButton(
+                              color: Theme.of(context).accentColor,
+                              onPressed: () => {
+                                validForm = _validateCurrentForm(formKey),
+                                _addCustomer(validForm, signUpForm, valueModel)
+                                    .catchError((Object error) {
+                                  _showError(context, formKey);
+                                }),
+                              },
+                              child: new Text(IAMConstants.SUBMIT),
+                              disabledColor: Colors.amber,
+                            )
+                          ]),
+                    ),
+                  ),
                 ],
               ),
             ),

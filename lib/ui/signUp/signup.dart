@@ -13,6 +13,7 @@ import 'package:main/model/iam/signUpForm.dart';
 import 'package:main/ui/home/splash.dart';
 
 import 'package:main/model/valueModel.dart';
+import 'package:main/util/formValidation.dart';
 
 class SignUp extends StatelessWidget {
   const SignUp({
@@ -171,7 +172,7 @@ class SignUp extends StatelessWidget {
                             RaisedButton(
                               color: Theme.of(context).accentColor,
                               onPressed: () => {
-                                validForm = _validateCurrentForm(formKey),
+                                validForm = FormValidation.validateCurrentForm(formKey),
                                 _addCustomer(validForm, signUpForm, valueModel)
                                     .catchError((Object error) {
                                   _showError(context, formKey);
@@ -254,14 +255,6 @@ class SignUp extends StatelessWidget {
     return false;
   }
 
-  bool _validateCurrentForm(GlobalKey<FormState> formKey) {
-    final currentState = formKey.currentState;
-    if (currentState.validate()) {
-      currentState.save();
-      return true;
-    }
-    return false;
-  }
 
   _showError(BuildContext context, GlobalKey<FormState> formKey) {
     final currentState = formKey.currentState;

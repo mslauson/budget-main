@@ -3,6 +3,6 @@ class UrlConstants{
 
 
   //URIS
-  static const String OKTA_ADD_USER = "/api/v1/users?activate=false";
+  static const String OKTA_ADD_USER = "/api/v1/users?activate=true";
 
 }
