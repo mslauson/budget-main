@@ -47,28 +47,13 @@ class SignUp extends StatelessWidget {
                     centerTitle: true,
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 16, right: 16, top: 16),
-                    child: TextFormField(
-                      initialValue: '',
-                      onChanged: (String value) async {
-                        _checkValidUsername(value);
-                      },
-                      onSaved: (val) => signUpForm.userName = val.trim(),
-                      validator: (String value) =>
-                          _validateUserName(value.trim()),
-                      decoration: InputDecoration(
-                        labelText: IAMConstants.USERNAME,
-                        hintText: IAMConstants.USERNAME_HINT,
-                        icon: Icon(Icons.person),
-                        isDense: true,
-                      ),
-                    ),
-                  ),
-                  Padding(
                     padding: EdgeInsets.only(left: 16, right: 16),
                     child: TextFormField(
                       keyboardType: TextInputType.emailAddress,
                       initialValue: '',
+                      onChanged: (String value) async {
+                        _checkValidUsername(value);
+                      },
                       onSaved: (val) => signUpForm.emailAddress = val.trim(),
                       validator: (val) => _validateEmail(val.trim()),
                       decoration: InputDecoration(
@@ -199,23 +184,13 @@ void _checkValidUsername(String value) async {
   client.checkUserName(value).then((value) => _usernameTaken = value);
 }
 
-String _validateUserName(String val) {
-  if (val.length < 5 || val.length > 30) {
-    return IAMConstants.INVALID_USERNAME_LENGTH;
-  } else if (val.length == 0) {
-    return IAMConstants.INVALID_USERNAME_LENGTH;
-  }
-  if (_usernameTaken) {
-    return IAMConstants.USERNAME_TAKEN;
-  }
-
-  return null;
-}
 
 // validates that the email address is in the correct format and doesn't have a length of 0
 String _validateEmail(String value) {
   if (!EmailValidator.validate(value)) {
     return IAMConstants.INVALID_EMAIL;
+  } else if(_usernameTaken){
+     return IAMConstants.USERNAME_TAKEN;
   } else if (value.length > 50) {
     return IAMConstants.INVALID_EMAIL_LENGTH;
   } else if (value.length == 0) {
