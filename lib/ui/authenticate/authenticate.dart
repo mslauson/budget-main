@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:main/client/oktaClient.dart';
 import 'package:main/constants/iamConstants.dart';
 import 'package:main/model/iam/authenticateForm.dart';
+import 'package:main/model/iam/authenticateResponse.dart';
 import 'package:main/util/formUtils.dart';
 
 class Authenticate extends StatelessWidget {
@@ -69,7 +73,7 @@ class Authenticate extends StatelessWidget {
                                     FormUtils.validateCurrentForm(formKey),
                                 _authenticate(validForm, authenticationForm)
                                     .catchError((Object error) {
-                                  FormUtils.showError(context, formKey);
+                                  FormUtils.showError(context, formKey, "Authentication");
                                 }),
                               },
                               child: new Text(IAMConstants.SUBMIT),
@@ -88,4 +92,8 @@ class Authenticate extends StatelessWidget {
   }
 }
 
-_authenticate(bool validForm, AuthenticationForm authenticationForm) {}
+Future _authenticate(bool validForm, AuthenticationForm authenticationForm) async {
+  OktaClient client = new OktaClient();
+  AuthenticateResponse response = await client.authenticate(jsonEncode(authenticationForm.toJson()));
+  print(response);
+}

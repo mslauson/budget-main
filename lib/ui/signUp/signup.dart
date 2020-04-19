@@ -159,7 +159,7 @@ class SignUp extends StatelessWidget {
                                     FormUtils.validateCurrentForm(formKey),
                                 _addCustomer(validForm, signUpForm, valueModel)
                                     .catchError((Object error) {
-                                  FormUtils.showError(context, formKey);
+                                  FormUtils.showError(context, formKey, "Registration");
                                 }),
                               },
                               child: new Text(IAMConstants.SUBMIT),

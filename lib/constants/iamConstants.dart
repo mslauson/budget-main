@@ -44,9 +44,7 @@ class IAMConstants {
   //Success Message
   static const String REGISTRATION_SUCCESS = "Thank You for signing up with Blossom\n\nPlease verify your email to sign in.";
 
-  //Failure Messages
-  static const String CUSTOMER_REGISTRATION_FAILED =
-      "Registration failed. \n  Please try again.";
+
 
       static const String DISMISS_BUTTON = "Dismiss";
 
