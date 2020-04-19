@@ -13,6 +13,9 @@ class PlaidConstants{
   //client name
   static const String CLIENT_NAME = "Blossom";
 
+//plaid link widget title
+static const String PLAID_LINK_WIDGET_TITLE = "Link Accounts To Blossom";
+
   //connectionUrl
   static const String  PLAID_LINK_URL = "https://cdn.plaid.com/link/v2/stable/link.html" +
   "?isWebview=true" + 

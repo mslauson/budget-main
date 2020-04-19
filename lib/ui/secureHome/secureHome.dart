@@ -30,7 +30,7 @@ class _SecureHomeState extends State<SecureHome> {
       ),
       body: Container(
         child: 
-            Center(child: SecureHomeWidgets.widgetOptions.elementAt(_selectedIndex))
+            Center(child: SecureHomeWidgets.widgetOptions(context).elementAt(_selectedIndex))
         ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -53,3 +53,5 @@ class _SecureHomeState extends State<SecureHome> {
     );
   }
 }
+
+
