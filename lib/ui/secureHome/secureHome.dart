@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:main/constants/secureHomeConstants.dart';
 
 class SecureHome extends StatefulWidget {
   SecureHome({Key key}) : super(key: key);
@@ -7,7 +8,6 @@ class SecureHome extends StatefulWidget {
   @override
   _SecureHomeState createState() => _SecureHomeState();
 }
-
 
 class _SecureHomeState extends State<SecureHome> {
   int _selectedIndex = 0;
@@ -34,19 +34,20 @@ class _SecureHomeState extends State<SecureHome> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: ,
-    body: Container(
-       child: CustomScrollView(
-         slivers: <Widget>[
-           Center(child: _widgetOptions.elementAt(_selectedIndex))
-         
-         ],
-       ),
-    ),
-    bottomNavigationBar: BottomNavigationBar(
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        title: Text(SecureHomeConstants.SECURE_HOME_WELCOME),
+        backgroundColor: Theme.of(context).accentColor,
+        centerTitle: true,
+      ),
+      body: Container(
+        child: 
+            Center(child: _widgetOptions.elementAt(_selectedIndex))
+        ),
+      bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
