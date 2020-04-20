@@ -13,17 +13,16 @@ import 'package:main/model/iam/signUpForm.dart';
 import 'package:main/ui/home/splash.dart';
 
 import 'package:main/model/valueModel.dart';
-import 'package:main/util/formValidation.dart';
+import 'package:main/util/formUtils.dart';
 
 class SignUp extends StatelessWidget {
   const SignUp({
     Key key,
   }) : super(key: key);
 
-
- @override
+  @override
   Widget build(BuildContext context) {
-     final formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     bool validForm;
     SignUpForm signUpForm = new SignUpForm();
     ValueModel valueModel = new ValueModel();
@@ -86,9 +85,8 @@ class SignUp extends StatelessWidget {
                       obscureText: true,
                       initialValue: '',
                       onSaved: (val) => valueModel.value = val.trim(),
-                      validator: (val) => val.length > 0
-                          ? null
-                          : IAMConstants.INVALID_PASSWORD,
+                      validator: (val) =>
+                          val.length > 0 ? null : IAMConstants.INVALID_PASSWORD,
                       decoration: InputDecoration(
                         labelText: IAMConstants.PASSWORD,
                         hintText: IAMConstants.PASSWORD_HINT,
@@ -172,10 +170,11 @@ class SignUp extends StatelessWidget {
                             RaisedButton(
                               color: Theme.of(context).accentColor,
                               onPressed: () => {
-                                validForm = FormValidation.validateCurrentForm(formKey),
+                                validForm =
+                                    FormUtils.validateCurrentForm(formKey),
                                 _addCustomer(validForm, signUpForm, valueModel)
                                     .catchError((Object error) {
-                                  _showError(context, formKey);
+                                  FormUtils.showError(context, formKey);
                                 }),
                               },
                               child: new Text(IAMConstants.SUBMIT),
@@ -194,88 +193,63 @@ class SignUp extends StatelessWidget {
   }
 }
 
+bool _usernameTaken = false;
+void _checkValidUsername(String value) async {
+  CustomerClient client = new CustomerClient();
+  client.checkUserName(value).then((value) => _usernameTaken = value);
+}
 
-  
-
-  bool _usernameTaken = false;
-  void _checkValidUsername(String value) async {
-    CustomerClient client = new CustomerClient();
-    client.checkUserName(value).then((value) => _usernameTaken = value);
+String _validateUserName(String val) {
+  if (val.length < 5 || val.length > 30) {
+    return IAMConstants.INVALID_USERNAME_LENGTH;
+  } else if (val.length == 0) {
+    return IAMConstants.INVALID_USERNAME_LENGTH;
+  }
+  if (_usernameTaken) {
+    return IAMConstants.USERNAME_TAKEN;
   }
 
-  String _validateUserName(String val) {
-    if (val.length < 5 || val.length > 30) {
-      return IAMConstants.INVALID_USERNAME_LENGTH;
-    } else if (val.length == 0) {
-      return IAMConstants.INVALID_USERNAME_LENGTH;
-    }
-    if (_usernameTaken) {
-      return IAMConstants.USERNAME_TAKEN;
-    }
-
-    return null;
-  }
+  return null;
+}
 
 // validates that the email address is in the correct format and doesn't have a length of 0
-  String _validateEmail(String value) {
-    if (!EmailValidator.validate(value)) {
-      return IAMConstants.INVALID_EMAIL;
-    } else if (value.length > 50) {
-      return IAMConstants.INVALID_EMAIL_LENGTH;
-    } else if (value.length == 0) {
-      return IAMConstants.INVALID_EMAIL_REQUIRED;
+String _validateEmail(String value) {
+  if (!EmailValidator.validate(value)) {
+    return IAMConstants.INVALID_EMAIL;
+  } else if (value.length > 50) {
+    return IAMConstants.INVALID_EMAIL_LENGTH;
+  } else if (value.length == 0) {
+    return IAMConstants.INVALID_EMAIL_REQUIRED;
+  }
+
+  return null;
+}
+
+String _validateMiddleIntial(String middleInitial) {
+  if (middleInitial.length > 0) {
+    if (middleInitial.length > 1) {
+      return IAMConstants.INVALID_MIDDLE_INITIAL;
     }
-
-    return null;
   }
+  return null;
+}
 
-  String _validateMiddleIntial(String middleInitial) {
-    if (middleInitial.length > 0) {
-      if (middleInitial.length > 1) {
-        return IAMConstants.INVALID_MIDDLE_INITIAL;
-      }
-    }
-    return null;
+Future<bool> _addCustomer(
+    bool validForm, SignUpForm signUpForm, ValueModel valueModel) async {
+  if (validForm) {
+    CustomerClient customerClient = new CustomerClient();
+    OktaClient oktaClient = new OktaClient();
+    String customerResponse =
+        await customerClient.addCustomer(jsonEncode(signUpForm.toJson()));
+    log(customerResponse.toString());
+    OktaForm request = _buildOktaForm(signUpForm, valueModel);
+    String oktaResponse =
+        await oktaClient.addUserToOkta(jsonEncode(request.toJson()));
+    log(oktaResponse);
+    return true;
   }
-
-  Future<bool> _addCustomer(
-      bool validForm, SignUpForm signUpForm, ValueModel valueModel) async {
-    if (validForm) {
-      CustomerClient customerClient = new CustomerClient();
-      OktaClient oktaClient = new OktaClient();
-      String customerResponse =
-          await customerClient.addCustomer(jsonEncode(signUpForm.toJson()));
-      log(customerResponse.toString());
-      OktaForm request = _buildOktaForm(signUpForm, valueModel);
-      String oktaResponse =
-          await oktaClient.addUserToOkta(jsonEncode(request.toJson()));
-      log(oktaResponse);
-      return true;
-    }
-    return false;
-  }
-
-
-  _showError(BuildContext context, GlobalKey<FormState> formKey) {
-    final currentState = formKey.currentState;
-    currentState.reset();
-    showDialog(
-      context: context,
-      child: new AlertDialog(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0)), //this right here
-        title: Text("Error"),
-        content: Text(IAMConstants.CUSTOMER_REGISTRATION_FAILED),
-        actions: [
-          new FlatButton(
-            child: const Text("Ok"),
-            onPressed: () => Navigator.pop(context),
-          ),
-        ],
-      ),
-    );
-  }
-
+  return false;
+}
 
 _showSuccess(BuildContext context, GlobalKey<FormState> formKey) {
   final currentState = formKey.currentState;
