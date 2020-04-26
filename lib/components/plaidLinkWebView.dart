@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:main/client/plaidMicroserviceClient.dart';
 import 'package:main/constants/plaidConstants.dart';
 import 'package:main/model/global/activeUser.dart';
+import 'package:main/model/plaid/genericStatusResponseModel.dart';
 import 'package:main/model/plaid/plaidLinkResponse.dart';
 import 'package:main/model/plaid/tokenExchangeResponse.dart';
+import 'package:main/ui/secureHome/secureHome.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 //Webview in flutter
@@ -33,7 +36,7 @@ class _PlaidLinkWebViewState extends State<PlaidLinkWebView> {
           builder: (BuildContext context, Widget child, ActiveUser model) {
         return WebView(
           navigationDelegate: (NavigationRequest request) =>
-              _processNavigationRequest(request, model),
+              _processNavigationRequest(request, model, context),
           debuggingEnabled: true,
           initialUrl: widget.websiteUrl,
           javascriptMode: JavascriptMode.unrestricted,
@@ -46,7 +49,7 @@ class _PlaidLinkWebViewState extends State<PlaidLinkWebView> {
   }
 }
 
-_processNavigationRequest(NavigationRequest request, ActiveUser model) async {
+_processNavigationRequest(NavigationRequest request, ActiveUser model, BuildContext context) async {
   String url = request.url;
   if (url.startsWith(PlaidConstants.PLAID_LINK_URI)) {
     print('blocking navigation to $request');
@@ -54,6 +57,21 @@ _processNavigationRequest(NavigationRequest request, ActiveUser model) async {
       print(url);
       PlaidLinkResponse linkResponse = await _processConnectedUri(url);
       linkResponse.email=model.email;
+      addAccounts(linkResponse).catchError((Object error){
+        Fluttertoast.showToast(
+            msg: error,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 3
+        );
+      }).whenComplete((){
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+              new SecureHome()),
+        );
+      });
     }
     return NavigationDecision.prevent;
   }
@@ -63,15 +81,16 @@ _processNavigationRequest(NavigationRequest request, ActiveUser model) async {
 }
 
 Future<PlaidLinkResponse> _processConnectedUri(String url) async {
-  Uri uri = Uri.dataFromString(url);
+  String decoded = Uri.decodeFull(url);
+  Uri uri = Uri.dataFromString(decoded);
   PlaidLinkResponse linkResponse = new PlaidLinkResponse();
   Institution institution = new Institution();
-  institution.institutionId = Uri.base.queryParameters['institution_id'];
-  institution.name = Uri.base.queryParameters['institution_name'];
+  institution.institutionId = uri.queryParameters['institution_id'];
+  institution.name = uri.queryParameters['institution_name'];
   linkResponse.accessToken =
-      await getAccessToken(Uri.base.queryParameters['public_token']);
+      await getAccessToken(uri.queryParameters['public_token']);
   linkResponse.institution = institution;
-  linkResponse.linkSessionId = Uri.base.queryParameters['link_session_id'];
+  linkResponse.linkSessionId = uri.queryParameters['link_session_id'];
   return linkResponse;
 }
 
@@ -79,4 +98,9 @@ Future<String> getAccessToken(String publicToken) async {
   TokenExchangeResponse response =
       await PlaidMicroserviceClient.exchangeToken(publicToken);
   return response.accessToken;
+}
+
+Future<bool> addAccounts(PlaidLinkResponse request) async{
+  String payload = jsonEncode(request.toJson());
+  return await PlaidMicroserviceClient.addAccounts(payload);
 }

@@ -13,7 +13,7 @@ class PlaidMicroserviceClient{
         PlaidMicroserviceConstants.URL + PlaidMicroserviceConstants.UTILITY_URI + PlaidMicroserviceConstants.TOKEN_URI + publicToken + PlaidMicroserviceConstants.EXCHANGE_URI,
        );
     if (response.statusCode != 200) {
-      ErrorHandler.onError(response, "Authentication");
+      ErrorHandler.onError(response, "Access Token");
     }
     String responseBody = response.body;
     TokenExchangeResponse exchangeResponse = TokenExchangeResponse.fromJson(jsonDecode(responseBody));
@@ -21,13 +21,13 @@ class PlaidMicroserviceClient{
   }
 
   static Future<bool> addAccounts(String payload) async {
-    Response response = await post(
+    Response response = await put(
         PlaidMicroserviceConstants.URL + PlaidMicroserviceConstants.CLIENT_URI + PlaidMicroserviceConstants.ACCOUNTS_URI,
         headers: UrlConstants.JSON_HEADER,
         body: payload
        );
     if (response.statusCode != 200) {
-      ErrorHandler.onError(response, "Authentication");
+      ErrorHandler.onError(response, "Adding Accounts");
     }
     String responseBody = response.body;
    GenericSuccessResponseModel exchangeResponse = GenericSuccessResponseModel.fromJson(jsonDecode(responseBody));
