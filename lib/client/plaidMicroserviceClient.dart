@@ -5,7 +5,6 @@ import 'package:main/constants/UrlConstants.dart';
 import 'package:main/constants/plaidMicroserviceConstants.dart';
 import 'package:main/error/errorHandler.dart';
 import 'package:main/model/plaid/genericStatusResponseModel.dart';
-import 'package:main/model/plaid/plaidLinkResponse.dart';
 import 'package:main/model/plaid/tokenExchangeResponse.dart';
 
 class PlaidMicroserviceClient{
