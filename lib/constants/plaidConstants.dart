@@ -3,7 +3,7 @@ class PlaidConstants{
   static const String IDENTITY_PRODUCT = "identity,auth";
 
   //env
-  static const String ENV = "development";
+  static const String ENV = "sandbox";
 
   //credentials
   static const String CLIENT_ID = "5e3e3876ba7c950013d677b8";
@@ -23,5 +23,12 @@ static const String PLAID_LINK_WIDGET_TITLE = "Link Accounts To Blossom";
   "&env="+ENV+
   "&product="+IDENTITY_PRODUCT+
   "&clientName="+CLIENT_NAME;
+
+  //uri
+static const String PLAID_LINK_URI = "plaidlink";
+
+//events
+static const String PLAID_CONNECTED_EVENT= "connected";
+static const String PLAID_EXIT_EVENT= "exit";
 
 }

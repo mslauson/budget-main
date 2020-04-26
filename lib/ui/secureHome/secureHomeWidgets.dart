@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:main/components/webViewFlutter.dart';
+import 'package:main/components/plaidLinkWebView.dart';
 import 'package:main/constants/plaidConstants.dart';
 import 'package:main/constants/secureHomeConstants.dart';
 
@@ -25,7 +25,7 @@ class SecureHomeWidgets  {
               RaisedButton(
                 onPressed: () => {
                         Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => WebViewFlutter(
+                builder: (BuildContext context) => PlaidLinkWebView(
                       websiteName: PlaidConstants.PLAID_LINK_WIDGET_TITLE,
                       websiteUrl: PlaidConstants.PLAID_LINK_URL,
                     )))
