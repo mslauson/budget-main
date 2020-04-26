@@ -1,4 +1,6 @@
-class ActiveUser {
+import 'package:scoped_model/scoped_model.dart';
+
+class ActiveUser extends Model {
   String user;
 
   ActiveUser({this.user});
