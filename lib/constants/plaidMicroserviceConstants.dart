@@ -1,12 +1,14 @@
 import 'dart:html';
 
-class PlaidMicroserviceConstants{\
+class PlaidMicroserviceConstants{
 
 //url
-  static final String URL = "http://plaid-client-microservice-dev.blossombudgeting.io";
+  static const String URL = "http://plaid-client-microservice-dev.blossombudgeting.io";
 
 //uris
-static final String UTILITY_URI = "/api/v1/plaid/utility";
-static final String TOKEN_URI = "/token";
-static final String EXCHANGE_URI = "/exchange";
+static const String UTILITY_URI = "/api/v1/plaid/utility";
+static const String CLIENT_URI = "/api/v1/plaid/client";
+static const String TOKEN_URI = "/token";
+static const String EXCHANGE_URI = "/exchange";
+static const String ACCOUNTS_URI = "/accounts";
 }
