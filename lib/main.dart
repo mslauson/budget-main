@@ -12,9 +12,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    final ActiveUser _activeUser = new ActiveUser();
     return ScopedModel<ActiveUser>(
-      model: _activeUser,
+      model: new ActiveUser(),
       child: MaterialApp(
         title: 'Blossom',
         theme: ThemeData(
