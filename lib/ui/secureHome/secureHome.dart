@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:main/constants/secureHomeConstants.dart';
+import 'package:main/model/global/activeUser.dart';
 import 'package:main/ui/secureHome/secureHomeWidgets.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class SecureHome extends StatefulWidget {
   SecureHome({Key key}) : super(key: key);
@@ -12,7 +14,7 @@ class SecureHome extends StatefulWidget {
 
 class _SecureHomeState extends State<SecureHome> {
   int _selectedIndex = 0;
-  
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -28,10 +30,13 @@ class _SecureHomeState extends State<SecureHome> {
         backgroundColor: Theme.of(context).accentColor,
         centerTitle: true,
       ),
-      body: Container(
-        child: 
-            Center(child: SecureHomeWidgets.widgetOptions(context).elementAt(_selectedIndex))
-        ),
+      body: ScopedModelDescendant<ActiveUser>(
+          builder: (BuildContext context, Widget child, ActiveUser model) {
+        return Container(
+            child: Center(
+                child: SecureHomeWidgets.widgetOptions(context)
+                    .elementAt(_selectedIndex)));
+      }),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -53,5 +58,3 @@ class _SecureHomeState extends State<SecureHome> {
     );
   }
 }
-
-

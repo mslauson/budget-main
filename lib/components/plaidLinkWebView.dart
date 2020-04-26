@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:main/client/plaidMicroserviceClient.dart';
 import 'package:main/constants/plaidConstants.dart';
+import 'package:main/model/global/activeUser.dart';
 import 'package:main/model/plaid/plaidLinkResponse.dart';
 import 'package:main/model/plaid/tokenExchangeResponse.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 //Webview in flutter
 import 'package:webview_flutter/webview_flutter.dart';
@@ -27,27 +29,31 @@ class _PlaidLinkWebViewState extends State<PlaidLinkWebView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: WebView(
-        navigationDelegate: (NavigationRequest request) =>
-            _processNavigationRequest(request),
-        debuggingEnabled: true,
-        initialUrl: widget.websiteUrl,
-        javascriptMode: JavascriptMode.unrestricted,
-        onWebViewCreated: (WebViewController webViewController) {
-          _controller.complete(webViewController);
-        },
-      ),
+      body: ScopedModelDescendant<ActiveUser>(
+          builder: (BuildContext context, Widget child, ActiveUser model) {
+        return WebView(
+          navigationDelegate: (NavigationRequest request) =>
+              _processNavigationRequest(request, model),
+          debuggingEnabled: true,
+          initialUrl: widget.websiteUrl,
+          javascriptMode: JavascriptMode.unrestricted,
+          onWebViewCreated: (WebViewController webViewController) {
+            _controller.complete(webViewController);
+          },
+        );
+      }),
     );
   }
 }
 
-_processNavigationRequest(NavigationRequest request) async {
+_processNavigationRequest(NavigationRequest request, ActiveUser model) async {
   String url = request.url;
   if (url.startsWith(PlaidConstants.PLAID_LINK_URI)) {
     print('blocking navigation to $request');
     if (url.contains(PlaidConstants.PLAID_CONNECTED_EVENT)) {
       print(url);
       PlaidLinkResponse linkResponse = await _processConnectedUri(url);
+      linkResponse.email=model.email;
     }
     return NavigationDecision.prevent;
   }
@@ -62,14 +68,15 @@ Future<PlaidLinkResponse> _processConnectedUri(String url) async {
   Institution institution = new Institution();
   institution.institutionId = Uri.base.queryParameters['institution_id'];
   institution.name = Uri.base.queryParameters['institution_name'];
-  linkResponse.accessToken = await getAccessToken(Uri.base.queryParameters['public_token']);
-  linkResponse.institution=institution;
+  linkResponse.accessToken =
+      await getAccessToken(Uri.base.queryParameters['public_token']);
+  linkResponse.institution = institution;
   linkResponse.linkSessionId = Uri.base.queryParameters['link_session_id'];
   return linkResponse;
 }
 
 Future<String> getAccessToken(String publicToken) async {
- TokenExchangeResponse response = await PlaidMicroserviceClient.exchangeToken(publicToken);
- return response.accessToken;
-
+  TokenExchangeResponse response =
+      await PlaidMicroserviceClient.exchangeToken(publicToken);
+  return response.accessToken;
 }
