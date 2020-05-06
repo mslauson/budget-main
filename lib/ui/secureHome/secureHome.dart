@@ -51,6 +51,10 @@ class _SecureHomeState extends State<SecureHome> {
             title: Text('Accounts'),
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.attach_money),
+            title: Text('Transactions'),
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             title: Text('Settings'),
           ),

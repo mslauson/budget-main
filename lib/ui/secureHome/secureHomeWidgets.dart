@@ -1,17 +1,21 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:convert';
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:main/client/accountsClient.dart';
 import 'package:main/components/plaidLinkWebView.dart';
+import 'package:main/constants/accountsPageConstants.dart';
 import 'package:main/constants/plaidConstants.dart';
 import 'package:main/constants/secureHomeConstants.dart';
 import 'package:main/model/accounts/getAccountsResponse.dart';
 import 'package:main/model/global/activeUser.dart';
+import 'dart:io' as Io;
 
 class SecureHomeWidgets {
   static BuildContext context;
   static const TextStyle _optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static GetAccountsResponse getResponse;
+  static GetAccountsResponse accountsResponse;
+  static 
   static List<Widget> accountWidgetList;
 
   static List<Widget> widgetOptions(
@@ -27,8 +31,16 @@ class SecureHomeWidgets {
           body: SingleChildScrollView(
             child: FutureBuilder(
               builder: (BuildContext context, AsyncSnapshot snapshot) {
-                return Column(
-                  children: accountWidgetList,
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Material(
+                    elevation: 2,
+                    clipBehavior: Clip.antiAlias,
+                    borderRadius: BorderRadius.circular(8),
+                    child: Column(
+                      children: accountWidgetList,
+                    ),
+                  ),
                 );
               },
             ),
@@ -45,6 +57,38 @@ class SecureHomeWidgets {
           ),
         ),
       ),
+      Padding(
+        padding: EdgeInsets.only(left: 16, right: 16),
+        child: Scaffold(
+          body: SingleChildScrollView(
+            child: FutureBuilder(
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Material(
+                    elevation: 2,
+                    clipBehavior: Clip.antiAlias,
+                    borderRadius: BorderRadius.circular(8),
+                    child: Column(
+                      children: accountWidgetList,
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          floatingActionButton: new FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: () => {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => PlaidLinkWebView(
+                    websiteName: PlaidConstants.PLAID_LINK_WIDGET_TITLE,
+                    websiteUrl: PlaidConstants.PLAID_LINK_URL,
+                  )))
+            },
+          ),
+        ),
+      ),
       Text(
         'Index 2: School',
         style: _optionStyle,
@@ -53,7 +97,8 @@ class SecureHomeWidgets {
   }
 
   static Future<void> loadData(String email) async {
-    getResponse = await _loadAccounts(email);
+    accountsResponse = await _loadAccounts(email);
+
     _buildAccountList();
   }
 
@@ -64,8 +109,9 @@ class SecureHomeWidgets {
   static void _buildAccountList() {
     List<Widget> widgets = new List<Widget>();
     List<Widget> accountWidgets;
+    var bytes;
 
-    getResponse.itemList.forEach((item) => {
+    accountsResponse.itemList.forEach((item) => {
           accountWidgets = new List<Widget>(),
           item.accounts.forEach((account) => {
                 accountWidgets.add(Row(
@@ -78,19 +124,38 @@ class SecureHomeWidgets {
               }),
           widgets.add(
             Padding(
-                padding: EdgeInsets.only(left: 16, right: 16, top: 16),
-                child: Container(
-                    child: Column(
+              padding: EdgeInsets.only(left: 16, right: 16, top: 16),
+              child: Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Text(item.institution.name),
                     Container(
-                      child: Column(
-                        children: accountWidgets,
+                      child: ExpandablePanel(
+                        theme: ExpandableThemeData(),
+                        header: Row(
+                          children: <Widget>[
+                            Text(item.institution.name, style: TextStyle(fontSize:15 ),),
+                            Image.memory(base64Decode(item.institution.logo), height: 10, width: 10,)
+                          ],
+                        ) ,
+//                        collapsed: Text(
+//                          article.body,
+//                          softWrap: true,
+//                          maxLines: 2,
+//                          overflow: TextOverflow.ellipsis,
+//                        ),
+                        expanded: Column(
+                          children: accountWidgets,
+                        ),
+                        tapHeaderToExpand: true,
+                        hasIcon: true,
                       ),
-                    )
+                    ),
                   ],
-                ))),
-          )
+                ),
+              ),
+            ),
+          ),
         });
     accountWidgetList = widgets;
   }

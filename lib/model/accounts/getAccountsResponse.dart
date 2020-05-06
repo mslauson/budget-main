@@ -207,18 +207,27 @@ class Balances {
 class Institution {
   String institutionId;
   String name;
+  String logo;
+  String primaryColor;
+  String url;
 
-  Institution({this.institutionId, this.name});
+  Institution({this.institutionId, this.name, this.logo, this.primaryColor, this.url});
 
   Institution.fromJson(Map<String, dynamic> json) {
     institutionId = json['institutionId'];
     name = json['name'];
+    logo = json['logo'];
+    primaryColor = json['primaryColor'];
+    url = json['url'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['institutionId'] = this.institutionId;
     data['name'] = this.name;
+    data['logo'] = this.logo;
+    data['primaryColor'] = this.primaryColor;
+    data['url'] = this.url;
     return data;
   }
 }
