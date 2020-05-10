@@ -27,7 +27,7 @@ class Transactions {
   String transacionType;
   String userName;
   String accountId;
-  int amount;
+  double amount;
   String date;
   String authorizationDate;
   String merchant;
@@ -230,7 +230,7 @@ class PaymentMeta {
 
 class Reimbursement {
   bool reimbursed;
-  int amount;
+  double amount;
   List<String> linkedTransactions;
 
   Reimbursement({this.reimbursed, this.amount, this.linkedTransactions});
