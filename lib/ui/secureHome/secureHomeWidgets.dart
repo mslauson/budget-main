@@ -32,6 +32,10 @@ class SecureHomeWidgets {
         'Index 0: Home',
         style: _optionStyle,
       ),
+      Text(
+        'Index 0: Home',
+        style: _optionStyle,
+      ),
       Padding(
         padding: EdgeInsets.only(left: 16, right: 16),
         child: Scaffold(

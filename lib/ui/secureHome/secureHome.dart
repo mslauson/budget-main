@@ -41,18 +41,24 @@ class _SecureHomeState extends State<SecureHome> {
                     .elementAt(_selectedIndex)));
       }),
       bottomNavigationBar: BottomNavigationBar(
+        //TODO: get colors to work with the shifting nav bar
+        type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             title: Text('Dashboard'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_balance),
-            title: Text('Accounts'),
+            icon: Icon(Icons.home),
+            title: Text('Budgets'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.attach_money),
             title: Text('Transactions'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_balance),
+            title: Text('Accounts'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
