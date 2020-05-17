@@ -40,7 +40,7 @@ class CustomerClient {
         CustomerMicroserviceConstants.LOGIN_URI;
     Map<String, String> headers = {"Content-type": "application/json"};
 
-    var response = await get(url, headers: headers);
+    var response = await put(url, headers: headers);
     if (response.statusCode != 200) {
       ErrorHandler.onError(response, "Customer Login");
     }
