@@ -29,7 +29,7 @@ class Budgets {
   String name;
   String category;
   List<SubCategory> subCategory;
-  Null used;
+  double used;
   double allocation;
   bool visible;
   List<LinkedTransactions> linkedTransactions;
@@ -94,10 +94,10 @@ class Budgets {
 }
 
 class SubCategory {
-  Null id;
+  String id;
   String name;
   String category;
-  Null used;
+  double used;
   double allocation;
   bool visible;
   List<LinkedTransactions> linkedTransactions;
@@ -111,7 +111,7 @@ class SubCategory {
         this.linkedTransactions});
 
   SubCategory.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['id'] == null ? "" : json["id"];
     name = json['name'];
     category = json['category'];
     used = json['used'];
