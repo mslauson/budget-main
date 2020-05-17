@@ -6,7 +6,7 @@ import 'package:main/error/errorHandler.dart';
 import 'package:main/model/budget/getBudgetsResponse.dart';
 
 class BudgetClient {
-  static Future<GetBudgetsResponse> getTransactionsForUser(
+  static Future<GetBudgetsResponse> getBudgetsForUser(
       String email, String month) async {
     Response response = await get(BudgetClientConstants.BASE_URL +
         BudgetClientConstants.BASE_URI +
