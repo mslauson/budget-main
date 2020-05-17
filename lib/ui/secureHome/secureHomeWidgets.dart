@@ -1,19 +1,20 @@
 import 'dart:convert';
+import 'dart:ui';
+
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:main/client/accountsClient.dart';
+import 'package:main/client/budgetClient.dart';
 import 'package:main/client/transactionsClient.dart';
 import 'package:main/components/plaidLinkWebView.dart';
-import 'package:main/constants/accountsPageConstants.dart';
 import 'package:main/constants/plaidConstants.dart';
-import 'package:main/constants/secureHomeConstants.dart';
 import 'package:main/constants/transactionsMicroserviceConstants.dart';
 import 'package:main/constants/transactionsPageConstants.dart';
 import 'package:main/model/accounts/getAccountsResponse.dart';
+import 'package:main/model/budget/getBudgetsResponse.dart';
 import 'package:main/model/global/activeUser.dart';
-import 'dart:io' as Io;
-
 import 'package:main/model/transactions/transactionsGetResponse.dart';
 
 class SecureHomeWidgets {
@@ -22,8 +23,11 @@ class SecureHomeWidgets {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static GetAccountsResponse accountsResponse;
   static TransactionsGetResponse transactionsGetResponse;
-  static List<Widget> accountWidgetList;
+  static GetBudgetsResponse getBudgetResponse;
+  static List<Widget> accountWidgetList, budgetWidgetList;
   static List<DataRow> transactionsWidgetList = new List<DataRow>();
+  static String monthStart =
+      Jiffy().startOf(Units.MONTH).toIso8601String().split("T")[0];
 
   static List<Widget> widgetOptions(
       BuildContext context, ActiveUser activeUser) {
@@ -32,9 +36,21 @@ class SecureHomeWidgets {
         'Index 0: Home',
         style: _optionStyle,
       ),
-      Text(
-        'Index 0: Home',
-        style: _optionStyle,
+      Padding(
+        padding: EdgeInsets.only(left: 2, right: 2),
+        child: Scaffold(
+          body: SingleChildScrollView(
+            child: FutureBuilder(
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                return new Column(children: budgetWidgetList);
+              },
+            ),
+          ),
+          floatingActionButton: new FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: () => {},
+          ),
+        ),
       ),
       Padding(
         padding: EdgeInsets.only(left: 16, right: 16),
@@ -53,7 +69,8 @@ class SecureHomeWidgets {
                       child: DataTable(
                         columnSpacing: 1,
                         columns: [
-                          DataColumn(label: Text(TransactionsPageConstants.DATE)),
+                          DataColumn(
+                              label: Text(TransactionsPageConstants.DATE)),
                           DataColumn(
                               label: Text(TransactionsPageConstants.MERCHANT)),
                           DataColumn(
@@ -125,8 +142,10 @@ class SecureHomeWidgets {
   static Future<void> loadData(String email) async {
     accountsResponse = await _loadAccounts(email);
     transactionsGetResponse = await _loadTransactions(email);
+    getBudgetResponse = await _loadBudgets(email);
     _buildAccountList();
     _buildTransactionList();
+    _buildBudgetList();
   }
 
   static _loadAccounts(String email) async {
@@ -137,8 +156,8 @@ class SecureHomeWidgets {
     Jiffy jiffy = new Jiffy();
     DateTime nextMonthDt = jiffy.add(months: 1);
     Jiffy nextMonthJiffy = new Jiffy(nextMonthDt);
-    String monthStart = Jiffy().startOf(Units.MONTH).toIso8601String().split("T")[0];
-    String monthEnd = nextMonthJiffy.startOf(Units.MONTH).toIso8601String().split("T")[0];
+    String monthEnd =
+    nextMonthJiffy.startOf(Units.MONTH).toIso8601String().split("T")[0];
     return await TransactionsClient.getTransactionsForUser(
         email,
         TransactionsMicroserviceConstants.DATE_TIME_RANGE_QUERY,
@@ -146,15 +165,21 @@ class SecureHomeWidgets {
         monthEnd);
   }
 
+  static _loadBudgets(String email) async {
+    return await BudgetClient.getTransactionsForUser(email, monthStart);
+  }
+
   static void _buildAccountList() {
     List<Widget> widgets = new List<Widget>();
     List<Widget> accountWidgets;
     var bytes;
 
-    accountsResponse.itemList.forEach((item) => {
-          accountWidgets = new List<Widget>(),
-          item.accounts.forEach((account) => {
-                accountWidgets.add(Row(
+    accountsResponse.itemList.forEach((item) =>
+    {
+      accountWidgets = new List<Widget>(),
+      item.accounts.forEach((account) =>
+      {
+        accountWidgets.add(Row(
                   children: <Widget>[
                     Text(account.name),
                     Text(account.mask),
@@ -208,17 +233,17 @@ class SecureHomeWidgets {
   }
 
   static void _buildTransactionList() {
-
     String accountName = "";
     List<DataRow> widgets = new List<DataRow>();
-    if (transactionsGetResponse != null && transactionsGetResponse.transactions != null) {
+    if (transactionsGetResponse != null &&
+        transactionsGetResponse.transactions != null) {
       transactionsGetResponse.transactions.forEach((transaction) {
-             accountsResponse.itemList.forEach((item) {
-             item.accounts.forEach((account) {
-               if(account.id == transaction.accountId){
-                 accountName = account.name;
-               }
-             }) ;
+        accountsResponse.itemList.forEach((item) {
+          item.accounts.forEach((account) {
+            if (account.id == transaction.accountId) {
+              accountName = account.name;
+            }
+          });
         });
         widgets.add(new DataRow(cells: [
           DataCell(new Text(transaction.date)),
@@ -228,8 +253,8 @@ class SecureHomeWidgets {
           DataCell(new Text(transaction.amount.toString())),
         ]));
       });
-    } else{
-      widgets.add(new DataRow(cells:  [
+    } else {
+      widgets.add(new DataRow(cells: [
         DataCell(new Text("No Transactions")),
         DataCell(new Text("")),
         DataCell(new Text("")),
@@ -238,5 +263,57 @@ class SecureHomeWidgets {
       ]));
     }
     transactionsWidgetList = widgets;
+  }
+
+  static void _buildBudgetList() {
+    List<Widget> widgets = new List();
+    if (getBudgetResponse != null && getBudgetResponse.budgets.isNotEmpty) {
+      getBudgetResponse.budgets.forEach(
+            (budget) {
+          widgets.add(
+            new Card(
+              elevation: 10,
+              child: InkWell(
+                onLongPress: () {
+                  Fluttertoast.showToast(msg: "tHE REAL DEAL");
+                },
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: new Row(
+                        children: <Widget>[
+                          Flexible(
+                            child: ListTile(
+                              contentPadding: EdgeInsets.all(1),
+//                          leading: Icon(Icons.album, size: 70),
+                              title: Text(budget.name),
+                              subtitle: InkWell(
+                                  onTap: () {
+                                    Fluttertoast.showToast(msg: "HIIII",
+                                        toastLength: Toast.LENGTH_LONG);
+                                  },
+                                  child: Text('Expand')),
+                            ),
+                          ),
+                          Flexible(
+                            child: ListTile(
+                              title: Text(budget.used.toString()),
+                              subtitle: Text(budget.allocation.toString()),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    }
+    budgetWidgetList = widgets;
   }
 }

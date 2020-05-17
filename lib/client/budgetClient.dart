@@ -13,8 +13,8 @@ class BudgetClient {
         email +
         BudgetClientConstants.MONTH_URI +
         month);
-    if (response.statusCode != 200) {
-      ErrorHandler.onError(response, "Transaction Retrieval");
+    if (response.statusCode != 200 && response.statusCode != 404) {
+      ErrorHandler.onError(response, "Budget Retrieval");
     }
     return GetBudgetsResponse.fromJson(jsonDecode(response.body));
   }

@@ -30,18 +30,18 @@ class Budgets {
   String category;
   List<SubCategory> subCategory;
   Null used;
-  int allocation;
+  double allocation;
   bool visible;
   List<LinkedTransactions> linkedTransactions;
 
   Budgets(
       {this.id,
-        this.email,
-        this.dateCreated,
-        this.monthYear,
-        this.name,
-        this.category,
-        this.subCategory,
+      this.email,
+      this.dateCreated,
+      this.monthYear,
+      this.name,
+      this.category,
+      this.subCategory,
         this.used,
         this.allocation,
         this.visible,
@@ -98,17 +98,16 @@ class SubCategory {
   String name;
   String category;
   Null used;
-  int allocation;
+  double allocation;
   bool visible;
   List<LinkedTransactions> linkedTransactions;
 
-  SubCategory(
-      {this.id,
-        this.name,
-        this.category,
-        this.used,
-        this.allocation,
-        this.visible,
+  SubCategory({this.id,
+    this.name,
+    this.category,
+    this.used,
+    this.allocation,
+    this.visible,
         this.linkedTransactions});
 
   SubCategory.fromJson(Map<String, dynamic> json) {
