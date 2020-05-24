@@ -22,15 +22,33 @@ class PlaidMicroserviceClient{
 
   static Future<bool> addAccounts(String payload) async {
     Response response = await put(
-        PlaidMicroserviceConstants.URL + PlaidMicroserviceConstants.CLIENT_URI + PlaidMicroserviceConstants.ACCOUNTS_URI,
+        PlaidMicroserviceConstants.URL +
+            PlaidMicroserviceConstants.CLIENT_URI +
+            PlaidMicroserviceConstants.ACCOUNTS_URI,
         headers: UrlConstants.JSON_HEADER,
-        body: payload
-       );
+        body: payload);
     if (response.statusCode != 200) {
       ErrorHandler.onError(response, "Adding Accounts");
     }
     String responseBody = response.body;
-   GenericSuccessResponseModel exchangeResponse = GenericSuccessResponseModel.fromJson(jsonDecode(responseBody));
+    GenericSuccessResponseModel exchangeResponse =
+        GenericSuccessResponseModel.fromJson(jsonDecode(responseBody));
+    return exchangeResponse.success;
+  }
+
+  static Future<bool> addTransactions(String payload) async {
+    Response response = await put(
+        PlaidMicroserviceConstants.URL +
+            PlaidMicroserviceConstants.CLIENT_URI +
+            PlaidMicroserviceConstants.TRANSACTIONS_URI,
+        headers: UrlConstants.JSON_HEADER,
+        body: payload);
+    if (response.statusCode != 200) {
+      ErrorHandler.onError(response, "Adding Transactions");
+    }
+    String responseBody = response.body;
+    GenericSuccessResponseModel exchangeResponse =
+        GenericSuccessResponseModel.fromJson(jsonDecode(responseBody));
     return exchangeResponse.success;
   }
 }

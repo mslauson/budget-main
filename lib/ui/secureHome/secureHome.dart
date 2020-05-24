@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:main/client/accountsClient.dart';
 import 'package:main/constants/secureHomeConstants.dart';
-import 'package:main/model/accounts/getAccountsResponse.dart';
 import 'package:main/model/global/activeUser.dart';
 import 'package:main/ui/secureHome/secureHomeWidgets.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -34,7 +32,7 @@ class _SecureHomeState extends State<SecureHome> {
       ),
       body: ScopedModelDescendant<ActiveUser>(
           builder: (BuildContext context, Widget child, ActiveUser model) {
-            SecureHomeWidgets.loadData(model.email);
+            SecureHomeWidgets.loadData(model.email, model.lastLogin);
         return Container(
             child: Center(
                 child: SecureHomeWidgets.widgetOptions(context, model)

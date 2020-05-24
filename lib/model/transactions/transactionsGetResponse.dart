@@ -141,8 +141,8 @@ class Transactions {
 class Location {
   String address;
   String city;
-  int lat;
-  int lon;
+  double lat;
+  double lon;
   String region;
   String storeNumber;
   String postalCode;
@@ -150,10 +150,10 @@ class Location {
 
   Location(
       {this.address,
-        this.city,
-        this.lat,
-        this.lon,
-        this.region,
+      this.city,
+      this.lat,
+      this.lon,
+      this.region,
         this.storeNumber,
         this.postalCode,
         this.country});
