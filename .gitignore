@@ -48,3 +48,4 @@ android/app/.classpath
 android/app/.project
 android/app/.settings/org.eclipse.buildship.core.prefs
 .vscode/launch.json
+/.gradle/
