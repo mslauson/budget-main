@@ -4,7 +4,7 @@ import 'package:http/http.dart';
 import 'package:main/constants/customerMicroserviceConstants.dart';
 import 'package:main/constants/iamConstants.dart';
 import 'package:main/error/errorHandler.dart';
-import 'package:main/model/iam/blossomLoginResponse.dart';
+import 'package:main/models/iam/blossomLoginResponse.dart';
 
 class CustomerClient {
   Future<String> addCustomer(String payload) async {
@@ -13,7 +13,7 @@ class CustomerClient {
     Map<String, String> headers = {"Content-type": "application/json"};
 
     var response = await post(url, headers: headers, body: payload);
-    if(response.statusCode != 200){
+    if (response.statusCode != 200) {
       ErrorHandler.onError(response, "Registration");
     }
     return response.body;

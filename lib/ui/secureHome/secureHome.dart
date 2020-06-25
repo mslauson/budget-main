@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:main/constants/secureHomeConstants.dart';
-import 'package:main/model/global/activeUser.dart';
+import 'package:main/models/global/activeUser.dart';
 import 'package:main/ui/secureHome/secureHomeWidgets.dart';
 import 'package:scoped_model/scoped_model.dart';
 

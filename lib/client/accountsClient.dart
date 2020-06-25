@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:main/constants/accountsMicroserviceConstants.dart';
 import 'package:main/error/errorHandler.dart';
-import 'package:main/model/accounts/AccessTokensResponse.dart';
-import 'package:main/model/accounts/getAccountsResponse.dart';
+import 'package:main/models/accounts/AccessTokensResponse.dart';
+import 'package:main/models/accounts/getAccountsResponse.dart';
 
 class AccountsClient {
   static Future<GetAccountsResponse> getAccountsForUser(String payload) async {

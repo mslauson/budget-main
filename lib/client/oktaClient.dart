@@ -4,7 +4,7 @@ import 'package:http/http.dart';
 import 'package:main/constants/UrlConstants.dart';
 import 'package:main/constants/oktaConstants.dart';
 import 'package:main/error/errorHandler.dart';
-import 'package:main/model/iam/authenticateResponse.dart';
+import 'package:main/models/iam/authenticateResponse.dart';
 
 class OktaClient {
   Future addUserToOkta(String payload) async {

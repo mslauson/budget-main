@@ -6,13 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:main/client/customerClient.dart';
 import 'package:main/client/oktaClient.dart';
 import 'package:main/constants/iamConstants.dart';
-import 'package:main/model/iam/oktaCredentials.dart';
-import 'package:main/model/iam/oktaForm.dart';
-import 'package:main/model/iam/oktaProfile.dart';
-import 'package:main/model/iam/signUpForm.dart';
+import 'package:main/models/iam/oktaCredentials.dart';
+import 'package:main/models/iam/oktaForm.dart';
+import 'package:main/models/iam/oktaProfile.dart';
+import 'package:main/models/iam/signUpForm.dart';
+import 'package:main/models/valueModel.dart';
 import 'package:main/ui/home/splash.dart';
-
-import 'package:main/model/valueModel.dart';
 import 'package:main/util/formUtils.dart';
 
 class SignUp extends StatelessWidget {

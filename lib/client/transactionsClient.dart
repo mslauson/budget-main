@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:main/constants/transactionsMicroserviceConstants.dart';
 import 'package:main/error/errorHandler.dart';
-import 'package:main/model/transactions/transactionsGetResponse.dart';
+import 'package:main/models/transactions/transactionsGetResponse.dart';
 
 class TransactionsClient {
   static Future<TransactionsGetResponse> getTransactionsForUser(String email, String transactionQuery, String dateStart, String dateFinish) async {

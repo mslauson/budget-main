@@ -1,4 +1,4 @@
-import 'package:main/model/valueModel.dart';
+import 'package:main/models/valueModel.dart';
 
 class OktaCredentials {
   ValueModel password;

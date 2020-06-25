@@ -13,12 +13,12 @@ import 'package:main/components/plaidLinkWebView.dart';
 import 'package:main/constants/plaidConstants.dart';
 import 'package:main/constants/transactionsMicroserviceConstants.dart';
 import 'package:main/constants/transactionsPageConstants.dart';
-import 'package:main/model/accounts/AccessTokensResponse.dart';
-import 'package:main/model/accounts/getAccountsResponse.dart';
-import 'package:main/model/budget/getBudgetsResponse.dart';
-import 'package:main/model/global/activeUser.dart';
-import 'package:main/model/plaid/putTransactionsRequest.dart';
-import 'package:main/model/transactions/transactionsGetResponse.dart';
+import 'package:main/models/accounts/AccessTokensResponse.dart';
+import 'package:main/models/accounts/getAccountsResponse.dart';
+import 'package:main/models/budget/getBudgetsResponse.dart';
+import 'package:main/models/global/activeUser.dart';
+import 'package:main/models/plaid/putTransactionsRequest.dart';
+import 'package:main/models/transactions/transactionsGetResponse.dart';
 
 class SecureHomeWidgets {
   static BuildContext context;
