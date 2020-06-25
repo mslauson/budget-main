@@ -8,8 +8,8 @@ import 'package:main/models/transactions/transactionsGetResponse.dart';
 class TransactionsClient {
   static Future<TransactionsGetResponse> getTransactionsForUser(String email, String transactionQuery, String dateStart, String dateFinish) async {
     Response response = await get(
-        TransactionsMicroserviceConstants.TRANSACTIONS_URL +
-            TransactionsMicroserviceConstants.GET_TRANSACTIONS_URI +
+        TransactionsMicroserviceConstants.BASE_URL_TRANSACTIONS +
+            TransactionsMicroserviceConstants.ENDPOINT_V1_TRANSACTIONS +
             "?email=" +
             email +
             "&transactionQuery=" +

@@ -1,5 +1,5 @@
 class BudgetClientConstants {
-  static const BASE_URL = "http://budget-microservice-dev.blossombudgeting.io";
-  static const BASE_URI = "/api/v1/budget/";
-  static const MONTH_URI = "/month/";
+  static const BASE_URL_BUDGETS = "http://dev.blossombudgeting.io/budgets";
+  static const ENDPOINT_V1_BUDGETS = "/api/v1/budget/";
+  static const ENDPOINT_SUFFIX_MONTH = "/month/";
 }

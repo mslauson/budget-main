@@ -8,9 +8,10 @@ import 'package:main/models/accounts/getAccountsResponse.dart';
 
 class AccountsClient {
   static Future<GetAccountsResponse> getAccountsForUser(String payload) async {
-    Response response = await get(AccountsMicroserviceConstants.ACCOUNTS_BASE +
-        AccountsMicroserviceConstants.ACCOUNTS_BASE_URI +
-        payload);
+    Response response = await get(
+        AccountsMicroserviceConstants.BASE_URL_ACCOUNTS +
+            AccountsMicroserviceConstants.ENDPOINT_V1_ACCOUNTS +
+            payload);
     if (response.statusCode != 200 && response.statusCode != 404) {
       ErrorHandler.onError(response, "Account Retrieval");
     }
@@ -19,10 +20,11 @@ class AccountsClient {
 
   static Future<AccessTokensResponse> getAccessTokensForUser(
       String email) async {
-    Response response = await get(AccountsMicroserviceConstants.ACCOUNTS_BASE +
-        AccountsMicroserviceConstants.ACCOUNTS_BASE_URI +
-        email +
-        AccountsMicroserviceConstants.ACCESS_TOKENS_URI);
+    Response response = await get(
+        AccountsMicroserviceConstants.BASE_URL_ACCOUNTS +
+            AccountsMicroserviceConstants.ENDPOINT_V1_ACCOUNTS +
+            email +
+            AccountsMicroserviceConstants.ENDPOINT_ACCESS_TOKENS);
     if (response.statusCode == 404) {
       return null;
     } else if (response.statusCode != 200) {
