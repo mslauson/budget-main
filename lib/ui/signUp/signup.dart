@@ -249,13 +249,3 @@ _showSuccess(BuildContext context, GlobalKey<FormState> formKey) {
     ),
   );
 }
-
-OktaForm _buildOktaForm(SignUpForm signUpForm, ValueModel valueModel) {
-  OktaProfile profile = new OktaProfile(
-      signUpForm.firstName,
-      signUpForm.lastName,
-      signUpForm.emailAddress,
-      signUpForm.emailAddress,
-      signUpForm.phone);
-  return new OktaForm(profile, new OktaCredentials(valueModel));
-}
