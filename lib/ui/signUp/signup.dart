@@ -217,10 +217,11 @@ Future<bool> _addCustomer(
     String customerResponse =
         await customerClient.addCustomer(jsonEncode(signUpForm.toJson()));
     log(customerResponse.toString());
-    final FirebaseUser user = (await _auth.createUserWithEmailAndPassword(
+    final FirebaseUser user = await _auth.createUserWithEmailAndPassword(
       email: signUpForm.emailAddress,
       password: valueModel.value,
-    ));
+    );
+    log(user.email + " has been registered successfully");
     return true;
   }
   return false;
