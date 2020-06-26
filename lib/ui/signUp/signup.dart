@@ -5,7 +5,6 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:main/client/customerClient.dart';
-import 'package:main/client/oktaClient.dart';
 import 'package:main/constants/iamConstants.dart';
 import 'package:main/models/iam/oktaCredentials.dart';
 import 'package:main/models/iam/oktaForm.dart';
