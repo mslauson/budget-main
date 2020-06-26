@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:main/client/customerClient.dart';
 import 'package:main/client/oktaClient.dart';
@@ -210,16 +211,16 @@ String _validateMiddleIntial(String middleInitial) {
 
 Future<bool> _addCustomer(
     bool validForm, SignUpForm signUpForm, ValueModel valueModel) async {
+  final _auth = FirebaseAuth.instance;
   if (validForm) {
     CustomerClient customerClient = new CustomerClient();
-    OktaClient oktaClient = new OktaClient();
     String customerResponse =
         await customerClient.addCustomer(jsonEncode(signUpForm.toJson()));
     log(customerResponse.toString());
-    OktaForm request = _buildOktaForm(signUpForm, valueModel);
-    String oktaResponse =
-        await oktaClient.addUserToOkta(jsonEncode(request.toJson()));
-    log(oktaResponse);
+    final FirebaseUser user = (await _auth.createUserWithEmailAndPassword(
+      email: signUpForm.emailAddress,
+      password: valueModel.value,
+    ));
     return true;
   }
   return false;
