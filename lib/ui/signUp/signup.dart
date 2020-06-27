@@ -178,7 +178,9 @@ bool _usernameTaken = false;
 
 void _checkValidEmail(String email) async {
   CustomerClient client = new CustomerClient();
-  client.checkUserName(email).then((value) => _usernameTaken = value);
+  if (email.isNotEmpty && email != null) {
+    client.checkUserName(email).then((value) => _usernameTaken = value);
+  }
 }
 
 // validates that the email address is in the correct format and doesn't have a length of 0
