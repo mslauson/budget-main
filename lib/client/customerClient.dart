@@ -8,7 +8,7 @@ import 'package:main/models/iam/blossomLoginResponse.dart';
 
 class CustomerClient {
   Future<String> addCustomer(String payload) async {
-    String url = 'http://dev.blossombudgeting.io/customers/api/v1/customer';
+    String url = 'http://dev.blossombudgeting.io/customers/api/v1';
     Map<String, String> headers = {"Content-type": "application/json"};
 
     var response = await post(url, headers: headers, body: payload);
@@ -20,8 +20,7 @@ class CustomerClient {
 
   Future<bool> checkUserName(String payload) async {
     String url =
-        'http://dev.blossombudgeting.io/customers/api/v1/customer/validate/' +
-            payload;
+        'http://dev.blossombudgeting.io/customers/api/v1/validate/' + payload;
     Map<String, String> headers = {"Content-type": "application/json"};
 
     var response = await get(url, headers: headers);
