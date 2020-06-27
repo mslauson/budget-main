@@ -48,7 +48,7 @@ class SignUp extends StatelessWidget {
                       keyboardType: TextInputType.emailAddress,
                       initialValue: '',
                       onChanged: (String value) async {
-                        _checkValidUsername(value);
+                        _checkValidEmail(value);
                       },
                       onSaved: (val) => signUpForm.emailAddress = val.trim(),
                       validator: (val) => _validateEmail(val.trim()),
@@ -175,11 +175,11 @@ class SignUp extends StatelessWidget {
 }
 
 bool _usernameTaken = false;
-void _checkValidUsername(String value) async {
-  CustomerClient client = new CustomerClient();
-  client.checkUserName(value).then((value) => _usernameTaken = value);
-}
 
+void _checkValidEmail(String email) async {
+  CustomerClient client = new CustomerClient();
+  client.checkUserName(email).then((value) => _usernameTaken = value);
+}
 
 // validates that the email address is in the correct format and doesn't have a length of 0
 String _validateEmail(String value) {
