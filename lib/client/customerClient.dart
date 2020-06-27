@@ -8,7 +8,8 @@ import 'package:main/models/iam/blossomLoginResponse.dart';
 
 class CustomerClient {
   Future<String> addCustomer(String payload) async {
-    String url = CustomerMicroserviceConstants.BASE_URL_CUSTOMERS;
+    String url = CustomerMicroserviceConstants.BASE_URL_CUSTOMERS +
+        CustomerMicroserviceConstants.ENDPOINT_V1_CUSTOMERS;
     Map<String, String> headers = {"Content-type": "application/json"};
 
     var response = await post(url, headers: headers, body: payload);
