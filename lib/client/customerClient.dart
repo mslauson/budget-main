@@ -19,10 +19,10 @@ class CustomerClient {
   }
 
   Future<bool> checkUserName(String payload) async {
-    String url =
-        CustomerMicroserviceConstants.BASE_URL_CUSTOMERS +
-            CustomerMicroserviceConstants.ENDPOINT_SUFFIX_VALIDATE +
-            payload;
+    String url = CustomerMicroserviceConstants.BASE_URL_CUSTOMERS +
+        CustomerMicroserviceConstants.ENDPOINT_V1_CUSTOMERS +
+        CustomerMicroserviceConstants.ENDPOINT_SUFFIX_VALIDATE +
+        payload;
     Map<String, String> headers = {"Content-type": "application/json"};
 
     var response = await get(url, headers: headers);
