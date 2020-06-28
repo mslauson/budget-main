@@ -33,6 +33,8 @@ dependencies:
   expandable: ^4.1.3
   jiffy: ^3.0.1
   firebase_auth: ^0.11.0
+  splashscreen: 1.2.0
+  flutter_signin_button: ^1.0.0
 
 dev_dependencies:
   flutter_test:

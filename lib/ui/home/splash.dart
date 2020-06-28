@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/button_list.dart';
+import 'package:flutter_signin_button/button_view.dart';
 import 'package:main/ui/authenticate/authenticate.dart';
 import 'package:main/ui/signUp/signup.dart';
 
@@ -28,27 +30,46 @@ class Splash extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const SizedBox(height: 250),
-            RaisedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => new SignUp()),
-                );
-              },
-              child: const Text('Sign Up', style: TextStyle(fontSize: 20)),
-            ),
             Padding(
-              padding: EdgeInsets.only(top: 8),
-              child: RaisedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => new Authenticate()),
-                  );
-                },
-                child: const Text('Sign In', style: TextStyle(fontSize: 20)),
-              ),
-            ),
+                padding: EdgeInsets.all(10.0),
+                child: SignInButton(
+                  Buttons.Email,
+                  text: "Sign up with Email",
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignUp()),
+                    );
+                  },
+                )),
+            Padding(
+                padding: EdgeInsets.all(10.0),
+                child: SignInButton(
+                  Buttons.Google,
+                  text: "Sign up with Google",
+                  onPressed: () {},
+                )),
+            Padding(
+                padding: EdgeInsets.all(10.0),
+                child: SignInButton(
+                  Buttons.Twitter,
+                  text: "Sign up with Twitter",
+                  onPressed: () {},
+                )),
+            Padding(
+              padding: EdgeInsets.all(10.0),
+              child: GestureDetector(
+                  child: Text("Log In Using Email",
+                      style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: Colors.blue)),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Authenticate()),
+                    );
+                  }),
+            )
           ],
         ),
       ),

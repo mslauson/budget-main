@@ -112,7 +112,7 @@ class Authenticate extends StatelessWidget {
 
   static Future<void> _authenticateUser(bool validForm,
       AuthenticationForm authenticationForm) async {
-    await _authenticateOtka(validForm, authenticationForm);
+    await _authenticateFirebase(validForm, authenticationForm);
     await _loginToBlossom(authenticationForm.username);
   }
 
@@ -120,8 +120,8 @@ class Authenticate extends StatelessWidget {
     loginResponse = await CustomerClient.loginUser(email);
   }
 
-  static _authenticateOtka(bool validForm,
-      AuthenticationForm authenticationForm) async {
+  static _authenticateFirebase(
+      bool validForm, AuthenticationForm authenticationForm) async {
     final _auth = FirebaseAuth.instance;
     FirebaseUser response = await _auth.signInWithEmailAndPassword(
         email: authenticationForm.username,
