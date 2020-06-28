@@ -156,7 +156,8 @@ class SignUp extends StatelessWidget {
                                 _addCustomer(validForm, signUpForm, valueModel)
                                     .catchError((Object error) {
                                   FormUtils.showError(context, formKey, "Registration");
-                                }),
+                                }).whenComplete(
+                                        () => _showSuccess(context, formKey)),
                               },
                               child: new Text(IAMConstants.SUBMIT),
                               disabledColor: Colors.amber,
