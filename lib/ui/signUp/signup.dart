@@ -2,13 +2,10 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:main/client/customerClient.dart';
-import 'package:main/client/oktaClient.dart';
 import 'package:main/constants/iamConstants.dart';
-import 'package:main/models/iam/oktaCredentials.dart';
-import 'package:main/models/iam/oktaForm.dart';
-import 'package:main/models/iam/oktaProfile.dart';
 import 'package:main/models/iam/signUpForm.dart';
 import 'package:main/models/valueModel.dart';
 import 'package:main/ui/home/splash.dart';
@@ -51,7 +48,7 @@ class SignUp extends StatelessWidget {
                       keyboardType: TextInputType.emailAddress,
                       initialValue: '',
                       onChanged: (String value) async {
-                        _checkValidUsername(value);
+                        _checkValidEmail(value);
                       },
                       onSaved: (val) => signUpForm.emailAddress = val.trim(),
                       validator: (val) => _validateEmail(val.trim()),
@@ -159,7 +156,8 @@ class SignUp extends StatelessWidget {
                                 _addCustomer(validForm, signUpForm, valueModel)
                                     .catchError((Object error) {
                                   FormUtils.showError(context, formKey, "Registration");
-                                }),
+                                }).whenComplete(
+                                        () => _showSuccess(context, formKey)),
                               },
                               child: new Text(IAMConstants.SUBMIT),
                               disabledColor: Colors.amber,
@@ -178,11 +176,13 @@ class SignUp extends StatelessWidget {
 }
 
 bool _usernameTaken = false;
-void _checkValidUsername(String value) async {
-  CustomerClient client = new CustomerClient();
-  client.checkUserName(value).then((value) => _usernameTaken = value);
-}
 
+void _checkValidEmail(String email) async {
+  CustomerClient client = new CustomerClient();
+  if (email.isNotEmpty && email != null) {
+    client.checkUserName(email).then((value) => _usernameTaken = value);
+  }
+}
 
 // validates that the email address is in the correct format and doesn't have a length of 0
 String _validateEmail(String value) {
@@ -210,16 +210,17 @@ String _validateMiddleIntial(String middleInitial) {
 
 Future<bool> _addCustomer(
     bool validForm, SignUpForm signUpForm, ValueModel valueModel) async {
+  final _auth = FirebaseAuth.instance;
   if (validForm) {
     CustomerClient customerClient = new CustomerClient();
-    OktaClient oktaClient = new OktaClient();
     String customerResponse =
         await customerClient.addCustomer(jsonEncode(signUpForm.toJson()));
     log(customerResponse.toString());
-    OktaForm request = _buildOktaForm(signUpForm, valueModel);
-    String oktaResponse =
-        await oktaClient.addUserToOkta(jsonEncode(request.toJson()));
-    log(oktaResponse);
+    final FirebaseUser user = await _auth.createUserWithEmailAndPassword(
+      email: signUpForm.emailAddress,
+      password: valueModel.value,
+    );
+    log(user.email + " has been registered successfully");
     return true;
   }
   return false;
@@ -247,14 +248,4 @@ _showSuccess(BuildContext context, GlobalKey<FormState> formKey) {
       ],
     ),
   );
-}
-
-OktaForm _buildOktaForm(SignUpForm signUpForm, ValueModel valueModel) {
-  OktaProfile profile = new OktaProfile(
-      signUpForm.firstName,
-      signUpForm.lastName,
-      signUpForm.emailAddress,
-      signUpForm.emailAddress,
-      signUpForm.phone);
-  return new OktaForm(profile, new OktaCredentials(valueModel));
 }
