@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
+import 'package:main/components/continueWithGoogle.dart';
 import 'package:main/ui/authenticate/authenticate.dart';
 import 'package:main/ui/signUp/signup.dart';
 
@@ -11,6 +12,7 @@ class Splash extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ContinueWithGoogle continueWithGoogle = new ContinueWithGoogle();
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -47,7 +49,9 @@ class Splash extends StatelessWidget {
                 child: SignInButton(
                   Buttons.Google,
                   text: "Sign up with Google",
-                  onPressed: () {},
+                  onPressed: () {
+                    continueWithGoogle.attemptAuth();
+                  },
                 )),
             Padding(
                 padding: EdgeInsets.all(10.0),
