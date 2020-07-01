@@ -151,13 +151,16 @@ class SignUp extends StatelessWidget {
                               onPressed: () => {
                                 validForm =
                                     FormUtils.validateCurrentForm(formKey),
-                                registrationService
-                                    .addCustomer(
-                                        validForm, signUpForm, valueModel)
-                                    .catchError((Object error) {
-                                  FormUtils.showError(context, formKey, "Registration");
-                                }).whenComplete(
-                                        () => _showSuccess(context, formKey)),
+                                if(validForm){
+                                  registrationService
+                                      .registerToFirebase(
+                                      signUpForm, valueModel)
+                                      .catchError((Object error) {
+                                    FormUtils.showError(
+                                        context, formKey, "Registration");
+                                  }).whenComplete(
+                                          () => _showSuccess(context, formKey)),
+                                }
                               },
                               child: new Text(IAMConstants.SUBMIT),
                               disabledColor: Colors.amber,
