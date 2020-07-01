@@ -1,17 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:main/client/customerClient.dart';
 import 'package:main/constants/iamConstants.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/iam/authenticateForm.dart';
-import 'package:main/models/iam/blossomLoginResponse.dart';
 import 'package:main/ui/secureHome/secureHome.dart';
 import 'package:main/util/formUtils.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class Authenticate extends StatelessWidget {
-  static BlossomLoginResposne loginResponse;
+  String _lastLogin = '';
 
   @override
   Widget build(BuildContext context) {
@@ -72,19 +70,16 @@ class Authenticate extends StatelessWidget {
                             // this will take space as minimum as posible(to center)
                             children: <Widget>[
                               RaisedButton(
-                                color: Theme
-                                    .of(context)
-                                    .accentColor,
-                                onPressed: () =>
-                                {
+                                color: Theme.of(context).accentColor,
+                                onPressed: () => {
                                   validForm =
                                       FormUtils.validateCurrentForm(formKey),
                                   _authenticateUser(
                                           validForm, authenticationForm)
                                       .whenComplete(() {
                                     model.email = authenticationForm.username;
-                                    if (model.lastLogin != null) {
-                                      model.lastLogin = loginResponse.lastLogin;
+                                    if (_lastLogin != null) {
+                                      model.lastLogin = _lastLogin;
                                     }
                                     Navigator.push(
                                       context,
@@ -106,26 +101,22 @@ class Authenticate extends StatelessWidget {
             ),
           ),
         );
-          }),
+      }),
     );
   }
 
-  static Future<void> _authenticateUser(bool validForm,
-      AuthenticationForm authenticationForm) async {
+  Future<void> _authenticateUser(
+      bool validForm, AuthenticationForm authenticationForm) async {
     await _authenticateFirebase(validForm, authenticationForm);
-    await _loginToBlossom(authenticationForm.username);
   }
 
-  static _loginToBlossom(String email) async {
-    loginResponse = await CustomerClient.loginUser(email);
-  }
-
-  static _authenticateFirebase(
+  _authenticateFirebase(
       bool validForm, AuthenticationForm authenticationForm) async {
     final _auth = FirebaseAuth.instance;
     AuthResult response = await _auth.signInWithEmailAndPassword(
         email: authenticationForm.username,
         password: authenticationForm.password);
+    _lastLogin = response.user.metadata.lastSignInTime.toIso8601String();
     print(response);
   }
 }
