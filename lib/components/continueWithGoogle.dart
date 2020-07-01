@@ -10,7 +10,7 @@ import 'package:main/models/global/activeUser.dart';
 import 'package:main/ui/secureHome/secureHome.dart';
 
 class ContinueWithGoogle {
-  final RegistrationService _registrationService = new RegistrationService();
+  RegistrationService _registrationService = new RegistrationService();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> attemptAuth(BuildContext context) async {
@@ -18,7 +18,7 @@ class ContinueWithGoogle {
 
     final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
     final GoogleSignInAuthentication googleSignInAuthentication =
-    await googleSignInAccount.authentication;
+        await googleSignInAccount.authentication;
 
     final AuthCredential credential = GoogleAuthProvider.getCredential(
       accessToken: googleSignInAuthentication.accessToken,
@@ -28,19 +28,9 @@ class ContinueWithGoogle {
     final List<String> signInMethods = await _auth.fetchSignInMethodsForEmail(
         email: googleSignInAccount.email);
     if (signInMethods.isEmpty) {
-      await _createUser(context);
-      final AuthResult authResult =
-      await _auth.signInWithCredential(credential).whenComplete(() {
-        ScopedModel
-            .of<ActiveUser>(context, rebuildOnChange: true)
-            .email =
-            googleSignInAccount.email;
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => new SecureHome()),
-        );
-      });
+      await _createUser(context, googleSignInAccount);
     }
+    _authenticate(credential, context, googleSignInAccount.email);
   }
 
   SignUpForm _buildSignUpForm(
@@ -64,8 +54,8 @@ class ContinueWithGoogle {
     return phoneNumberAlert.PhoneNumberAlert.getPhoneNumber(context);
   }
 
-
-  Future<void> _createUser(BuildContext context) async {
+  Future<void> _createUser(
+      BuildContext context, GoogleSignInAccount googleSignInAccount) async {
     String phoneNumber = await _getPhoneNumber(context);
     _registrationService
         .addCustomer(_buildSignUpForm(googleSignInAccount, phoneNumber));
@@ -78,4 +68,16 @@ class ContinueWithGoogle {
         codeAutoRetrievalTimeout: null);
   }
 
+  Future<void> _authenticate(
+      AuthCredential credential, BuildContext context, String email) async {
+    final AuthResult authResult =
+        await _auth.signInWithCredential(credential);
+      ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).email = email;
+      ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).lastLogin = authResult.user.metadata.lastSignInTime.toIso8601String();
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => new SecureHome()),
+      );
+
+  }
 }
