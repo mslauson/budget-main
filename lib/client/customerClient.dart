@@ -4,7 +4,6 @@ import 'package:http/http.dart';
 import 'package:main/constants/customerMicroserviceConstants.dart';
 import 'package:main/constants/iamConstants.dart';
 import 'package:main/error/errorHandler.dart';
-import 'package:main/models/iam/blossomLoginResponse.dart';
 
 class CustomerClient {
   Future<String> addCustomer(String payload) async {
