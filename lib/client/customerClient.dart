@@ -33,18 +33,4 @@ class CustomerClient {
     var booleanResponse = jsonDecode(response.body);
     return booleanResponse[IAMConstants.USERNAME_TAKEN_KEY];
   }
-
-  static Future<BlossomLoginResposne> loginUser(String email) async {
-    String url = CustomerMicroserviceConstants.BASE_URL_CUSTOMERS +
-        CustomerMicroserviceConstants.ENDPOINT_V1_CUSTOMERS +
-        email +
-        CustomerMicroserviceConstants.ENDPOINT_SUFFIX_LOGIN;
-    Map<String, String> headers = {"Content-type": "application/json"};
-
-    var response = await put(url, headers: headers);
-    if (response.statusCode != 200) {
-      ErrorHandler.onError(response, "Customer Login");
-    }
-    return BlossomLoginResposne.fromJson(jsonDecode(response.body));
-  }
 }
