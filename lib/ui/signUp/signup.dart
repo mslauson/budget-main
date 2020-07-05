@@ -8,7 +8,7 @@ import 'package:main/client/customerClient.dart';
 import 'package:main/constants/iamConstants.dart';
 import 'package:main/models/iam/signUpForm.dart';
 import 'package:main/models/valueModel.dart';
-import 'package:main/ui/home/splash.dart';
+import 'package:main/screens/splash.dart';
 import 'package:main/util/formUtils.dart';
 
 class SignUp extends StatelessWidget {
