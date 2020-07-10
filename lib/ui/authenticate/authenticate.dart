@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:main/constants/iamConstants.dart';
 import 'package:main/models/global/activeUser.dart';
-import 'package:main/models/iam/authenticateForm.dart';
+import 'package:main/models/iam/authenticationModel.dart';
 import 'package:main/ui/secureHome/secureHome.dart';
 import 'package:main/util/formUtils.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -14,7 +14,7 @@ class Authenticate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
-    AuthenticationForm authenticationForm = new AuthenticationForm();
+    AuthenticationModel authenticationForm = new AuthenticationModel();
     bool validForm;
     return Scaffold(
       body: ScopedModelDescendant<ActiveUser>(
@@ -106,12 +106,12 @@ class Authenticate extends StatelessWidget {
   }
 
   Future<void> _authenticateUser(
-      bool validForm, AuthenticationForm authenticationForm) async {
+      bool validForm, AuthenticationModel authenticationForm) async {
     await _authenticateFirebase(validForm, authenticationForm);
   }
 
   _authenticateFirebase(
-      bool validForm, AuthenticationForm authenticationForm) async {
+      bool validForm, AuthenticationModel authenticationForm) async {
     final _auth = FirebaseAuth.instance;
     AuthResult response = await _auth.signInWithEmailAndPassword(
         email: authenticationForm.username,

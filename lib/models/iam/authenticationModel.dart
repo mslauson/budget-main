@@ -1,8 +1,8 @@
-class AuthenticationForm {
+class AuthenticationModel {
   String _username;
   String _password;
 
-  AuthenticationForm({String username, String password}) {
+  AuthenticationModel({String username, String password}) {
     this._username = username;
     this._password = password;
   }
@@ -12,7 +12,7 @@ class AuthenticationForm {
   String get password => _password;
   set password(String password) => _password = password;
 
-  AuthenticationForm.fromJson(Map<String, dynamic> json) {
+  AuthenticationModel.fromJson(Map<String, dynamic> json) {
     _username = json['username'];
     _password = json['password'];
   }
