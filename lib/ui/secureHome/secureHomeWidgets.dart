@@ -146,28 +146,27 @@ class SecureHomeWidgets {
   static Future<void> loadData(String email, String lastLogin) async {
     accessTokenResponse = await _loadAccessTokens(email);
     putAccessTokensToPlaidMicroservice(email, lastLogin)
-        .whenComplete(() async =>
-    {
-      accountsResponse = await _loadAccounts(email),
-      transactionsGetResponse = await _loadTransactions(email),
-      getBudgetResponse = await _loadBudgets(email),
-      _buildAccountList(),
-      _buildTransactionList(),
-      _buildBudgetList()
-    });
+        .whenComplete(() async => {
+              accountsResponse = await _loadAccounts(email),
+              transactionsGetResponse = await _loadTransactions(email),
+              getBudgetResponse = await _loadBudgets(email),
+              _buildAccountList(),
+              _buildTransactionList(),
+              _buildBudgetList()
+            });
   }
 
   static _loadAccessTokens(String email) async {
     return await AccountsClient.getAccessTokensForUser(email);
   }
 
-  static Future putAccessTokensToPlaidMicroservice(String email,
-      String lastLogin) async {
+  static Future putAccessTokensToPlaidMicroservice(
+      String email, String lastLogin) async {
     if (accessTokenResponse != null &&
         accessTokenResponse.accessTokens != null &&
         accessTokenResponse.accessTokens.isNotEmpty) {
       List<PutTransactionsRequest> requests =
-      _buildPlaidTransactionsRequest(email, lastLogin);
+          _buildPlaidTransactionsRequest(email, lastLogin);
       requests.forEach((request) {
         PlaidMicroserviceClient.addTransactions(jsonEncode(request));
       });
@@ -183,7 +182,7 @@ class SecureHomeWidgets {
     DateTime nextMonthDt = jiffy.add(months: 1);
     Jiffy nextMonthJiffy = new Jiffy(nextMonthDt);
     String monthEnd =
-    nextMonthJiffy.startOf(Units.MONTH).toIso8601String().split("T")[0];
+        nextMonthJiffy.startOf(Units.MONTH).toIso8601String().split("T")[0];
     return await TransactionsClient.getTransactionsForUser(
         email,
         TransactionsMicroserviceConstants.DATE_TIME_RANGE_QUERY,
@@ -201,61 +200,53 @@ class SecureHomeWidgets {
     var bytes;
 
     if (accountsResponse != null && accountsResponse.itemList != null) {
-      accountsResponse.itemList.forEach((item) =>
-      {
-        accountWidgets = new List<Widget>(),
-        item.accounts.forEach((account) =>
-        {
-          accountWidgets.add(Row(
-            children: <Widget>[
-              Text(account.name),
-              Text(account.mask),
-              Text(account.balances.current.toString())
-            ],
-          ))
-        }),
-        widgets.add(
-          Padding(
-            padding: EdgeInsets.only(left: 16, right: 16, top: 16),
-            child: Container(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Container(
-                    child: ExpandablePanel(
-                      theme: ExpandableThemeData(),
-                      header: Row(
-                        children: <Widget>[
-                          Text(
-                            item.institution.name,
-                            style: TextStyle(fontSize: 15),
+      accountsResponse.itemList.forEach((item) => {
+            accountWidgets = new List<Widget>(),
+            item.accounts.forEach((account) => {
+                  accountWidgets.add(Row(
+                    children: <Widget>[
+                      Text(account.name),
+                      Text(account.mask),
+                      Text(account.balances.current.toString())
+                    ],
+                  ))
+                }),
+            widgets.add(
+              Padding(
+                padding: EdgeInsets.only(left: 16, right: 16, top: 16),
+                child: Container(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Container(
+                        child: ExpandablePanel(
+                          theme: ExpandableThemeData(),
+                          header: Row(
+                            children: <Widget>[
+                              Text(
+                                item.institution.name,
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              Image.memory(
+                                base64Decode(item.institution.logo),
+                                height: 10,
+                                width: 10,
+                              )
+                            ],
                           ),
-                          Image.memory(
-                            base64Decode(item.institution.logo),
-                            height: 10,
-                            width: 10,
-                          )
-                        ],
+                          expanded: Column(
+                            children: accountWidgets,
+                          ),
+                          tapHeaderToExpand: true,
+                          hasIcon: true,
+                        ),
                       ),
-//                        collapsed: Text(
-//                          article.body,
-//                          softWrap: true,
-//                          maxLines: 2,
-//                          overflow: TextOverflow.ellipsis,
-//                        ),
-                      expanded: Column(
-                        children: accountWidgets,
-                      ),
-                      tapHeaderToExpand: true,
-                      hasIcon: true,
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
-          ),
-        ),
-      });
+          });
     } else {
       widgets.add(new Text("No Accounts"));
     }
@@ -297,11 +288,11 @@ class SecureHomeWidgets {
 
   static void _buildBudgetList() {
     List<Widget> widgets = new List();
-    if (getBudgetResponse != null &&
-        getBudgetResponse.budgets != null &&
-        getBudgetResponse.budgets.isNotEmpty) {
+    if (getBudgetResponse == null || getBudgetResponse.budgets == null || !getBudgetResponse.budgets.isNotEmpty) {
+      widgets.add(new Card());
+    } else {
       getBudgetResponse.budgets.forEach(
-            (budget) {
+        (budget) {
           widgets.add(
             new Card(
               elevation: 10,
@@ -319,7 +310,6 @@ class SecureHomeWidgets {
                           Flexible(
                             child: ListTile(
                               contentPadding: EdgeInsets.all(1),
-//                          leading: Icon(Icons.album, size: 70),
                               title: Text(budget.name),
                               subtitle: InkWell(
                                   onTap: () {
@@ -346,8 +336,6 @@ class SecureHomeWidgets {
           );
         },
       );
-    } else {
-      widgets.add(new Card());
     }
     budgetWidgetList = widgets;
   }
