@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
-import 'package:main/components/continueWithGoogle.dart';
+import 'package:main/components/googleAuthService.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/ui/authenticate/authenticate.dart';
 import 'package:main/ui/signUp/signup.dart';
@@ -14,7 +14,7 @@ class Splash extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ContinueWithGoogle continueWithGoogle = new ContinueWithGoogle();
+    final GoogleAuthService continueWithGoogle = new GoogleAuthService();
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //

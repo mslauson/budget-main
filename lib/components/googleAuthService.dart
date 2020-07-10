@@ -9,7 +9,7 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/ui/secureHome/secureHome.dart';
 
-class ContinueWithGoogle {
+class GoogleAuthService {
   RegistrationService _registrationService = new RegistrationService();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
