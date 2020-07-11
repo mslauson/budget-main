@@ -111,7 +111,7 @@ class Authenticate extends StatelessWidget {
   }
 
   _authenticateFirebase(
-      bool validForm, AuthenticationModel authenticationForm) async {
+      bool validForm, Authentication Model authenticationModel) async {
     final _auth = FirebaseAuth.instance;
     AuthResult response = await _auth.signInWithEmailAndPassword(
         email: authenticationForm.username,
