@@ -288,7 +288,7 @@ class SecureHomeWidgets {
 
   static void _buildBudgetList() {
     List<Widget> widgets = new List();
-    if (getBudgetResponse == null || getBudgetResponse.budgets == null || !getBudgetResponse.budgets.isNotEmpty) {
+    if (getBudgetResponse ?? getBudgetResponse.budgets ?? !getBudgetResponse.budgets.isNotEmpty) {
       widgets.add(new Card());
     } else {
       getBudgetResponse.budgets.forEach(
