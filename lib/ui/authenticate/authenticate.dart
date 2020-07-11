@@ -14,7 +14,7 @@ class Authenticate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
-    AuthenticationModel authenticationForm = new AuthenticationModel();
+AuthenticationModel authenticationModel = new AuthenticationModel();
     bool validForm;
     return Scaffold(
       body: ScopedModelDescendant<ActiveUser>(
