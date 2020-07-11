@@ -42,7 +42,7 @@ AuthenticationModel authenticationModel = new AuthenticationModel();
                       child: TextFormField(
                         initialValue: '',
                         onSaved: (val) =>
-                            authenticationForm.username = val.trim(),
+                            authenticationModel.username = val.trim(),
                         decoration: InputDecoration(
                           labelText: IAMConstants.USERNAME,
                           icon: Icon(Icons.person),
@@ -55,7 +55,7 @@ AuthenticationModel authenticationModel = new AuthenticationModel();
                       child: TextFormField(
                         initialValue: '',
                         onSaved: (val) =>
-                            authenticationForm.password = val.trim(),
+                            authenticationModel.password = val.trim(),
                         decoration: InputDecoration(
                           labelText: IAMConstants.PASSWORD,
                           icon: Icon(Icons.vpn_key),
@@ -75,9 +75,9 @@ AuthenticationModel authenticationModel = new AuthenticationModel();
                                   validForm =
                                       FormUtils.validateCurrentForm(formKey),
                                   _authenticateUser(
-                                          validForm, authenticationForm)
+                                          validForm, authenticationModel)
                                       .whenComplete(() {
-                                    model.email = authenticationForm.username;
+                                    model.email = authenticationModel.username;
                                     if (_lastLogin != null) {
                                       model.lastLogin = _lastLogin;
                                     }
@@ -106,16 +106,16 @@ AuthenticationModel authenticationModel = new AuthenticationModel();
   }
 
   Future<void> _authenticateUser(
-      bool validForm, AuthenticationModel authenticationForm) async {
-    await _authenticateFirebase(validForm, authenticationForm);
+      bool validForm, AuthenticationModel authenticationModel) async {
+    await _authenticateFirebase(validForm, authenticationModel);
   }
 
   _authenticateFirebase(
-      bool validForm, Authentication Model authenticationModel) async {
+      bool validForm, AuthenticationModel authenticationModel) async {
     final _auth = FirebaseAuth.instance;
     AuthResult response = await _auth.signInWithEmailAndPassword(
-        email: authenticationForm.username,
-        password: authenticationForm.password);
+        email: authenticationModel.username,
+        password: authenticationModel.password);
     _lastLogin = response.user.metadata.lastSignInTime.toIso8601String();
     print(response);
   }
