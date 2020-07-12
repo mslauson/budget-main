@@ -1,13 +1,10 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:email_validator/email_validator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:main/client/customerClient.dart';
 import 'package:main/constants/iamConstants.dart';
 import 'package:main/models/iam/signUpForm.dart';
 import 'package:main/models/valueModel.dart';
+import 'package:main/service/registrationService.dart';
 import 'package:main/ui/home/splash.dart';
 import 'package:main/util/formUtils.dart';
 
@@ -22,6 +19,7 @@ class SignUp extends StatelessWidget {
     bool validForm;
     SignUpForm signUpForm = new SignUpForm();
     ValueModel valueModel = new ValueModel();
+    final RegistrationService registrationService = new RegistrationService();
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -153,11 +151,16 @@ class SignUp extends StatelessWidget {
                               onPressed: () => {
                                 validForm =
                                     FormUtils.validateCurrentForm(formKey),
-                                _addCustomer(validForm, signUpForm, valueModel)
-                                    .catchError((Object error) {
-                                  FormUtils.showError(context, formKey, "Registration");
-                                }).whenComplete(
-                                        () => _showSuccess(context, formKey)),
+                                if(validForm){
+                                  registrationService
+                                      .registerToFirebase(
+                                      signUpForm, valueModel)
+                                      .catchError((Object error) {
+                                    FormUtils.showError(
+                                        context, formKey, "Registration");
+                                  }).whenComplete(
+                                          () => _showSuccess(context, formKey)),
+                                }
                               },
                               child: new Text(IAMConstants.SUBMIT),
                               disabledColor: Colors.amber,
@@ -206,24 +209,6 @@ String _validateMiddleIntial(String middleInitial) {
     }
   }
   return null;
-}
-
-Future<bool> _addCustomer(
-    bool validForm, SignUpForm signUpForm, ValueModel valueModel) async {
-  final _auth = FirebaseAuth.instance;
-  if (validForm) {
-    CustomerClient customerClient = new CustomerClient();
-    String customerResponse =
-        await customerClient.addCustomer(jsonEncode(signUpForm.toJson()));
-    log(customerResponse.toString());
-    final FirebaseUser user = await _auth.createUserWithEmailAndPassword(
-      email: signUpForm.emailAddress,
-      password: valueModel.value,
-    );
-    log(user.email + " has been registered successfully");
-    return true;
-  }
-  return false;
 }
 
 _showSuccess(BuildContext context, GlobalKey<FormState> formKey) {
