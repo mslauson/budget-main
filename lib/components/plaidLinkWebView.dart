@@ -1,17 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:main/client/plaidMicroserviceClient.dart';
 import 'package:main/constants/plaidConstants.dart';
-import 'package:main/model/global/activeUser.dart';
-import 'package:main/model/plaid/genericStatusResponseModel.dart';
-import 'package:main/model/plaid/plaidLinkResponse.dart';
-import 'package:main/model/plaid/tokenExchangeResponse.dart';
+import 'package:main/models/global/activeUser.dart';
+import 'package:main/models/plaid/plaidLinkResponse.dart';
+import 'package:main/models/plaid/tokenExchangeResponse.dart';
 import 'package:main/ui/secureHome/secureHome.dart';
 import 'package:scoped_model/scoped_model.dart';
-
-//Webview in flutter
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PlaidLinkWebView extends StatefulWidget {

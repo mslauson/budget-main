@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:main/client/accountsClient.dart';
 import 'package:main/constants/secureHomeConstants.dart';
-import 'package:main/model/accounts/getAccountsResponse.dart';
-import 'package:main/model/global/activeUser.dart';
+import 'package:main/models/global/activeUser.dart';
 import 'package:main/ui/secureHome/secureHomeWidgets.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -34,25 +32,31 @@ class _SecureHomeState extends State<SecureHome> {
       ),
       body: ScopedModelDescendant<ActiveUser>(
           builder: (BuildContext context, Widget child, ActiveUser model) {
-            SecureHomeWidgets.loadData(model.email);
+            SecureHomeWidgets.loadData(model.email, model.lastLogin);
         return Container(
             child: Center(
                 child: SecureHomeWidgets.widgetOptions(context, model)
                     .elementAt(_selectedIndex)));
       }),
       bottomNavigationBar: BottomNavigationBar(
+        //TODO: get colors to work with the shifting nav bar
+        type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             title: Text('Dashboard'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.account_balance),
-            title: Text('Accounts'),
+            icon: Icon(Icons.home),
+            title: Text('Budgets'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.attach_money),
             title: Text('Transactions'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_balance),
+            title: Text('Accounts'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),

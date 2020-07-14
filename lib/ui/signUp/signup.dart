@@ -1,18 +1,11 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:main/client/customerClient.dart';
-import 'package:main/client/oktaClient.dart';
 import 'package:main/constants/iamConstants.dart';
-import 'package:main/model/iam/oktaCredentials.dart';
-import 'package:main/model/iam/oktaForm.dart';
-import 'package:main/model/iam/oktaProfile.dart';
-import 'package:main/model/iam/signUpForm.dart';
+import 'package:main/models/iam/signUpForm.dart';
+import 'package:main/models/valueModel.dart';
+import 'package:main/service/registrationService.dart';
 import 'package:main/ui/home/splash.dart';
-
-import 'package:main/model/valueModel.dart';
 import 'package:main/util/formUtils.dart';
 
 class SignUp extends StatelessWidget {
@@ -26,6 +19,7 @@ class SignUp extends StatelessWidget {
     bool validForm;
     SignUpForm signUpForm = new SignUpForm();
     ValueModel valueModel = new ValueModel();
+    final RegistrationService registrationService = new RegistrationService();
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -52,7 +46,7 @@ class SignUp extends StatelessWidget {
                       keyboardType: TextInputType.emailAddress,
                       initialValue: '',
                       onChanged: (String value) async {
-                        _checkValidUsername(value);
+                        _checkValidEmail(value);
                       },
                       onSaved: (val) => signUpForm.emailAddress = val.trim(),
                       validator: (val) => _validateEmail(val.trim()),
@@ -157,10 +151,16 @@ class SignUp extends StatelessWidget {
                               onPressed: () => {
                                 validForm =
                                     FormUtils.validateCurrentForm(formKey),
-                                _addCustomer(validForm, signUpForm, valueModel)
-                                    .catchError((Object error) {
-                                  FormUtils.showError(context, formKey, "Registration");
-                                }),
+                                if(validForm){
+                                  registrationService
+                                      .registerToFirebase(
+                                      signUpForm, valueModel)
+                                      .catchError((Object error) {
+                                    FormUtils.showError(
+                                        context, formKey, "Registration");
+                                  }).whenComplete(
+                                          () => _showSuccess(context, formKey)),
+                                }
                               },
                               child: new Text(IAMConstants.SUBMIT),
                               disabledColor: Colors.amber,
@@ -179,11 +179,13 @@ class SignUp extends StatelessWidget {
 }
 
 bool _usernameTaken = false;
-void _checkValidUsername(String value) async {
-  CustomerClient client = new CustomerClient();
-  client.checkUserName(value).then((value) => _usernameTaken = value);
-}
 
+void _checkValidEmail(String email) async {
+  CustomerClient client = new CustomerClient();
+  if (email.isNotEmpty && email != null) {
+    client.checkUserName(email).then((value) => _usernameTaken = value);
+  }
+}
 
 // validates that the email address is in the correct format and doesn't have a length of 0
 String _validateEmail(String value) {
@@ -209,23 +211,6 @@ String _validateMiddleIntial(String middleInitial) {
   return null;
 }
 
-Future<bool> _addCustomer(
-    bool validForm, SignUpForm signUpForm, ValueModel valueModel) async {
-  if (validForm) {
-    CustomerClient customerClient = new CustomerClient();
-    OktaClient oktaClient = new OktaClient();
-    String customerResponse =
-        await customerClient.addCustomer(jsonEncode(signUpForm.toJson()));
-    log(customerResponse.toString());
-    OktaForm request = _buildOktaForm(signUpForm, valueModel);
-    String oktaResponse =
-        await oktaClient.addUserToOkta(jsonEncode(request.toJson()));
-    log(oktaResponse);
-    return true;
-  }
-  return false;
-}
-
 _showSuccess(BuildContext context, GlobalKey<FormState> formKey) {
   final currentState = formKey.currentState;
   currentState.reset();
@@ -248,14 +233,4 @@ _showSuccess(BuildContext context, GlobalKey<FormState> formKey) {
       ],
     ),
   );
-}
-
-OktaForm _buildOktaForm(SignUpForm signUpForm, ValueModel valueModel) {
-  OktaProfile profile = new OktaProfile(
-      signUpForm.firstName,
-      signUpForm.lastName,
-      signUpForm.emailAddress,
-      signUpForm.emailAddress,
-      signUpForm.phone);
-  return new OktaForm(profile, new OktaCredentials(valueModel));
 }

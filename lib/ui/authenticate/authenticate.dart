@@ -1,26 +1,25 @@
-import 'dart:convert';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:main/client/oktaClient.dart';
 import 'package:main/constants/iamConstants.dart';
-import 'package:main/model/global/activeUser.dart';
-import 'package:main/model/iam/authenticateForm.dart';
-import 'package:main/model/iam/authenticateResponse.dart';
+import 'package:main/models/global/activeUser.dart';
+import 'package:main/models/iam/authenticationModel.dart';
 import 'package:main/ui/secureHome/secureHome.dart';
 import 'package:main/util/formUtils.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class Authenticate extends StatelessWidget {
+  String _lastLogin = '';
+
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
-    AuthenticationForm authenticationForm = new AuthenticationForm();
+AuthenticationModel authenticationModel = new AuthenticationModel();
     bool validForm;
     return Scaffold(
-        body: ScopedModelDescendant<ActiveUser>(
-      builder:(BuildContext context, Widget child, ActiveUser model) {
-       return SingleChildScrollView(
+      body: ScopedModelDescendant<ActiveUser>(
+          builder: (BuildContext context, Widget child, ActiveUser model) {
+        return SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.only(left: 8, top: 32, right: 8, bottom: 32),
             child: Material(
@@ -35,9 +34,7 @@ class Authenticate extends StatelessWidget {
                     AppBar(
                       elevation: 0,
                       title: Text(IAMConstants.LOGIN_TITLE),
-                      backgroundColor: Theme
-                          .of(context)
-                          .accentColor,
+                      backgroundColor: Theme.of(context).accentColor,
                       centerTitle: true,
                     ),
                     Padding(
@@ -45,7 +42,7 @@ class Authenticate extends StatelessWidget {
                       child: TextFormField(
                         initialValue: '',
                         onSaved: (val) =>
-                        authenticationForm.username = val.trim(),
+                            authenticationModel.username = val.trim(),
                         decoration: InputDecoration(
                           labelText: IAMConstants.USERNAME,
                           icon: Icon(Icons.person),
@@ -58,7 +55,7 @@ class Authenticate extends StatelessWidget {
                       child: TextFormField(
                         initialValue: '',
                         onSaved: (val) =>
-                        authenticationForm.password = val.trim(),
+                            authenticationModel.password = val.trim(),
                         decoration: InputDecoration(
                           labelText: IAMConstants.PASSWORD,
                           icon: Icon(Icons.vpn_key),
@@ -69,30 +66,26 @@ class Authenticate extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(left: 16, right: 16),
                       child: new Center(
-                        child: new ButtonBar(
-                            mainAxisSize: MainAxisSize
-                                .min,
+                        child: new ButtonBar(mainAxisSize: MainAxisSize.min,
                             // this will take space as minimum as posible(to center)
                             children: <Widget>[
                               RaisedButton(
-                                color: Theme
-                                    .of(context)
-                                    .accentColor,
-                                onPressed: () =>
-                                {
+                                color: Theme.of(context).accentColor,
+                                onPressed: () => {
                                   validForm =
                                       FormUtils.validateCurrentForm(formKey),
-                                  _authenticate(validForm, authenticationForm)
-                                      .catchError((Object error) {
-                                    FormUtils.showError(
-                                        context, formKey, "Authentication");
-                                  }).whenComplete(() {
-                                    model.email = authenticationForm.username;
+                                  _authenticateUser(
+                                          validForm, authenticationModel)
+                                      .whenComplete(() {
+                                    model.email = authenticationModel.username;
+                                    if (_lastLogin != null) {
+                                      model.lastLogin = _lastLogin;
+                                    }
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                          new SecureHome()),
+                                              new SecureHome()),
                                     );
                                   }),
                                 },
@@ -108,16 +101,22 @@ class Authenticate extends StatelessWidget {
             ),
           ),
         );
-      }
-    ),
+      }),
     );
   }
-}
 
-Future _authenticate(
-    bool validForm, AuthenticationForm authenticationForm) async {
-  OktaClient client = new OktaClient();
-  AuthenticateResponse response =
-       await client.authenticate(jsonEncode(authenticationForm.toJson()));
-  print(response);
+  Future<void> _authenticateUser(
+      bool validForm, AuthenticationModel authenticationModel) async {
+    await _authenticateFirebase(validForm, authenticationModel);
+  }
+
+  _authenticateFirebase(
+      bool validForm, AuthenticationModel authenticationModel) async {
+    final _auth = FirebaseAuth.instance;
+    AuthResult response = await _auth.signInWithEmailAndPassword(
+        email: authenticationModel.username,
+        password: authenticationModel.password);
+    _lastLogin = response.user.metadata.lastSignInTime.toIso8601String();
+    print(response);
+  }
 }

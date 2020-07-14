@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "391966192154",
+    "firebase_url": "https://budget-267523.firebaseio.com",
+    "project_id": "budget-267523",
+    "storage_bucket": "budget-267523.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:391966192154:android:e573b3b6c57bcb5c9157a3",
+        "android_client_info": {
+          "package_name": "io.blossombudgeting.app.main"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "391966192154-778d3741odt3ukm74n25lnclpsboseu5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHMGPNKwSUDd2K7qIC64mKmMfOskrMPUA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "391966192154-778d3741odt3ukm74n25lnclpsboseu5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,20 +1,24 @@
 import 'dart:convert';
+import 'dart:ui';
+
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:main/client/accountsClient.dart';
+import 'package:main/client/budgetClient.dart';
+import 'package:main/client/plaidMicroserviceClient.dart';
 import 'package:main/client/transactionsClient.dart';
 import 'package:main/components/plaidLinkWebView.dart';
-import 'package:main/constants/accountsPageConstants.dart';
 import 'package:main/constants/plaidConstants.dart';
-import 'package:main/constants/secureHomeConstants.dart';
 import 'package:main/constants/transactionsMicroserviceConstants.dart';
 import 'package:main/constants/transactionsPageConstants.dart';
-import 'package:main/model/accounts/getAccountsResponse.dart';
-import 'package:main/model/global/activeUser.dart';
-import 'dart:io' as Io;
-
-import 'package:main/model/transactions/transactionsGetResponse.dart';
+import 'package:main/models/accounts/AccessTokensResponse.dart';
+import 'package:main/models/accounts/getAccountsResponse.dart';
+import 'package:main/models/budget/getBudgetsResponse.dart';
+import 'package:main/models/global/activeUser.dart';
+import 'package:main/models/plaid/putTransactionsRequest.dart';
+import 'package:main/models/transactions/transactionsGetResponse.dart';
 
 class SecureHomeWidgets {
   static BuildContext context;
@@ -22,8 +26,12 @@ class SecureHomeWidgets {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static GetAccountsResponse accountsResponse;
   static TransactionsGetResponse transactionsGetResponse;
-  static List<Widget> accountWidgetList;
+  static GetBudgetsResponse getBudgetResponse;
+  static AccessTokensResponse accessTokenResponse;
+  static List<Widget> accountWidgetList, budgetWidgetList;
   static List<DataRow> transactionsWidgetList = new List<DataRow>();
+  static String monthStart =
+      Jiffy().startOf(Units.MONTH).toIso8601String().split("T")[0];
 
   static List<Widget> widgetOptions(
       BuildContext context, ActiveUser activeUser) {
@@ -31,6 +39,22 @@ class SecureHomeWidgets {
       Text(
         'Index 0: Home',
         style: _optionStyle,
+      ),
+      Padding(
+        padding: EdgeInsets.only(left: 2, right: 2),
+        child: Scaffold(
+          body: SingleChildScrollView(
+            child: FutureBuilder(
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                return new Column(children: budgetWidgetList);
+              },
+            ),
+          ),
+          floatingActionButton: new FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: () => {},
+          ),
+        ),
       ),
       Padding(
         padding: EdgeInsets.only(left: 16, right: 16),
@@ -49,7 +73,8 @@ class SecureHomeWidgets {
                       child: DataTable(
                         columnSpacing: 1,
                         columns: [
-                          DataColumn(label: Text(TransactionsPageConstants.DATE)),
+                          DataColumn(
+                              label: Text(TransactionsPageConstants.DATE)),
                           DataColumn(
                               label: Text(TransactionsPageConstants.MERCHANT)),
                           DataColumn(
@@ -118,11 +143,34 @@ class SecureHomeWidgets {
     ];
   }
 
-  static Future<void> loadData(String email) async {
-    accountsResponse = await _loadAccounts(email);
-    transactionsGetResponse = await _loadTransactions(email);
-    _buildAccountList();
-    _buildTransactionList();
+  static Future<void> loadData(String email, String lastLogin) async {
+    accessTokenResponse = await _loadAccessTokens(email);
+    putAccessTokensToPlaidMicroservice(email, lastLogin)
+        .whenComplete(() async => {
+              accountsResponse = await _loadAccounts(email),
+              transactionsGetResponse = await _loadTransactions(email),
+              getBudgetResponse = await _loadBudgets(email),
+              _buildAccountList(),
+              _buildTransactionList(),
+              _buildBudgetList()
+            });
+  }
+
+  static _loadAccessTokens(String email) async {
+    return await AccountsClient.getAccessTokensForUser(email);
+  }
+
+  static Future putAccessTokensToPlaidMicroservice(
+      String email, String lastLogin) async {
+    if (accessTokenResponse != null &&
+        accessTokenResponse.accessTokens != null &&
+        accessTokenResponse.accessTokens.isNotEmpty) {
+      List<PutTransactionsRequest> requests =
+          _buildPlaidTransactionsRequest(email, lastLogin);
+      requests.forEach((request) {
+        PlaidMicroserviceClient.addTransactions(jsonEncode(request));
+      });
+    }
   }
 
   static _loadAccounts(String email) async {
@@ -133,8 +181,8 @@ class SecureHomeWidgets {
     Jiffy jiffy = new Jiffy();
     DateTime nextMonthDt = jiffy.add(months: 1);
     Jiffy nextMonthJiffy = new Jiffy(nextMonthDt);
-    String monthStart = Jiffy().startOf(Units.MONTH).toIso8601String().split("T")[0];
-    String monthEnd = nextMonthJiffy.startOf(Units.MONTH).toIso8601String().split("T")[0];
+    String monthEnd =
+        nextMonthJiffy.startOf(Units.MONTH).toIso8601String().split("T")[0];
     return await TransactionsClient.getTransactionsForUser(
         email,
         TransactionsMicroserviceConstants.DATE_TIME_RANGE_QUERY,
@@ -142,79 +190,81 @@ class SecureHomeWidgets {
         monthEnd);
   }
 
+  static _loadBudgets(String email) async {
+    return await BudgetClient.getBudgetsForUser(email, monthStart);
+  }
+
   static void _buildAccountList() {
     List<Widget> widgets = new List<Widget>();
     List<Widget> accountWidgets;
     var bytes;
 
-    accountsResponse.itemList.forEach((item) => {
-          accountWidgets = new List<Widget>(),
-          item.accounts.forEach((account) => {
-                accountWidgets.add(Row(
-                  children: <Widget>[
-                    Text(account.name),
-                    Text(account.mask),
-                    Text(account.balances.current.toString())
-                  ],
-                ))
-              }),
-          widgets.add(
-            Padding(
-              padding: EdgeInsets.only(left: 16, right: 16, top: 16),
-              child: Container(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Container(
-                      child: ExpandablePanel(
-                        theme: ExpandableThemeData(),
-                        header: Row(
-                          children: <Widget>[
-                            Text(
-                              item.institution.name,
-                              style: TextStyle(fontSize: 15),
-                            ),
-                            Image.memory(
-                              base64Decode(item.institution.logo),
-                              height: 10,
-                              width: 10,
-                            )
-                          ],
+    if (accountsResponse != null && accountsResponse.itemList != null) {
+      accountsResponse.itemList.forEach((item) => {
+            accountWidgets = new List<Widget>(),
+            item.accounts.forEach((account) => {
+                  accountWidgets.add(Row(
+                    children: <Widget>[
+                      Text(account.name),
+                      Text(account.mask),
+                      Text(account.balances.current.toString())
+                    ],
+                  ))
+                }),
+            widgets.add(
+              Padding(
+                padding: EdgeInsets.only(left: 16, right: 16, top: 16),
+                child: Container(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Container(
+                        child: ExpandablePanel(
+                          theme: ExpandableThemeData(),
+                          header: Row(
+                            children: <Widget>[
+                              Text(
+                                item.institution.name,
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              Image.memory(
+                                base64Decode(item.institution.logo),
+                                height: 10,
+                                width: 10,
+                              )
+                            ],
+                          ),
+                          expanded: Column(
+                            children: accountWidgets,
+                          ),
+                          tapHeaderToExpand: true,
+                          hasIcon: true,
                         ),
-//                        collapsed: Text(
-//                          article.body,
-//                          softWrap: true,
-//                          maxLines: 2,
-//                          overflow: TextOverflow.ellipsis,
-//                        ),
-                        expanded: Column(
-                          children: accountWidgets,
-                        ),
-                        tapHeaderToExpand: true,
-                        hasIcon: true,
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        });
+          });
+    } else {
+      widgets.add(new Text("No Accounts"));
+    }
     accountWidgetList = widgets;
   }
 
   static void _buildTransactionList() {
-
     String accountName = "";
     List<DataRow> widgets = new List<DataRow>();
-    if (transactionsGetResponse != null && transactionsGetResponse.transactions != null) {
+    if (transactionsGetResponse != null &&
+        transactionsGetResponse.transactions != null) {
       transactionsGetResponse.transactions.forEach((transaction) {
-             accountsResponse.itemList.forEach((item) {
-             item.accounts.forEach((account) {
-               if(account.id == transaction.accountId){
-                 accountName = account.name;
-               }
-             }) ;
+        accountsResponse.itemList.forEach((item) {
+          item.accounts.forEach((account) {
+            if (account.id == transaction.accountId) {
+              accountName = account.name;
+            }
+          });
         });
         widgets.add(new DataRow(cells: [
           DataCell(new Text(transaction.date)),
@@ -224,8 +274,8 @@ class SecureHomeWidgets {
           DataCell(new Text(transaction.amount.toString())),
         ]));
       });
-    } else{
-      widgets.add(new DataRow(cells:  [
+    } else {
+      widgets.add(new DataRow(cells: [
         DataCell(new Text("No Transactions")),
         DataCell(new Text("")),
         DataCell(new Text("")),
@@ -234,5 +284,75 @@ class SecureHomeWidgets {
       ]));
     }
     transactionsWidgetList = widgets;
+  }
+
+  static void _buildBudgetList() {
+    List<Widget> widgets = new List();
+    if (getBudgetResponse ?? getBudgetResponse.budgets ?? !getBudgetResponse.budgets.isNotEmpty) {
+      widgets.add(new Card());
+    } else {
+      getBudgetResponse.budgets.forEach(
+        (budget) {
+          widgets.add(
+            new Card(
+              elevation: 10,
+              child: InkWell(
+                onLongPress: () {
+                  Fluttertoast.showToast(msg: "tHE REAL DEAL");
+                },
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: new Row(
+                        children: <Widget>[
+                          Flexible(
+                            child: ListTile(
+                              contentPadding: EdgeInsets.all(1),
+                              title: Text(budget.name),
+                              subtitle: InkWell(
+                                  onTap: () {
+                                    Fluttertoast.showToast(
+                                        msg: "HIIII",
+                                        toastLength: Toast.LENGTH_LONG);
+                                  },
+                                  child: Text('Expand')),
+                            ),
+                          ),
+                          Flexible(
+                            child: ListTile(
+                              title: Text(budget.used.toString()),
+                              subtitle: Text(budget.allocation.toString()),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    }
+    budgetWidgetList = widgets;
+  }
+
+  static List<PutTransactionsRequest> _buildPlaidTransactionsRequest(
+      String email, String lastLogin) {
+    List<PutTransactionsRequest> requests = new List();
+    String todayString = Jiffy().dateTime.toIso8601String().split("T")[0];
+    if (accessTokenResponse != null) {
+      accessTokenResponse.accessTokens.forEach((accessToken) {
+        requests.add(new PutTransactionsRequest(
+            accessToken: accessToken.accessToken,
+            email: email,
+            startDate: lastLogin,
+            endDate: todayString));
+      });
+    }
+    return requests;
   }
 }
