@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:main/constants/iamConstants.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/iam/authenticationModel.dart';
+import 'package:main/service/authenticationService.dart';
 import 'package:main/ui/secureHome/secureHome.dart';
 import 'package:main/util/formUtils.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -14,7 +16,8 @@ class Authenticate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
-AuthenticationModel authenticationModel = new AuthenticationModel();
+    AuthenticationModel authenticationModel = new AuthenticationModel();
+    AuthenticationService _authService = new AuthenticationService();
     bool validForm;
     return Scaffold(
       body: ScopedModelDescendant<ActiveUser>(
@@ -42,23 +45,10 @@ AuthenticationModel authenticationModel = new AuthenticationModel();
                       child: TextFormField(
                         initialValue: '',
                         onSaved: (val) =>
-                            authenticationModel.username = val.trim(),
+                            authenticationModel.phoneNumber = val.trim(),
                         decoration: InputDecoration(
-                          labelText: IAMConstants.USERNAME,
+                          labelText: IAMConstants.PHONE,
                           icon: Icon(Icons.person),
-                          isDense: true,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 16, right: 16, top: 16),
-                      child: TextFormField(
-                        initialValue: '',
-                        onSaved: (val) =>
-                            authenticationModel.password = val.trim(),
-                        decoration: InputDecoration(
-                          labelText: IAMConstants.PASSWORD,
-                          icon: Icon(Icons.vpn_key),
                           isDense: true,
                         ),
                       ),
@@ -72,22 +62,11 @@ AuthenticationModel authenticationModel = new AuthenticationModel();
                               RaisedButton(
                                 color: Theme.of(context).accentColor,
                                 onPressed: () => {
-                                  validForm =
-                                      FormUtils.validateCurrentForm(formKey),
-                                  _authenticateUser(
-                                          validForm, authenticationModel)
-                                      .whenComplete(() {
-                                    model.email = authenticationModel.username;
-                                    if (_lastLogin != null) {
-                                      model.lastLogin = _lastLogin;
+                                  if (FormUtils.validateCurrentForm(formKey))
+                                    {
+                                      _authService.authenticateUser(
+                                          authenticationModel, context)
                                     }
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              new SecureHome()),
-                                    );
-                                  }),
                                 },
                                 child: new Text(IAMConstants.SUBMIT),
                                 disabledColor: Colors.amber,
@@ -103,20 +82,5 @@ AuthenticationModel authenticationModel = new AuthenticationModel();
         );
       }),
     );
-  }
-
-  Future<void> _authenticateUser(
-      bool validForm, AuthenticationModel authenticationModel) async {
-    await _authenticateFirebase(validForm, authenticationModel);
-  }
-
-  _authenticateFirebase(
-      bool validForm, AuthenticationModel authenticationModel) async {
-    final _auth = FirebaseAuth.instance;
-    AuthResult response = await _auth.signInWithEmailAndPassword(
-        email: authenticationModel.username,
-        password: authenticationModel.password);
-    _lastLogin = response.user.metadata.lastSignInTime.toIso8601String();
-    print(response);
   }
 }
