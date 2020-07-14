@@ -56,7 +56,6 @@ class AuthenticationService {
                   TextField(
                     controller: _smsCodeController,
                   ),
-
                 ],
               ),
               actions: <Widget>[
@@ -75,7 +74,6 @@ class AuthenticationService {
 
   void _acceptDialog(BuildContext context){
     String smsCode = _smsCodeController.text.trim();
-
     AuthCredential credentials = PhoneAuthProvider
         .getCredential(
         verificationId: verificationId, smsCode: smsCode);
