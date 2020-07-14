@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:main/components/BlossomSignInOption.dart';
+import 'package:main/components/googleAuthService.dart';
 import 'package:main/theme/svgPiggy.dart';
 import 'package:main/ui/authenticate/authenticate.dart';
 import 'package:main/ui/signUp/signup.dart';
@@ -18,6 +19,7 @@ class Splash extends StatelessWidget {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+    final GoogleAuthService googleAuthService = new GoogleAuthService();
     return Scaffold(
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -40,7 +42,9 @@ class Splash extends StatelessWidget {
             BlossomSignInOption(
               text: "Continue with Google",
               button: Buttons.Google,
-              onPressed: () => {},
+              onPressed: () => {
+              googleAuthService.attemptAuth(context)
+              },
             ),
             BlossomSignInOption(
               text: "Continue with Twitter",
