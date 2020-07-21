@@ -4,7 +4,6 @@ import 'package:http/http.dart';
 import 'package:main/constants/customerMicroserviceConstants.dart';
 import 'package:main/constants/iamConstants.dart';
 import 'package:main/error/errorHandler.dart';
-import 'package:main/models/iam/blossomLoginResponse.dart';
 
 class CustomerClient {
   Future<String> addCustomer(String payload) async {
@@ -19,7 +18,7 @@ class CustomerClient {
     return response.body;
   }
 
-  Future<bool> checkUserName(String payload) async {
+  Future<bool> checkEmail(String payload) async {
     String url = CustomerMicroserviceConstants.BASE_URL_CUSTOMERS +
         CustomerMicroserviceConstants.ENDPOINT_V1_CUSTOMERS +
         CustomerMicroserviceConstants.ENDPOINT_SUFFIX_VALIDATE +
@@ -34,17 +33,18 @@ class CustomerClient {
     return booleanResponse[IAMConstants.USERNAME_TAKEN_KEY];
   }
 
-  static Future<BlossomLoginResposne> loginUser(String email) async {
+  Future<bool> checkPhone(String phone) async {
     String url = CustomerMicroserviceConstants.BASE_URL_CUSTOMERS +
         CustomerMicroserviceConstants.ENDPOINT_V1_CUSTOMERS +
-        email +
-        CustomerMicroserviceConstants.ENDPOINT_SUFFIX_LOGIN;
+        CustomerMicroserviceConstants.ENDPOINT_SUFFIX_VALIDATE +
+        phone;
     Map<String, String> headers = {"Content-type": "application/json"};
 
-    var response = await put(url, headers: headers);
+    var response = await get(url, headers: headers);
     if (response.statusCode != 200) {
-      ErrorHandler.onError(response, "Customer Login");
+      ErrorHandler.onError(response, "Username Verification");
     }
-    return BlossomLoginResposne.fromJson(jsonDecode(response.body));
+    var booleanResponse = jsonDecode(response.body);
+    return booleanResponse[IAMConstants.USERNAME_TAKEN_KEY];
   }
 }

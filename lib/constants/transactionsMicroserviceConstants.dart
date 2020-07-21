@@ -1,6 +1,6 @@
 class TransactionsMicroserviceConstants {
   static const BASE_URL_TRANSACTIONS =
-      "http://dev.blossombudgeting.io/transactions/";
+      "http://dev.blossombudgeting.io/transactions";
 
   static const ENDPOINT_V1_TRANSACTIONS = "/api/v1/";
 
