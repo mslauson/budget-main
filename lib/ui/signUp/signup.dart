@@ -183,7 +183,7 @@ bool _usernameTaken = false;
 void _checkValidEmail(String email) async {
   CustomerClient client = new CustomerClient();
   if (email.isNotEmpty && email != null) {
-    client.checkUserName(email).then((value) => _usernameTaken = value);
+    client.checkEmail(email).then((value) => _usernameTaken = value);
   }
 }
 

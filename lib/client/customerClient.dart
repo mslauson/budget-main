@@ -18,11 +18,26 @@ class CustomerClient {
     return response.body;
   }
 
-  Future<bool> checkUserName(String payload) async {
+  Future<bool> checkEmail(String payload) async {
     String url = CustomerMicroserviceConstants.BASE_URL_CUSTOMERS +
         CustomerMicroserviceConstants.ENDPOINT_V1_CUSTOMERS +
         CustomerMicroserviceConstants.ENDPOINT_SUFFIX_VALIDATE +
         payload;
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    var response = await get(url, headers: headers);
+    if (response.statusCode != 200) {
+      ErrorHandler.onError(response, "Username Verification");
+    }
+    var booleanResponse = jsonDecode(response.body);
+    return booleanResponse[IAMConstants.USERNAME_TAKEN_KEY];
+  }
+
+  Future<bool> checkPhone(String phone) async {
+    String url = CustomerMicroserviceConstants.BASE_URL_CUSTOMERS +
+        CustomerMicroserviceConstants.ENDPOINT_V1_CUSTOMERS +
+        CustomerMicroserviceConstants.ENDPOINT_SUFFIX_VALIDATE +
+        phone;
     Map<String, String> headers = {"Content-type": "application/json"};
 
     var response = await get(url, headers: headers);
