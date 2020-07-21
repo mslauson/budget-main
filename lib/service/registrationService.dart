@@ -8,8 +8,10 @@ import 'package:main/models/valueModel.dart';
 
 class RegistrationService {
   final _auth = FirebaseAuth.instance;
-   Future<bool> registerToFirebase( SignUpForm signUpForm,
-      ValueModel valueModel) async {
+
+  @Deprecated("In favor of OTP")
+  Future<bool> registerToFirebase(
+      SignUpForm signUpForm, ValueModel valueModel) async {
     final AuthResult authResult = await _auth.createUserWithEmailAndPassword(
       email: signUpForm.emailAddress,
       password: valueModel.value,
