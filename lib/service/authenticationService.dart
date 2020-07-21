@@ -23,12 +23,7 @@ class AuthenticationService {
         phoneNumber: authenticationModel.phoneNumber,
         timeout: Duration(seconds: 60),
         verificationCompleted: (AuthCredential authCredential) {
-          _auth.signInWithCredential(authCredential).then((AuthResult result) {
-            _buildScopedModel(result, context);
-            _navigateToHomeScreen(context);
-          }).catchError((e) {
-            print(e);
-          });
+          _signInWithCredentials(authCredential, context);
         },
         verificationFailed: (AuthException authException) {
           print(authException.message);
@@ -75,29 +70,34 @@ class AuthenticationService {
 
   void _acceptDialog(BuildContext context){
     String smsCode = _smsCodeController.text.trim();
-    AuthCredential credentials = PhoneAuthProvider
-        .getCredential(
+    AuthCredential credentials = PhoneAuthProvider.getCredential(
         verificationId: verificationId, smsCode: smsCode);
-    _auth.signInWithCredential(credentials).then((
-        AuthResult result) {
-      _buildScopedModel(result, context);
-     _navigateToHomeScreen(context);
-    }).catchError((e) {
-      print(e);
-    });
+    _signInWithCredentials(credentials, context);
   }
 
-  void _navigateToHomeScreen(BuildContext context){
+  void _navigateToHomeScreen(BuildContext context) {
     Navigator.pushReplacement(context, MaterialPageRoute(
         builder: (context) => SecureHome()
     ));
   }
 
-  void _buildScopedModel(AuthResult authResult, BuildContext context){
+  void _buildScopedModel(AuthResult authResult, BuildContext context) {
+    ScopedModel
+        .of<ActiveUser>(context, rebuildOnChange: true)
+        .email = authResult.user.email;
+    ScopedModel
+        .of<ActiveUser>(context, rebuildOnChange: true)
+        .lastLogin = authResult.user.metadata.lastSignInTime.toIso8601String();
+  }
 
-    ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).email = authResult.user.email;
-    ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).lastLogin = authResult.user.metadata.lastSignInTime.toIso8601String();
-
+  void _signInWithCredentials(AuthCredential credentials,
+      BuildContext context) {
+    _auth.signInWithCredential(credentials).then((AuthResult result) {
+      _buildScopedModel(result, context);
+      _navigateToHomeScreen(context);
+    }).catchError((e) {
+      print(e);
+    });
   }
 }
 
