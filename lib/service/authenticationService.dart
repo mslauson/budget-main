@@ -84,12 +84,10 @@ class AuthenticationService {
   }
 
   void _buildScopedModel(AuthResult authResult, BuildContext context) {
-    ScopedModel
-        .of<ActiveUser>(context, rebuildOnChange: true)
-        .email = authResult.user.email;
-    ScopedModel
-        .of<ActiveUser>(context, rebuildOnChange: true)
-        .lastLogin = authResult.user.metadata.lastSignInTime.toIso8601String();
+    ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone =
+        authResult.user.email;
+    ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).lastLogin =
+        authResult.user.metadata.lastSignInTime.toIso8601String();
   }
 
   void _signInWithCredentials(AuthCredential credentials,

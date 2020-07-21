@@ -32,7 +32,7 @@ class _SecureHomeState extends State<SecureHome> {
       ),
       body: ScopedModelDescendant<ActiveUser>(
           builder: (BuildContext context, Widget child, ActiveUser model) {
-            SecureHomeWidgets.loadData(model.email, model.lastLogin);
+            SecureHomeWidgets.loadData(model.phone, model.lastLogin);
         return Container(
             child: Center(
                 child: SecureHomeWidgets.widgetOptions(context, model)

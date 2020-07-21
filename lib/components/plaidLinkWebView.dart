@@ -54,15 +54,14 @@ _processNavigationRequest(NavigationRequest request, ActiveUser model, BuildCont
     if (url.contains(PlaidConstants.PLAID_CONNECTED_EVENT)) {
       print(url);
       PlaidLinkResponse linkResponse = await _processConnectedUri(url);
-      linkResponse.email=model.email;
-      addAccounts(linkResponse).catchError((Object error){
+      linkResponse.email = model.phone;
+      addAccounts(linkResponse).catchError((Object error) {
         Fluttertoast.showToast(
             msg: error,
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
-            timeInSecForIosWeb: 3
-        );
-      }).whenComplete((){
+            timeInSecForIosWeb: 3);
+      }).whenComplete(() {
         Navigator.push(
           context,
           MaterialPageRoute(

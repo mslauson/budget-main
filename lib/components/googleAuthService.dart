@@ -2,12 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:main/models/iam/signUpForm.dart';
-import 'package:main/ui/util/phoneNumberAlert.dart' as phoneNumberAlert;
-import 'package:main/service/registrationService.dart';
-import 'package:scoped_model/scoped_model.dart';
 import 'package:main/models/global/activeUser.dart';
+import 'package:main/models/iam/signUpForm.dart';
+import 'package:main/service/registrationService.dart';
 import 'package:main/ui/secureHome/secureHome.dart';
+import 'package:main/ui/util/phoneNumberAlert.dart' as phoneNumberAlert;
+import 'package:scoped_model/scoped_model.dart';
 
 class GoogleAuthService {
   RegistrationService _registrationService = new RegistrationService();
@@ -70,14 +70,13 @@ class GoogleAuthService {
 
   Future<void> _authenticate(
       AuthCredential credential, BuildContext context, String email) async {
-    final AuthResult authResult =
-        await _auth.signInWithCredential(credential);
-      ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).email = email;
-      ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).lastLogin = authResult.user.metadata.lastSignInTime.toIso8601String();
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => new SecureHome()),
-      );
-
+    final AuthResult authResult = await _auth.signInWithCredential(credential);
+    ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone = email;
+    ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).lastLogin =
+        authResult.user.metadata.lastSignInTime.toIso8601String();
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => new SecureHome()),
+    );
   }
 }

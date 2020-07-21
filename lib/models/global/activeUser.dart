@@ -1,19 +1,19 @@
 import 'package:scoped_model/scoped_model.dart';
 
 class ActiveUser extends Model {
-  String email;
+  String phone;
   String lastLogin;
 
-  ActiveUser({this.email, this.lastLogin});
+  ActiveUser({this.phone, this.lastLogin});
 
   ActiveUser.fromJson(Map<String, dynamic> json) {
-    email = json['email'];
+    phone = json['phone'];
     lastLogin = json['lastLogin'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['email'] = this.email;
+    data['phone'] = this.phone;
     data['lastLogin'] = this.lastLogin;
     return data;
   }
