@@ -23,7 +23,7 @@ class CustomerClient {
         CustomerMicroserviceConstants.ENDPOINT_SUFFIX_VALIDATE +
         CustomerMicroserviceConstants.ENDPOINT_SUFFIX_EMAIL;
     var queryParameters = {'email': email};
-    var uri = Uri.https(CustomerMicroserviceConstants.BASE_URL_CUSTOMERS, path,
+    var uri = Uri.http(CustomerMicroserviceConstants.BASE_URL_CUSTOMERS, path,
         queryParameters);
     Map<String, String> headers = {"Content-type": "application/json"};
 
@@ -43,7 +43,7 @@ class CustomerClient {
         CustomerMicroserviceConstants.ENDPOINT_SUFFIX_VALIDATE +
         CustomerMicroserviceConstants.ENDPOINT_SUFFIX_PHONE;
     var queryParameters = {'phone': phone};
-    var uri = Uri.https(CustomerMicroserviceConstants.BASE_URL_CUSTOMERS, path,
+    var uri = Uri.http(CustomerMicroserviceConstants.BASE_URL_CUSTOMERS, path,
         queryParameters);
     Map<String, String> headers = {"Content-type": "application/json"};
 
