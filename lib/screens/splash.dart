@@ -59,7 +59,7 @@ class Splash extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(10.0),
               child: GestureDetector(
-                  child: Text("Log In Using Email",
+                  child: Text("Log In Using Phone",
                       style: TextStyle(
                           decoration: TextDecoration.underline,
                           color: Colors.blue)),

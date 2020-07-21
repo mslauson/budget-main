@@ -49,22 +49,24 @@ class Splash extends StatelessWidget {
                       );
                     },
                   )),
-              Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: SignInButton(
-                    Buttons.Google,
-                    text: "Sign up with Google",
-                    onPressed: () {
-                      continueWithGoogle.attemptAuth(context);
-                    },
-                  )),
-              Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: SignInButton(
-                    Buttons.Twitter,
-                    text: "Sign up with Twitter",
-                    onPressed: () {},
-                  )),
+//              Padding(
+//                  padding: EdgeInsets.all(10.0),
+//                  child: SignInButton(
+//                    Buttons.Email,
+//                    text: "Sign up with Google",
+//                    onPressed: () {
+//                      continueWithGoogle.attemptAuth(context);
+//                    },
+//                  )),
+//              Padding(
+//                  padding: EdgeInsets.all(10.0),
+//                  child: SignInButton(
+//                    Buttons.Twitter,
+//                    text: "Sign up with Twitter",
+//                    onPressed: () {
+//                      continueWithGoogle.attemptAuth(context);
+//                    },
+//                  )),
               Padding(
                 padding: EdgeInsets.all(10.0),
                 child: GestureDetector(

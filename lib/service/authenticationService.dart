@@ -24,6 +24,7 @@ class AuthenticationService {
         timeout: Duration(seconds: 60),
         verificationCompleted: (AuthCredential authCredential) {
           _auth.signInWithCredential(authCredential).then((AuthResult result) {
+            _buildScopedModel(result, context);
             _navigateToHomeScreen(context);
           }).catchError((e) {
             print(e);
@@ -93,6 +94,7 @@ class AuthenticationService {
   }
 
   void _buildScopedModel(AuthResult authResult, BuildContext context){
+
     ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).email = authResult.user.email;
     ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).lastLogin = authResult.user.metadata.lastSignInTime.toIso8601String();
 
