@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:main/client/customerClient.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/iam/authenticationModel.dart';
 import 'package:main/ui/secureHome/secureHome.dart';
@@ -11,14 +12,15 @@ class AuthenticationService {
   String errorMessage = '';
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final _smsCodeController = TextEditingController();
+  final CustomerClient _customerClient = new CustomerClient();
 
-  Future<void> authenticateUser(AuthenticationModel authenticationModel,
-      BuildContext context) async {
+  Future<void> authenticateUser(
+      AuthenticationModel authenticationModel, BuildContext context) async {
     await _authenticateFirebase(authenticationModel, context);
   }
 
-  _authenticateFirebase(AuthenticationModel authenticationModel,
-      BuildContext context) async {
+  _authenticateFirebase(
+      AuthenticationModel authenticationModel, BuildContext context) async {
     _auth.verifyPhoneNumber(
         phoneNumber: authenticationModel.phoneNumber,
         timeout: Duration(seconds: 60),
@@ -93,8 +95,12 @@ class AuthenticationService {
   void _signInWithCredentials(AuthCredential credentials,
       BuildContext context) {
     _auth.signInWithCredential(credentials).then((AuthResult result) {
-      _buildScopedModel(result, context);
-      _navigateToHomeScreen(context);
+      _customerClient.checkPhone(result.user.phoneNumber).then((userExists) {
+        if (userExists) {
+          _buildScopedModel(result, context);
+          _navigateToHomeScreen(context);
+        }
+      });
     }).catchError((e) {
       print(e);
     });
