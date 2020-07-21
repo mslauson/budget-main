@@ -30,7 +30,7 @@ class GoogleAuthService {
     if (signInMethods.isEmpty) {
       await _createUser(context, googleSignInAccount);
     }
-    _authenticate(credential, context, googleSignInAccount.email);
+    _authenticate(credential, context);
   }
 
   SignUpForm _buildSignUpForm(
@@ -69,9 +69,10 @@ class GoogleAuthService {
   }
 
   Future<void> _authenticate(
-      AuthCredential credential, BuildContext context, String email) async {
+      AuthCredential credential, BuildContext context) async {
     final AuthResult authResult = await _auth.signInWithCredential(credential);
-    ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone = email;
+    ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone =
+        authResult.user.phoneNumber;
     ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).lastLogin =
         authResult.user.metadata.lastSignInTime.toIso8601String();
     Navigator.push(

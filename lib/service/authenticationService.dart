@@ -85,7 +85,7 @@ class AuthenticationService {
 
   void _buildScopedModel(AuthResult authResult, BuildContext context) {
     ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone =
-        authResult.user.email;
+        authResult.user.phoneNumber;
     ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).lastLogin =
         authResult.user.metadata.lastSignInTime.toIso8601String();
   }
