@@ -18,31 +18,21 @@ class CustomerClient {
     return response.body;
   }
 
-  Future<bool> checkEmail(String payload) async {
-    String url = CustomerMicroserviceConstants.BASE_URL_CUSTOMERS +
-        CustomerMicroserviceConstants.ENDPOINT_V1_CUSTOMERS +
+  Future<bool> checkEmail(String email) async {
+    String path = CustomerMicroserviceConstants.ENDPOINT_V1_CUSTOMERS +
         CustomerMicroserviceConstants.ENDPOINT_SUFFIX_VALIDATE +
-        payload;
+        CustomerMicroserviceConstants.ENDPOINT_SUFFIX_EMAIL;
+    var queryParameters = {'email': email};
+    var uri = Uri.https(CustomerMicroserviceConstants.BASE_URL_CUSTOMERS, path,
+        queryParameters);
     Map<String, String> headers = {"Content-type": "application/json"};
 
-    var response = await get(url, headers: headers);
+    var response = await get(
+      uri,
+      headers: headers,
+    );
     if (response.statusCode != 200) {
-      ErrorHandler.onError(response, "Username Verification");
-    }
-    var booleanResponse = jsonDecode(response.body);
-    return booleanResponse[IAMConstants.USERNAME_TAKEN_KEY];
-  }
-
-  Future<bool> checkPhone(String phone) async {
-    String url = CustomerMicroserviceConstants.BASE_URL_CUSTOMERS +
-        CustomerMicroserviceConstants.ENDPOINT_V1_CUSTOMERS +
-        CustomerMicroserviceConstants.ENDPOINT_SUFFIX_VALIDATE +
-        phone;
-    Map<String, String> headers = {"Content-type": "application/json"};
-
-    var response = await get(url, headers: headers);
-    if (response.statusCode != 200) {
-      ErrorHandler.onError(response, "Username Verification");
+      ErrorHandler.onError(response, "Email Verification");
     }
     var booleanResponse = jsonDecode(response.body);
     return booleanResponse[IAMConstants.USERNAME_TAKEN_KEY];
