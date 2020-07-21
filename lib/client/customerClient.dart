@@ -37,4 +37,24 @@ class CustomerClient {
     var booleanResponse = jsonDecode(response.body);
     return booleanResponse[IAMConstants.USERNAME_TAKEN_KEY];
   }
+
+  Future<bool> checkPhone(String phone) async {
+    String path = CustomerMicroserviceConstants.ENDPOINT_V1_CUSTOMERS +
+        CustomerMicroserviceConstants.ENDPOINT_SUFFIX_VALIDATE +
+        CustomerMicroserviceConstants.ENDPOINT_SUFFIX_PHONE;
+    var queryParameters = {'phone': phone};
+    var uri = Uri.https(CustomerMicroserviceConstants.BASE_URL_CUSTOMERS, path,
+        queryParameters);
+    Map<String, String> headers = {"Content-type": "application/json"};
+
+    var response = await get(
+      uri,
+      headers: headers,
+    );
+    if (response.statusCode != 200) {
+      ErrorHandler.onError(response, "Email Verification");
+    }
+    var booleanResponse = jsonDecode(response.body);
+    return booleanResponse[IAMConstants.USERNAME_TAKEN_KEY];
+  }
 }
