@@ -11,7 +11,7 @@ import 'package:scoped_model/scoped_model.dart';
 class NewUserFullName extends StatelessWidget {
   final String phone;
 
-  NewUserFullName(this.phone);
+  NewUserFullName({this.phone});
 
   @override
   Widget build(BuildContext context) {

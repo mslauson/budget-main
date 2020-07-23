@@ -111,7 +111,7 @@ class AuthenticationService {
   void gatherName(String phone, BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => NewUserFullName(phone)),
+      MaterialPageRoute(builder: (context) => NewUserFullName(phone: phone)),
     );
   }
 }
