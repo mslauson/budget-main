@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:main/client/customerClient.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/iam/authenticationModel.dart';
+import 'package:main/screens/newUserFullName.dart';
 import 'package:main/ui/secureHome/secureHome.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -12,6 +13,7 @@ class AuthenticationService {
   String errorMessage = '';
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final _smsCodeController = TextEditingController();
+  final _fullNameController = TextEditingController();
   final CustomerClient _customerClient = new CustomerClient();
 
   Future<void> authenticateUser(
@@ -31,7 +33,7 @@ class AuthenticationService {
           print(authException.message);
         },
         codeSent: (String verificationId, [int forceResendingToken]) {
-          _showDialog(context);
+          _showDialogOtp(context);
         },
         codeAutoRetrievalTimeout: (String verificationId) {
           verificationId = verificationId;
@@ -41,7 +43,7 @@ class AuthenticationService {
     );
   }
 
-  void _showDialog(BuildContext context) {
+  void _showDialogOtp(BuildContext context) {
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -97,11 +99,20 @@ class AuthenticationService {
         if (userExists) {
           _buildScopedModel(result, context);
           _navigateToHomeScreen(context);
+        } else {
+
         }
       });
     }).catchError((e) {
       print(e);
     });
+  }
+
+  void gatherName(String phone, BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => NewUserFullName(phone)),
+    );
   }
 }
 
