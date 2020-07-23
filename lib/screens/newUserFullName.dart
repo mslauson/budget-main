@@ -6,6 +6,7 @@ import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/iam/signUpForm.dart';
 import 'package:main/screens/splash.dart';
 import 'package:main/service/registrationService.dart';
+import 'package:main/util/formUtils.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class NewUserFullName extends StatelessWidget {
@@ -16,7 +17,7 @@ class NewUserFullName extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController _fullNameController = new TextEditingController();
-    bool validForm;
+    final formKey = GlobalKey<FormState>();
     return Scaffold(
       body: ScopedModelDescendant<ActiveUser>(
           builder: (BuildContext context, Widget child, ActiveUser model) {
@@ -25,35 +26,35 @@ class NewUserFullName extends StatelessWidget {
             color: Colors.white,
             child: new Container(
               child: new Center(
-                  child: new Column(children: [
-                new Padding(padding: EdgeInsets.only(top: 140.0)),
-                new Text(
-                  'Please Provide Blossom With Your Name',
-                  style: new TextStyle(color: Colors.blue, fontSize: 25.0),
-                ),
-                new Padding(padding: EdgeInsets.only(top: 50.0)),
-                new TextFormField(
-                  decoration: new InputDecoration(
-                    labelText: "Enter Full Name",
-                    fillColor: Colors.white,
-                    border: new OutlineInputBorder(
-                      borderRadius: new BorderRadius.circular(25.0),
-                      borderSide: new BorderSide(),
-                    ),
-                  ),
-                  controller: _fullNameController,
-                  validator: (val) {
-                    if (val.length == 0) {
-                      validForm = false;
-                      return "Name cannot be empty";
-                    } else if (val.indexOf(" ") != 1) {
-                      validForm = false;
-                      return "Please provide full name";
-                    } else {
-                      validForm = true;
-                      return null;
-                    }
-                  },
+                  child: Form(
+                      key: formKey,
+                      child: new Column(children: [
+                        new Padding(padding: EdgeInsets.only(top: 140.0)),
+                        new Text(
+                          'Please Provide Blossom With Your Name',
+                          style:
+                              new TextStyle(color: Colors.blue, fontSize: 25.0),
+                        ),
+                        new Padding(padding: EdgeInsets.only(top: 50.0)),
+                        new TextFormField(
+                          decoration: new InputDecoration(
+                            labelText: "Enter Full Name",
+                            fillColor: Colors.white,
+                            border: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(25.0),
+                              borderSide: new BorderSide(),
+                            ),
+                          ),
+                          controller: _fullNameController,
+                          validator: (val) {
+                            if (val.length == 0) {
+                              return "Name cannot be empty";
+                            } else if (val.trim().indexOf(" ") != 1) {
+                              return "Please provide full name";
+                            } else {
+                              return null;
+                            }
+                          },
                           keyboardType: TextInputType.text,
                           style: new TextStyle(
                             fontFamily: "Poppins",
@@ -76,7 +77,7 @@ class NewUserFullName extends StatelessWidget {
                         ),
                         new GestureDetector(
                           onTap: () {
-                            if (validForm) {
+                            if (FormUtils.validateCurrentForm(formKey)) {
                               List<String> nameList =
                               splitName(_fullNameController.text);
                               RegistrationService registrationService =
@@ -106,7 +107,7 @@ class NewUserFullName extends StatelessWidget {
                                 child: new Icon(Icons.arrow_forward)),
                           ),
                         )
-                      ])),
+                          ]))),
                 ));
           }),
     );
