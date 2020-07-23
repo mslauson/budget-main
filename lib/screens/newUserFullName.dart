@@ -20,12 +20,12 @@ class NewUserFullName extends StatelessWidget {
     return Scaffold(
       body: ScopedModelDescendant<ActiveUser>(
           builder: (BuildContext context, Widget child, ActiveUser model) {
-            return new Container(
-                padding: const EdgeInsets.all(30.0),
-                color: Colors.white,
-                child: new Container(
-                  child: new Center(
-                      child: new Column(children: [
+        return new Container(
+            padding: const EdgeInsets.all(30.0),
+            color: Colors.white,
+            child: new Container(
+              child: new Center(
+                  child: new Column(children: [
                 new Padding(padding: EdgeInsets.only(top: 140.0)),
                 new Text(
                   'Please Provide Blossom With Your Name',
@@ -54,11 +54,11 @@ class NewUserFullName extends StatelessWidget {
                       return null;
                     }
                   },
-                  keyboardType: TextInputType.text,
-                  style: new TextStyle(
-                    fontFamily: "Poppins",
-                  ),
-                ),
+                          keyboardType: TextInputType.text,
+                          style: new TextStyle(
+                            fontFamily: "Poppins",
+                          ),
+                        ),
                         new GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -93,9 +93,9 @@ class NewUserFullName extends StatelessWidget {
                                   MaterialPageRoute(
                                       builder: (context) => Splash()),
                                 )
-                              }).catchError((Object error) => {
-                              Fluttertoast.showToast(msg:error);
-                              });
+                              })
+                                  .catchError((Object error) =>
+                              {Fluttertoast.showToast(msg: error)});
                             }
                           },
                           child: ClipOval(
