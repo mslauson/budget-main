@@ -8,12 +8,9 @@ import 'package:main/ui/secureHome/secureHome.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class AuthenticationService {
-  String smsOTP;
-  String verificationId;
-  String errorMessage = '';
+  String _verificationId;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final _smsCodeController = TextEditingController();
-  final _fullNameController = TextEditingController();
   final CustomerClient _customerClient = new CustomerClient();
 
   Future<void> authenticateUser(
@@ -24,7 +21,7 @@ class AuthenticationService {
   _authenticateFirebase(
       AuthenticationModel authenticationModel, BuildContext context) async {
     _auth.verifyPhoneNumber(
-        phoneNumber: authenticationModel.phoneNumber,
+        phoneNumber: "+1" + authenticationModel.phoneNumber,
         timeout: Duration(seconds: 60),
         verificationCompleted: (AuthCredential authCredential) {
           _signInWithCredentials(authCredential, context);
@@ -33,6 +30,7 @@ class AuthenticationService {
           print(authException.message);
         },
         codeSent: (String verificationId, [int forceResendingToken]) {
+          _verificationId = verificationId;
           _showDialogOtp(context);
         },
         codeAutoRetrievalTimeout: (String verificationId) {
@@ -75,7 +73,7 @@ class AuthenticationService {
   void _acceptDialog(BuildContext context){
     String smsCode = _smsCodeController.text.trim();
     AuthCredential credentials = PhoneAuthProvider.getCredential(
-        verificationId: verificationId, smsCode: smsCode);
+        verificationId: _verificationId, smsCode: smsCode);
     _signInWithCredentials(credentials, context);
   }
 
@@ -95,12 +93,13 @@ class AuthenticationService {
   void _signInWithCredentials(AuthCredential credentials,
       BuildContext context) {
     _auth.signInWithCredential(credentials).then((AuthResult result) {
-      _customerClient.checkPhone(result.user.phoneNumber).then((userExists) {
+      String phone = result.user.phoneNumber.substring(1);
+      _customerClient.checkPhone(phone).then((userExists) {
         if (userExists) {
           _buildScopedModel(result, context);
           _navigateToHomeScreen(context);
         } else {
-
+          _gatherName(phone, context);
         }
       });
     }).catchError((e) {
@@ -108,7 +107,7 @@ class AuthenticationService {
     });
   }
 
-  void gatherName(String phone, BuildContext context) {
+  void _gatherName(String phone, BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => NewUserFullName(phone: phone)),
