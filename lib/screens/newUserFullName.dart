@@ -47,11 +47,14 @@ class NewUserFullName extends StatelessWidget {
                           ),
                           controller: _fullNameController,
                           validator: (val) {
+                            int temp = val.trim().indexOf(" ");
                             if (val.length == 0) {
                               return "Name cannot be empty";
-                            } else if (val.trim().indexOf(" ") != 1) {
-                              return "Please provide full name";
-                            } else {
+                            }
+//                            else if (val.trim().indexOf(" ") != 1) {
+//                              return "Please provide full name";
+//                            }
+                            else {
                               return null;
                             }
                           },
