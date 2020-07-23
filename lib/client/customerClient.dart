@@ -7,11 +7,11 @@ import 'package:main/error/errorHandler.dart';
 
 class CustomerClient {
   Future<String> addCustomer(String payload) async {
-    String url = CustomerMicroserviceConstants.BASE_URL_CUSTOMERS +
-        CustomerMicroserviceConstants.ENDPOINT_V1_CUSTOMERS;
+    var uri = Uri.http(CustomerMicroserviceConstants.BASE_URL_CUSTOMERS,
+        CustomerMicroserviceConstants.ENDPOINT_V1_CUSTOMERS);
     Map<String, String> headers = {"Content-type": "application/json"};
 //
-    var response = await post(url, headers: headers, body: payload);
+    var response = await post(uri, headers: headers, body: payload);
     if (response.statusCode != 200) {
       ErrorHandler.onError(response, "Registration");
     }
