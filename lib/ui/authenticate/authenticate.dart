@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,7 +5,6 @@ import 'package:main/constants/iamConstants.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/iam/authenticationModel.dart';
 import 'package:main/service/authenticationService.dart';
-import 'package:main/ui/secureHome/secureHome.dart';
 import 'package:main/util/formUtils.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -44,11 +42,12 @@ class Authenticate extends StatelessWidget {
                       padding: EdgeInsets.only(left: 16, right: 16, top: 16),
                       child: TextFormField(
                         initialValue: '',
+                        keyboardType: TextInputType.phone,
                         onSaved: (val) =>
                             authenticationModel.phoneNumber = val.trim(),
                         decoration: InputDecoration(
                           labelText: IAMConstants.PHONE,
-                          icon: Icon(Icons.person),
+                          icon: Icon(Icons.phone),
                           isDense: true,
                         ),
                       ),
