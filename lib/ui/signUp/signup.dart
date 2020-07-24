@@ -8,6 +8,7 @@ import 'package:main/service/registrationService.dart';
 import 'package:main/ui/home/splash.dart';
 import 'package:main/util/formUtils.dart';
 
+@Deprecated('In favor of OTP flow')
 class SignUp extends StatelessWidget {
   const SignUp({
     Key key,
@@ -65,7 +66,7 @@ class SignUp extends StatelessWidget {
                       initialValue: '',
                       onSaved: (val) => valueModel.value = val.trim(),
                       validator: (val) =>
-                          val.length > 0 ? null : IAMConstants.INVALID_PASSWORD,
+                      val.length > 0 ? null : IAMConstants.INVALID_PASSWORD,
                       decoration: InputDecoration(
                         labelText: IAMConstants.PASSWORD,
                         hintText: IAMConstants.PASSWORD_HINT,
@@ -80,9 +81,9 @@ class SignUp extends StatelessWidget {
                       initialValue: '',
                       onSaved: (val) => signUpForm.firstName = val.trim(),
                       validator: (val) =>
-                          val.trim().length > 0 && val.trim().length < 30
-                              ? null
-                              : IAMConstants.INVALID_FIRST_NAME,
+                      val.trim().length > 0 && val.trim().length < 30
+                          ? null
+                          : IAMConstants.INVALID_FIRST_NAME,
                       decoration: InputDecoration(
                         labelText: IAMConstants.FIRST_NAME,
                         hintText: IAMConstants.FIRST_NAME_HINT,
@@ -111,9 +112,9 @@ class SignUp extends StatelessWidget {
                       initialValue: '',
                       onSaved: (val) => signUpForm.lastName = val.trim(),
                       validator: (val) =>
-                          val.trim().length > 0 && val.trim().length < 30
-                              ? null
-                              : IAMConstants.INVALID_LAST_NAME,
+                      val.trim().length > 0 && val.trim().length < 30
+                          ? null
+                          : IAMConstants.INVALID_LAST_NAME,
                       decoration: InputDecoration(
                         labelText: IAMConstants.LAST_NAME,
                         hintText: IAMConstants.LAST_NAME_HINT,
