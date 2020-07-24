@@ -4,7 +4,6 @@ import 'package:main/components/BlossomSignInOption.dart';
 import 'package:main/components/googleAuthService.dart';
 import 'package:main/theme/svgPiggy.dart';
 import 'package:main/ui/authenticate/authenticate.dart';
-import 'package:main/ui/signUp/signup.dart';
 
 class Splash extends StatelessWidget {
   Splash({Key key, this.title}) : super(key: key);
@@ -30,46 +29,32 @@ class Splash extends StatelessWidget {
             SvgPiggy(),
             const SizedBox(height: 175),
             BlossomSignInOption(
-              text: "Sign up with Email",
-              button: Buttons.Email,
+              text: "Continue With Phone",
               onPressed: () => {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SignUp()),
+                  MaterialPageRoute(builder: (context) => Authenticate()),
                 )
               },
             ),
             BlossomSignInOption(
-              text: "Continue with Google",
+              text: "Continue With Google",
               button: Buttons.Google,
-              onPressed: () => {
-              googleAuthService.attemptAuth(context)
+              onPressed: () =>
+              {
+                googleAuthService.attemptAuth(context)
               },
             ),
             BlossomSignInOption(
-              text: "Continue with Twitter",
+              text: "Continue With Twitter",
               button: Buttons.Twitter,
               onPressed: () => {},
             ),
             BlossomSignInOption(
-              text: "Continue with Facebook",
+              text: "Continue With Facebook",
               button: Buttons.Facebook,
               onPressed: () => {},
             ),
-            Padding(
-              padding: EdgeInsets.all(10.0),
-              child: GestureDetector(
-                  child: Text("Log In Using Phone",
-                      style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          color: Colors.blue)),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Authenticate()),
-                    );
-                  }),
-            )
           ],
         ),
       ),
