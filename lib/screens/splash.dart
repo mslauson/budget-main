@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_signin_button/button_list.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:main/components/BlossomSignInOption.dart';
 import 'package:main/components/googleAuthService.dart';
 import 'package:main/theme/svgPiggy.dart';
@@ -30,6 +30,7 @@ class Splash extends StatelessWidget {
             const SizedBox(height: 175),
             BlossomSignInOption(
               text: "Continue With Phone",
+              button: Buttons.Google,
               onPressed: () => {
                 Navigator.push(
                   context,
