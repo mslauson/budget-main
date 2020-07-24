@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:html';
 
 import 'package:http/http.dart';
 import 'package:main/constants/customerMicroserviceConstants.dart';
@@ -10,7 +11,7 @@ class CustomerClient {
     var uri = Uri.http(CustomerMicroserviceConstants.BASE_URL_CUSTOMERS,
         CustomerMicroserviceConstants.ENDPOINT_V1_CUSTOMERS);
     Map<String, String> headers = {"Content-type": "application/json"};
-//
+
     var response = await post(uri, headers: headers, body: payload);
     if (response.statusCode != 200) {
       ErrorHandler.onError(response, "Registration");
@@ -21,12 +22,10 @@ class CustomerClient {
   Future<bool> checkEmail(String email) async {
     String path = CustomerMicroserviceConstants.ENDPOINT_V1_CUSTOMERS +
         CustomerMicroserviceConstants.ENDPOINT_SUFFIX_VALIDATE +
-        CustomerMicroserviceConstants.ENDPOINT_SUFFIX_EMAIL;
-    var queryParameters = {'email': email};
-    var uri = Uri.http(CustomerMicroserviceConstants.BASE_URL_CUSTOMERS, path,
-        queryParameters);
+        CustomerMicroserviceConstants.ENDPOINT_SUFFIX_EMAIL +
+        email;
+    var uri = Uri.http(CustomerMicroserviceConstants.BASE_URL_CUSTOMERS, path);
     Map<String, String> headers = {"Content-type": "application/json"};
-
     var response = await get(
       uri,
       headers: headers,
@@ -41,10 +40,9 @@ class CustomerClient {
   Future<bool> checkPhone(String phone) async {
     String path = CustomerMicroserviceConstants.ENDPOINT_V1_CUSTOMERS +
         CustomerMicroserviceConstants.ENDPOINT_SUFFIX_VALIDATE +
-        CustomerMicroserviceConstants.ENDPOINT_SUFFIX_PHONE;
-    var queryParameters = {'phone': phone};
-    var uri = Uri.http(CustomerMicroserviceConstants.BASE_URL_CUSTOMERS, path,
-        queryParameters);
+        CustomerMicroserviceConstants.ENDPOINT_SUFFIX_PHONE +
+        phone;
+    var uri = Uri.http(CustomerMicroserviceConstants.BASE_URL_CUSTOMERS, path);
     Map<String, String> headers = {"Content-type": "application/json"};
 
     var response = await get(
