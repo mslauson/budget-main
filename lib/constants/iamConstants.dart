@@ -43,12 +43,13 @@ class IAMConstants {
   static const String USERNAME_TAKEN = "This username is Taken";
 
   //Success Message
-  static const String REGISTRATION_SUCCESS = "Thank You for signing up with Blossom\n\nPlease verify your email to sign in.";
+  static const String REGISTRATION_SUCCESS =
+      "Thank You for signing up with Blossom\n\nPlease verify your email to sign in.";
 
-
-
-      static const String DISMISS_BUTTON = "Dismiss";
+  static const String DISMISS_BUTTON = "Dismiss";
 
   //Response values
   static const String USERNAME_TAKEN_KEY = "userNameTaken";
+
+  static const String FIREBASE_PROJECT = "budget-267523";
 }
