@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/iam/signUpForm.dart';
+import 'package:main/service/firebaseAdminService.dart';
 import 'package:main/service/registrationService.dart';
 import 'package:main/ui/secureHome/secureHome.dart';
 import 'package:main/ui/util/phoneNumberAlert.dart' as phoneNumberAlert;
@@ -15,7 +16,6 @@ class GoogleAuthService {
 
   Future<void> attemptAuth(BuildContext context) async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
-
     final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
     final GoogleSignInAuthentication googleSignInAuthentication =
         await googleSignInAccount.authentication;
@@ -24,12 +24,19 @@ class GoogleAuthService {
       accessToken: googleSignInAuthentication.accessToken,
       idToken: googleSignInAuthentication.idToken,
     );
-    String uid = await _authenticate(credential, context);
+
     final List<String> signInMethods = await _auth.fetchSignInMethodsForEmail(
         email: googleSignInAccount.email);
     if (signInMethods.isEmpty) {
-      await _createUser(context, googleSignInAccount);
+      String uid = await _authenticate(credential, context);
+      await _createUser(context, googleSignInAccount, uid);
+    } else {
+      await _authenticate(credential, context);
     }
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => new SecureHome()),
+    );
   }
 
   SignUpForm _buildSignUpForm(
@@ -53,11 +60,13 @@ class GoogleAuthService {
     return phoneNumberAlert.PhoneNumberAlert.getPhoneNumber(context);
   }
 
-  Future<void> _createUser(
-      BuildContext context, GoogleSignInAccount googleSignInAccount) async {
+  Future<void> _createUser(BuildContext context,
+      GoogleSignInAccount googleSignInAccount, String uid) async {
+    final FirebaseAdminService adminService = FirebaseAdminService();
     String phoneNumber = await _getPhoneNumber(context);
     _registrationService
         .addCustomer(_buildSignUpForm(googleSignInAccount, phoneNumber));
+    await adminService.updatePhone(uid, phoneNumber);
   }
 
   Future<String> _authenticate(AuthCredential credential,
@@ -71,10 +80,6 @@ class GoogleAuthService {
         .of<ActiveUser>(context, rebuildOnChange: true)
         .lastLogin =
         authResult.user.metadata.lastSignInTime.toIso8601String();
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => new SecureHome()),
-    );
     return authResult.user.uid;
   }
 }
