@@ -24,13 +24,12 @@ class GoogleAuthService {
       accessToken: googleSignInAuthentication.accessToken,
       idToken: googleSignInAuthentication.idToken,
     );
-
+    String uid = await _authenticate(credential, context);
     final List<String> signInMethods = await _auth.fetchSignInMethodsForEmail(
         email: googleSignInAccount.email);
     if (signInMethods.isEmpty) {
       await _createUser(context, googleSignInAccount);
     }
-    _authenticate(credential, context);
   }
 
   SignUpForm _buildSignUpForm(
@@ -59,25 +58,23 @@ class GoogleAuthService {
     String phoneNumber = await _getPhoneNumber(context);
     _registrationService
         .addCustomer(_buildSignUpForm(googleSignInAccount, phoneNumber));
-    _auth.verifyPhoneNumber(
-        phoneNumber: phoneNumber,
-        timeout: new Duration(seconds: 10),
-        verificationCompleted: null,
-        verificationFailed: null,
-        codeSent: null,
-        codeAutoRetrievalTimeout: null);
   }
 
-  Future<void> _authenticate(
-      AuthCredential credential, BuildContext context) async {
+  Future<String> _authenticate(AuthCredential credential,
+      BuildContext context) async {
     final AuthResult authResult = await _auth.signInWithCredential(credential);
-    ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone =
+    ScopedModel
+        .of<ActiveUser>(context, rebuildOnChange: true)
+        .phone =
         authResult.user.phoneNumber;
-    ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).lastLogin =
+    ScopedModel
+        .of<ActiveUser>(context, rebuildOnChange: true)
+        .lastLogin =
         authResult.user.metadata.lastSignInTime.toIso8601String();
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => new SecureHome()),
     );
+    return authResult.user.uid;
   }
 }
