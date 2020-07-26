@@ -28,8 +28,8 @@ class GoogleAuthService {
     final List<String> signInMethods = await _auth.fetchSignInMethodsForEmail(
         email: googleSignInAccount.email);
     if (signInMethods.isEmpty) {
-      String uid = await _authenticate(credential, context);
-      await _createUser(context, googleSignInAccount, uid);
+      FirebaseUser firebaseUser = await _authenticate(credential, context);
+      await _createUser(context, googleSignInAccount, firebaseUser);
     } else {
       await _authenticate(credential, context);
     }
@@ -60,16 +60,18 @@ class GoogleAuthService {
     return phoneNumberAlert.PhoneNumberAlert.getPhoneNumber(context);
   }
 
-  Future<void> _createUser(BuildContext context,
-      GoogleSignInAccount googleSignInAccount, String uid) async {
+  Future<void> _createUser(
+      BuildContext context,
+      GoogleSignInAccount googleSignInAccount,
+      FirebaseUser firebaseUser) async {
     final FirebaseAdminService adminService = FirebaseAdminService();
     String phoneNumber = await _getPhoneNumber(context);
     _registrationService
         .addCustomer(_buildSignUpForm(googleSignInAccount, phoneNumber));
-    await adminService.updatePhone(uid, phoneNumber);
+    await adminService.updatePhone(firebaseUser, phoneNumber);
   }
 
-  Future<String> _authenticate(AuthCredential credential,
+  Future<FirebaseUser> _authenticate(AuthCredential credential,
       BuildContext context) async {
     final AuthResult authResult = await _auth.signInWithCredential(credential);
     ScopedModel
@@ -80,6 +82,6 @@ class GoogleAuthService {
         .of<ActiveUser>(context, rebuildOnChange: true)
         .lastLogin =
         authResult.user.metadata.lastSignInTime.toIso8601String();
-    return authResult.user.uid;
+    return authResult.user;
   }
 }
