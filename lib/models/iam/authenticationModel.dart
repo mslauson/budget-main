@@ -1,3 +1,5 @@
+@Deprecated(
+    'We only take in the phone number now, so deprecating in favor of a variable')
 class AuthenticationModel {
   String phoneNumber;
 
