@@ -68,7 +68,7 @@ class GoogleAuthService {
     String phoneNumber = await _getPhoneNumber(context);
     _registrationService
         .addCustomer(_buildSignUpForm(googleSignInAccount, phoneNumber));
-    await adminService.updatePhone(firebaseUser, phoneNumber);
+    await adminService.updatePhone(firebaseUser, phoneNumber, context);
   }
 
   Future<FirebaseUser> _authenticate(AuthCredential credential,
