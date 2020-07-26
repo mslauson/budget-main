@@ -3,18 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:main/constants/iamConstants.dart';
 import 'package:main/models/global/activeUser.dart';
-import 'package:main/models/iam/authenticationModel.dart';
 import 'package:main/service/authenticationService.dart';
 import 'package:main/util/formUtils.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class Authenticate extends StatelessWidget {
-  String _lastLogin = '';
 
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
-    AuthenticationModel authenticationModel = new AuthenticationModel();
+    String phone;
     AuthenticationService _authService = new AuthenticationService();
     bool validForm;
     return Scaffold(
@@ -44,7 +42,7 @@ class Authenticate extends StatelessWidget {
                         initialValue: '',
                         keyboardType: TextInputType.phone,
                         onSaved: (val) =>
-                            authenticationModel.phoneNumber = val.trim(),
+                        phone = val.trim(),
                         decoration: InputDecoration(
                           labelText: IAMConstants.PHONE,
                           icon: Icon(Icons.phone),
@@ -64,7 +62,7 @@ class Authenticate extends StatelessWidget {
                                   if (FormUtils.validateCurrentForm(formKey))
                                     {
                                       _authService.authenticateUser(
-                                          authenticationModel, context)
+                                          phone, context)
                                     }
                                 },
                                 child: new Text(IAMConstants.SUBMIT),
