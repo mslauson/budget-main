@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/iam/signUpForm.dart';
-import 'package:main/service/firebaseAdminService.dart';
+import 'package:main/service/authenticationService.dart';
 import 'package:main/service/registrationService.dart';
 import 'package:main/ui/secureHome/secureHome.dart';
 import 'package:main/ui/util/phoneNumberAlert.dart' as phoneNumberAlert;
@@ -32,11 +32,11 @@ class GoogleAuthService {
       await _createUser(context, googleSignInAccount, firebaseUser);
     } else {
       await _authenticate(credential, context);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => new SecureHome()),
+      );
     }
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => new SecureHome()),
-    );
   }
 
   SignUpForm _buildSignUpForm(
@@ -64,11 +64,12 @@ class GoogleAuthService {
       BuildContext context,
       GoogleSignInAccount googleSignInAccount,
       FirebaseUser firebaseUser) async {
-    final FirebaseAdminService adminService = FirebaseAdminService();
-    String phoneNumber = await _getPhoneNumber(context);
-    _registrationService
-        .addCustomer(_buildSignUpForm(googleSignInAccount, phoneNumber));
-    adminService.updatePhone(firebaseUser, phoneNumber, context);
+    final AuthenticationService authService = AuthenticationService();
+    _getPhoneNumber(context).then((phoneNumber) => {
+          _registrationService
+              .addCustomer(_buildSignUpForm(googleSignInAccount, phoneNumber)),
+          authService.otpCredentials(firebaseUser, phoneNumber, context)
+        });
   }
 
   Future<FirebaseUser> _authenticate(AuthCredential credential,

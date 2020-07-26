@@ -11,46 +11,48 @@ class AuthenticationService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final _smsCodeController = TextEditingController();
   final CustomerClient _customerClient = new CustomerClient();
-  AuthCredential authCredential;
+  FirebaseUser currentUser;
 
   void authenticateUser(String phone, BuildContext context) {
-    _authenticateOtp(phone, context);
-    _signInWithCredentials(authCredential, context);
+    _authenticateOtp(phone, true, context);
   }
 
-  AuthCredential otpCredentials(String phoneNumber, BuildContext context) {
-    _authenticateOtp(phoneNumber, context);
-    return authCredential;
+  void otpCredentials(
+      FirebaseUser firebaseUser, String phoneNumber, BuildContext context) {
+    currentUser = firebaseUser;
+    _authenticateOtp(phoneNumber, false, context);
   }
 
-  void _authenticateOtp(String phoneNumber, BuildContext context) {
+  void _authenticateOtp(String phoneNumber, bool signIn, BuildContext context) {
     _auth.verifyPhoneNumber(
         phoneNumber: "+1" + phoneNumber,
         timeout: Duration(seconds: 60),
-        verificationCompleted: (AuthCredential authCredential) {
-          authCredential = authCredential;
+        verificationCompleted: (AuthCredential creds) {
+          if (signIn) {
+            _signInWithCredentials(creds, context);
+          } else {
+            _linkPhone(creds, context);
+          }
         },
         verificationFailed: (AuthException authException) {
           print(authException.message);
         },
         codeSent: (String verificationId, [int forceResendingToken]) {
           _verificationId = verificationId;
-          _showDialogOtp(context);
+          _showDialogOtp(context, signIn);
         },
         codeAutoRetrievalTimeout: (String verificationId) {
           verificationId = verificationId;
           print(verificationId);
           print("OTP Auto Retrieval failed");
-        }
-    );
+        });
   }
 
-  void _showDialogOtp(BuildContext context) {
-    showDialog(
+  void _showDialogOtp(BuildContext context, bool signIn) async {
+    await showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (context) =>
-            AlertDialog(
+        builder: (context) => AlertDialog(
               title: Text("Enter SMS Code"),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -66,7 +68,7 @@ class AuthenticationService {
                   textColor: Colors.white,
                   color: Colors.redAccent,
                   onPressed: () {
-                    _acceptDialog(context);
+                    _acceptDialog(context, signIn);
                   },
                 )
               ],
@@ -74,10 +76,15 @@ class AuthenticationService {
     );
   }
 
-  void _acceptDialog(BuildContext context){
+  void _acceptDialog(BuildContext context, bool signIn) {
     String smsCode = _smsCodeController.text.trim();
-    authCredential = PhoneAuthProvider.getCredential(
+    AuthCredential authCredential = PhoneAuthProvider.getCredential(
         verificationId: _verificationId, smsCode: smsCode);
+    if (signIn) {
+      _signInWithCredentials(authCredential, context);
+    } else {
+      _linkPhone(authCredential, context);
+    }
   }
 
   void _navigateToHomeScreen(BuildContext context) {
@@ -114,6 +121,12 @@ class AuthenticationService {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => NewUserFullName(phone: phone)),
+    );
+  }
+
+  void _linkPhone(AuthCredential credential, BuildContext context) {
+    currentUser.updatePhoneNumberCredential(credential).whenComplete(() =>
+        _navigateToHomeScreen(context)
     );
   }
 }
