@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:main/client/customerClient.dart';
 import 'package:main/models/global/activeUser.dart';
-import 'package:main/models/iam/authenticationModel.dart';
 import 'package:main/screens/newUserFullName.dart';
 import 'package:main/ui/secureHome/secureHome.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -12,19 +11,26 @@ class AuthenticationService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final _smsCodeController = TextEditingController();
   final CustomerClient _customerClient = new CustomerClient();
+  AuthCredential authCredential;
 
-  Future<void> authenticateUser(
-      AuthenticationModel authenticationModel, BuildContext context) async {
-    await _authenticateFirebase(authenticationModel, context);
+  Future<void> authenticateUser(String phone, BuildContext context) async {
+    await _authenticateOtp(phone, context);
+    _signInWithCredentials(authCredential, context);
   }
 
-  _authenticateFirebase(
-      AuthenticationModel authenticationModel, BuildContext context) async {
+  Future<AuthCredential> otpCredentials(
+      String phoneNumber, BuildContext context) async {
+    await _authenticateOtp(phoneNumber, context);
+    return authCredential;
+  }
+
+  Future<void> _authenticateOtp(
+      String phoneNumber, BuildContext context) async {
     _auth.verifyPhoneNumber(
-        phoneNumber: "+1" + authenticationModel.phoneNumber,
+        phoneNumber: "+1" + phoneNumber,
         timeout: Duration(seconds: 60),
         verificationCompleted: (AuthCredential authCredential) {
-          _signInWithCredentials(authCredential, context);
+          authCredential = authCredential;
         },
         verificationFailed: (AuthException authException) {
           print(authException.message);
@@ -72,9 +78,8 @@ class AuthenticationService {
 
   void _acceptDialog(BuildContext context){
     String smsCode = _smsCodeController.text.trim();
-    AuthCredential credentials = PhoneAuthProvider.getCredential(
+    authCredential = PhoneAuthProvider.getCredential(
         verificationId: _verificationId, smsCode: smsCode);
-    _signInWithCredentials(credentials, context);
   }
 
   void _navigateToHomeScreen(BuildContext context) {
