@@ -13,19 +13,17 @@ class AuthenticationService {
   final CustomerClient _customerClient = new CustomerClient();
   AuthCredential authCredential;
 
-  Future<void> authenticateUser(String phone, BuildContext context) async {
-    await _authenticateOtp(phone, context);
+  void authenticateUser(String phone, BuildContext context) {
+    _authenticateOtp(phone, context);
     _signInWithCredentials(authCredential, context);
   }
 
-  Future<AuthCredential> otpCredentials(
-      String phoneNumber, BuildContext context) async {
-    await _authenticateOtp(phoneNumber, context);
+  AuthCredential otpCredentials(String phoneNumber, BuildContext context) {
+    _authenticateOtp(phoneNumber, context);
     return authCredential;
   }
 
-  Future<void> _authenticateOtp(
-      String phoneNumber, BuildContext context) async {
+  void _authenticateOtp(String phoneNumber, BuildContext context) {
     _auth.verifyPhoneNumber(
         phoneNumber: "+1" + phoneNumber,
         timeout: Duration(seconds: 60),
