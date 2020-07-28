@@ -11,7 +11,10 @@ class AuthenticationService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final _smsCodeController = TextEditingController();
   final CustomerClient _customerClient = new CustomerClient();
-  FirebaseUser currentUser;
+  final bool isAuthProvider;
+  FirebaseUser _currentUser;
+
+  AuthenticationService(this.isAuthProvider);
 
   void authenticateUser(String phone, BuildContext context) {
     _authenticateOtp(phone, context);
@@ -20,6 +23,7 @@ class AuthenticationService {
   void signInWithCredentials(
       AuthCredential credentials, String phone, BuildContext context) {
     _auth.signInWithCredential(credentials).then((AuthResult result) {
+      _currentUser = result.user;
       if (phone == null) {
         _buildScopedModel(result, context);
         _navigateToHomeScreen(context);
@@ -128,7 +132,7 @@ class AuthenticationService {
   }
 
   void _linkPhone(AuthCredential credential, BuildContext context) {
-    currentUser.updatePhoneNumberCredential(credential).whenComplete(() =>
+    _currentUser.updatePhoneNumberCredential(credential).whenComplete(() =>
         _navigateToHomeScreen(context)
     );
   }
