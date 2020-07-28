@@ -39,8 +39,12 @@ class AuthenticationService {
     _auth.verifyPhoneNumber(
         phoneNumber: "+1" + phoneNumber,
         timeout: Duration(seconds: 60),
-        verificationCompleted: (AuthCredential creds) {
-          signInWithCredentials(creds, phoneNumber, context);
+        verificationCompleted: (AuthCredential authCredential) {
+          if (isAuthProvider) {
+            _linkPhone(authCredential, context);
+          } else {
+            signInWithCredentials(authCredential, phoneNumber, context);
+          }
         },
         verificationFailed: (AuthException authException) {
           print(authException.message);
@@ -91,35 +95,26 @@ class AuthenticationService {
     String smsCode = _smsCodeController.text.trim();
     AuthCredential authCredential = PhoneAuthProvider.getCredential(
         verificationId: _verificationId, smsCode: smsCode);
-    signInWithCredentials(authCredential, phone, context);
-    _linkPhone(authCredential, context);
-  }
-
-  void _navigateToHomeScreen(BuildContext context) {
-    Navigator.pushReplacement(context, MaterialPageRoute(
-        builder: (context) => SecureHome()
-    ));
-  }
-
-  void _buildScopedModel(AuthResult authResult, BuildContext context) {
-    ScopedModel
-        .of<ActiveUser>(context, rebuildOnChange: true)
-        .phone =
-        authResult.user.phoneNumber.substring(1);
-    ScopedModel
-        .of<ActiveUser>(context, rebuildOnChange: true)
-        .lastLogin =
-        authResult.user.metadata.lastSignInTime.toIso8601String();
+    if (isAuthProvider) {
+      _linkPhone(authCredential, context);
+    } else {
+      signInWithCredentials(authCredential, phone, context);
+    }
   }
 
   void _checkIfUserExists(AuthResult result, String phone,
       BuildContext context) {
     _customerClient.checkPhone(phone).then((userExists) {
-      if (userExists) {
+      if (!userExists) {
+        if (isAuthProvider) {
+          _authenticateOtp(phone, context);
+        } else {
+          _buildScopedModel(result, context);
+          _gatherName(phone, context);
+        }
+      } else {
         _buildScopedModel(result, context);
         _navigateToHomeScreen(context);
-      } else {
-        _gatherName(phone, context);
       }
     });
   }
@@ -132,9 +127,21 @@ class AuthenticationService {
   }
 
   void _linkPhone(AuthCredential credential, BuildContext context) {
-    _currentUser.updatePhoneNumberCredential(credential).whenComplete(() =>
-        _navigateToHomeScreen(context)
-    );
+    _currentUser
+        .updatePhoneNumberCredential(credential)
+        .whenComplete(() => _navigateToHomeScreen(context));
+  }
+
+  void _navigateToHomeScreen(BuildContext context) {
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => SecureHome()));
+  }
+
+  void _buildScopedModel(AuthResult authResult, BuildContext context) {
+    ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone =
+        authResult.user.phoneNumber.substring(1);
+    ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).lastLogin =
+        authResult.user.metadata.lastSignInTime.toIso8601String();
   }
 }
 
