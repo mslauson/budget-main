@@ -1,5 +1,6 @@
 # Miscellaneous
 *.class
+*.lock
 *.log
 *.pyc
 *.swp
@@ -55,4 +56,4 @@ android/app/.settings/org.eclipse.buildship.core.prefs
 /android/app/src/profile/gen/io/blossombudgeting/app/main/Manifest.java
 /android/app/src/debug/gen/io/blossombudgeting/app/main/R.java
 /android/app/src/profile/gen/io/blossombudgeting/app/main/R.java
-/.gitignore
+
