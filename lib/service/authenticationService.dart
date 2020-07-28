@@ -14,32 +14,22 @@ class AuthenticationService {
   FirebaseUser currentUser;
 
   void authenticateUser(String phone, BuildContext context) {
-    _authenticateOtp(phone, true, context);
+    _authenticateOtp(phone, context);
   }
 
-  void otpCredentials(
-      FirebaseUser firebaseUser, String phoneNumber, BuildContext context) {
-    currentUser = firebaseUser;
-    _authenticateOtp(phoneNumber, false, context);
-  }
-
-  void _authenticateOtp(String phoneNumber, bool signIn, BuildContext context) {
+  void _authenticateOtp(String phoneNumber, BuildContext context) {
     _auth.verifyPhoneNumber(
         phoneNumber: "+1" + phoneNumber,
         timeout: Duration(seconds: 60),
         verificationCompleted: (AuthCredential creds) {
-          if (signIn) {
-            _signInWithCredentials(creds, context);
-          } else {
-            _linkPhone(creds, context);
-          }
+          _signInWithCredentials(creds, phoneNumber, context);
         },
         verificationFailed: (AuthException authException) {
           print(authException.message);
         },
         codeSent: (String verificationId, [int forceResendingToken]) {
           _verificationId = verificationId;
-          _showDialogOtp(context, signIn);
+          _showDialogOtp(context, phoneNumber);
         },
         codeAutoRetrievalTimeout: (String verificationId) {
           verificationId = verificationId;
@@ -48,7 +38,10 @@ class AuthenticationService {
         });
   }
 
-  void _showDialogOtp(BuildContext context, bool signIn) async {
+  void _showDialogOtp(
+    BuildContext context,
+    String phone,
+  ) async {
     await showDialog(
         context: context,
         barrierDismissible: false,
@@ -68,7 +61,7 @@ class AuthenticationService {
                   textColor: Colors.white,
                   color: Colors.redAccent,
                   onPressed: () {
-                    _acceptDialog(context, signIn);
+                    _acceptDialog(context, phone);
                   },
                 )
               ],
@@ -76,15 +69,12 @@ class AuthenticationService {
     );
   }
 
-  void _acceptDialog(BuildContext context, bool signIn) {
+  void _acceptDialog(BuildContext context, String phone) {
     String smsCode = _smsCodeController.text.trim();
     AuthCredential authCredential = PhoneAuthProvider.getCredential(
         verificationId: _verificationId, smsCode: smsCode);
-    if (signIn) {
-      _signInWithCredentials(authCredential, context);
-    } else {
-      _linkPhone(authCredential, context);
-    }
+    _signInWithCredentials(authCredential, phone, context);
+    _linkPhone(authCredential, context);
   }
 
   void _navigateToHomeScreen(BuildContext context) {
@@ -100,10 +90,9 @@ class AuthenticationService {
         authResult.user.metadata.lastSignInTime.toIso8601String();
   }
 
-  void _signInWithCredentials(AuthCredential credentials,
-      BuildContext context) {
+  void signInWithCredentials(
+      AuthCredential credentials, String phone, BuildContext context) {
     _auth.signInWithCredential(credentials).then((AuthResult result) {
-      String phone = result.user.phoneNumber.substring(1);
       _customerClient.checkPhone(phone).then((userExists) {
         if (userExists) {
           _buildScopedModel(result, context);
