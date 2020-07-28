@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:main/components/BlossomSignInOption.dart';
 import 'package:main/components/googleAuthService.dart';
+import 'package:main/theme/blossomText.dart';
 import 'package:main/theme/svgPiggy.dart';
 import 'package:main/ui/authenticate/authenticate.dart';
 
@@ -21,13 +22,13 @@ class Splash extends StatelessWidget {
     final GoogleAuthService googleAuthService = new GoogleAuthService();
     return Scaffold(
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SvgPiggy(),
-            const SizedBox(height: 175),
+            const SizedBox(height: 50),
+            Text("Sign up with phone", style: BlossomText.title),
+            const SizedBox(height: 25),
             BlossomSignInOption(
               text: "Continue With Phone",
               button: Buttons.Google,
@@ -38,13 +39,13 @@ class Splash extends StatelessWidget {
                 )
               },
             ),
+            const SizedBox(height: 75),
+            Text("Or continue with", style: BlossomText.largeBody),
+            const SizedBox(height: 25),
             BlossomSignInOption(
               text: "Continue With Google",
               button: Buttons.Google,
-              onPressed: () =>
-              {
-                googleAuthService.attemptAuth(context)
-              },
+              onPressed: () => {googleAuthService.attemptAuth(context)},
             ),
             BlossomSignInOption(
               text: "Continue With Twitter",
