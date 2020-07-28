@@ -3,12 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:main/service/authenticationService.dart';
-import 'package:main/service/registrationService.dart';
 import 'package:main/ui/util/phoneNumberAlert.dart' as phoneNumberAlert;
 
 class GoogleAuthService {
-  RegistrationService _registrationService = new RegistrationService();
-  AuthenticationService _authService = new AuthenticationService();
+  AuthenticationService _authService = new AuthenticationService(true);
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> attemptAuth(BuildContext context) async {

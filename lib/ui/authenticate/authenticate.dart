@@ -13,8 +13,7 @@ class Authenticate extends StatelessWidget {
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
     String phone;
-    AuthenticationService _authService = new AuthenticationService();
-    bool validForm;
+    AuthenticationService _authService = new AuthenticationService(false);
     return Scaffold(
       body: ScopedModelDescendant<ActiveUser>(
           builder: (BuildContext context, Widget child, ActiveUser model) {
