@@ -2,6 +2,8 @@ import 'package:flutter/painting.dart';
 import 'package:main/theme/blossomColors.dart';
 
 class BlossomText {
+  BlossomText._();
+
   static final headline = TextStyle(
     fontFamily: _textGeorgia,
     fontSize: 28,
