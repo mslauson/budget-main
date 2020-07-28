@@ -17,12 +17,26 @@ class AuthenticationService {
     _authenticateOtp(phone, context);
   }
 
+  void signInWithCredentials(
+      AuthCredential credentials, String phone, BuildContext context) {
+    _auth.signInWithCredential(credentials).then((AuthResult result) {
+      if (phone == null) {
+        _buildScopedModel(result, context);
+        _navigateToHomeScreen(context);
+      } else {
+        _checkIfUserExists(result, phone, context);
+      }
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
   void _authenticateOtp(String phoneNumber, BuildContext context) {
     _auth.verifyPhoneNumber(
         phoneNumber: "+1" + phoneNumber,
         timeout: Duration(seconds: 60),
         verificationCompleted: (AuthCredential creds) {
-          _signInWithCredentials(creds, phoneNumber, context);
+          signInWithCredentials(creds, phoneNumber, context);
         },
         verificationFailed: (AuthException authException) {
           print(authException.message);
@@ -73,7 +87,7 @@ class AuthenticationService {
     String smsCode = _smsCodeController.text.trim();
     AuthCredential authCredential = PhoneAuthProvider.getCredential(
         verificationId: _verificationId, smsCode: smsCode);
-    _signInWithCredentials(authCredential, phone, context);
+    signInWithCredentials(authCredential, phone, context);
     _linkPhone(authCredential, context);
   }
 
@@ -84,25 +98,25 @@ class AuthenticationService {
   }
 
   void _buildScopedModel(AuthResult authResult, BuildContext context) {
-    ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone =
+    ScopedModel
+        .of<ActiveUser>(context, rebuildOnChange: true)
+        .phone =
         authResult.user.phoneNumber.substring(1);
-    ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).lastLogin =
+    ScopedModel
+        .of<ActiveUser>(context, rebuildOnChange: true)
+        .lastLogin =
         authResult.user.metadata.lastSignInTime.toIso8601String();
   }
 
-  void signInWithCredentials(
-      AuthCredential credentials, String phone, BuildContext context) {
-    _auth.signInWithCredential(credentials).then((AuthResult result) {
-      _customerClient.checkPhone(phone).then((userExists) {
-        if (userExists) {
-          _buildScopedModel(result, context);
-          _navigateToHomeScreen(context);
-        } else {
-          _gatherName(phone, context);
-        }
-      });
-    }).catchError((e) {
-      print(e);
+  void _checkIfUserExists(AuthResult result, String phone,
+      BuildContext context) {
+    _customerClient.checkPhone(phone).then((userExists) {
+      if (userExists) {
+        _buildScopedModel(result, context);
+        _navigateToHomeScreen(context);
+      } else {
+        _gatherName(phone, context);
+      }
     });
   }
 
