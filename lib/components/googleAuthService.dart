@@ -25,10 +25,10 @@ class GoogleAuthService {
 
     final List<String> signInMethods = await _auth.fetchSignInMethodsForEmail(
         email: googleSignInAccount.email);
-    String phone = await _getPhoneNumber(context);
     if (signInMethods.isEmpty) {
-      await _registrationService.addCustomer(
-          _buildSignUpForm(googleSignInAccount, phone));
+      String phone = await _getPhoneNumber(context);
+      await _registrationService
+          .addCustomer(_buildSignUpForm(googleSignInAccount, phone));
       _authService.signInWithCredentials(credential, phone, context);
     } else {
       _authService.signInWithCredentials(credential, null, context);
