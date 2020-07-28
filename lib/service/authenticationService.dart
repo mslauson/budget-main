@@ -25,7 +25,8 @@ class AuthenticationService {
     _auth.signInWithCredential(credentials).then((AuthResult result) {
       _currentUser = result.user;
       if (phone == null) {
-        _buildScopedModel(result, context);
+        _buildScopedModel(result.user.phoneNumber,
+            result.user.metadata.lastSignInTime.toIso8601String(), context);
         _navigateToHomeScreen(context);
       } else {
         _checkIfUserExists(result, phone, context);
@@ -107,13 +108,26 @@ class AuthenticationService {
     _customerClient.checkPhone(phone).then((userExists) {
       if (!userExists) {
         if (isAuthProvider) {
+          _buildScopedModel(
+              phone,
+              result.user.metadata.lastSignInTime.toIso8601String(),
+              context
+          );
           _authenticateOtp(phone, context);
         } else {
-          _buildScopedModel(result, context);
+          _buildScopedModel(
+              result.user.phoneNumber.substring(1),
+              result.user.metadata.lastSignInTime.toIso8601String(),
+              context
+          );
           _gatherName(phone, context);
         }
       } else {
-        _buildScopedModel(result, context);
+        _buildScopedModel(
+            result.user.phoneNumber.substring(1),
+            result.user.metadata.lastSignInTime.toIso8601String(),
+            context
+        );
         _navigateToHomeScreen(context);
       }
     });
@@ -137,11 +151,16 @@ class AuthenticationService {
         context, MaterialPageRoute(builder: (context) => SecureHome()));
   }
 
-  void _buildScopedModel(AuthResult authResult, BuildContext context) {
-    ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone =
-        authResult.user.phoneNumber.substring(1);
-    ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).lastLogin =
-        authResult.user.metadata.lastSignInTime.toIso8601String();
+  void _buildScopedModel(String phone, String lastSignIn,
+      BuildContext context) {
+    ScopedModel
+        .of<ActiveUser>(context, rebuildOnChange: true)
+        .phone =
+        phone;
+    ScopedModel
+        .of<ActiveUser>(context, rebuildOnChange: true)
+        .lastLogin =
+        lastSignIn;
   }
 }
 
