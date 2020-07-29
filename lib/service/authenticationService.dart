@@ -61,7 +61,7 @@ class AuthenticationService {
           _verificationId = verificationId;
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => OtpScreen()),
+            MaterialPageRoute(builder: (context) => new OtpScreen()),
           );
         },
         codeAutoRetrievalTimeout: (String verificationId) {
