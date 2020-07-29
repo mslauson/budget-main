@@ -74,9 +74,7 @@ class CollectOtp extends StatelessWidget {
           iconData: FontAwesomeIcons.arrowRight,
           onPressed: () =>
           {
-            onSubmit(_controller.text.trim()),
-            _controller.dispose()
-          })
+            onSubmit(_controller.text.trim())})
     ];
   }
 }
