@@ -1,15 +1,17 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:main/components/iconSso.dart';
 import 'package:main/constants/iamConstants.dart';
-import 'package:main/service/authenticationService.dart';
+import 'package:main/screens/splash.dart';
 import 'package:main/theme/blossomText.dart';
-import 'package:main/ui/authenticate/authenticate.dart';
 
-class CollectOtp extends StatelessWidget {
+class CollectPhoneNumber extends StatelessWidget {
   final TextEditingController _controller = new TextEditingController();
-  final AuthenticationService _authenticationService =
-      new AuthenticationService(false, null);
+  final GoogleSignInAccount signInAccount;
+
+  CollectPhoneNumber({Key key, this.signInAccount}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +64,7 @@ class CollectOtp extends StatelessWidget {
           iconData: FontAwesomeIcons.arrowLeft,
           onPressed: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Authenticate()),
+                MaterialPageRoute(builder: (context) => Splash()),
               )),
       Padding(
         padding: EdgeInsets.fromLTRB(45, 0, 45, 0),
