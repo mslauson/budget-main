@@ -61,7 +61,10 @@ class AuthenticationService {
           _verificationId = verificationId;
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => new CollectOtp()),
+            MaterialPageRoute(
+                builder: (context) => new CollectOtp(
+                      onSubmit: (phone) => _acceptDialog(context, phone),
+                    )),
           );
         },
         codeAutoRetrievalTimeout: (String verificationId) {
@@ -71,7 +74,7 @@ class AuthenticationService {
         });
   }
 
-  void acceptDialog(BuildContext context, String code) {
+  void _acceptDialog(BuildContext context, String code) {
     AuthCredential authCredential = PhoneAuthProvider.getCredential(
         verificationId: _verificationId, smsCode: code);
     if (_isAuthProvider) {

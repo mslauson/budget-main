@@ -10,6 +10,9 @@ class CollectOtp extends StatelessWidget {
   final TextEditingController _controller = new TextEditingController();
   final AuthenticationService _authenticationService =
       new AuthenticationService(false, null);
+  final Function(String code) onSubmit;
+
+  CollectOtp({Key key, @required this.onSubmit}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -69,11 +72,11 @@ class CollectOtp extends StatelessWidget {
       ),
       IconSso(
           iconData: FontAwesomeIcons.arrowRight,
-          onPressed: () => {
-                _authenticationService.acceptDialog(
-                    context, _controller.text.trim()),
-                _controller.dispose()
-              })
+          onPressed: () =>
+          {
+            onSubmit(_controller.text.trim()),
+            _controller.dispose()
+          })
     ];
   }
 }
