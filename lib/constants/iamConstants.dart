@@ -52,6 +52,6 @@ class IAMConstants {
   static const String USERNAME_TAKEN_KEY = "userNameTaken";
 
   static const String OTP_SCREEN_HEADER =
-      "Please Enter The Code Sent To Your Phone";
+      "Please Enter The Code\nSent To Your Phone";
   static const String OTP_TXT_DECORATION = "Code";
 }
