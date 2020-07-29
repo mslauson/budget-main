@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:main/client/customerClient.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/iam/signUpForm.dart';
+import 'package:main/screens/CollectOtp.dart';
 import 'package:main/screens/newUserFullName.dart';
-import 'package:main/screens/otpScreen.dart';
 import 'package:main/service/registrationService.dart';
 import 'package:main/ui/secureHome/secureHome.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -61,7 +61,7 @@ class AuthenticationService {
           _verificationId = verificationId;
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => new OtpScreen()),
+            MaterialPageRoute(builder: (context) => new CollectOtp()),
           );
         },
         codeAutoRetrievalTimeout: (String verificationId) {

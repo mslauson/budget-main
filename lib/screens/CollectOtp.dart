@@ -6,7 +6,7 @@ import 'package:main/service/authenticationService.dart';
 import 'package:main/theme/blossomText.dart';
 import 'package:main/ui/authenticate/authenticate.dart';
 
-class OtpScreen extends StatelessWidget {
+class CollectOtp extends StatelessWidget {
   final TextEditingController _controller = new TextEditingController();
   final AuthenticationService _authenticationService =
       new AuthenticationService(false, null);
