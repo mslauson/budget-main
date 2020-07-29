@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:main/client/customerClient.dart';
 import 'package:main/models/global/activeUser.dart';
+import 'package:main/models/iam/signUpForm.dart';
 import 'package:main/screens/newUserFullName.dart';
+import 'package:main/service/registrationService.dart';
 import 'package:main/ui/secureHome/secureHome.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -11,10 +13,12 @@ class AuthenticationService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final _smsCodeController = TextEditingController();
   final CustomerClient _customerClient = new CustomerClient();
+  final RegistrationService _registrationService = new RegistrationService();
   final bool isAuthProvider;
+  final SignUpForm _signUpForm;
   FirebaseUser _currentUser;
 
-  AuthenticationService(this.isAuthProvider);
+  AuthenticationService(this.isAuthProvider, this._signUpForm);
 
   void authenticateUser(String phone, BuildContext context) {
     _authenticateOtp(phone, context);
@@ -105,7 +109,7 @@ class AuthenticationService {
 
   void _checkIfUserExists(AuthResult result, String phone,
       BuildContext context) {
-    _customerClient.checkPhone(phone).then((userExists) {
+    _customerClient.checkPhone(phone).then((userExists) async {
       if (!userExists) {
         if (isAuthProvider) {
           _buildScopedModel(
@@ -113,6 +117,8 @@ class AuthenticationService {
               result.user.metadata.lastSignInTime.toIso8601String(),
               context
           );
+          await _registrationService
+              .addCustomer(_signUpForm);
           _authenticateOtp(phone, context);
         } else {
           _buildScopedModel(

@@ -9,7 +9,7 @@ import 'package:main/ui/util/phoneNumberAlert.dart' as phoneNumberAlert;
 
 class GoogleAuthService {
   RegistrationService _registrationService = new RegistrationService();
-  AuthenticationService _authService = new AuthenticationService(true);
+  AuthenticationService _authService;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> attemptAuth(BuildContext context) async {
@@ -27,10 +27,11 @@ class GoogleAuthService {
         email: googleSignInAccount.email);
     if (signInMethods.isEmpty) {
       String phone = await _getPhoneNumber(context);
-      await _registrationService
-          .addCustomer(_buildSignUpForm(googleSignInAccount, phone));
+      _authService = new AuthenticationService(
+          true, _buildSignUpForm(googleSignInAccount, phone));
       _authService.signInWithCredentials(credential, phone, context);
     } else {
+      _authService = new AuthenticationService(true, null);
       _authService.signInWithCredentials(credential, null, context);
     }
   }
