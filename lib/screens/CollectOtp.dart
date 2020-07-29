@@ -50,7 +50,7 @@ class CollectOtp extends StatelessWidget {
 
   _validator(String val) {
     if (val.length == 0) {
-      return "Code cannot be empty";
+      return IAMConstants.INVALID_OTP;
     } else {
       return null;
     }

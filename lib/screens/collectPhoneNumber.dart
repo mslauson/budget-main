@@ -10,8 +10,10 @@ import 'package:main/theme/blossomText.dart';
 class CollectPhoneNumber extends StatelessWidget {
   final TextEditingController _controller = new TextEditingController();
   final GoogleSignInAccount signInAccount;
+  final Function(String phone) onSubmitted;
 
-  CollectPhoneNumber({Key key, this.signInAccount}) : super(key: key);
+  CollectPhoneNumber({Key key, this.signInAccount, this.onSubmitted})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class CollectPhoneNumber extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const SizedBox(height: 50),
-              Text(IAMConstants.OTP_SCREEN_HEADER, style: BlossomText.title),
+              Text(IAMConstants.PHONE_HINT, style: BlossomText.title),
               const SizedBox(height: 25),
               new TextFormField(
                   decoration: new InputDecoration(
@@ -52,7 +54,7 @@ class CollectPhoneNumber extends StatelessWidget {
 
   _validator(String val) {
     if (val.length == 0) {
-      return "Code cannot be empty";
+      return IAMConstants.INVALID_PHONE;
     } else {
       return null;
     }
@@ -72,10 +74,8 @@ class CollectPhoneNumber extends StatelessWidget {
       IconSso(
           iconData: FontAwesomeIcons.arrowRight,
           onPressed: () => {
-                _authenticationService.acceptDialog(
-                    context, _controller.text.trim()),
-                _controller.dispose()
-              })
+            onSubmitted(_controller.text)})
     ];
   }
+
 }
