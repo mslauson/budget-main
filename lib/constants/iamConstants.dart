@@ -51,5 +51,7 @@ class IAMConstants {
   //Response values
   static const String USERNAME_TAKEN_KEY = "userNameTaken";
 
-  static const String FIREBASE_PROJECT = "budget-267523";
+  static const String OTP_SCREEN_HEADER =
+      "Please Enter The Code Sent To Your Phone";
+  static const String OTP_TXT_DECORATION = "Code";
 }
