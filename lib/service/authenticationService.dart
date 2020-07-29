@@ -12,7 +12,6 @@ import 'package:scoped_model/scoped_model.dart';
 class AuthenticationService {
   String _verificationId;
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final _smsCodeController = TextEditingController();
   final CustomerClient _customerClient = new CustomerClient();
   final RegistrationService _registrationService = new RegistrationService();
   final bool _isAuthProvider;
