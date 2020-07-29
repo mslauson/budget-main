@@ -1,27 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:main/components/iconSso.dart';
+import 'package:main/constants/iamConstants.dart';
 import 'package:main/theme/blossomText.dart';
 import 'package:main/theme/svgPiggy.dart';
 import 'package:main/ui/authenticate/authenticate.dart';
 
 class OtpScreen extends StatelessWidget {
-
-  final String prompt;
-  final String txtLabel;
   final TextEditingController controller = new TextEditingController();
-
-  OtpScreen(this.prompt, this.txtLabel);
-
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       body: Center(
         child: Column(
@@ -29,11 +18,11 @@ class OtpScreen extends StatelessWidget {
           children: <Widget>[
             SvgPiggy(),
             const SizedBox(height: 50),
-            Text(prompt, style: BlossomText.title),
+            Text(IAMConstants.OTP_SCREEN_HEADER, style: BlossomText.title),
             const SizedBox(height: 25),
             new TextFormField(
                 decoration: new InputDecoration(
-                  labelText: txtLabel,
+                  labelText: IAMConstants.OTP_TXT_DECORATION,
                   fillColor: Colors.white,
                   border: new OutlineInputBorder(
                     borderRadius: new BorderRadius.circular(25.0),
