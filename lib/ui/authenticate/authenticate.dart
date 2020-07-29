@@ -40,8 +40,7 @@ class Authenticate extends StatelessWidget {
                       child: TextFormField(
                         initialValue: '',
                         keyboardType: TextInputType.phone,
-                        onSaved: (val) =>
-                        phone = val.trim(),
+                        onSaved: (val) => phone = "+1" + val.trim(),
                         decoration: InputDecoration(
                           labelText: IAMConstants.PHONE,
                           icon: Icon(Icons.phone),

@@ -14,11 +14,11 @@ class AuthenticationService {
   final _smsCodeController = TextEditingController();
   final CustomerClient _customerClient = new CustomerClient();
   final RegistrationService _registrationService = new RegistrationService();
-  final bool isAuthProvider;
+  final bool _isAuthProvider;
   final SignUpForm _signUpForm;
   FirebaseUser _currentUser;
 
-  AuthenticationService(this.isAuthProvider, this._signUpForm);
+  AuthenticationService(this._isAuthProvider, this._signUpForm);
 
   void authenticateUser(String phone, BuildContext context) {
     _authenticateOtp(phone, context);
@@ -29,7 +29,7 @@ class AuthenticationService {
     _auth.signInWithCredential(credentials).then((AuthResult result) {
       _currentUser = result.user;
       if (phone == null) {
-        _buildScopedModel(result.user.phoneNumber,
+        _buildScopedModel(result.user.phoneNumber.substring(1),
             result.user.metadata.lastSignInTime.toIso8601String(), context);
         _navigateToHomeScreen(context);
       } else {
@@ -42,10 +42,10 @@ class AuthenticationService {
 
   void _authenticateOtp(String phoneNumber, BuildContext context) {
     _auth.verifyPhoneNumber(
-        phoneNumber: "+1" + phoneNumber,
+        phoneNumber: phoneNumber,
         timeout: Duration(seconds: 60),
         verificationCompleted: (AuthCredential authCredential) {
-          if (isAuthProvider) {
+          if (_isAuthProvider) {
             _linkPhone(authCredential, context);
           } else {
             signInWithCredentials(authCredential, phoneNumber, context);
@@ -100,7 +100,7 @@ class AuthenticationService {
     String smsCode = _smsCodeController.text.trim();
     AuthCredential authCredential = PhoneAuthProvider.getCredential(
         verificationId: _verificationId, smsCode: smsCode);
-    if (isAuthProvider) {
+    if (_isAuthProvider) {
       _linkPhone(authCredential, context);
     } else {
       signInWithCredentials(authCredential, phone, context);
@@ -111,18 +111,13 @@ class AuthenticationService {
       BuildContext context) {
     _customerClient.checkPhone(phone).then((userExists) async {
       if (!userExists) {
-        if (isAuthProvider) {
-          _buildScopedModel(
-              phone,
-              result.user.metadata.lastSignInTime.toIso8601String(),
-              context
-          );
-          await _registrationService
-              .addCustomer(_signUpForm);
+        if (_isAuthProvider) {
+          _buildScopedModel(phone,
+              result.user.metadata.lastSignInTime.toIso8601String(), context);
+          await _registrationService.addCustomer(_signUpForm);
           _authenticateOtp(phone, context);
         } else {
-          _buildScopedModel(
-              result.user.phoneNumber.substring(1),
+          _buildScopedModel(result.user.phoneNumber.substring(1),
               result.user.metadata.lastSignInTime.toIso8601String(),
               context
           );
