@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:main/components/iconSso.dart';
 import 'package:main/constants/iamConstants.dart';
+import 'package:main/service/authenticationService.dart';
 import 'package:main/theme/blossomText.dart';
 import 'package:main/theme/svgPiggy.dart';
 import 'package:main/ui/authenticate/authenticate.dart';
 
 class OtpScreen extends StatelessWidget {
   final TextEditingController _controller = new TextEditingController();
+  final AuthenticationService _authenticationService =
+      new AuthenticationService(false, null);
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +67,8 @@ class OtpScreen extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => Authenticate()),
               )),
       IconSso(iconData: FontAwesomeIcons.arrowLeft,
-          onPressed: () =>)
+          onPressed: () =>
+              _authenticationService.acceptDialog(context, phone, code))
     ];
   }
 }

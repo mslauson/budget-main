@@ -4,6 +4,7 @@ import 'package:main/client/customerClient.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/iam/signUpForm.dart';
 import 'package:main/screens/newUserFullName.dart';
+import 'package:main/screens/otpScreen.dart';
 import 'package:main/service/registrationService.dart';
 import 'package:main/ui/secureHome/secureHome.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -17,10 +18,12 @@ class AuthenticationService {
   final bool _isAuthProvider;
   final SignUpForm _signUpForm;
   FirebaseUser _currentUser;
+  String _otpPhone;
 
   AuthenticationService(this._isAuthProvider, this._signUpForm);
 
   void authenticateUser(String phone, BuildContext context) {
+    _otpPhone = phone;
     _authenticateOtp(phone, context);
   }
 
@@ -56,7 +59,10 @@ class AuthenticationService {
         },
         codeSent: (String verificationId, [int forceResendingToken]) {
           _verificationId = verificationId;
-          _showDialogOtp(context, phoneNumber);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => OtpScreen()),
+          );
         },
         codeAutoRetrievalTimeout: (String verificationId) {
           verificationId = verificationId;
@@ -88,7 +94,7 @@ class AuthenticationService {
                   textColor: Colors.white,
                   color: Colors.redAccent,
                   onPressed: () {
-                    _acceptDialog(context, phone);
+                    acceptDialog(context, phone);
                   },
                 )
               ],
@@ -96,10 +102,9 @@ class AuthenticationService {
     );
   }
 
-  void _acceptDialog(BuildContext context, String phone) {
-    String smsCode = _smsCodeController.text.trim();
+  void acceptDialog(BuildContext context, String code) {
     AuthCredential authCredential = PhoneAuthProvider.getCredential(
-        verificationId: _verificationId, smsCode: smsCode);
+        verificationId: _verificationId, smsCode: code);
     if (_isAuthProvider) {
       _linkPhone(authCredential, context);
     } else {
