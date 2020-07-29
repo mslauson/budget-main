@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:main/components/iconSso.dart';
 import 'package:main/constants/iamConstants.dart';
 import 'package:main/screens/splash.dart';
@@ -9,11 +8,9 @@ import 'package:main/theme/blossomText.dart';
 
 class CollectPhoneNumber extends StatelessWidget {
   final TextEditingController _controller = new TextEditingController();
-  final GoogleSignInAccount signInAccount;
   final Function(String phone) onSubmitted;
 
-  CollectPhoneNumber({Key key, this.signInAccount, this.onSubmitted})
-      : super(key: key);
+  CollectPhoneNumber({Key key, @required this.onSubmitted}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
