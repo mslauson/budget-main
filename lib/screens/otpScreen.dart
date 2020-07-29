@@ -4,7 +4,6 @@ import 'package:main/components/iconSso.dart';
 import 'package:main/constants/iamConstants.dart';
 import 'package:main/service/authenticationService.dart';
 import 'package:main/theme/blossomText.dart';
-import 'package:main/theme/svgPiggy.dart';
 import 'package:main/ui/authenticate/authenticate.dart';
 
 class OtpScreen extends StatelessWidget {
@@ -16,32 +15,34 @@ class OtpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SvgPiggy(),
-            const SizedBox(height: 50),
-            Text(IAMConstants.OTP_SCREEN_HEADER, style: BlossomText.title),
-            const SizedBox(height: 25),
-            new TextFormField(
-                decoration: new InputDecoration(
-                  labelText: IAMConstants.OTP_TXT_DECORATION,
-                  fillColor: Colors.white,
-                  border: new OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(25.0),
-                    borderSide: new BorderSide(),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const SizedBox(height: 50),
+              Text(IAMConstants.OTP_SCREEN_HEADER, style: BlossomText.title),
+              const SizedBox(height: 25),
+              new TextFormField(
+                  decoration: new InputDecoration(
+                    labelText: IAMConstants.OTP_TXT_DECORATION,
+                    fillColor: Colors.white,
+                    border: new OutlineInputBorder(
+                      borderRadius: new BorderRadius.circular(25.0),
+                      borderSide: new BorderSide(),
+                    ),
                   ),
-                ),
-                controller: _controller,
-                validator: (val) => _validator(val),
-                keyboardType: TextInputType.number,
-                style: BlossomText.secondaryBody),
-            const SizedBox(height: 25),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: _buildButtons(context),
-            )
-          ],
+                  controller: _controller,
+                  validator: (val) => _validator(val),
+                  keyboardType: TextInputType.number,
+                  style: BlossomText.body),
+              const SizedBox(height: 25),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: _buildButtons(context),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -63,8 +64,11 @@ class OtpScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(builder: (context) => Authenticate()),
               )),
+      Padding(
+        padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+      ),
       IconSso(
-          iconData: FontAwesomeIcons.arrowLeft,
+          iconData: FontAwesomeIcons.arrowRight,
           onPressed: () => {
                 _authenticationService.acceptDialog(
                     context, _controller.text.trim()),
