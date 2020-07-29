@@ -23,7 +23,8 @@ class IAMConstants {
   static const String MIDDLE_INITIAL_HINT =
       "Please enter your middle initial (Optional)";
   static const String LAST_NAME_HINT = "Please enter your last name";
-  static const String PHONE_HINT = "Please enter your phone number";
+  static const String PHONE_HINT =
+      "Please Provide Blossom With\nYour Phone Number";
   static const String EMAIL_ADDRESS_HINT = "Please enter your email address";
   static const String PASSWORD_HINT = "Please choose a password";
 

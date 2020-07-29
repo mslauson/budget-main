@@ -26,7 +26,7 @@ class CollectPhoneNumber extends StatelessWidget {
               const SizedBox(height: 25),
               new TextFormField(
                   decoration: new InputDecoration(
-                    labelText: IAMConstants.OTP_TXT_DECORATION,
+                    labelText: IAMConstants.PHONE,
                     fillColor: Colors.white,
                     border: new OutlineInputBorder(
                       borderRadius: new BorderRadius.circular(25.0),
@@ -70,8 +70,7 @@ class CollectPhoneNumber extends StatelessWidget {
       ),
       IconSso(
           iconData: FontAwesomeIcons.arrowRight,
-          onPressed: () => {
-            onSubmitted(_controller.text)})
+          onPressed: () => {onSubmitted("+1" + _controller.text)})
     ];
   }
 

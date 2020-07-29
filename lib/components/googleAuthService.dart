@@ -25,38 +25,42 @@ class GoogleAuthService {
     final List<String> signInMethods = await _auth.fetchSignInMethodsForEmail(
         email: _googleSignInAccount.email);
     if (signInMethods.isEmpty) {
-      String phone = await _getPhoneNumber(context);
-      _authService = new AuthenticationService(true, _buildSignUpForm(phone));
-      _authService.signInWithCredentials(credential, phone, context);
+      _getPhoneNumber(credential, context);
     } else {
       _authService = new AuthenticationService(true, null);
       _authService.signInWithCredentials(credential, null, context);
     }
   }
 
-  Future<String> _getPhoneNumber(BuildContext context) async {
-    return Navigator.push(
+  void _getPhoneNumber(AuthCredential credential, BuildContext context) {
+    Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) =>
-          CollectPhoneNumber(onSubmitted: (String phone) {
-            _buildSignUpForm(phone);
-          },)),
+      MaterialPageRoute(
+          builder: (context) => CollectPhoneNumber(
+                onSubmitted: (String val) {
+                  String phone = val.trim();
+                  _authService =
+                      new AuthenticationService(true, _buildSignUpForm(phone));
+                  _authService.signInWithCredentials(
+                      credential, phone, context);
+                },
+              )),
     );
   }
 
-  SignUpForm _buildSignUpForm(String phoneNumber) {
+  SignUpForm _buildSignUpForm(String phone) {
     if (_googleSignInAccount.displayName.indexOf(" ") > 0) {
       List<String> names = _googleSignInAccount.displayName.split(" ");
       return new SignUpForm(
           firstName: names[0],
           lastName: names[1],
           emailAddress: _googleSignInAccount.email,
-          phone: phoneNumber);
+          phone: phone);
     } else {
       return new SignUpForm(
           firstName: _googleSignInAccount.displayName,
           emailAddress: _googleSignInAccount.email,
-          phone: phoneNumber);
+          phone: phone);
     }
   }
 
