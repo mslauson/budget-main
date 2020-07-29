@@ -35,8 +35,7 @@ class OtpScreen extends StatelessWidget {
                 controller: _controller,
                 validator: (val) => _validator(val),
                 keyboardType: TextInputType.number,
-                style: BlossomText.secondaryBody
-            ),
+                style: BlossomText.secondaryBody),
             const SizedBox(height: 25),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -51,8 +50,7 @@ class OtpScreen extends StatelessWidget {
   _validator(String val) {
     if (val.length == 0) {
       return "Value cannot be empty";
-    }
-    else {
+    } else {
       return null;
     }
   }
@@ -61,14 +59,17 @@ class OtpScreen extends StatelessWidget {
     return <Widget>[
       IconSso(
           iconData: FontAwesomeIcons.arrowLeft,
-          onPressed: () =>
-              Navigator.push(
+          onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => Authenticate()),
               )),
-      IconSso(iconData: FontAwesomeIcons.arrowLeft,
-          onPressed: () =>
-              _authenticationService.acceptDialog(context, phone, code))
+      IconSso(
+          iconData: FontAwesomeIcons.arrowLeft,
+          onPressed: () => {
+                _authenticationService.acceptDialog(
+                    context, _controller.text.trim()),
+                _controller.dispose()
+              })
     ];
   }
 }

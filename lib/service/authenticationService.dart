@@ -36,6 +36,7 @@ class AuthenticationService {
             result.user.metadata.lastSignInTime.toIso8601String(), context);
         _navigateToHomeScreen(context);
       } else {
+        _otpPhone = phone;
         _checkIfUserExists(result, phone.substring(1), context);
       }
     }).catchError((e) {
@@ -71,44 +72,13 @@ class AuthenticationService {
         });
   }
 
-  void _showDialogOtp(
-    BuildContext context,
-    String phone,
-  ) async {
-    await showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => AlertDialog(
-              title: Text("Enter SMS Code"),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  TextField(
-                    controller: _smsCodeController,
-                  ),
-                ],
-              ),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text("Done"),
-                  textColor: Colors.white,
-                  color: Colors.redAccent,
-                  onPressed: () {
-                    acceptDialog(context, phone);
-                  },
-                )
-              ],
-            )
-    );
-  }
-
   void acceptDialog(BuildContext context, String code) {
     AuthCredential authCredential = PhoneAuthProvider.getCredential(
         verificationId: _verificationId, smsCode: code);
     if (_isAuthProvider) {
       _linkPhone(authCredential, context);
     } else {
-      signInWithCredentials(authCredential, phone, context);
+      signInWithCredentials(authCredential, _otpPhone, context);
     }
   }
 
