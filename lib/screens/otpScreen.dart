@@ -7,7 +7,7 @@ import 'package:main/theme/svgPiggy.dart';
 import 'package:main/ui/authenticate/authenticate.dart';
 
 class OtpScreen extends StatelessWidget {
-  final TextEditingController controller = new TextEditingController();
+  final TextEditingController _controller = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -29,22 +29,15 @@ class OtpScreen extends StatelessWidget {
                     borderSide: new BorderSide(),
                   ),
                 ),
-                controller: controller,
-                validator: (val) {
-                  if (val.length == 0) {
-                    return "Value cannot be empty";
-                  }
-                  else {
-                    return null;
-                  }
-                },
+                controller: _controller,
+                validator: (val) => _validator(val),
                 keyboardType: TextInputType.number,
                 style: BlossomText.secondaryBody
             ),
             const SizedBox(height: 25),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: _buildSsoOptions(context),
+              children: _buildButtons(context),
             )
           ],
         ),
@@ -52,7 +45,16 @@ class OtpScreen extends StatelessWidget {
     );
   }
 
-  _buildSsoOptions(BuildContext context) {
+  _validator(String val) {
+    if (val.length == 0) {
+      return "Value cannot be empty";
+    }
+    else {
+      return null;
+    }
+  }
+
+  _buildButtons(BuildContext context) {
     return <Widget>[
       IconSso(
           iconData: FontAwesomeIcons.arrowLeft,
