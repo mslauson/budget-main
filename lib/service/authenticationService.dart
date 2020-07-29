@@ -33,7 +33,7 @@ class AuthenticationService {
             result.user.metadata.lastSignInTime.toIso8601String(), context);
         _navigateToHomeScreen(context);
       } else {
-        _checkIfUserExists(result, phone, context);
+        _checkIfUserExists(result, phone.substring(1), context);
       }
     }).catchError((e) {
       print(e);
