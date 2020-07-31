@@ -4,7 +4,7 @@ import 'package:main/client/customerClient.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/iam/signUpForm.dart';
 import 'package:main/screens/CollectOtp.dart';
-import 'package:main/screens/newUserFullName.dart';
+import 'package:main/screens/collectUserInfoScreen.dart';
 import 'package:main/ui/secureHome/secureHome.dart';
 import 'package:scoped_model/scoped_model.dart';
 
