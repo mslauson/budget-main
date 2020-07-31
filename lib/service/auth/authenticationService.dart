@@ -5,9 +5,10 @@ import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/iam/signUpForm.dart';
 import 'package:main/screens/CollectOtp.dart';
 import 'package:main/screens/newUserFullName.dart';
-import 'package:main/service/registrationService.dart';
 import 'package:main/ui/secureHome/secureHome.dart';
 import 'package:scoped_model/scoped_model.dart';
+
+import 'registrationService.dart';
 
 class AuthenticationService {
   String _verificationId;

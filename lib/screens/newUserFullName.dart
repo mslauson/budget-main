@@ -5,7 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/iam/signUpForm.dart';
 import 'package:main/screens/splash.dart';
-import 'package:main/service/registrationService.dart';
+import 'package:main/service/auth/registrationService.dart';
 import 'package:main/ui/secureHome/secureHome.dart';
 import 'package:main/util/formUtils.dart';
 import 'package:scoped_model/scoped_model.dart';

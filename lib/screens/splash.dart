@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:main/components/googleAuthService.dart';
 import 'package:main/components/iconSso.dart';
 import 'package:main/components/outlineActionButton.dart';
+import 'package:main/service/auth/googleAuthService.dart';
 import 'package:main/theme/blossomText.dart';
 import 'package:main/theme/svgPiggy.dart';
 import 'package:main/ui/authenticate/authenticate.dart';

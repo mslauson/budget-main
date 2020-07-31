@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:main/models/iam/signUpForm.dart';
 import 'package:main/screens/collectPhoneNumber.dart';
-import 'package:main/service/authenticationService.dart';
+
+import 'authenticationService.dart';
 
 class GoogleAuthService {
   AuthenticationService _authService;
