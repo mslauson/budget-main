@@ -121,5 +121,6 @@ class CollectUserInfoScreen extends StatelessWidget {
     signUpForm.emailAddress = _emailController.text.trim();
     signUpForm.firstName = names[0];
     signUpForm.lastName = names[1];
+    return signUpForm;
   }
 }
