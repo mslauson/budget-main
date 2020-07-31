@@ -26,6 +26,8 @@ class Splash extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Text("Blossom", style: BlossomText.headline),
+            const SizedBox(height: 50),
             SvgPiggy(),
             const SizedBox(height: 50),
             Text("Sign up with phone", style: BlossomText.title),
