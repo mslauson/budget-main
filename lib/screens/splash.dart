@@ -56,10 +56,15 @@ class Splash extends StatelessWidget {
   _buildSsoOptions(BuildContext context) {
     return <Widget>[
       IconSso(
-          iconData: FontAwesomeIcons.google,
-          onPressed: () => GoogleAuthService().attemptAuth(context)),
-      IconSso(iconData: FontAwesomeIcons.twitter),
-      IconSso(iconData: FontAwesomeIcons.facebookF)
+        iconData: FontAwesomeIcons.google,
+        onPressed: () => GoogleAuthService().attemptAuth(context),
+      ),
+      IconSso(
+        iconData: FontAwesomeIcons.twitter,
+      ),
+      IconSso(
+        iconData: FontAwesomeIcons.facebookF,
+      )
     ];
   }
 }
