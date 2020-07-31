@@ -63,9 +63,10 @@ class AuthenticationService {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => new CollectOtp(
-                      onSubmit: (phone) => _acceptDialog(context, phone),
-                    )),
+                builder: (context) =>
+                new CollectOtp(
+                  onSubmit: (phone) => _acceptDialog(context, phone),
+                )),
           );
         },
         codeAutoRetrievalTimeout: (String verificationId) {
@@ -99,7 +100,7 @@ class AuthenticationService {
               result.user.metadata.lastSignInTime.toIso8601String(),
               context
           );
-          _gatherName(phone, context);
+          _gatherFinalInfo(phone, context);
         }
       } else {
         _buildScopedModel(
@@ -112,11 +113,19 @@ class AuthenticationService {
     });
   }
 
-  void _gatherName(String phone, BuildContext context) {
+  void _gatherFinalInfo(String phone, BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => CollectUserInfoScreen(phone: phone)),
+          builder: (context) =>
+              CollectUserInfoScreen(
+                phone: phone,
+                onSubmit: (SignUpForm signUpForm) async =>
+                {
+                  await _registrationService.addCustomer(signUpForm),
+                  _linkEmail(signUpForm.emailAddress, context)
+                },
+              )),
     );
   }
 
@@ -124,6 +133,12 @@ class AuthenticationService {
     _currentUser
         .updatePhoneNumberCredential(credential)
         .whenComplete(() => _navigateToHomeScreen(context));
+  }
+
+  void _linkEmail(String email,
+      BuildContext context) {
+    _currentUser.updateEmail(email).whenComplete(() =>
+        _navigateToHomeScreen(context));
   }
 
   void _navigateToHomeScreen(BuildContext context) {
