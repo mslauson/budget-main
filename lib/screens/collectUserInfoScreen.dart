@@ -27,11 +27,12 @@ class CollectUserInfoScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const SizedBox(height: 50),
-              Text(IAMConstants.OTP_SCREEN_HEADER, style: BlossomText.title),
+              Text(IAMConstants.FINAL_COLLECTION_HEADER,
+                  style: BlossomText.title),
               const SizedBox(height: 25),
               TextFormField(
                   decoration: new InputDecoration(
-                    labelText: IAMConstants.OTP_TXT_DECORATION,
+                    labelText: IAMConstants.FULL_NAME_DECORATION,
                     fillColor: Colors.white,
                     border: new OutlineInputBorder(
                       borderRadius: new BorderRadius.circular(25.0),
@@ -45,7 +46,7 @@ class CollectUserInfoScreen extends StatelessWidget {
               const SizedBox(height: 25),
               TextFormField(
                   decoration: new InputDecoration(
-                    labelText: IAMConstants.OTP_TXT_DECORATION,
+                    labelText: IAMConstants.EMAIL_DECORATION,
                     fillColor: Colors.white,
                     border: new OutlineInputBorder(
                       borderRadius: new BorderRadius.circular(25.0),
