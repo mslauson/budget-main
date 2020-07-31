@@ -8,12 +8,12 @@ import 'package:main/constants/iamConstants.dart';
 import 'package:main/theme/blossomText.dart';
 import 'package:main/ui/authenticate/authenticate.dart';
 
-class NewUserFullName extends StatelessWidget {
+class CollectUserInfoScreen extends StatelessWidget {
   final String phone;
   final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
 
-  NewUserFullName({this.phone});
+  CollectUserInfoScreen({this.phone});
 
   @override
   Widget build(BuildContext context) {
