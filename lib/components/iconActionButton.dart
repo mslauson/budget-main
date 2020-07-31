@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class IconSso extends StatelessWidget {
+class IconActionButton extends StatelessWidget {
   final color;
   final iconData;
   final onPressed;
 
-  IconSso({Key key, this.color, @required this.iconData, this.onPressed})
+  IconActionButton(
+      {Key key, this.color, @required this.iconData, this.onPressed})
       : super(key: key);
 
   @override

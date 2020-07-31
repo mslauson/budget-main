@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:main/components/iconSso.dart';
+import 'package:main/components/iconActionButton.dart';
 import 'package:main/constants/iamConstants.dart';
 import 'package:main/service/auth/authenticationService.dart';
 import 'package:main/theme/blossomText.dart';
@@ -61,7 +61,7 @@ class CollectOtp extends StatelessWidget {
 
   _buildButtons(BuildContext context) {
     return <Widget>[
-      IconSso(
+      IconActionButton(
           iconData: FontAwesomeIcons.arrowLeft,
           onPressed: () => Navigator.push(
                 context,
@@ -70,7 +70,7 @@ class CollectOtp extends StatelessWidget {
       Padding(
         padding: EdgeInsets.fromLTRB(45, 0, 45, 0),
       ),
-      IconSso(
+      IconActionButton(
           iconData: FontAwesomeIcons.arrowRight,
           onPressed: () =>
           {
