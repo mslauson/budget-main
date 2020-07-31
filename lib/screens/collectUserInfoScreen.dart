@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:main/components/iconActionButton.dart';
 import 'package:main/constants/iamConstants.dart';
+import 'package:main/models/iam/signUpForm.dart';
 import 'package:main/theme/blossomText.dart';
 import 'package:main/ui/authenticate/authenticate.dart';
 
@@ -12,8 +13,9 @@ class CollectUserInfoScreen extends StatelessWidget {
   final String phone;
   final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  final Function(SignUpForm signUpForm) onSubmit;
 
-  CollectUserInfoScreen({this.phone});
+  CollectUserInfoScreen({this.phone, @required this.onSubmit});
 
   @override
   Widget build(BuildContext context) {
@@ -83,9 +85,8 @@ class CollectUserInfoScreen extends StatelessWidget {
       ),
       IconActionButton(
           iconData: FontAwesomeIcons.arrowRight,
-          onPressed: () => {
-//            onSubmit(_controller.text.trim())
-              })
+          onPressed: () =>
+          {onSubmit(_buildSignUpForm())})
     ];
   }
 
@@ -110,5 +111,14 @@ class CollectUserInfoScreen extends StatelessWidget {
     } else {
       return null;
     }
+  }
+
+  SignUpForm _buildSignUpForm() {
+    List<String> names = _fullNameController.text.trim().split(" ");
+    SignUpForm signUpForm = new SignUpForm();
+    signUpForm.phone = phone;
+    signUpForm.emailAddress = _emailController.text.trim();
+    signUpForm.firstName = names[0];
+    signUpForm.lastName = names[1];
   }
 }
