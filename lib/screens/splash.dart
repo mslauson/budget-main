@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:main/components/blossomSignInOption.dart';
 import 'package:main/components/googleAuthService.dart';
 import 'package:main/components/iconSso.dart';
+import 'package:main/components/outlineActionButton.dart';
 import 'package:main/theme/blossomText.dart';
 import 'package:main/theme/svgPiggy.dart';
 import 'package:main/ui/authenticate/authenticate.dart';
@@ -15,12 +14,6 @@ class Splash extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       body: Center(
         child: Column(
@@ -30,11 +23,8 @@ class Splash extends StatelessWidget {
             const SizedBox(height: 50),
             SvgPiggy(),
             const SizedBox(height: 50),
-            Text("Sign up with phone", style: BlossomText.title),
-            const SizedBox(height: 25),
-            BlossomSignInOption(
-              text: "Continue With Phone",
-              button: Buttons.Google,
+            OutlineActionButton(
+              text: "Sign in with Phone",
               onPressed: () => {
                 Navigator.push(
                   context,
@@ -42,7 +32,7 @@ class Splash extends StatelessWidget {
                 )
               },
             ),
-            const SizedBox(height: 75),
+            const SizedBox(height: 50),
             Text("Or continue with", style: BlossomText.largeBody),
             const SizedBox(height: 25),
             Row(
