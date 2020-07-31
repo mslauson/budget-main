@@ -42,7 +42,7 @@ class Authenticate extends StatelessWidget {
                         keyboardType: TextInputType.phone,
                         onSaved: (val) => phone = "+1" + val.trim(),
                         decoration: InputDecoration(
-                          labelText: IAMConstants.PHONE,
+                          labelText: IAMConstants.PHONE_DECORATION,
                           icon: Icon(Icons.phone),
                           isDense: true,
                         ),

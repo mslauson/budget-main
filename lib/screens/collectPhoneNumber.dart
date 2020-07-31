@@ -22,11 +22,11 @@ class CollectPhoneNumber extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const SizedBox(height: 50),
-              Text(IAMConstants.PHONE_HINT, style: BlossomText.title),
+              Text(IAMConstants.PHONE_SCREEN_HEADER, style: BlossomText.title),
               const SizedBox(height: 25),
               new TextFormField(
                   decoration: new InputDecoration(
-                    labelText: IAMConstants.PHONE,
+                    labelText: IAMConstants.PHONE_DECORATION,
                     fillColor: Colors.white,
                     border: new OutlineInputBorder(
                       borderRadius: new BorderRadius.circular(25.0),

@@ -3,22 +3,26 @@ class IAMConstants {
   //form Titles
   static const FORM_TITLE = "Sign Up";
   static const LOGIN_TITLE = "Login To Blossom";
-  static const FINAL_COLLECTION_TITLE =
+  static const FINAL_COLLECTION_HEADER =
       "Please provide Blossom with some additional information";
+  static const String OTP_SCREEN_HEADER =
+      "Please Enter The Code\nSent To Your Phone";
+  static const String PHONE_SCREEN_HEADER =
+      "Please Provide Blossom With\nYour Phone Number";
 
   //Form Buttons
   static const SUBMIT = "Submit";
   static const CANCEL = "Cancel";
 
   //label text
-  static const String PHONE = "Phone Number";
-  static const String FULL_NAME = "Full Name";
-  static const String EMAIL = "Email";
+  static const String PHONE_DECORATION = "Phone Number";
+  static const String FULL_NAME_DECORATION = "Full Name";
+  static const String EMAIL_DECORATION = "Email";
+  static const String OTP_TXT_DECORATION = "Code";
 
   //hint text
   static const String FULL_NAME_HINT = "Please enter your full name";
-  static const String PHONE_HINT =
-      "Please Provide Blossom With\nYour Phone Number";
+
   static const String EMAIL_ADDRESS_HINT = "Please enter your email address";
   static const String PASSWORD_HINT = "Please choose a password";
 
@@ -29,6 +33,7 @@ class IAMConstants {
       "Email address must be under 50 characters";
   static const String INVALID_PHONE = "Phone is required";
   static const String INVALID_FULL_NAME = "Full name is required";
+  static const String INVALID_OTP = "Code is required";
 
   //Success Message
   static const String REGISTRATION_SUCCESS =
@@ -38,9 +43,4 @@ class IAMConstants {
 
   //Response values
   static const String USERNAME_TAKEN_KEY = "userNameTaken";
-
-  static const String OTP_SCREEN_HEADER =
-      "Please Enter The Code\nSent To Your Phone";
-  static const String OTP_TXT_DECORATION = "Code";
-  static const String INVALID_OTP = "Code is required";
 }
