@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:main/components/iconActionButton.dart';
-import 'package:main/components/outlineActionButton.dart';
+import 'package:main/constants/global_constants.dart';
 import 'package:main/service/auth/googleAuthService.dart';
 import 'package:main/theme/blossom_text.dart';
 import 'package:main/theme/svg_piggy.dart';
-import 'package:main/ui/authenticate/authenticate.dart';
+import 'package:main/widgets/phone-input-form.dart';
 
 class Splash extends StatelessWidget {
   Splash({Key key, this.title}) : super(key: key);
@@ -19,60 +19,36 @@ class Splash extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("Blossom", style: BlossomText.headline),
-            const SizedBox(height: 50),
+            Spacer(flex: 3),
+            Text(GlobalConstants.appName, style: BlossomText.headline),
+            Spacer(flex: 2),
             SvgPiggy(),
-            const SizedBox(height: 50),
-            OutlineActionButton(
-              text: "Sign in with Phone",
-              onPressed: () => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Authenticate()),
-                )
-              },
-            ),
-            const SizedBox(height: 10),
-            Form(
-              child: InternationalPhoneNumberInput(
-                initialValue:
-                    PhoneNumber(phoneNumber: '7155739797', isoCode: 'US'),
-                hintText: 'Mobile Number',
-                ignoreBlank: false,
-                autoValidate: false,
-                countries: GlobalConstants.countryCodes,
-                selectorTextStyle: TextStyle(color: Colors.black),
-                inputBorder: OutlineInputBorder(
-                  borderRadius: new BorderRadius.circular(25.0),
-                  borderSide: new BorderSide(),
-                ),
-              ),
-            ),
-            const SizedBox(height: 50),
+            Spacer(flex: 2),
+            PhoneInputForm(),
+            Spacer(flex: 1),
             Text("Or continue with", style: BlossomText.largeBody),
-            const SizedBox(height: 25),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: _buildSsoOptions(context),
-            )
+            Spacer(flex: 1),
+            _buildSsoOptions(context),
+            Spacer(flex: 2),
           ],
         ),
       ),
     );
   }
 
-  _buildSsoOptions(BuildContext context) {
-    return <Widget>[
-      IconActionButton(
-        iconData: FontAwesomeIcons.google,
-        onPressed: () => GoogleAuthService().attemptAuth(context),
-      ),
-      IconActionButton(
-        iconData: FontAwesomeIcons.twitter,
-      ),
-      IconActionButton(
-        iconData: FontAwesomeIcons.facebookF,
-      )
-    ];
-  }
+  Widget _buildSsoOptions(BuildContext context) => Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          IconActionButton(
+            iconData: FontAwesomeIcons.google,
+            onPressed: () => GoogleAuthService().attemptAuth(context),
+          ),
+          IconActionButton(
+            iconData: FontAwesomeIcons.twitter,
+          ),
+          IconActionButton(
+            iconData: FontAwesomeIcons.facebookF,
+          ),
+        ],
+      );
 }

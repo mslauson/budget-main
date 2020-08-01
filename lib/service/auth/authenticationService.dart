@@ -46,7 +46,7 @@ class AuthenticationService {
 
   void _authenticateOtp(String phoneNumber, BuildContext context) {
     _auth.verifyPhoneNumber(
-        phoneNumber: "+" + phoneNumber,
+        phoneNumber: "+1" + phoneNumber,
         timeout: Duration(seconds: 60),
         verificationCompleted: (AuthCredential authCredential) {
           if (_isAuthProvider) {

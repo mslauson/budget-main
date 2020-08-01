@@ -6,8 +6,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:main/components/iconActionButton.dart';
 import 'package:main/constants/iamConstants.dart';
 import 'package:main/models/iam/signUpForm.dart';
+import 'package:main/screens/splash.dart';
 import 'package:main/theme/blossom_text.dart';
-import 'package:main/ui/authenticate/authenticate.dart';
 
 class CollectUserInfoScreen extends StatelessWidget {
   final String phone;
@@ -79,15 +79,14 @@ class CollectUserInfoScreen extends StatelessWidget {
           iconData: FontAwesomeIcons.arrowLeft,
           onPressed: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Authenticate()),
+                MaterialPageRoute(builder: (context) => Splash()),
               )),
       Padding(
         padding: EdgeInsets.fromLTRB(45, 0, 45, 0),
       ),
       IconActionButton(
           iconData: FontAwesomeIcons.arrowRight,
-          onPressed: () =>
-          {onSubmit(_buildSignUpForm())})
+          onPressed: () => onSubmit(_buildSignUpForm()))
     ];
   }
 
