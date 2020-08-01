@@ -59,7 +59,7 @@ class Authenticate extends StatelessWidget {
                                 onPressed: () => {
                                   if (FormUtils.validateCurrentForm(formKey))
                                     {
-                                      _authService.authenticateUser(
+                                      _authService.authenticateUserPhone(
                                           phone, context)
                                     }
                                 },

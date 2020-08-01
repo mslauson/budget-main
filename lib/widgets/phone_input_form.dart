@@ -66,7 +66,7 @@ class PhoneInputFormState extends State<PhoneInputForm> {
   }
 
   void _handleSuccess() {
-    _authService.authenticateUser(
+    _authService.authenticateUserPhone(
         _controller.text.replaceAll('-', ''), context);
   }
 

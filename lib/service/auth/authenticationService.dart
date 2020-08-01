@@ -15,17 +15,15 @@ class AuthenticationService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final CustomerClient _customerClient = new CustomerClient();
   final RegistrationService _registrationService = new RegistrationService();
-  final bool _isAuthProvider;
-  final SignUpForm _signUpForm;
   FirebaseUser _currentUser;
   String _otpPhone;
 
-  AuthenticationService(this._isAuthProvider, this._signUpForm);
-
-  void authenticateUser(String phone, BuildContext context) {
+  void authenticateUserPhone(String phone, BuildContext context) {
     _otpPhone = phone;
     _authenticateOtp(phone, context);
   }
+
+  void authenticateGoogle(BuildContext context) {}
 
   void signInWithCredentials(
       AuthCredential credentials, String phone, BuildContext context) {
@@ -157,5 +155,7 @@ class AuthenticationService {
         .lastLogin =
         lastSignIn;
   }
+
+
 }
 
