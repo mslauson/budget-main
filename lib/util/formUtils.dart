@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:main/constants/globalConstants.dart';
 
-class FormUtils{
-    static bool validateCurrentForm(GlobalKey<FormState> formKey) {
+class FormUtils {
+  static bool validateCurrentForm(GlobalKey<FormState> formKey) {
     final currentState = formKey.currentState;
     if (currentState.validate()) {
       currentState.save();
@@ -11,7 +11,8 @@ class FormUtils{
     return false;
   }
 
-    static showError(BuildContext context, GlobalKey<FormState> formKey, String message) {
+  static showError(
+      BuildContext context, GlobalKey<FormState> formKey, String message) {
     final currentState = formKey.currentState;
     currentState.reset();
     showDialog(
@@ -30,5 +31,4 @@ class FormUtils{
       ),
     );
   }
-
 }
