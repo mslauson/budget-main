@@ -1,9 +1,8 @@
 import 'package:email_validator/email_validator.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:main/components/iconActionButton.dart';
+import 'package:main/components/icon_action_button.dart';
 import 'package:main/constants/iamConstants.dart';
 import 'package:main/models/iam/signUpForm.dart';
 import 'package:main/screens/splash.dart';

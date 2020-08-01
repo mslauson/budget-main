@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-import 'package:main/components/outlineActionButton.dart';
+import 'package:main/components/outline_action_button.dart';
 import 'package:main/components/snacc.dart';
 import 'package:main/constants/global_constants.dart';
 import 'package:main/service/auth/authenticationService.dart';
