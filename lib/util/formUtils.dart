@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:main/constants/globalConstants.dart';
+import 'package:main/constants/error_constants.dart';
 
 class FormUtils {
   static bool validateCurrentForm(GlobalKey<FormState> formKey) {
@@ -21,7 +21,7 @@ class FormUtils {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0)), //this right here
         title: Text("Error"),
-        content: Text(message + GlobalConstants.FAILURE_POPUP_DEFAULT),
+        content: Text(message + ErrorConstants.defaultPopupMsg),
         actions: [
           new FlatButton(
             child: const Text("Ok"),
