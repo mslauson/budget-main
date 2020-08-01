@@ -2,15 +2,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:main/models/iam/signUpForm.dart';
 import 'package:main/screens/collectPhoneNumber.dart';
-
-import 'authenticationService.dart';
+import 'package:main/service/auth/registrationService.dart';
 
 class GoogleAuthService {
-  AuthenticationService _authService;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final RegistrationService _registrationService = RegistrationService();
   GoogleSignInAccount _googleSignInAccount;
-  final Function() onCreated;
+  final Function(AuthCredential credential, SignUpForm signUpForm) onCreated;
 
   GoogleAuthService(this.onCreated);
 
@@ -30,8 +30,7 @@ class GoogleAuthService {
     if (signInMethods.isEmpty) {
       _getPhoneNumber(credential, context);
     } else {
-      _authService = new AuthenticationService();
-      _authService.signInWithCredentials(credential, null, context);
+      onCreated(credential, null);
     }
   }
 
@@ -39,15 +38,25 @@ class GoogleAuthService {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => CollectPhoneNumber(
+          builder: (context) =>
+              CollectPhoneNumber(
                 onSubmitted: (String val) {
                   String phone = val.trim();
-                  _authService = new AuthenticationService();
-                  _authService.signInWithCredentials(
-                      credential, phone, context);
+                  List<String> name = _getName();
+                  final SignUpForm signUpForm = _registrationService
+                      .buildSignUpForm(
+                      name[0], name[1], phone, _googleSignInAccount.email);
+                  onCreated(credential, signUpForm);
                 },
               )),
     );
+  }
+
+  List<String> _getName() {
+    if (_googleSignInAccount.displayName.indexOf(" ") > 0) {
+      return _googleSignInAccount.displayName.split(" ");
+    }
+    return [_googleSignInAccount.displayName, "XXXXXXXX"];
   }
 
 }

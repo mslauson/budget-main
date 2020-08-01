@@ -29,7 +29,7 @@ class RegistrationService {
     log(customerResponse.toString());
   }
 
-  SignUpForm _buildSignUpForm(
+  SignUpForm buildSignUpForm(
       String firstName, String lastName, String phone, String email) {
     return new SignUpForm(
         firstName: firstName,
