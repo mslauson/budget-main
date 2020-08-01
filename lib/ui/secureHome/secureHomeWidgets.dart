@@ -9,7 +9,6 @@ import 'package:main/client/accountsClient.dart';
 import 'package:main/client/budgetClient.dart';
 import 'package:main/client/plaidMicroserviceClient.dart';
 import 'package:main/client/transactionsClient.dart';
-import 'package:main/components/plaidLinkWebView.dart';
 import 'package:main/constants/plaidConstants.dart';
 import 'package:main/constants/transactionsMicroserviceConstants.dart';
 import 'package:main/constants/transactionsPageConstants.dart';
@@ -19,6 +18,7 @@ import 'package:main/models/budget/getBudgetsResponse.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/plaid/putTransactionsRequest.dart';
 import 'package:main/models/transactions/transactionsGetResponse.dart';
+import 'package:main/widgets/plaidLinkWebView.dart';
 
 class SecureHomeWidgets {
   static BuildContext context;
