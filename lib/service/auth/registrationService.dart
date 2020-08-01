@@ -21,11 +21,20 @@ class RegistrationService {
     await addCustomer(signUpForm);
     return true;
   }
-   Future<void> addCustomer( SignUpForm signUpForm) async {
-     CustomerClient customerClient = new CustomerClient();
-     String customerResponse =
-     await customerClient.addCustomer(jsonEncode(signUpForm.toJson()));
-     log(customerResponse.toString());
 
-   }
+  Future<void> addCustomer(SignUpForm signUpForm) async {
+    CustomerClient customerClient = new CustomerClient();
+    String customerResponse =
+        await customerClient.addCustomer(jsonEncode(signUpForm.toJson()));
+    log(customerResponse.toString());
+  }
+
+  SignUpForm _buildSignUpForm(
+      String firstName, String lastName, String phone, String email) {
+    return new SignUpForm(
+        firstName: firstName,
+        lastName: lastName,
+        emailAddress: email,
+        phone: phone);
+  }
 }

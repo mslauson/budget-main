@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:main/models/iam/signUpForm.dart';
 import 'package:main/screens/collectPhoneNumber.dart';
 
 import 'authenticationService.dart';
@@ -11,6 +10,9 @@ class GoogleAuthService {
   AuthenticationService _authService;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   GoogleSignInAccount _googleSignInAccount;
+  final Function() onCreated;
+
+  GoogleAuthService(this.onCreated);
 
   Future<void> attemptAuth(BuildContext context) async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -46,22 +48,6 @@ class GoogleAuthService {
                 },
               )),
     );
-  }
-
-  SignUpForm _buildSignUpForm(String phone) {
-    if (_googleSignInAccount.displayName.indexOf(" ") > 0) {
-      List<String> names = _googleSignInAccount.displayName.split(" ");
-      return new SignUpForm(
-          firstName: names[0],
-          lastName: names[1],
-          emailAddress: _googleSignInAccount.email,
-          phone: phone);
-    } else {
-      return new SignUpForm(
-          firstName: _googleSignInAccount.displayName,
-          emailAddress: _googleSignInAccount.email,
-          phone: phone);
-    }
   }
 
 }
