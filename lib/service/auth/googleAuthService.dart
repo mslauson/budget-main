@@ -28,7 +28,7 @@ class GoogleAuthService {
     if (signInMethods.isEmpty) {
       _getPhoneNumber(credential, context);
     } else {
-      _authService = new AuthenticationService(true, null);
+      _authService = new AuthenticationService();
       _authService.signInWithCredentials(credential, null, context);
     }
   }
@@ -40,8 +40,7 @@ class GoogleAuthService {
           builder: (context) => CollectPhoneNumber(
                 onSubmitted: (String val) {
                   String phone = val.trim();
-                  _authService =
-                      new AuthenticationService(true, _buildSignUpForm(phone));
+                  _authService = new AuthenticationService();
                   _authService.signInWithCredentials(
                       credential, phone, context);
                 },

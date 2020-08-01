@@ -15,7 +15,7 @@ class PhoneInputForm extends StatefulWidget {
 class PhoneInputFormState extends State<PhoneInputForm> {
   final _formKey = GlobalKey<FormState>();
   final _controller = TextEditingController();
-  final _authService = new AuthenticationService(false, null);
+  final _authService = new AuthenticationService();
 
   @override
   Widget build(BuildContext context) {

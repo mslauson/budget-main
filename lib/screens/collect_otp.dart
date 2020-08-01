@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:main/components/icon_action_button.dart';
 import 'package:main/constants/iamConstants.dart';
-import 'package:main/service/auth/authenticationService.dart';
 import 'package:main/theme/blossom_text.dart';
 import 'package:main/ui/authenticate/authenticate.dart';
 
 class CollectOtp extends StatelessWidget {
   final TextEditingController _controller = new TextEditingController();
-  final AuthenticationService _authenticationService =
-      new AuthenticationService(false, null);
   final Function(String code) onSubmit;
 
   CollectOtp({Key key, @required this.onSubmit}) : super(key: key);
