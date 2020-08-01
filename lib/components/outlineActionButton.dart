@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:main/theme/blossomText.dart';
+import 'package:main/theme/blossom_text.dart';
 
 class OutlineActionButton extends StatelessWidget {
   final text;

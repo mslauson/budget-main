@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:main/components/iconActionButton.dart';
 import 'package:main/constants/iamConstants.dart';
 import 'package:main/screens/splash.dart';
-import 'package:main/theme/blossomText.dart';
+import 'package:main/theme/blossom_text.dart';
 
 class CollectPhoneNumber extends StatelessWidget {
   final TextEditingController _controller = new TextEditingController();
