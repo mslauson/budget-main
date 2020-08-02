@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:main/constants/iam_constants.dart';
 import 'package:main/models/iam/signUpForm.dart';
 import 'package:main/screens/collectPhoneNumber.dart';
 import 'package:main/service/auth/registration_service.dart';
@@ -35,9 +36,10 @@ class GoogleAuthService {
       final SignUpForm signUpForm =
           _registrationService.buildSignUpForm(name[0], name[1], phone, email);
       onCreated(credential, signUpForm);
-    } else if (!signInMethods.contains("google.com")) {
+    } else if (!signInMethods.contains(IAMConstants.PROVIDER_GOOGLE)) {
       await _auth
-          .signInWithEmailAndPassword(email: email, password: "XXXXXXXX")
+          .signInWithEmailAndPassword(
+              email: email, password: IAMConstants.FAKE_PASSWORD)
           .then((value) => value.user.linkWithCredential(credential));
       onCreated(credential, null);
     } else {
@@ -64,7 +66,7 @@ class GoogleAuthService {
     if (_googleSignInAccount.displayName.indexOf(" ") > 0) {
       return _googleSignInAccount.displayName.split(" ");
     }
-    return [_googleSignInAccount.displayName, "XXXXXXXX"];
+    return [_googleSignInAccount.displayName, IAMConstants.FAKE_PASSWORD];
   }
 
 }

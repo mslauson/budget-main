@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:main/constants/iamConstants.dart';
+import 'package:main/constants/iam_constants.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/service/auth/authentication_service.dart';
 import 'package:main/util/formUtils.dart';
