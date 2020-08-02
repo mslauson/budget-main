@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:main/components/icon_action_button.dart';
-import 'package:main/constants/iamConstants.dart';
+import 'package:main/constants/iam_constants.dart';
 import 'package:main/theme/blossom_text.dart';
 import 'package:main/ui/authenticate/authenticate.dart';
 

@@ -43,4 +43,10 @@ class IAMConstants {
 
   //Response values
   static const String USERNAME_TAKEN_KEY = "userNameTaken";
+
+  //Sign In Providers
+  static const String PROVIDER_GOOGLE = "google.com";
+
+//Password
+  static const String FAKE_PASSWORD = "XXXXXXXX";
 }

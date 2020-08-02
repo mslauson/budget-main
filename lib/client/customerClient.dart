@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:main/constants/customerMicroserviceConstants.dart';
-import 'package:main/constants/iamConstants.dart';
+import 'package:main/constants/iam_constants.dart';
 import 'package:main/error/errorHandler.dart';
 
 class CustomerClient {
