@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:main/client/customerClient.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/iam/signUpForm.dart';
 import 'package:main/screens/collect_otp.dart';
@@ -147,9 +146,10 @@ class AuthenticationService {
 
   Future<void> _linkEmail(String email,
       BuildContext context) async {
-    await _currentUser.updateEmail(email)
-    _currentUser.updatePassword("XXXXXXXX").whenComplete(() =>
-        _navigateToHomeScreen(context));
+    await _currentUser.updateEmail(email);
+    _currentUser
+        .updatePassword("XXXXXXXX")
+        .whenComplete(() => _navigateToHomeScreen(context));
   }
 
   void _navigateToHomeScreen(BuildContext context) {
