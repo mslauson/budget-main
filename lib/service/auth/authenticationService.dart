@@ -146,9 +146,10 @@ class AuthenticationService {
         .whenComplete(() => _navigateToHomeScreen(context));
   }
 
-  void _linkEmail(String email,
-      BuildContext context) {
-    _currentUser.updateEmail(email).whenComplete(() =>
+  Future<void> _linkEmail(String email,
+      BuildContext context) async {
+    await _currentUser.updateEmail(email)
+    _currentUser.updatePassword("XXXXXXXX").whenComplete(() =>
         _navigateToHomeScreen(context));
   }
 
