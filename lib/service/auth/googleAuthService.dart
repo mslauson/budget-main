@@ -25,15 +25,21 @@ class GoogleAuthService {
       idToken: googleSignInAuthentication.idToken,
     );
 
-    final List<String> signInMethods = await _auth.fetchSignInMethodsForEmail(
-        email: _googleSignInAccount.email);
+    String email = _googleSignInAccount.email;
+
+    final List<String> signInMethods =
+        await _auth.fetchSignInMethodsForEmail(email: email);
     if (signInMethods.isEmpty) {
       String phone = await _getPhoneNumber(credential, context);
       List<String> name = _getName();
-      final SignUpForm signUpForm = _registrationService.buildSignUpForm(
-          name[0], name[1], phone, _googleSignInAccount.email);
+      final SignUpForm signUpForm =
+          _registrationService.buildSignUpForm(name[0], name[1], phone, email);
       onCreated(credential, signUpForm);
-    } else if (signInMethods.contains("Google")) {
+    } else if (!signInMethods.contains("google.com")) {
+      await _auth
+          .signInWithEmailAndPassword(email: email, password: "XXXXXXXX")
+          .then((value) => value.user.linkWithCredential(credential));
+      onCreated(credential, null);
     } else {
       onCreated(credential, null);
     }

@@ -20,7 +20,7 @@ class AuthenticationService {
   String _otpPhone;
 
   void authenticateUserPhone(String phone, BuildContext context) {
-    _otpPhone = phone;
+    _otpPhone = "1" + phone;
     _authenticateOtp(phone, context);
   }
 
@@ -44,8 +44,8 @@ class AuthenticationService {
             result.user.metadata.lastSignInTime.toIso8601String(), context);
         _navigateToHomeScreen(context);
       } else {
-        _otpPhone = phone;
-        _checkIfUserExists(result, phone.substring(1), context);
+        _otpPhone = "1" + phone;
+        _checkIfUserExists(result, phone, context);
       }
     }).catchError((e) {
       print(e);
