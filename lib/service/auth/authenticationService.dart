@@ -14,7 +14,6 @@ import 'registrationService.dart';
 class AuthenticationService {
   String _verificationId;
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final CustomerClient _customerClient = new CustomerClient();
   final RegistrationService _registrationService = new RegistrationService();
   GoogleAuthService _authService;
   FirebaseUser _currentUser;
@@ -99,7 +98,7 @@ class AuthenticationService {
 
   void _checkIfUserExists(AuthResult result, String phone,
       BuildContext context) {
-    _customerClient.checkPhone(phone).then((userExists) async {
+    _registrationService.checkIfUserExists(phone).then((userExists) async {
       if (!userExists) {
         if (_signUpForm != null) {
           _buildScopedModel(phone,

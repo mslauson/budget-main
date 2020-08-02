@@ -29,6 +29,11 @@ class RegistrationService {
     log(customerResponse.toString());
   }
 
+  Future<bool> checkIfUserExists(String phone) async {
+    final CustomerClient _customerClient = CustomerClient();
+    return await _customerClient.checkPhone(phone);
+  }
+
   SignUpForm buildSignUpForm(
       String firstName, String lastName, String phone, String email) {
     return new SignUpForm(
