@@ -10,11 +10,11 @@ class GoogleAuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final RegistrationService _registrationService = RegistrationService();
   GoogleSignInAccount _googleSignInAccount;
-  final Function(AuthCredential credential, SignUpForm signUpForm) onCreated;
 
-  GoogleAuthService({@required this.onCreated});
-
-  Future<void> attemptAuth(BuildContext context) async {
+  Future<void> attemptAuth(
+      BuildContext context,
+      final Function(AuthCredential credential, SignUpForm signUpForm)
+          onCreated) async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
     _googleSignInAccount = await googleSignIn.signIn();
     final GoogleSignInAuthentication googleSignInAuthentication =
