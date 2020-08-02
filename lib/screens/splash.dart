@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:main/components/icon_action_button.dart';
 import 'package:main/constants/global_constants.dart';
-import 'package:main/service/auth/googleAuthService.dart';
+import 'package:main/service/auth/authenticationService.dart';
 import 'package:main/theme/blossom_text.dart';
 import 'package:main/theme/svg_piggy.dart';
 import 'package:main/widgets/phone_input_form.dart';
 
 class Splash extends StatelessWidget {
   Splash({Key key, this.title}) : super(key: key);
-
+  final AuthenticationService _authenticationService = AuthenticationService();
   final String title;
 
   @override
@@ -41,7 +41,7 @@ class Splash extends StatelessWidget {
         children: <Widget>[
           IconActionButton(
             iconData: FontAwesomeIcons.google,
-            onPressed: () => GoogleAuthService().attemptAuth(context),
+            onPressed: () => _authenticationService.authenticateGoogle(context),
           ),
           IconActionButton(
             iconData: FontAwesomeIcons.twitter,

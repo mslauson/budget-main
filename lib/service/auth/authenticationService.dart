@@ -14,7 +14,7 @@ class AuthenticationService {
   String _verificationId;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final RegistrationService _registrationService = new RegistrationService();
-  GoogleAuthService _authService;
+  GoogleAuthService _googleAuthService = GoogleAuthService();
   FirebaseUser _currentUser;
   SignUpForm _signUpForm;
   String _otpPhone;
@@ -25,15 +25,14 @@ class AuthenticationService {
   }
 
   Future<void> authenticateGoogle(BuildContext context) async {
-    _authService = new GoogleAuthService(
-        onCreated: (AuthCredential credential, SignUpForm signUpForm) {
-      if (signUpForm != null) {
-        signInWithCredentials(credential, signUpForm.phone, context);
-      } else {
-        signInWithCredentials(credential, null, context);
-      }
-    });
-    await _authService.attemptAuth(context);
+    _googleAuthService.attemptAuth(
+        context,
+        (credential, signUpForm) => {
+              if (signUpForm != null)
+                {signInWithCredentials(credential, signUpForm.phone, context)}
+              else
+                {signInWithCredentials(credential, null, context)}
+            });
   }
 
   void signInWithCredentials(

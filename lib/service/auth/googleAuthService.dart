@@ -28,28 +28,30 @@ class GoogleAuthService {
     final List<String> signInMethods = await _auth.fetchSignInMethodsForEmail(
         email: _googleSignInAccount.email);
     if (signInMethods.isEmpty) {
-      _getPhoneNumber(credential, context);
+      String phone = await _getPhoneNumber(credential, context);
+      List<String> name = _getName();
+      final SignUpForm signUpForm = _registrationService.buildSignUpForm(
+          name[0], name[1], phone, _googleSignInAccount.email);
+      onCreated(credential, signUpForm);
+    } else if (signInMethods.contains("Google")) {
     } else {
       onCreated(credential, null);
     }
   }
 
-  void _getPhoneNumber(AuthCredential credential, BuildContext context) {
-    Navigator.push(
+  Future<String> _getPhoneNumber(
+      AuthCredential credential, BuildContext context) async {
+    String phone;
+    await Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) =>
-              CollectPhoneNumber(
+          builder: (context) => CollectPhoneNumber(
                 onSubmitted: (String val) {
-                  String phone = val.trim();
-                  List<String> name = _getName();
-                  final SignUpForm signUpForm = _registrationService
-                      .buildSignUpForm(
-                      name[0], name[1], phone, _googleSignInAccount.email);
-                  onCreated(credential, signUpForm);
+                  phone = val.trim();
                 },
               )),
     );
+    return phone;
   }
 
   List<String> _getName() {
