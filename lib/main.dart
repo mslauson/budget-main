@@ -21,15 +21,17 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
             title: 'Blossom',
             theme: ThemeData(
-                primarySwatch: Colors.lightBlue,
-                scaffoldBackgroundColor: Colors.white,
-                disabledColor: Colors.grey,
-                buttonTheme: ButtonThemeData(buttonColor: Colors.lightBlue),
-                bottomAppBarTheme: BottomAppBarTheme(color: Colors.lightBlue),
-                textTheme: TextTheme(
-                    button: TextStyle(
-                      color: Colors.white,
-                    ))),
+              primarySwatch: Colors.lightBlue,
+              scaffoldBackgroundColor: Colors.white,
+              disabledColor: Colors.grey,
+              buttonTheme: ButtonThemeData(buttonColor: Colors.lightBlue),
+              bottomAppBarTheme: BottomAppBarTheme(color: Colors.lightBlue),
+              textTheme: TextTheme(
+                button: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
             home: new Splash()));
   }
 }
