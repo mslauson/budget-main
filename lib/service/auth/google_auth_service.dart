@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:main/models/iam/signUpForm.dart';
 import 'package:main/screens/collectPhoneNumber.dart';
-import 'package:main/service/auth/registrationService.dart';
+import 'package:main/service/auth/registration_service.dart';
 
 class GoogleAuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;

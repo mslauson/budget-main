@@ -4,11 +4,11 @@ import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/iam/signUpForm.dart';
 import 'package:main/screens/collect_otp.dart';
 import 'package:main/screens/collect_user_info.dart';
-import 'package:main/service/auth/googleAuthService.dart';
+import 'package:main/service/auth/registration_service.dart';
 import 'package:main/ui/secureHome/secureHome.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-import 'registrationService.dart';
+import 'google_auth_service.dart';
 
 class AuthenticationService {
   String _verificationId;

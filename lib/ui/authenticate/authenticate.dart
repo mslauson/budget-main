@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:main/constants/iamConstants.dart';
 import 'package:main/models/global/activeUser.dart';
-import 'package:main/service/auth/authenticationService.dart';
+import 'package:main/service/auth/authentication_service.dart';
 import 'package:main/util/formUtils.dart';
 import 'package:scoped_model/scoped_model.dart';
 

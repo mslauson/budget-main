@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:main/components/icon_action_button.dart';
 import 'package:main/constants/global_constants.dart';
-import 'package:main/service/auth/authenticationService.dart';
+import 'package:main/service/auth/authentication_service.dart';
 import 'package:main/theme/blossom_text.dart';
 import 'package:main/theme/svg_piggy.dart';
 import 'package:main/widgets/phone_input_form.dart';
