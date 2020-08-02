@@ -5,6 +5,7 @@ import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/iam/signUpForm.dart';
 import 'package:main/screens/collect_otp.dart';
 import 'package:main/screens/collect_user_info.dart';
+import 'package:main/service/auth/googleAuthService.dart';
 import 'package:main/ui/secureHome/secureHome.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -15,7 +16,9 @@ class AuthenticationService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final CustomerClient _customerClient = new CustomerClient();
   final RegistrationService _registrationService = new RegistrationService();
+  GoogleAuthService _authService;
   FirebaseUser _currentUser;
+  SignUpForm _signUpForm;
   String _otpPhone;
 
   void authenticateUserPhone(String phone, BuildContext context) {
@@ -23,7 +26,17 @@ class AuthenticationService {
     _authenticateOtp(phone, context);
   }
 
-  void authenticateGoogle(BuildContext context) {}
+  Future<void> authenticateGoogle(BuildContext context) async {
+    _authService = new GoogleAuthService(
+        onCreated: (AuthCredential credential, SignUpForm signUpForm) {
+      if (signUpForm != null) {
+        signInWithCredentials(credential, signUpForm.phone, context);
+      } else {
+        signInWithCredentials(credential, null, context);
+      }
+    });
+    await _authService.attemptAuth(context);
+  }
 
   void signInWithCredentials(
       AuthCredential credentials, String phone, BuildContext context) {
@@ -47,7 +60,7 @@ class AuthenticationService {
         phoneNumber: "+1" + phoneNumber,
         timeout: Duration(seconds: 60),
         verificationCompleted: (AuthCredential authCredential) {
-          if (_isAuthProvider) {
+          if (_signUpForm != null) {
             _linkPhone(authCredential, context);
           } else {
             signInWithCredentials(authCredential, phoneNumber, context);
@@ -77,7 +90,7 @@ class AuthenticationService {
   void _acceptDialog(BuildContext context, String code) {
     AuthCredential authCredential = PhoneAuthProvider.getCredential(
         verificationId: _verificationId, smsCode: code);
-    if (_isAuthProvider) {
+    if (_signUpForm != null) {
       _linkPhone(authCredential, context);
     } else {
       signInWithCredentials(authCredential, _otpPhone, context);
@@ -88,7 +101,7 @@ class AuthenticationService {
       BuildContext context) {
     _customerClient.checkPhone(phone).then((userExists) async {
       if (!userExists) {
-        if (_isAuthProvider) {
+        if (_signUpForm != null) {
           _buildScopedModel(phone,
               result.user.metadata.lastSignInTime.toIso8601String(), context);
           await _registrationService.addCustomer(_signUpForm);

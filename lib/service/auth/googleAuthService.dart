@@ -12,7 +12,7 @@ class GoogleAuthService {
   GoogleSignInAccount _googleSignInAccount;
   final Function(AuthCredential credential, SignUpForm signUpForm) onCreated;
 
-  GoogleAuthService(this.onCreated);
+  GoogleAuthService({@required this.onCreated});
 
   Future<void> attemptAuth(BuildContext context) async {
     final GoogleSignIn googleSignIn = GoogleSignIn();
