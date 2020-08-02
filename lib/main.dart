@@ -1,6 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:main/constants/global_constants.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/screens/accounts_screen.dart';
 import 'package:main/screens/budgets_screen.dart';
@@ -25,25 +26,27 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
     return ScopedModel<ActiveUser>(
-        model: new ActiveUser(),
-        child: MaterialApp(
-            title: 'Blossom',
-            onGenerateRoute: (settings) => Router.appRouter
-                .matchRoute(context, settings.name, routeSettings: settings)
-                .route,
-            theme: ThemeData(
-              primarySwatch: Colors.lightBlue,
-              scaffoldBackgroundColor: Colors.white,
-              disabledColor: Colors.grey,
-              buttonTheme: ButtonThemeData(buttonColor: Colors.lightBlue),
-              bottomAppBarTheme: BottomAppBarTheme(color: Colors.lightBlue),
-              textTheme: TextTheme(
-                button: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
+      model: new ActiveUser(),
+      child: MaterialApp(
+        title: GlobalConstants.appName,
+        home: Splash(),
+        onGenerateRoute: (settings) => Router.appRouter
+            .matchRoute(context, settings.name, routeSettings: settings)
+            .route,
+        theme: ThemeData(
+          primarySwatch: Colors.lightBlue,
+          scaffoldBackgroundColor: Colors.white,
+          disabledColor: Colors.grey,
+          buttonTheme: ButtonThemeData(buttonColor: Colors.lightBlue),
+          bottomAppBarTheme: BottomAppBarTheme(color: Colors.lightBlue),
+          textTheme: TextTheme(
+            button: TextStyle(
+              color: Colors.white,
             ),
-            home: new Splash()));
+          ),
+        ),
+      ),
+    );
   }
 }
 
