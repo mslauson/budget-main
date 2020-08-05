@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:main/constants/customerMicroserviceConstants.dart';
 import 'package:main/constants/iam_constants.dart';
-import 'package:main/error/errorHandler.dart';
+import 'package:main/error/error_handler.dart';
 
 class CustomerClient {
   Future<String> addCustomer(String payload) async {
