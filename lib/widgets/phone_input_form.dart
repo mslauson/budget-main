@@ -4,7 +4,7 @@ import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:main/components/outline_action_button.dart';
 import 'package:main/components/snacc.dart';
 import 'package:main/constants/global_constants.dart';
-import 'package:main/service/auth/authenticationService.dart';
+import 'package:main/service/auth/authentication_service.dart';
 import 'package:main/theme/blossom_text.dart';
 
 class PhoneInputForm extends StatefulWidget {
