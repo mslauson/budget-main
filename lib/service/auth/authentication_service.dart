@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:main/constants/error_constants.dart';
 import 'package:main/constants/iam_constants.dart';
 import 'package:main/error/data_access_exception.dart';
 import 'package:main/error/error_handler.dart';
@@ -53,7 +54,7 @@ class AuthenticationService {
       }
     }).catchError((error) {
       log(error);
-      ErrorHandler.showError("Authentication Failed.  Please Try Again Later.");
+      ErrorHandler.showError(ErrorConstants.AUTHENTICATION_FAILURE);
     });
   }
 
@@ -69,8 +70,9 @@ class AuthenticationService {
           }
         },
         verificationFailed: (AuthException authException) {
-          print(authException.message);
-        },
+              log(authException.message);
+              ErrorHandler.showError(ErrorConstants.AUTHENTICATION_FAILURE);
+            },
         codeSent: (String verificationId, [int forceResendingToken]) {
           _verificationId = verificationId;
           Navigator.push(
