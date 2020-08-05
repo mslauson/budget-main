@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:main/client/customerClient.dart';
+import 'package:main/client/customer_client.dart';
 import 'package:main/models/iam/signUpForm.dart';
 import 'package:main/models/valueModel.dart';
 
