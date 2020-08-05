@@ -7,6 +7,7 @@ import 'package:main/error/error_handler.dart';
 import 'package:main/models/plaid/genericStatusResponseModel.dart';
 import 'package:main/models/plaid/tokenExchangeResponse.dart';
 
+@Deprecated('In favor of writing new client in dart')
 class PlaidMicroserviceClient {
   static Future<TokenExchangeResponse> exchangeToken(String publicToken) async {
     Response response = await get(
@@ -21,7 +22,7 @@ class PlaidMicroserviceClient {
     }
     String responseBody = response.body;
     TokenExchangeResponse exchangeResponse =
-        TokenExchangeResponse.fromJson(jsonDecode(responseBody));
+    TokenExchangeResponse.fromJson(jsonDecode(responseBody));
     return exchangeResponse;
   }
 
@@ -37,7 +38,7 @@ class PlaidMicroserviceClient {
     }
     String responseBody = response.body;
     GenericSuccessResponseModel exchangeResponse =
-        GenericSuccessResponseModel.fromJson(jsonDecode(responseBody));
+    GenericSuccessResponseModel.fromJson(jsonDecode(responseBody));
     return exchangeResponse.success;
   }
 
@@ -53,7 +54,7 @@ class PlaidMicroserviceClient {
     }
     String responseBody = response.body;
     GenericSuccessResponseModel exchangeResponse =
-        GenericSuccessResponseModel.fromJson(jsonDecode(responseBody));
+    GenericSuccessResponseModel.fromJson(jsonDecode(responseBody));
     return exchangeResponse.success;
   }
 }
