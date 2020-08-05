@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart';
 import 'package:main/error/data_access_exception.dart';
 
@@ -12,5 +13,10 @@ class ErrorHandler {
         response.body +
         "");
     throw DataAccessException(message: context + " failed.");
+  }
+
+  static showError(String message) {
+    log("Showing toast for error: " + message);
+    Fluttertoast.showToast(msg: message);
   }
 }
