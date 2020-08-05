@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart';
+import 'package:main/constants/error_constants.dart';
 import 'package:main/error/data_access_exception.dart';
 
 class ErrorHandler {
@@ -12,7 +13,8 @@ class ErrorHandler {
         " response: " +
         response.body +
         "");
-    throw DataAccessException(message: context + " failed.");
+    throw DataAccessException(
+        message: context + ErrorConstants.DEFAULT_POPUP_MSG);
   }
 
   static showError(String message) {

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:main/constants/error_constants.dart';
 import 'package:main/constants/transactionsMicroserviceConstants.dart';
 import 'package:main/error/error_handler.dart';
 import 'package:main/models/transactions/transactionsGetResponse.dart';
@@ -19,7 +20,7 @@ class TransactionsClient {
             "&dateFinish=" +
             dateFinish);
     if (response.statusCode != 200 && response.statusCode != 404) {
-      ErrorHandler.onError(response, "Transaction Retrieval");
+      ErrorHandler.onError(response, ErrorConstants.TRANSACTIONS_RETRIEVAL);
     }
     return TransactionsGetResponse.fromJson(jsonDecode(response.body));
   }

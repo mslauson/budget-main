@@ -21,7 +21,7 @@ class FormUtils {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0)), //this right here
         title: Text("Error"),
-        content: Text(message + ErrorConstants.defaultPopupMsg),
+        content: Text(message + ErrorConstants.DEFAULT_POPUP_MSG),
         actions: [
           new FlatButton(
             child: const Text("Ok"),

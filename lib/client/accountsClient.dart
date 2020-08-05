@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:main/constants/accountsMicroserviceConstants.dart';
+import 'package:main/constants/error_constants.dart';
 import 'package:main/error/error_handler.dart';
 import 'package:main/models/accounts/AccessTokensResponse.dart';
 import 'package:main/models/accounts/getAccountsResponse.dart';
@@ -13,7 +14,7 @@ class AccountsClient {
             AccountsMicroserviceConstants.ENDPOINT_V1_ACCOUNTS +
             payload);
     if (response.statusCode != 200 && response.statusCode != 404) {
-      ErrorHandler.onError(response, "Account Retrieval");
+      ErrorHandler.onError(response, ErrorConstants.AUTHENTICATION_FAILURE);
     }
     return GetAccountsResponse.fromJson(jsonDecode(response.body));
   }

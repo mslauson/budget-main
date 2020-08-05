@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:main/constants/customerMicroserviceConstants.dart';
+import 'package:main/constants/error_constants.dart';
 import 'package:main/constants/iam_constants.dart';
 import 'package:main/error/error_handler.dart';
 
@@ -13,7 +14,7 @@ class CustomerClient {
 
     var response = await post(uri, headers: headers, body: payload);
     if (response.statusCode != 200) {
-      ErrorHandler.onError(response, "Registration");
+      ErrorHandler.onError(response, ErrorConstants.REGISTRATION);
     }
     return response.body;
   }
@@ -30,7 +31,7 @@ class CustomerClient {
       headers: headers,
     );
     if (response.statusCode != 200) {
-      ErrorHandler.onError(response, "Email Verification");
+      ErrorHandler.onError(response, ErrorConstants.EMAIL_VERIFICATION);
     }
     var booleanResponse = jsonDecode(response.body);
     return booleanResponse[IAMConstants.USERNAME_TAKEN_KEY];
@@ -49,7 +50,7 @@ class CustomerClient {
       headers: headers,
     );
     if (response.statusCode != 200) {
-      ErrorHandler.onError(response, "Email Verification");
+      ErrorHandler.onError(response, ErrorConstants.PHONE_VERIFICATION);
     }
     var booleanResponse = jsonDecode(response.body);
     return booleanResponse[IAMConstants.USERNAME_TAKEN_KEY];

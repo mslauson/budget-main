@@ -1,7 +1,7 @@
 class ErrorConstants {
   ErrorConstants._();
 
-  static const String defaultPopupMsg = ' failed. \nPlease try again.';
+  static const String DEFAULT_POPUP_MSG = ' failed. \nPlease try again.';
 
   //Accounts Client
   static const String ACCOUNTS_RETRIEVAL = "Accounts retrieval";

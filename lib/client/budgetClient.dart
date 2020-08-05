@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:main/constants/budgetClientConstants.dart';
+import 'package:main/constants/error_constants.dart';
 import 'package:main/error/error_handler.dart';
 import 'package:main/models/budget/getBudgetsResponse.dart';
 
@@ -14,7 +15,7 @@ class BudgetClient {
         BudgetClientConstants.ENDPOINT_SUFFIX_MONTH +
         month);
     if (response.statusCode != 200 && response.statusCode != 404) {
-      ErrorHandler.onError(response, "Budget Retrieval");
+      ErrorHandler.onError(response, ErrorConstants.BUDGET_RETRIEVAL);
     }
     return GetBudgetsResponse.fromJson(jsonDecode(response.body));
   }
