@@ -1,6 +1,10 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:main/constants/iam_constants.dart';
+import 'package:main/error/data_access_exception.dart';
+import 'package:main/error/error_handler.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/iam/signUpForm.dart';
 import 'package:main/screens/collect_otp.dart';
@@ -28,16 +32,15 @@ class AuthenticationService {
   Future<void> authenticateGoogle(BuildContext context) async {
     _googleAuthService.attemptAuth(
         context,
-        (credential, signUpForm) => {
-              if (signUpForm != null)
-                {signInWithCredentials(credential, signUpForm.phone, context)}
-              else
-                {signInWithCredentials(credential, null, context)}
-            });
+            (credential, signUpForm) => {
+          if (signUpForm != null)
+            {signInWithCredentials(credential, signUpForm.phone, context)}
+          else
+            {signInWithCredentials(credential, null, context)}
+        });
   }
 
-  void signInWithCredentials(
-      AuthCredential credentials, String phone, BuildContext context) {
+  void signInWithCredentials(AuthCredential credentials, String phone, BuildContext context) {
     _auth.signInWithCredential(credentials).then((AuthResult result) {
       _currentUser = result.user;
       if (phone == null) {
@@ -48,8 +51,9 @@ class AuthenticationService {
         _otpPhone = "1" + phone;
         _checkIfUserExists(result, phone, context);
       }
-    }).catchError((e) {
-      print(e);
+    }).catchError((error) {
+      log(error);
+      ErrorHandler.showError("Authentication Failed.  Please Try Again Later.");
     });
   }
 
@@ -71,18 +75,18 @@ class AuthenticationService {
           _verificationId = verificationId;
           Navigator.push(
             context,
-            MaterialPageRoute(
-                builder: (context) =>
-                new CollectOtp(
-                  onSubmit: (phone) => _acceptDialog(context, phone),
-                )),
-          );
-        },
-        codeAutoRetrievalTimeout: (String verificationId) {
-          verificationId = verificationId;
-          print(verificationId);
-          print("OTP Auto Retrieval failed");
-        });
+                MaterialPageRoute(
+                    builder: (context) => new CollectOtp(
+                          onSubmit: (phone) => _acceptDialog(context, phone),
+                        )),
+              );
+            },
+            codeAutoRetrievalTimeout: (String verificationId) {
+              verificationId = verificationId;
+              print(verificationId);
+              print("OTP Auto Retrieval failed");
+            })
+        .catchError((error) => log(error));
   }
 
   void _acceptDialog(BuildContext context, String code) {
@@ -106,17 +110,12 @@ class AuthenticationService {
           _authenticateOtp(phone, context);
         } else {
           _buildScopedModel(result.user.phoneNumber.substring(1),
-              result.user.metadata.lastSignInTime.toIso8601String(),
-              context
-          );
+              result.user.metadata.lastSignInTime.toIso8601String(), context);
           _gatherFinalInfo(phone, context);
         }
       } else {
-        _buildScopedModel(
-            result.user.phoneNumber.substring(1),
-            result.user.metadata.lastSignInTime.toIso8601String(),
-            context
-        );
+        _buildScopedModel(result.user.phoneNumber.substring(1),
+            result.user.metadata.lastSignInTime.toIso8601String(), context);
         _navigateToHomeScreen(context);
       }
     });
@@ -131,7 +130,12 @@ class AuthenticationService {
                 phone: phone,
                 onSubmit: (SignUpForm signUpForm) async =>
                 {
-                  await _registrationService.addCustomer(signUpForm),
+                  await _registrationService
+                      .addCustomer(signUpForm)
+                      .catchError((DataAccessException error) =>
+                  {
+                    _deleteUserFromFirebase(),
+                    ErrorHandler.showError(error.message)}),
                   _linkEmail(signUpForm.emailAddress, context)
                 },
               )),
@@ -141,14 +145,15 @@ class AuthenticationService {
   void _linkPhone(AuthCredential credential, BuildContext context) {
     _currentUser
         .updatePhoneNumberCredential(credential)
+        .catchError((error) => log(error))
         .whenComplete(() => _navigateToHomeScreen(context));
   }
 
-  Future<void> _linkEmail(String email,
-      BuildContext context) async {
+  Future<void> _linkEmail(String email, BuildContext context) async {
     await _currentUser.updateEmail(email);
     _currentUser
         .updatePassword(IAMConstants.FAKE_PASSWORD)
+        .catchError((error) => log(error))
         .whenComplete(() => _navigateToHomeScreen(context));
   }
 
@@ -161,14 +166,14 @@ class AuthenticationService {
       BuildContext context) {
     ScopedModel
         .of<ActiveUser>(context, rebuildOnChange: true)
-        .phone =
-        phone;
+        .phone = phone;
     ScopedModel
         .of<ActiveUser>(context, rebuildOnChange: true)
         .lastLogin =
         lastSignIn;
   }
 
-
+  void _deleteUserFromFirebase() {
+    _currentUser.delete().catchError((error) => log(error));
+  }
 }
-
