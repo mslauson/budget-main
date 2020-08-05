@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:main/constants/budgetClientConstants.dart';
-import 'package:main/error/errorHandler.dart';
+import 'package:main/error/error_handler.dart';
 import 'package:main/models/budget/getBudgetsResponse.dart';
 
 class BudgetClient {

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:main/constants/transactionsMicroserviceConstants.dart';
-import 'package:main/error/errorHandler.dart';
+import 'package:main/error/error_handler.dart';
 import 'package:main/models/transactions/transactionsGetResponse.dart';
 
 class TransactionsClient {

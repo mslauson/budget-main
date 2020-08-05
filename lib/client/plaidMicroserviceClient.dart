@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:main/constants/UrlConstants.dart';
 import 'package:main/constants/plaidMicroserviceConstants.dart';
-import 'package:main/error/errorHandler.dart';
+import 'package:main/error/error_handler.dart';
 import 'package:main/models/plaid/genericStatusResponseModel.dart';
 import 'package:main/models/plaid/tokenExchangeResponse.dart';
 
