@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:main/constants/iam_constants.dart';
 import 'package:main/models/iam/signUpForm.dart';
-import 'package:main/screens/collectPhoneNumber.dart';
+import 'package:main/screens/collect_phone_number.dart';
 import 'package:main/service/auth/registration_service.dart';
 
 class GoogleAuthService {
@@ -53,11 +53,10 @@ class GoogleAuthService {
     await Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => CollectPhoneNumber(
-                onSubmitted: (String val) {
-                  phone = val.trim();
-                },
-              )),
+        builder: (context) => CollectPhoneNumber(
+          onSubmitted: (String val) => phone = val.trim(),
+        ),
+      ),
     );
     return phone;
   }
@@ -68,5 +67,4 @@ class GoogleAuthService {
     }
     return [_googleSignInAccount.displayName, IAMConstants.FAKE_PASSWORD];
   }
-
 }
