@@ -6,9 +6,12 @@ class OutlineActionButton extends StatelessWidget {
   final color;
   final onPressed;
 
-  OutlineActionButton(
-      {Key key, @required this.text, this.color, this.onPressed})
-      : super(key: key);
+  OutlineActionButton({
+    Key key,
+    @required this.text,
+    this.color,
+    this.onPressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
