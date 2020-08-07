@@ -7,18 +7,13 @@ import 'package:main/error/data_access_exception.dart';
 
 class ErrorHandler {
   static onError(Response response, String context) {
-    log(context +
-        "failed with status code: " +
-        response.statusCode.toString() +
-        " response: " +
-        response.body +
-        "");
+    log('$context failed with status code: ${response.statusCode}; response: ${response.body}');
     throw DataAccessException(
         message: context + ErrorConstants.DEFAULT_POPUP_MSG);
   }
 
   static showError(String message) {
-    log("Showing toast for error: " + message);
+    log('Showing toast for error: $message');
     Fluttertoast.showToast(msg: message);
   }
 }

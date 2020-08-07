@@ -70,8 +70,9 @@ class CollectPhoneNumber extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(45, 0, 45, 0),
       ),
       IconActionButton(
-          iconData: FontAwesomeIcons.arrowRight,
-          onPressed: () => {onSubmitted("+1" + _controller.text)})
+        iconData: FontAwesomeIcons.arrowRight,
+        onPressed: () => onSubmitted('+1${_controller.text}'),
+      )
     ];
   }
 }
