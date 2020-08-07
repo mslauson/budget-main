@@ -6,6 +6,8 @@ import 'package:main/constants/error_constants.dart';
 import 'package:main/error/data_access_exception.dart';
 
 class ErrorHandler {
+  ErrorHandler._();
+
   static onError(Response response, String context) {
     log('$context failed with status code: ${response.statusCode}; response: ${response.body}');
     throw DataAccessException(
