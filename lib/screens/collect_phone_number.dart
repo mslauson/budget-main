@@ -60,11 +60,12 @@ class CollectPhoneNumber extends StatelessWidget {
   _buildButtons(BuildContext context) {
     return <Widget>[
       IconActionButton(
-          iconData: FontAwesomeIcons.arrowLeft,
-          onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Splash()),
-              )),
+        iconData: FontAwesomeIcons.arrowLeft,
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Splash()),
+        ),
+      ),
       Padding(
         padding: EdgeInsets.fromLTRB(45, 0, 45, 0),
       ),
@@ -73,5 +74,4 @@ class CollectPhoneNumber extends StatelessWidget {
           onPressed: () => {onSubmitted("+1" + _controller.text)})
     ];
   }
-
 }
