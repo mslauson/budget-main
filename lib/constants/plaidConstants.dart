@@ -1,4 +1,6 @@
-class PlaidConstants{
+class PlaidConstants {
+  static const String URI_ACCESS_TOKEN = "/item/public_token/exchange";
+
   //product
   static const String IDENTITY_PRODUCT = "identity,auth";
 
@@ -22,11 +24,11 @@ class PlaidConstants{
 
   //connectionUrl
   static const String  PLAID_LINK_URL = "https://cdn.plaid.com/link/v2/stable/link.html" +
-  "?isWebview=true" + 
-  "&key="+PUBLIC_KEY+
-  "&env="+ENV+
-  "&product="+IDENTITY_PRODUCT+
-  "&clientName="+CLIENT_NAME;
+      "?isWebview=true" +
+      "&key="+PUBLIC_KEY+
+      "&env="+ENV+
+      "&product="+IDENTITY_PRODUCT+
+      "&clientName="+CLIENT_NAME;
 
   //uri
 static const String PLAID_LINK_URI = "plaidlink";
