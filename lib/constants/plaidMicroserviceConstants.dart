@@ -1,4 +1,3 @@
-@Deprecated("calling directly")
 class PlaidMicroserviceConstants{
 
 //url
