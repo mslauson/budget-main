@@ -1,5 +1,6 @@
 class PlaidConstants {
-  static const String URI_ACCESS_TOKEN = "/item/public_token/exchange";
+  static const String URI_ACCESS_TOKEN = "item/public_token/exchange";
+  static const String URI_LINK_TOKEN = "link/token/create";
 
   //product
   static const String IDENTITY_PRODUCT = "identity,auth";
