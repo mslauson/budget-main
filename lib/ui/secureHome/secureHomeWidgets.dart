@@ -9,7 +9,7 @@ import 'package:main/client/accounts_client.dart';
 import 'package:main/client/budget_client.dart';
 import 'package:main/client/plaidMicroserviceClient.dart';
 import 'package:main/client/transactions_client.dart';
-import 'package:main/constants/plaidConstants.dart';
+import 'package:main/constants/plaid_constants.dart';
 import 'package:main/constants/transactionsMicroserviceConstants.dart';
 import 'package:main/constants/transactionsPageConstants.dart';
 import 'package:main/models/accounts/AccessTokensResponse.dart';
