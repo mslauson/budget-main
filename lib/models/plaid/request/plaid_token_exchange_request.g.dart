@@ -9,9 +9,9 @@ part of 'plaid_token_exchange_request.dart';
 PlaidTokenExchangeRequest _$PlaidTokenExchangeRequestFromJson(
     Map<String, dynamic> json) {
   return PlaidTokenExchangeRequest(
-    json['client_id'] as String,
-    json['secret'] as String,
-    json['public_token'] as String,
+    clientId: json['client_id'] as String,
+    secret: json['secret'] as String,
+    publicToken: json['public_token'] as String,
   );
 }
 

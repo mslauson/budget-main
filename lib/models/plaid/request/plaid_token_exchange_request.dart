@@ -11,7 +11,7 @@ class PlaidTokenExchangeRequest {
   @JsonKey(name: 'public_token')
   final String publicToken;
 
-  PlaidTokenExchangeRequest(this.clientId, this.secret, this.publicToken);
+  PlaidTokenExchangeRequest({this.clientId, this.secret, this.publicToken});
 
   factory PlaidTokenExchangeRequest.fromJson(Map<String, dynamic> json) =>
       _$PlaidTokenExchangeRequestFromJson(json);

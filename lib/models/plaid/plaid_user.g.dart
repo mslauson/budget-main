@@ -8,7 +8,7 @@ part of 'plaid_user.dart';
 
 PlaidUser _$PlaidUserFromJson(Map<String, dynamic> json) {
   return PlaidUser(
-    json['client_user_id'] as String,
+    clientUserId: json['client_user_id'] as String,
   );
 }
 

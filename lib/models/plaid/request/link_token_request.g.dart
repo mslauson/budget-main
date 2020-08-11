@@ -8,16 +8,16 @@ part of 'link_token_request.dart';
 
 LinkTokenRequest _$LinkTokenRequestFromJson(Map<String, dynamic> json) {
   return LinkTokenRequest(
-    json['client_id'] as String,
-    json['secret'] as String,
-    json['client_name'] as String,
-    json['language'] as String,
-    json['country_codes'] as List,
-    PlaidUser.fromJson(json['user'] as Map<String, dynamic>),
-    json['products'] as List,
-    json['webhook'] as String,
-    json['link_customization_name'] as String,
-    json['access_token'] as String,
+    clientId: json['client_id'] as String,
+    secret: json['secret'] as String,
+    clientName: json['client_name'] as String,
+    language: json['language'] as String,
+    countryCodes: json['country_codes'] as List,
+    user: PlaidUser.fromJson(json['user'] as Map<String, dynamic>),
+    products: json['products'] as List,
+    webHook: json['webhook'] as String,
+    linkCustomizationName: json['link_customization_name'] as String,
+    accessToken: json['access_token'] as String,
   );
 }
 

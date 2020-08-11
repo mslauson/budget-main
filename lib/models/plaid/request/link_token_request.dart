@@ -27,7 +27,7 @@ class LinkTokenRequest {
   final String accessToken;
 
   LinkTokenRequest(
-      this.clientId,
+      {this.clientId,
       this.secret,
       this.clientName,
       this.language,
@@ -36,7 +36,7 @@ class LinkTokenRequest {
       this.products,
       this.webHook,
       this.linkCustomizationName,
-      this.accessToken);
+      this.accessToken});
 
   factory LinkTokenRequest.fromJson(Map<String, dynamic> json) =>
       _$LinkTokenRequestFromJson(json);
