@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:http/http.dart';
 import 'package:main/constants/error_constants.dart';
 import 'package:main/constants/global_constants.dart';
-import 'package:main/constants/plaidConstants.dart';
+import 'package:main/constants/plaid_constants.dart';
 import 'package:main/error/error_handler.dart';
 import 'package:main/models/plaid/request/plaid_token_exchange_request.dart';
 import 'package:main/models/plaid/response/plaid_token_exchange_response.dart';
