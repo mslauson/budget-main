@@ -10,7 +10,10 @@ class PlaidService {
 
   void openLinkNewAccount(String phone) async {
     String linkToken = await _retrieveLinkTokenNewAccount(phone);
-    LinkConfiguration
+    final LinkConfiguration config = LinkConfiguration(linkToken: linkToken);
+    final PlaidLink plaidLink =
+        PlaidLink(configuration: config, onSuccess: _onSuccessCallback);
+    plaidLink.open();
   }
 
   Future<String> _retrieveLinkTokenNewAccount(String phone) async {
@@ -29,5 +32,9 @@ class PlaidService {
         products: PlaidConstants.IDENTITY_PRODUCT,
         countryCodes: PlaidConstants.COUNTRY_CODES
     );
+  }
+
+  void _onSuccessCallback(String publicToken, LinkSuccessMetadata metadata) {
+    print("onSuccess: $publicToken, metadata: ${metadata.description()}");
   }
 }
