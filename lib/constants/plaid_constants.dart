@@ -3,7 +3,7 @@ class PlaidConstants {
   static const String URI_LINK_TOKEN = "link/token/create";
 
   //product
-  static const String IDENTITY_PRODUCT = "identity,auth";
+  static const List IDENTITY_PRODUCT = ["identity", "auth"];
 
   //env
   static const String ENV = "development";
@@ -15,6 +15,10 @@ class PlaidConstants {
   //client name
   static const String CLIENT_NAME = "Blossom";
 
+  static const String LANGUAGE = "en";
+
+  static const List COUNTRY_CODES = ["US"];
+
 //plaid link widget title
   static const String PLAID_LINK_WIDGET_TITLE = "Link Accounts To Blossom";
 
@@ -22,7 +26,6 @@ class PlaidConstants {
   static const String PLAID_LINK_URI = "plaidlink";
 
 //events
-static const String PLAID_CONNECTED_EVENT= "connected";
-static const String PLAID_EXIT_EVENT= "exit";
-
+  static const String PLAID_CONNECTED_EVENT = "connected";
+  static const String PLAID_EXIT_EVENT = "exit";
 }

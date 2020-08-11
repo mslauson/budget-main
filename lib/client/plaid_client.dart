@@ -13,7 +13,6 @@ import 'package:main/models/plaid/response/plaid_token_exchange_response.dart';
 import 'package:main/util/uri_builder.dart';
 
 class PlaidClient {
-  PlaidClient._();
 
   Future<PlaidTokenExchangeResponse> getAccessToken(
       PlaidTokenExchangeRequest request) async {
