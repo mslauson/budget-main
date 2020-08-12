@@ -19,7 +19,7 @@ class PlaidClient {
     Response response = await post(
         UriBuilder.plaidApiDev(PlaidConstants.URI_ACCESS_TOKEN),
         headers: GlobalConstants.BASIC_POST_HEADERS,
-        body: request.toJson());
+        body: jsonEncode(request.toJson()));
     if (response.statusCode != 200) {
       ErrorHandler.onError(response, ErrorConstants.ACCOUNTS_RETRIEVAL);
     }
@@ -33,12 +33,12 @@ class PlaidClient {
     Response response = await post(
         UriBuilder.plaidApiDev(PlaidConstants.URI_LINK_TOKEN),
         headers: GlobalConstants.BASIC_POST_HEADERS,
-        body: request.toJson());
+        body: jsonEncode(request.toJson()));
     if (response.statusCode != 200) {
       ErrorHandler.onError(response, ErrorConstants.ADDING_ACCOUNTS);
     }
     LinkTokenResponse plaidResponse =
-        LinkTokenResponse.fromJson(jsonDecode(response.body));
+    LinkTokenResponse.fromJson(jsonDecode(response.body));
     log(plaidResponse.toString());
     return plaidResponse;
   }
