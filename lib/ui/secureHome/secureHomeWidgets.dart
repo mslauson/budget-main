@@ -9,7 +9,6 @@ import 'package:main/client/accounts_client.dart';
 import 'package:main/client/budget_client.dart';
 import 'package:main/client/plaidMicroserviceClient.dart';
 import 'package:main/client/transactions_client.dart';
-import 'package:main/constants/plaidConstants.dart';
 import 'package:main/constants/transactionsMicroserviceConstants.dart';
 import 'package:main/constants/transactionsPageConstants.dart';
 import 'package:main/models/accounts/AccessTokensResponse.dart';
@@ -18,7 +17,7 @@ import 'package:main/models/budget/getBudgetsResponse.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/plaid/putTransactionsRequest.dart';
 import 'package:main/models/transactions/transactionsGetResponse.dart';
-import 'package:main/widgets/plaidLinkWebView.dart';
+import 'package:main/service/plaid/plaid_service.dart';
 
 class SecureHomeWidgets {
   static BuildContext context;
@@ -32,6 +31,7 @@ class SecureHomeWidgets {
   static List<DataRow> transactionsWidgetList = new List<DataRow>();
   static String monthStart =
       Jiffy().startOf(Units.MONTH).toIso8601String().split("T")[0];
+  static PlaidService _plaidService = PlaidService();
 
   static List<Widget> widgetOptions(
       BuildContext context, ActiveUser activeUser) {
@@ -95,11 +95,7 @@ class SecureHomeWidgets {
           floatingActionButton: new FloatingActionButton(
             child: Icon(Icons.add),
             onPressed: () => {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => PlaidLinkWebView(
-                        websiteName: PlaidConstants.PLAID_LINK_WIDGET_TITLE,
-                        websiteUrl: PlaidConstants.PLAID_LINK_URL,
-                      )))
+
             },
           ),
         ),
@@ -127,11 +123,7 @@ class SecureHomeWidgets {
           floatingActionButton: new FloatingActionButton(
             child: Icon(Icons.add),
             onPressed: () => {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => PlaidLinkWebView(
-                        websiteName: PlaidConstants.PLAID_LINK_WIDGET_TITLE,
-                        websiteUrl: PlaidConstants.PLAID_LINK_URL,
-                      )))
+              _plaidService.openLinkNewAccount(activeUser.phone)
             },
           ),
         ),

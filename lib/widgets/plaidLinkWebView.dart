@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:main/client/plaidMicroserviceClient.dart';
-import 'package:main/constants/plaidConstants.dart';
+import 'package:main/constants/plaid_constants.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/plaid/plaidLinkResponse.dart';
 import 'package:main/models/plaid/tokenExchangeResponse.dart';

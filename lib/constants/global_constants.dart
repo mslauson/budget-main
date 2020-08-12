@@ -7,4 +7,8 @@ class GlobalConstants {
     'CA',
     'MX',
   ];
+
+  static const Map<String, String> BASIC_POST_HEADERS = {
+    "Content-type": "application/json"
+  };
 }
