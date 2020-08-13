@@ -12,6 +12,7 @@ import 'package:main/ui/secureHome/secureHome.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+@Deprecated('Using native libraries now')
 class PlaidLinkWebView extends StatefulWidget {
   final String websiteName;
   final String websiteUrl;
