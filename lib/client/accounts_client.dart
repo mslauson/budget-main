@@ -5,10 +5,10 @@ import 'package:main/constants/accountsMicroserviceConstants.dart';
 import 'package:main/constants/error_constants.dart';
 import 'package:main/error/error_handler.dart';
 import 'package:main/models/accounts/AccessTokensResponse.dart';
-import 'package:main/models/accounts/getAccountsResponse.dart';
+import 'package:main/models/accounts/accounts_full_model.dart';
 
 class AccountsClient {
-  static Future<GetAccountsResponse> getAccountsForUser(String payload) async {
+  static Future<AccountsFullModel> getAccountsForUser(String payload) async {
     Response response = await get(
         AccountsMicroserviceConstants.BASE_URL_ACCOUNTS +
             AccountsMicroserviceConstants.ENDPOINT_V1_ACCOUNTS +
@@ -16,7 +16,7 @@ class AccountsClient {
     if (response.statusCode != 200 && response.statusCode != 404) {
       ErrorHandler.onError(response, ErrorConstants.AUTHENTICATION_FAILURE);
     }
-    return GetAccountsResponse.fromJson(jsonDecode(response.body));
+    return AccountsFullModel.fromJson(jsonDecode(response.body));
   }
 
   static Future<AccessTokensResponse> getAccessTokensForUser(
