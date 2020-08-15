@@ -12,7 +12,7 @@ class AccountsFullModel {
   @JsonKey(name: 'accounts')
   final List<Accounts> accounts;
   @JsonKey(name: 'id')
-  final String id;
+  String id;
   @JsonKey(name: 'phone')
   final String phone;
   @JsonKey(name: 'lastUpdated')

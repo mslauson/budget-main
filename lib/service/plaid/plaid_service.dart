@@ -11,6 +11,7 @@ import 'package:main/models/plaid/plaid_user.dart';
 import 'package:main/models/plaid/request/link_token_request.dart';
 import 'package:main/models/plaid/request/plaid_accounts_request.dart';
 import 'package:main/models/plaid/request/plaid_institution_meta_request.dart';
+import 'package:main/models/plaid/request/plaid_request_options.dart';
 import 'package:main/models/plaid/request/plaid_token_exchange_request.dart';
 import 'package:main/models/plaid/response/link_token_response.dart';
 import 'package:main/models/plaid/response/plaid_accounts_response.dart';
@@ -61,18 +62,19 @@ class PlaidService {
 
   void _onSuccessLinkCallback(String publicToken,
       LinkSuccessMetadata metadata) async {
-    print("onSuccess: $publicToken, metadata: ${metadata.description()}");
+    log("onSuccess: $publicToken, metadata: ${metadata.description()}");
     PlaidAccountsResponse accountsResponse;
-    PlaidInstitutionMetaResponse metaResponse = await _plaidClient
-        .getInstitutionMetaData(_buildMetaRequest());
-    _plaidClient.getAccessToken(_buildTokenExchangeRequest(publicToken)).then((
-        tokenResponse) async =>
-    {
-      accountsResponse = await _plaidClient.getAccounts(
-          _buildAccountsRequest(tokenResponse.accessToken)),
-      await _accountsService.addAccount(_buildAccountsModel(
-          tokenResponse.accessToken, metadata.linkSessionId,
-          accountsResponse.accounts, metaResponse))
+    PlaidInstitutionMetaResponse metaResponse =
+        await _plaidClient.getInstitutionMetaData(_buildMetaRequest());
+    _plaidClient
+        .getAccessToken(_buildTokenExchangeRequest(publicToken))
+        .then((tokenResponse) async => {
+              accountsResponse = await _plaidClient.getAccounts(
+                  _buildAccountsRequest(tokenResponse.accessToken)),
+              await _accountsService.addAccount(_buildAccountsModel(
+                  tokenResponse.accessToken,
+                  metadata.linkSessionId,
+                  accountsResponse.accounts, metaResponse))
     });
   }
 
@@ -91,7 +93,7 @@ class PlaidService {
         institutionId: _institutionId,
         clientId: PlaidConstants.CLIENT_ID_DEV,
         secret: PlaidConstants.CLIENT_SECRET_DEV,
-        includeOptionalMetadata: true
+        options: Options(includeOptionalMetadata: true)
     );
   }
 
@@ -114,6 +116,7 @@ class PlaidService {
   AccountsFullModel _buildAccountsModel(String accessToken,
       String linkSessionId, List<Accounts> accounts,
       PlaidInstitutionMetaResponse metaResponse) {
+//    accounts.map((e) => {e.id=e.accountId});
     return AccountsFullModel(
         phone: _phone,
         accounts: accounts,

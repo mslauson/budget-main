@@ -12,7 +12,9 @@ PlaidInstitutionMetaRequest _$PlaidInstitutionMetaRequestFromJson(
     institutionId: json['institution_id'] as String,
     clientId: json['client_id'] as String,
     secret: json['secret'] as String,
-    includeOptionalMetadata: json['include_optional_metadata'] as bool,
+    options: json['options'] == null
+        ? null
+        : Options.fromJson(json['options'] as Map<String, dynamic>),
   );
 }
 
@@ -22,5 +24,5 @@ Map<String, dynamic> _$PlaidInstitutionMetaRequestToJson(
       'institution_id': instance.institutionId,
       'client_id': instance.clientId,
       'secret': instance.secret,
-      'include_optional_metadata': instance.includeOptionalMetadata,
+      'options': instance.options,
     };
