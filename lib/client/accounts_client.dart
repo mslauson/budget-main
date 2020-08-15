@@ -37,7 +37,7 @@ class AccountsClient {
     return AccessTokensResponse.fromJson(jsonDecode(response.body));
   }
 
-  Future<AccountsFullModel> getAccounts(AccountsFullModel request) async {
+  Future<AccountsFullModel> addAccount(AccountsFullModel request) async {
     Response response = await post(
         UriBuilder.blossomDev(AccountsMicroserviceConstants.SERVICE, 1),
         headers: GlobalConstants.BASIC_POST_HEADERS,

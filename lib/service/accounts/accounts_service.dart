@@ -4,5 +4,7 @@ import 'package:main/models/accounts/accounts_full_model.dart';
 class AccountsService {
   final AccountsClient _accountsClient = AccountsClient();
 
-  void addAccount(AccountsFullModel accountsFullModel) {}
+  void addAccount(AccountsFullModel accountsFullModel) {
+    _accountsClient.addAccount(accountsFullModel);
+  }
 }
