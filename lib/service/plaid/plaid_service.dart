@@ -4,7 +4,9 @@ import 'package:main/client/plaid_client.dart';
 import 'package:main/constants/error_constants.dart';
 import 'package:main/constants/plaid_constants.dart';
 import 'package:main/error/error_handler.dart';
+import 'package:main/models/accounts/accounts.dart';
 import 'package:main/models/accounts/accounts_full_model.dart';
+import 'package:main/models/accounts/institution.dart';
 import 'package:main/models/plaid/plaid_user.dart';
 import 'package:main/models/plaid/request/link_token_request.dart';
 import 'package:main/models/plaid/request/plaid_accounts_request.dart';
@@ -13,16 +15,20 @@ import 'package:main/models/plaid/request/plaid_token_exchange_request.dart';
 import 'package:main/models/plaid/response/link_token_response.dart';
 import 'package:main/models/plaid/response/plaid_accounts_response.dart';
 import 'package:main/models/plaid/response/plaid_institution_meta_response.dart';
+import 'package:main/service/accounts/accounts_service.dart';
 import 'package:plaid_flutter/plaid_flutter.dart';
 
 class PlaidService {
   String _institutionId;
   String _institutionName;
+  String _phone;
   final PlaidClient _plaidClient = PlaidClient();
+  final AccountsService _accountsService = AccountsService();
 
   void openLinkNewAccount(String phone) async {
     LinkConfiguration config;
     PlaidLink plaidLink;
+    _phone = phone;
     _retrieveLinkTokenNewAccount(phone)
         .then((linkToken) => {
               config = LinkConfiguration(linkToken: linkToken),
@@ -63,7 +69,10 @@ class PlaidService {
         tokenResponse) async =>
     {
       accountsResponse = await _plaidClient.getAccounts(
-          _buildAccountsRequest(tokenResponse.accessToken))
+          _buildAccountsRequest(tokenResponse.accessToken)),
+      await _accountsService.addAccount(_buildAccountsModel(
+          tokenResponse.accessToken, metadata.linkSessionId,
+          accountsResponse.accounts, metaResponse))
     });
   }
 
@@ -102,17 +111,25 @@ class PlaidService {
     );
   }
 
-  AccountsFullModel _buildAccountsModel
+  AccountsFullModel _buildAccountsModel(String accessToken,
+      String linkSessionId, List<Accounts> accounts,
+      PlaidInstitutionMetaResponse metaResponse) {
+    return AccountsFullModel(
+        phone: _phone,
+        accounts: accounts,
+        institution: _buildInstitution(metaResponse),
+        accessToken: accessToken,
+        linkSessionId: linkSessionId
+    );
+  }
 
-  (
-
-  String phone, List
-
-  <
-
-  Link
-
-  >){
-  return AccountsFullModel
+  Institution _buildInstitution(PlaidInstitutionMetaResponse metaResponse) {
+    return Institution(
+        name: _institutionName,
+        institutionId: _institutionId,
+        logo: metaResponse.logo,
+        primaryColor: metaResponse.primaryColor,
+        url: metaResponse.url
+    );
   }
 }
