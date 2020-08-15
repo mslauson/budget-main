@@ -44,12 +44,13 @@ class PlaidService {
         language: PlaidConstants.LANGUAGE,
         user: PlaidUser(clientUserId: phone),
         products: PlaidConstants.IDENTITY_PRODUCT,
-        countryCodes: PlaidConstants.COUNTRY_CODES
-    );
+        countryCodes: PlaidConstants.COUNTRY_CODES);
   }
 
-  void _onSuccessLinkCallback(String publicToken,
-      LinkSuccessMetadata metadata) {
+  void _getMetaData() {}
+
+  void _onSuccessLinkCallback(
+      String publicToken, LinkSuccessMetadata metadata) {
     print("onSuccess: $publicToken, metadata: ${metadata.description()}");
   }
 
