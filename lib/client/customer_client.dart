@@ -14,7 +14,7 @@ class CustomerClient {
 
     var response = await post(uri, headers: headers, body: payload);
     if (response.statusCode != 200) {
-      ErrorHandler.onError(response, ErrorConstants.REGISTRATION);
+      ErrorHandler.onErrorClient(response, ErrorConstants.REGISTRATION);
     }
     return response.body;
   }
@@ -31,7 +31,7 @@ class CustomerClient {
       headers: headers,
     );
     if (response.statusCode != 200) {
-      ErrorHandler.onError(response, ErrorConstants.EMAIL_VERIFICATION);
+      ErrorHandler.onErrorClient(response, ErrorConstants.EMAIL_VERIFICATION);
     }
     var booleanResponse = jsonDecode(response.body);
     return booleanResponse[IAMConstants.USERNAME_TAKEN_KEY];
@@ -50,7 +50,7 @@ class CustomerClient {
       headers: headers,
     );
     if (response.statusCode != 200) {
-      ErrorHandler.onError(response, ErrorConstants.PHONE_VERIFICATION);
+      ErrorHandler.onErrorClient(response, ErrorConstants.PHONE_VERIFICATION);
     }
     var booleanResponse = jsonDecode(response.body);
     return booleanResponse[IAMConstants.USERNAME_TAKEN_KEY];

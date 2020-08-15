@@ -14,7 +14,8 @@ class AccountsClient {
             AccountsMicroserviceConstants.ENDPOINT_V1_ACCOUNTS +
             payload);
     if (response.statusCode != 200 && response.statusCode != 404) {
-      ErrorHandler.onError(response, ErrorConstants.AUTHENTICATION_FAILURE);
+      ErrorHandler.onErrorClient(
+          response, ErrorConstants.AUTHENTICATION_FAILURE);
     }
     return AccountsFullModel.fromJson(jsonDecode(response.body));
   }
@@ -29,7 +30,7 @@ class AccountsClient {
     if (response.statusCode == 404) {
       return null;
     } else if (response.statusCode != 200) {
-      ErrorHandler.onError(response, "AccessToken Retrieval");
+      ErrorHandler.onErrorClient(response, "AccessToken Retrieval");
     }
     return AccessTokensResponse.fromJson(jsonDecode(response.body));
   }

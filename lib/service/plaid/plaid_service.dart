@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:main/client/plaid_client.dart';
+import 'package:main/constants/error_constants.dart';
 import 'package:main/constants/plaid_constants.dart';
 import 'package:main/error/error_handler.dart';
 import 'package:main/models/plaid/plaid_user.dart';
@@ -12,16 +15,19 @@ class PlaidService {
   final PlaidClient _plaidClient = PlaidClient();
 
   void openLinkNewAccount(String phone) async {
-    _retrieveLinkTokenNewAccount(phone).then((linkToken) =>
-    {
-      config = LinkConfiguration(linkToken: linkToken),
-      PlaidLink plaidLink =
-        PlaidLink(configuration: config,
-            onSuccess: _onSuccessCallback,
-            onEvent: _onEventCallBack,
-            onExit: _onExitCallBack)
-      plaidLink.open()
-    }).catchError((error) => ErrorHandler.showError(error));
+    LinkConfiguration config;
+    PlaidLink plaidLink;
+    _retrieveLinkTokenNewAccount(phone)
+        .then((linkToken) => {
+              config = LinkConfiguration(linkToken: linkToken),
+              plaidLink = PlaidLink(
+                  configuration: config,
+                  onSuccess: _onSuccessCallback,
+                  onEvent: _onEventCallBack,
+                  onExit: _onExitCallBack),
+              plaidLink.open()
+            })
+        .catchError((error) => ErrorHandler.showError(error));
   }
 
   Future<String> _retrieveLinkTokenNewAccount(String phone) async {
@@ -52,6 +58,7 @@ class PlaidService {
   }
 
   void _onExitCallBack(String error, LinkExitMetadata metadata) {
-    print(metadata.toString());
+    log("error: $error, metadata: ${metadata.description()}");
+    ErrorHandler.onError(ErrorConstants.ADDING_ACCOUNTS);
   }
 }

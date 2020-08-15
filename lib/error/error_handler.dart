@@ -6,13 +6,18 @@ import 'package:main/constants/error_constants.dart';
 import 'package:main/error/data_access_exception.dart';
 
 class ErrorHandler {
-  static onError(Response response, String context) {
+  static onErrorClient(Response response, String context) {
     log(context +
         "failed with status code: " +
         response.statusCode.toString() +
         " response: " +
         response.body +
         "");
+    throw DataAccessException(
+        message: context + ErrorConstants.DEFAULT_POPUP_MSG);
+  }
+
+  static onError(String context) {
     throw DataAccessException(
         message: context + ErrorConstants.DEFAULT_POPUP_MSG);
   }

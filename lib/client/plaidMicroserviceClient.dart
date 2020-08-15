@@ -18,7 +18,7 @@ class PlaidMicroserviceClient {
           PlaidMicroserviceConstants.EXCHANGE_URI,
     );
     if (response.statusCode != 200) {
-      ErrorHandler.onError(response, "Access Token");
+      ErrorHandler.onErrorClient(response, "Access Token");
     }
     String responseBody = response.body;
     TokenExchangeResponse exchangeResponse =
@@ -34,7 +34,7 @@ class PlaidMicroserviceClient {
         headers: UrlConstants.JSON_HEADER,
         body: payload);
     if (response.statusCode != 200) {
-      ErrorHandler.onError(response, "Adding Accounts");
+      ErrorHandler.onErrorClient(response, "Adding Accounts");
     }
     String responseBody = response.body;
     GenericSuccessResponseModel exchangeResponse =
@@ -50,7 +50,7 @@ class PlaidMicroserviceClient {
         headers: UrlConstants.JSON_HEADER,
         body: payload);
     if (response.statusCode != 200) {
-      ErrorHandler.onError(response, "Adding Transactions");
+      ErrorHandler.onErrorClient(response, "Adding Transactions");
     }
     String responseBody = response.body;
     GenericSuccessResponseModel exchangeResponse =

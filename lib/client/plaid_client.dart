@@ -21,7 +21,7 @@ class PlaidClient {
         headers: GlobalConstants.BASIC_POST_HEADERS,
         body: jsonEncode(request.toJson()));
     if (response.statusCode != 200) {
-      ErrorHandler.onError(response, ErrorConstants.ACCOUNTS_RETRIEVAL);
+      ErrorHandler.onErrorClient(response, ErrorConstants.ACCOUNTS_RETRIEVAL);
     }
     PlaidTokenExchangeResponse plaidResponse =
         PlaidTokenExchangeResponse.fromJson(jsonDecode(response.body));
@@ -35,7 +35,7 @@ class PlaidClient {
         headers: GlobalConstants.BASIC_POST_HEADERS,
         body: jsonEncode(request.toJson()));
     if (response.statusCode != 200) {
-      ErrorHandler.onError(response, ErrorConstants.ADDING_ACCOUNTS);
+      ErrorHandler.onErrorClient(response, ErrorConstants.ADDING_ACCOUNTS);
     }
     LinkTokenResponse plaidResponse =
     LinkTokenResponse.fromJson(jsonDecode(response.body));
