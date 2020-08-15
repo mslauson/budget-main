@@ -11,7 +11,7 @@ class PlaidAccountsRequest {
   @JsonKey(name: 'access_token')
   final String accessToken;
 
-  PlaidAccountsRequest(this.clientId, this.secret, this.accessToken);
+  PlaidAccountsRequest({this.clientId, this.secret, this.accessToken});
 
   factory PlaidAccountsRequest.fromJson(Map<String, dynamic> json) =>
       _$PlaidAccountsRequestFromJson(json);

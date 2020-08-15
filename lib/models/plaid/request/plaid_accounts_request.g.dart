@@ -8,9 +8,9 @@ part of 'plaid_accounts_request.dart';
 
 PlaidAccountsRequest _$PlaidAccountsRequestFromJson(Map<String, dynamic> json) {
   return PlaidAccountsRequest(
-    json['client_id'] as String,
-    json['secret'] as String,
-    json['access_token'] as String,
+    clientId: json['client_id'] as String,
+    secret: json['secret'] as String,
+    accessToken: json['access_token'] as String,
   );
 }
 

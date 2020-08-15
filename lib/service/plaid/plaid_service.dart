@@ -7,8 +7,11 @@ import 'package:main/error/error_handler.dart';
 import 'package:main/models/accounts/accounts_full_model.dart';
 import 'package:main/models/plaid/plaid_user.dart';
 import 'package:main/models/plaid/request/link_token_request.dart';
+import 'package:main/models/plaid/request/plaid_accounts_request.dart';
 import 'package:main/models/plaid/request/plaid_institution_meta_request.dart';
+import 'package:main/models/plaid/request/plaid_token_exchange_request.dart';
 import 'package:main/models/plaid/response/link_token_response.dart';
+import 'package:main/models/plaid/response/plaid_accounts_response.dart';
 import 'package:main/models/plaid/response/plaid_institution_meta_response.dart';
 import 'package:plaid_flutter/plaid_flutter.dart';
 
@@ -53,8 +56,15 @@ class PlaidService {
   void _onSuccessLinkCallback(String publicToken,
       LinkSuccessMetadata metadata) async {
     print("onSuccess: $publicToken, metadata: ${metadata.description()}");
+    PlaidAccountsResponse accountsResponse;
     PlaidInstitutionMetaResponse metaResponse = await _plaidClient
         .getInstitutionMetaData(_buildMetaRequest());
+    _plaidClient.getAccessToken(_buildTokenExchangeRequest(publicToken)).then((
+        tokenResponse) async =>
+    {
+      accountsResponse = await _plaidClient.getAccounts(
+          _buildAccountsRequest(tokenResponse.accessToken))
+    });
   }
 
   void _onEventLinkCallBack(String event, LinkEventMetadata metadata) {
@@ -73,6 +83,22 @@ class PlaidService {
         clientId: PlaidConstants.CLIENT_ID_DEV,
         secret: PlaidConstants.CLIENT_SECRET_DEV,
         includeOptionalMetadata: true
+    );
+  }
+
+  PlaidTokenExchangeRequest _buildTokenExchangeRequest(String publicToken) {
+    return PlaidTokenExchangeRequest(
+        clientId: PlaidConstants.CLIENT_ID_DEV,
+        secret: PlaidConstants.CLIENT_SECRET_DEV,
+        publicToken: publicToken
+    );
+  }
+
+  PlaidAccountsRequest _buildAccountsRequest(String accessToken) {
+    return PlaidAccountsRequest(
+        clientId: PlaidConstants.CLIENT_ID_DEV,
+        secret: PlaidConstants.CLIENT_SECRET_DEV,
+        accessToken: accessToken
     );
   }
 
