@@ -134,7 +134,7 @@ class SecureHomeWidgets {
   }
 
   static Future<void> loadData(String email, String lastLogin) async {
-    accessTokenResponse = await _loadAccessTokens(email);
+//    accessTokenResponse = await _loadAccessTokens(email);
 //    putAccessTokensToPlaidMicroservice(email, lastLogin)
 //        .whenComplete(() async => {
 //              accountsResponse = await _loadAccounts(email),
@@ -146,9 +146,9 @@ class SecureHomeWidgets {
 //            });
   }
 
-  static _loadAccessTokens(String email) async {
-    return await AccountsClient.getAccessTokensForUser(email);
-  }
+//  static _loadAccessTokens(String email) async {
+//    return await AccountsClient.getAccessTokensForUser(email);
+//  }
 
   static Future putAccessTokensToPlaidMicroservice(
       String email, String lastLogin) async {
