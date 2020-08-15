@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:main/client/accounts_client.dart';
 import 'package:main/client/budget_client.dart';
 import 'package:main/client/plaidMicroserviceClient.dart';
 import 'package:main/client/transactions_client.dart';
@@ -163,9 +162,9 @@ class SecureHomeWidgets {
     }
   }
 
-  static _loadAccounts(String email) async {
-    return await AccountsClient.getAccountsForUser(email);
-  }
+//  static _loadAccounts(String email) async {
+//    return await AccountsClient.getAccountsForUser(email);
+//  }
 
   static _loadTransactions(String email) async {
     Jiffy jiffy = new Jiffy();
