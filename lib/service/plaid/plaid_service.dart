@@ -22,9 +22,9 @@ class PlaidService {
               config = LinkConfiguration(linkToken: linkToken),
               plaidLink = PlaidLink(
                   configuration: config,
-                  onSuccess: _onSuccessCallback,
-                  onEvent: _onEventCallBack,
-                  onExit: _onExitCallBack),
+                  onSuccess: _onSuccessLinkCallback,
+                  onEvent: _onEventLinkCallBack,
+                  onExit: _onExitLinkCallBack),
               plaidLink.open()
             })
         .catchError((error) => ErrorHandler.showError(error));
@@ -48,16 +48,17 @@ class PlaidService {
     );
   }
 
-  void _onSuccessCallback(String publicToken, LinkSuccessMetadata metadata) {
+  void _onSuccessLinkCallback(String publicToken,
+      LinkSuccessMetadata metadata) {
     print("onSuccess: $publicToken, metadata: ${metadata.description()}");
   }
 
-  void _onEventCallBack(String event, LinkEventMetadata metadata) {
+  void _onEventLinkCallBack(String event, LinkEventMetadata metadata) {
     _institutionId = metadata.institutionId;
     _institutionName = metadata.institutionName;
   }
 
-  void _onExitCallBack(String error, LinkExitMetadata metadata) {
+  void _onExitLinkCallBack(String error, LinkExitMetadata metadata) {
     log("error: $error, metadata: ${metadata.description()}");
     ErrorHandler.onError(ErrorConstants.ADDING_ACCOUNTS);
   }
