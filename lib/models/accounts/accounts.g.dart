@@ -9,6 +9,7 @@ part of 'accounts.dart';
 Accounts _$AccountsFromJson(Map<String, dynamic> json) {
   return Accounts(
     id: json['id'] as String,
+    accountId: json['account_id'] as String,
     name: json['name'] as String,
     mask: json['mask'] as String,
     type: json['type'] as String,
@@ -30,6 +31,7 @@ Map<String, dynamic> _$AccountsToJson(Accounts instance) {
   }
 
   writeNotNull('id', instance.id);
+  writeNotNull('account_id', instance.accountId);
   writeNotNull('name', instance.name);
   writeNotNull('mask', instance.mask);
   writeNotNull('type', instance.type);

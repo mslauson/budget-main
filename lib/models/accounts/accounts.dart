@@ -8,6 +8,8 @@ part 'accounts.g.dart';
 class Accounts {
   @JsonKey(name: 'id')
   final String id;
+  @JsonKey(name: 'account_id')
+  final String accountId;
   @JsonKey(name: 'name')
   final String name;
   @JsonKey(name: 'mask')
@@ -23,6 +25,7 @@ class Accounts {
 
   Accounts(
       {this.id,
+      this.accountId,
       this.name,
       this.mask,
       this.type,
