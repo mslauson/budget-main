@@ -1,19 +1,27 @@
 import 'package:main/client/plaid_client.dart';
 import 'package:main/constants/plaid_constants.dart';
+import 'package:main/error/error_handler.dart';
 import 'package:main/models/plaid/plaid_user.dart';
 import 'package:main/models/plaid/request/link_token_request.dart';
 import 'package:main/models/plaid/response/link_token_response.dart';
 import 'package:plaid_flutter/plaid_flutter.dart';
 
 class PlaidService {
+  String _institutionId;
+  String _institutionName;
   final PlaidClient _plaidClient = PlaidClient();
 
   void openLinkNewAccount(String phone) async {
-    String linkToken = await _retrieveLinkTokenNewAccount(phone);
-    final LinkConfiguration config = LinkConfiguration(linkToken: linkToken);
-    final PlaidLink plaidLink =
-        PlaidLink(configuration: config, onSuccess: _onSuccessCallback);
-    plaidLink.open();
+    _retrieveLinkTokenNewAccount(phone).then((linkToken) =>
+    {
+      config = LinkConfiguration(linkToken: linkToken),
+      PlaidLink plaidLink =
+        PlaidLink(configuration: config,
+            onSuccess: _onSuccessCallback,
+            onEvent: _onEventCallBack,
+            onExit: _onExitCallBack)
+      plaidLink.open()
+    }).catchError((error) => ErrorHandler.showError(error));
   }
 
   Future<String> _retrieveLinkTokenNewAccount(String phone) async {
@@ -36,5 +44,14 @@ class PlaidService {
 
   void _onSuccessCallback(String publicToken, LinkSuccessMetadata metadata) {
     print("onSuccess: $publicToken, metadata: ${metadata.description()}");
+  }
+
+  void _onEventCallBack(String event, LinkEventMetadata metadata) {
+    _institutionId = metadata.institutionId;
+    _institutionName = metadata.institutionName;
+  }
+
+  void _onExitCallBack(String error, LinkExitMetadata metadata) {
+    print(metadata.toString());
   }
 }
