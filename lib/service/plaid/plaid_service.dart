@@ -4,9 +4,12 @@ import 'package:main/client/plaid_client.dart';
 import 'package:main/constants/error_constants.dart';
 import 'package:main/constants/plaid_constants.dart';
 import 'package:main/error/error_handler.dart';
+import 'package:main/models/accounts/accounts_full_model.dart';
 import 'package:main/models/plaid/plaid_user.dart';
 import 'package:main/models/plaid/request/link_token_request.dart';
+import 'package:main/models/plaid/request/plaid_institution_meta_request.dart';
 import 'package:main/models/plaid/response/link_token_response.dart';
+import 'package:main/models/plaid/response/plaid_institution_meta_response.dart';
 import 'package:plaid_flutter/plaid_flutter.dart';
 
 class PlaidService {
@@ -47,11 +50,11 @@ class PlaidService {
         countryCodes: PlaidConstants.COUNTRY_CODES);
   }
 
-  void _getMetaData() {}
-
-  void _onSuccessLinkCallback(
-      String publicToken, LinkSuccessMetadata metadata) {
+  void _onSuccessLinkCallback(String publicToken,
+      LinkSuccessMetadata metadata) async {
     print("onSuccess: $publicToken, metadata: ${metadata.description()}");
+    PlaidInstitutionMetaResponse metaResponse = await _plaidClient
+        .getInstitutionMetaData(_buildMetaRequest());
   }
 
   void _onEventLinkCallBack(String event, LinkEventMetadata metadata) {
@@ -62,5 +65,28 @@ class PlaidService {
   void _onExitLinkCallBack(String error, LinkExitMetadata metadata) {
     log("error: $error, metadata: ${metadata.description()}");
     ErrorHandler.onError(ErrorConstants.ADDING_ACCOUNTS);
+  }
+
+  PlaidInstitutionMetaRequest _buildMetaRequest() {
+    return PlaidInstitutionMetaRequest(
+        institutionId: _institutionId,
+        clientId: PlaidConstants.CLIENT_ID_DEV,
+        secret: PlaidConstants.CLIENT_SECRET_DEV,
+        includeOptionalMetadata: true
+    );
+  }
+
+  AccountsFullModel _buildAccountsModel
+
+  (
+
+  String phone, List
+
+  <
+
+  Link
+
+  >){
+  return AccountsFullModel
   }
 }
