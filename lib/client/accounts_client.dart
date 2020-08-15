@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:main/constants/accountsMicroserviceConstants.dart';
+import 'package:main/constants/accounts_microservice_client.dart';
 import 'package:main/constants/error_constants.dart';
 import 'package:main/error/error_handler.dart';
 import 'package:main/models/accounts/AccessTokensResponse.dart';
