@@ -8,7 +8,7 @@ import 'package:main/models/accounts/AccessTokensResponse.dart';
 import 'package:main/models/accounts/accounts_full_model.dart';
 
 class AccountsClient {
-  static Future<AccountsFullModel> getAccountsForUser(String payload) async {
+   Future<AccountsFullModel> getAccountsForUser(String payload) async {
     Response response = await get(
         AccountsMicroserviceConstants.BASE_URL_ACCOUNTS +
             AccountsMicroserviceConstants.ENDPOINT_V1_ACCOUNTS +
@@ -20,17 +20,16 @@ class AccountsClient {
     return AccountsFullModel.fromJson(jsonDecode(response.body));
   }
 
-  static Future<AccessTokensResponse> getAccessTokensForUser(
-      String email) async {
-    Response response = await get(
-        AccountsMicroserviceConstants.BASE_URL_ACCOUNTS +
-            AccountsMicroserviceConstants.ENDPOINT_V1_ACCOUNTS +
-            email +
-            AccountsMicroserviceConstants.ENDPOINT_ACCESS_TOKENS);
-    if (response.statusCode == 404) {
-      return null;
-    } else if (response.statusCode != 200) {
-      ErrorHandler.onErrorClient(response, "AccessToken Retrieval");
+  Future<AccessTokensResponse> getAccessTokensForUser(String email) async {
+     Response response = await get(
+         AccountsMicroserviceConstants.BASE_URL_ACCOUNTS +
+             AccountsMicroserviceConstants.ENDPOINT_V1_ACCOUNTS +
+             email +
+             AccountsMicroserviceConstants.ENDPOINT_ACCESS_TOKENS);
+     if (response.statusCode == 404) {
+       return null;
+     } else if (response.statusCode != 200) {
+       ErrorHandler.onErrorClient(response, "AccessToken Retrieval");
     }
     return AccessTokensResponse.fromJson(jsonDecode(response.body));
   }
