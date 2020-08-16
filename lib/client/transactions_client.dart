@@ -20,7 +20,8 @@ class TransactionsClient {
             "&dateFinish=" +
             dateFinish);
     if (response.statusCode != 200 && response.statusCode != 404) {
-      ErrorHandler.onError(response, ErrorConstants.TRANSACTIONS_RETRIEVAL);
+      ErrorHandler.onErrorClient(
+          response, ErrorConstants.TRANSACTIONS_RETRIEVAL);
     }
     return TransactionsGetResponse.fromJson(jsonDecode(response.body));
   }

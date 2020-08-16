@@ -15,7 +15,7 @@ class BudgetClient {
         BudgetClientConstants.ENDPOINT_SUFFIX_MONTH +
         month);
     if (response.statusCode != 200 && response.statusCode != 404) {
-      ErrorHandler.onError(response, ErrorConstants.BUDGET_RETRIEVAL);
+      ErrorHandler.onErrorClient(response, ErrorConstants.BUDGET_RETRIEVAL);
     }
     return GetBudgetsResponse.fromJson(jsonDecode(response.body));
   }

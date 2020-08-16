@@ -1,26 +1,29 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:http/http.dart';
-import 'package:main/constants/accountsMicroserviceConstants.dart';
+import 'package:main/constants/accounts_microservice_client.dart';
 import 'package:main/constants/error_constants.dart';
+import 'package:main/constants/global_constants.dart';
 import 'package:main/error/error_handler.dart';
 import 'package:main/models/accounts/AccessTokensResponse.dart';
-import 'package:main/models/accounts/getAccountsResponse.dart';
+import 'package:main/models/accounts/accounts_full_model.dart';
+import 'package:main/util/uri_builder.dart';
 
 class AccountsClient {
-  static Future<GetAccountsResponse> getAccountsForUser(String payload) async {
+   Future<AccountsFullModel> getAccountsForUser(String payload) async {
     Response response = await get(
         AccountsMicroserviceConstants.BASE_URL_ACCOUNTS +
             AccountsMicroserviceConstants.ENDPOINT_V1_ACCOUNTS +
             payload);
     if (response.statusCode != 200 && response.statusCode != 404) {
-      ErrorHandler.onError(response, ErrorConstants.AUTHENTICATION_FAILURE);
+      ErrorHandler.onErrorClient(
+          response, ErrorConstants.AUTHENTICATION_FAILURE);
     }
-    return GetAccountsResponse.fromJson(jsonDecode(response.body));
+    return AccountsFullModel.fromJson(jsonDecode(response.body));
   }
 
-  static Future<AccessTokensResponse> getAccessTokensForUser(
-      String email) async {
+  Future<AccessTokensResponse> getAccessTokensForUser(String email) async {
     Response response = await get(
         AccountsMicroserviceConstants.BASE_URL_ACCOUNTS +
             AccountsMicroserviceConstants.ENDPOINT_V1_ACCOUNTS +
@@ -29,8 +32,22 @@ class AccountsClient {
     if (response.statusCode == 404) {
       return null;
     } else if (response.statusCode != 200) {
-      ErrorHandler.onError(response, "AccessToken Retrieval");
+      ErrorHandler.onErrorClient(response, "AccessToken Retrieval");
     }
     return AccessTokensResponse.fromJson(jsonDecode(response.body));
+  }
+
+  Future<AccountsFullModel> addAccount(AccountsFullModel request) async {
+    Response response = await post(
+        UriBuilder.blossomDev(AccountsMicroserviceConstants.SERVICE, 1),
+        headers: GlobalConstants.BASIC_POST_HEADERS,
+        body: jsonEncode(request.toJson()));
+    if (response.statusCode != 200) {
+      ErrorHandler.onErrorClient(response, ErrorConstants.ADDING_ACCOUNTS);
+    }
+    AccountsFullModel accountsResponse =
+        AccountsFullModel.fromJson(jsonDecode(response.body));
+    log(accountsResponse.toString());
+    return accountsResponse;
   }
 }
