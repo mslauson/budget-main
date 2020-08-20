@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:main/components/drawer_container.dart';
+import 'package:main/theme/blossom_text.dart';
+
+import 'drawer_screen.dart';
 
 class AccountsScreen extends StatefulWidget {
   @override
@@ -8,7 +13,17 @@ class AccountsScreen extends StatefulWidget {
 class _AccountsScreenState extends State<AccountsScreen> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Scaffold(
+      body: Stack(
+        children: [
+          DrawerScreen(),
+          DrawerContainer(
+            children: [
+              Text('Accounts', style: BlossomText.headline),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }

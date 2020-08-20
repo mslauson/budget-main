@@ -3,12 +3,19 @@ import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:main/theme/blossom_text.dart';
 
-class DashScreen extends StatefulWidget {
+class DrawerContainer extends StatefulWidget {
+  final List<Widget> children;
+
+  DrawerContainer({
+    Key key,
+    this.children,
+  }) : super(key: key);
+
   @override
-  _DashScreenState createState() => _DashScreenState();
+  _DrawerContainerState createState() => _DrawerContainerState();
 }
 
-class _DashScreenState extends State<DashScreen> {
+class _DrawerContainerState extends State<DrawerContainer> {
   double offsetX;
   double offsetY;
   double scaleFactor;
@@ -52,6 +59,14 @@ class _DashScreenState extends State<DashScreen> {
                 ],
               ),
             ),
+            Column(
+              children: widget.children
+                  .map((e) => Padding(
+                        padding: EdgeInsets.all(5),
+                        child: e,
+                      ))
+                  .toList(),
+            )
           ],
         ),
       ),
