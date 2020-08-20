@@ -81,27 +81,24 @@ Router _buildRouter() => Router.appRouter
     handler: Handler(
       handlerFunc: (context, params) => Splash(),
     ),
-  )..define(
-      Routes.formUserProfile,
-      transitionType: TransitionType.fadeIn,
-      handler: Handler(
-        handlerFunc: (context, params) => Splash(),
-      ),
-    )..define(
-      Routes.blossomMain,
-      transitionType: TransitionType.fadeIn,
-      handler: Handler(
-        handlerFunc: (context, params) => MainScreen(),
-      ),
-    )..define(
-      Routes.blossomDash,
-      transitionType: TransitionType.fadeIn,
-      handler: Handler(
-        handlerFunc: (context, params) => DrawerContainer(),
+  )
+  ..define(
+    Routes.formUserProfile,
+    transitionType: TransitionType.fadeIn,
+    handler: Handler(
+      handlerFunc: (context, params) => Splash(),
     ),
-    )..define(
-      Routes.blossomBudgets,
-      transitionType: TransitionType.fadeIn,
+  )
+  ..define(
+    Routes.blossomDash,
+    transitionType: TransitionType.fadeIn,
+    handler: Handler(
+      handlerFunc: (context, params) => DashScreen(),
+    ),
+  )
+  ..define(
+    Routes.blossomBudgets,
+    transitionType: TransitionType.cupertino,
     handler: Handler(
       handlerFunc: (context, params) => BudgetsScreen(),
     ),
@@ -115,7 +112,7 @@ Router _buildRouter() => Router.appRouter
   )
   ..define(
     Routes.blossomAccounts,
-    transitionType: TransitionType.fadeIn,
+    transitionType: TransitionType.cupertino,
     handler: Handler(
       handlerFunc: (context, params) => AccountsScreen(),
     ),
@@ -129,7 +126,7 @@ Router _buildRouter() => Router.appRouter
   )
   ..define(
     Routes.blossomTransactions,
-    transitionType: TransitionType.fadeIn,
+    transitionType: TransitionType.cupertino,
     handler: Handler(
       handlerFunc: (context, params) => TransactionsScreen(),
     ),
@@ -143,7 +140,7 @@ Router _buildRouter() => Router.appRouter
   )
   ..define(
     Routes.blossomProfile,
-    transitionType: TransitionType.fadeIn,
+    transitionType: TransitionType.cupertino,
     handler: Handler(
       handlerFunc: (context, params) => ProfileScreen(),
     ),
