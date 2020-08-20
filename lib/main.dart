@@ -33,22 +33,24 @@ class MyApp extends StatelessWidget {
         onGenerateRoute: (settings) => Router.appRouter
             .matchRoute(context, settings.name, routeSettings: settings)
             .route,
-        theme: ThemeData(
-          primarySwatch: Colors.lightBlue,
-          scaffoldBackgroundColor: Colors.white,
-          disabledColor: Colors.grey,
-          buttonTheme: ButtonThemeData(buttonColor: Colors.lightBlue),
-          bottomAppBarTheme: BottomAppBarTheme(color: Colors.lightBlue),
-          textTheme: TextTheme(
-            button: TextStyle(
-              color: Colors.white,
-            ),
-          ),
-        ),
+        theme: _buildThemeData(),
       ),
     );
   }
 }
+
+ThemeData _buildThemeData() => ThemeData(
+      primarySwatch: Colors.lightBlue,
+      scaffoldBackgroundColor: Colors.white,
+      disabledColor: Colors.grey,
+      buttonTheme: ButtonThemeData(buttonColor: Colors.lightBlue),
+      bottomAppBarTheme: BottomAppBarTheme(color: Colors.lightBlue),
+      textTheme: TextTheme(
+        button: TextStyle(
+          color: Colors.white,
+        ),
+      ),
+    );
 
 Router _buildRouter() => Router.appRouter
   ..define(
@@ -78,24 +80,27 @@ Router _buildRouter() => Router.appRouter
     handler: Handler(
       handlerFunc: (context, params) => Splash(),
     ),
-  )
-  ..define(
-    Routes.formUserProfile,
-    transitionType: TransitionType.fadeIn,
-    handler: Handler(
-      handlerFunc: (context, params) => Splash(),
-    ),
-  )
-  ..define(
-    Routes.blossomDash,
-    transitionType: TransitionType.fadeIn,
-    handler: Handler(
-      handlerFunc: (context, params) => DashScreen(),
-    ),
-  )
-  ..define(
-    Routes.blossomBudgets,
-    transitionType: TransitionType.fadeIn,
+  )..define(
+      Routes.formUserProfile,
+      transitionType: TransitionType.fadeIn,
+      handler: Handler(
+        handlerFunc: (context, params) => Splash(),
+      ),
+    )..define(
+      Routes.blossomMain,
+      transitionType: TransitionType.fadeIn,
+      handler: Handler(
+        handlerFunc: (context, params) => MainScreen(),
+      ),
+    )..define(
+      Routes.blossomDash,
+      transitionType: TransitionType.fadeIn,
+      handler: Handler(
+        handlerFunc: (context, params) => DashScreen(),
+      ),
+    )..define(
+      Routes.blossomBudgets,
+      transitionType: TransitionType.fadeIn,
     handler: Handler(
       handlerFunc: (context, params) => BudgetsScreen(),
     ),
