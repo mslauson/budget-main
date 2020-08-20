@@ -49,7 +49,7 @@ class Splash extends StatelessWidget {
         iconData: FontAwesomeIcons.twitter,
             onPressed: () => Router.appRouter.navigateTo(
               context,
-              Routes.blossomMain,
+              Routes.blossomDash,
               transition: TransitionType.fadeIn,
             ),
           ),

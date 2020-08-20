@@ -4,12 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-import 'components/drawer_container.dart';
 import 'constants/global_constants.dart';
 import 'constants/routes.dart';
 import 'screens/accounts_screen.dart';
 import 'screens/budgets_screen.dart';
-import 'screens/main_screen.dart';
+import 'screens/dash_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/splash.dart';
 import 'screens/transactions_screen.dart';

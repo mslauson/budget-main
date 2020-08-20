@@ -6,7 +6,6 @@ class Routes {
   static final formUserPhone = '/form/user/phone';
   static final formUserRegistration = '/form/user/registration';
   static final formUserProfile = '/form/user/profile';
-  static final blossomMain = '/blossom/main';
   static final blossomDash = '/blossom/dash';
   static final blossomBudgets = '/blossom/budgets';
   static final blossomBudgetById = '/blossom/budgets/:budgetId';
