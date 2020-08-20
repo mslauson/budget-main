@@ -61,26 +61,25 @@ class _DrawerScreenState extends State<DrawerScreen> {
       );
 
   Widget _buildLargeNavColumn() => Column(
-    children: _buildLargeDrawerItems()
-        .map((item) =>
-        Padding(
-          padding: const EdgeInsets.all(14.0),
-          child: GestureDetector(
-            onTap: () =>
-                Router.appRouter.navigateTo(context, item.route),
-            child: Row(
-              children: [
-                Spacer(flex: 1),
-                FaIcon(item.icon, color: Colors.white),
-                SizedBox(width: 20),
-                Text(item.name, style: BlossomText.titleLight),
-                Spacer(flex: 12),
-              ],
-            ),
-          ),
-        ))
-        .toList(),
-  );
+        children: _buildLargeDrawerItems()
+            .map((item) => Padding(
+                  padding: const EdgeInsets.all(14.0),
+                  child: GestureDetector(
+                    onTap: () =>
+                        Router.appRouter.navigateTo(context, item.route),
+                    child: Row(
+                      children: [
+                        Spacer(flex: 1),
+                        FaIcon(item.icon, color: Colors.white),
+                        SizedBox(width: 20),
+                        Text(item.name, style: BlossomText.titleLight),
+                        Spacer(flex: 12),
+                      ],
+                    ),
+                  ),
+                ))
+            .toList(),
+      );
 
   Widget _buildSmallNavColumn() =>
       Column(
