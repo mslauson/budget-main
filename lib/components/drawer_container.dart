@@ -61,12 +61,8 @@ class _DrawerContainerState extends State<DrawerContainer> {
             ),
             Column(
               children: widget.children
-                  .map((e) => Padding(
-                        padding: EdgeInsets.all(5),
-                        child: e,
-                      ))
-                  .toList(),
-            )
+                    .map((e) => Padding(padding: EdgeInsets.all(5), child: e))
+                    .toList())
           ],
         ),
       ),
