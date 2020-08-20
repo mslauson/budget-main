@@ -1,17 +1,18 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:main/constants/global_constants.dart';
 import 'package:main/models/global/activeUser.dart';
-import 'package:main/screens/accounts_screen.dart';
-import 'package:main/screens/budgets_screen.dart';
-import 'package:main/screens/dash_screen.dart';
-import 'package:main/screens/profile_screen.dart';
-import 'package:main/screens/splash.dart';
-import 'package:main/screens/transactions_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 
+import 'constants/global_constants.dart';
 import 'constants/routes.dart';
+import 'screens/accounts_screen.dart';
+import 'screens/budgets_screen.dart';
+import 'screens/dash_screen.dart';
+import 'screens/main_screen.dart';
+import 'screens/profile_screen.dart';
+import 'screens/splash.dart';
+import 'screens/transactions_screen.dart';
 
 void main() {
   _buildRouter();

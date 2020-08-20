@@ -1,7 +1,9 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:main/components/icon_action_button.dart';
 import 'package:main/constants/global_constants.dart';
+import 'package:main/constants/routes.dart';
 import 'package:main/service/auth/authentication_service.dart';
 import 'package:main/theme/blossom_text.dart';
 import 'package:main/theme/svg_piggy.dart';
@@ -37,18 +39,23 @@ class Splash extends StatelessWidget {
   }
 
   Widget _buildSsoOptions(BuildContext context) => Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          IconActionButton(
-            iconData: FontAwesomeIcons.google,
-            onPressed: () => _authenticationService.authenticateGoogle(context),
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: <Widget>[
+      IconActionButton(
+        iconData: FontAwesomeIcons.google,
+        onPressed: () => _authenticationService.authenticateGoogle(context),
+      ),
+      IconActionButton(
+        iconData: FontAwesomeIcons.twitter,
+            onPressed: () => Router.appRouter.navigateTo(
+              context,
+              Routes.blossomMain,
+              transition: TransitionType.fadeIn,
+            ),
           ),
-          IconActionButton(
-            iconData: FontAwesomeIcons.twitter,
-          ),
-          IconActionButton(
-            iconData: FontAwesomeIcons.facebookF,
-          ),
-        ],
-      );
+      IconActionButton(
+        iconData: FontAwesomeIcons.facebookF,
+      ),
+    ],
+  );
 }
