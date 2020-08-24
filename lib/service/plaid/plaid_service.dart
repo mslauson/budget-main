@@ -51,8 +51,8 @@ class PlaidService {
 
   LinkTokenRequest _buildLinkRequestNewAccount(String phone) {
     return LinkTokenRequest(
-        clientId: PlaidConstants.CLIENT_ID_DEV,
-        secret: PlaidConstants.CLIENT_SECRET_DEV,
+        clientId: PlaidConstants.CLIENT_ID_SANDBOX,
+        secret: PlaidConstants.CLIENT_SECRET_SANDBOX,
         clientName: PlaidConstants.CLIENT_NAME,
         language: PlaidConstants.LANGUAGE,
         user: PlaidUser(clientUserId: phone),
@@ -91,24 +91,23 @@ class PlaidService {
   PlaidInstitutionMetaRequest _buildMetaRequest() {
     return PlaidInstitutionMetaRequest(
         institutionId: _institutionId,
-        clientId: PlaidConstants.CLIENT_ID_DEV,
-        secret: PlaidConstants.CLIENT_SECRET_DEV,
-        options: Options(includeOptionalMetadata: true)
-    );
+        clientId: PlaidConstants.CLIENT_ID_SANDBOX,
+        secret: PlaidConstants.CLIENT_SECRET_SANDBOX,
+        options: Options(includeOptionalMetadata: true));
   }
 
   PlaidTokenExchangeRequest _buildTokenExchangeRequest(String publicToken) {
     return PlaidTokenExchangeRequest(
-        clientId: PlaidConstants.CLIENT_ID_DEV,
-        secret: PlaidConstants.CLIENT_SECRET_DEV,
+        clientId: PlaidConstants.CLIENT_ID_SANDBOX,
+        secret: PlaidConstants.CLIENT_SECRET_SANDBOX,
         publicToken: publicToken
     );
   }
 
   PlaidAccountsRequest _buildAccountsRequest(String accessToken) {
     return PlaidAccountsRequest(
-        clientId: PlaidConstants.CLIENT_ID_DEV,
-        secret: PlaidConstants.CLIENT_SECRET_DEV,
+        clientId: PlaidConstants.CLIENT_ID_SANDBOX,
+        secret: PlaidConstants.CLIENT_SECRET_SANDBOX,
         accessToken: accessToken
     );
   }

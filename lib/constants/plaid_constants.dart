@@ -12,6 +12,12 @@ class PlaidConstants {
   //env
   static const String ENV = "development";
 
+  //sandbox credentials
+  static const String CLIENT_ID_SANDBOX = "5e3e3876ba7c950013d677b8";
+  static const String PUBLIC_KEY_SANDBOX = "8b40e105420880d019d286cc4553e1";
+  static const String CLIENT_SECRET_SANDBOX = "4d38315c740df03e852971ff88b36f";
+
+  //dev credentials
   static const String CLIENT_ID_DEV = "5e3e3876ba7c950013d677b8";
   static const String PUBLIC_KEY_DEV = "8b40e105420880d019d286cc4553e1";
   static const String CLIENT_SECRET_DEV = "e3203264e267e1ec00cd35185bee10";
