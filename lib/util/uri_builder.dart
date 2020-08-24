@@ -11,6 +11,10 @@ class UriBuilder {
         '&key=$publicKey&env=$env&product=$products&clientName=Blossom';
   }
 
+  static plaidApiSandbox(String uri) {
+    return 'https://sandbox.plaid.com/$uri';
+  }
+
   static plaidApiDev(String uri) {
     return 'https://development.plaid.com/$uri';
   }

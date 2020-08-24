@@ -21,7 +21,7 @@ class PlaidClient {
   Future<PlaidTokenExchangeResponse> getAccessToken(
       PlaidTokenExchangeRequest request) async {
     Response response = await post(
-        UriBuilder.plaidApiDev(PlaidConstants.URI_ACCESS_TOKEN),
+        UriBuilder.plaidApiSandbox(PlaidConstants.URI_ACCESS_TOKEN),
         headers: GlobalConstants.BASIC_POST_HEADERS,
         body: jsonEncode(request.toJson()));
     if (response.statusCode != 200) {
@@ -35,7 +35,7 @@ class PlaidClient {
 
   Future<LinkTokenResponse> getLinkToken(LinkTokenRequest request) async {
     Response response = await post(
-        UriBuilder.plaidApiDev(PlaidConstants.URI_LINK_TOKEN),
+        UriBuilder.plaidApiSandbox(PlaidConstants.URI_LINK_TOKEN),
         headers: GlobalConstants.BASIC_POST_HEADERS,
         body: jsonEncode(request.toJson()));
     if (response.statusCode != 200) {
@@ -50,7 +50,7 @@ class PlaidClient {
   Future<PlaidInstitutionMetaResponse> getInstitutionMetaData(
       PlaidInstitutionMetaRequest request) async {
     Response response = await post(
-        UriBuilder.plaidApiDev(PlaidConstants.URI_INSTITUTION_META),
+        UriBuilder.plaidApiSandbox(PlaidConstants.URI_INSTITUTION_META),
         headers: GlobalConstants.BASIC_POST_HEADERS,
         body: jsonEncode(request.toJson()));
     if (response.statusCode != 200) {
@@ -65,7 +65,7 @@ class PlaidClient {
   Future<PlaidAccountsResponse> getAccounts(
       PlaidAccountsRequest request) async {
     Response response = await post(
-        UriBuilder.plaidApiDev(PlaidConstants.URI_GET_ACCOUNTS),
+        UriBuilder.plaidApiSandbox(PlaidConstants.URI_GET_ACCOUNTS),
         headers: GlobalConstants.BASIC_POST_HEADERS,
         body: jsonEncode(request.toJson()));
     if (response.statusCode != 200) {
