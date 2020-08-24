@@ -41,7 +41,12 @@ dependencies:
   google_fonts: ^1.1.0
   plaid_flutter: ^1.1.0
   plaid: ^1.0.2
-  flutter_svg: ^0.17.4
+  flutter_svg: ^0.18.0
+
+dependency_overrides:
+  image: last_version
+  xml: last_version
+
 
 dev_dependencies:
   flutter_test:
