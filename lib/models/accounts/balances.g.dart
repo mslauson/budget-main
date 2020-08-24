@@ -8,7 +8,7 @@ part of 'balances.dart';
 
 Balances _$BalancesFromJson(Map<String, dynamic> json) {
   return Balances(
-    available: json['available'] as double,
+    available: json['available'],
     current: json['current'],
     isoCurrencyCode: json['isoCurrencyCode'] as String,
     unofficialCurrencyCode: json['unofficialCurrencyCode'] as String,

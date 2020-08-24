@@ -5,7 +5,7 @@ part 'balances.g.dart';
 @JsonSerializable(includeIfNull: false)
 class Balances {
   @JsonKey(name: 'available')
-  final double available;
+  final available;
   @JsonKey(name: 'current')
   final current;
   @JsonKey(name: 'isoCurrencyCode')

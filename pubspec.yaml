@@ -43,9 +43,9 @@ dependencies:
   plaid: ^1.0.2
   flutter_svg: ^0.18.0
 
-dependency_overrides:
-  image: last_version
-  xml: last_version
+#dependency_overrides:
+#  image: last_version
+#  xml: "last_version"
 
 
 dev_dependencies:
