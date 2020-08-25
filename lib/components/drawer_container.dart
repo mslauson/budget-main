@@ -44,6 +44,9 @@ class _DrawerContainerState extends State<DrawerContainer> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(isDrawerOpen ? 40 : 0),
+          boxShadow: [
+            BoxShadow(blurRadius: 20, color: Colors.black87, offset: Offset(-4, 0))
+          ]
         ),
         child: Column(
           children: [

@@ -14,7 +14,7 @@ class DashScreen extends StatelessWidget {
           NavDrawer(),
           DrawerContainer(
             children: [
-              Text('Dashboard', style: BlossomText.headline),
+              Text('My Dashboard', style: BlossomText.headline),
             ],
           ),
         ],
