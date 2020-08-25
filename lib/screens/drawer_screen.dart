@@ -81,25 +81,22 @@ class _DrawerScreenState extends State<DrawerScreen> {
             .toList(),
       );
 
-  Widget _buildSmallNavColumn() =>
-      Column(
+  Widget _buildSmallNavColumn() => Column(
         children: _buildSmallDrawerItems()
-            .map((item) =>
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Row(
-                children: [
-                  Spacer(flex: 1),
-                  Text(item.name, style: BlossomText.largeBodyLight),
-                  Spacer(flex: 18),
-                ],
-              ),
-            ))
+            .map((item) => Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Row(
+                    children: [
+                      Spacer(flex: 1),
+                      Text(item.name, style: BlossomText.largeBodyLight),
+                      Spacer(flex: 18),
+                    ],
+                  ),
+                ))
             .toList(),
       );
 
-  Widget _buildSettingsLogoutRow() =>
-      Row(
+  Widget _buildSettingsLogoutRow() => Row(
         children: [
           Spacer(flex: 1),
           FaIcon(FontAwesomeIcons.cog, color: Colors.white),
@@ -114,8 +111,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
       );
 }
 
-List<DrawerItem> _buildLargeDrawerItems() =>
-    [
+List<DrawerItem> _buildLargeDrawerItems() => [
       DrawerItem(
         name: 'Home',
         route: Routes.blossomDash,
@@ -138,8 +134,7 @@ List<DrawerItem> _buildLargeDrawerItems() =>
       ),
     ];
 
-List<DrawerItem> _buildSmallDrawerItems() =>
-    [
+List<DrawerItem> _buildSmallDrawerItems() => [
       DrawerItem(
         name: 'About',
         route: Routes.blossomDash,
