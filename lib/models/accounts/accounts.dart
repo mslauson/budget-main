@@ -7,7 +7,7 @@ part 'accounts.g.dart';
 @JsonSerializable(includeIfNull: false)
 class Accounts {
   @JsonKey(name: 'id')
-  final String id;
+  String id;
   @JsonKey(name: 'account_id')
   final String accountId;
   @JsonKey(name: 'name')
