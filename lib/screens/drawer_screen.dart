@@ -33,7 +33,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _buildClientInfoRow(),
-          Spacer(flex: 3),
+          Spacer(flex: 4),
           _buildLargeNavColumn(),
           Spacer(flex: 5),
           _buildSmallNavColumn(),
@@ -120,11 +120,6 @@ List<DrawerItem> _buildLargeDrawerItems() =>
         name: 'Home',
         route: Routes.blossomDash,
         icon: FontAwesomeIcons.home,
-      ),
-      DrawerItem(
-        name: 'Profile',
-        route: Routes.blossomProfile,
-        icon: FontAwesomeIcons.userAlt,
       ),
       DrawerItem(
         name: 'Budgets',
