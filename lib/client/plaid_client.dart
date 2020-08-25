@@ -56,6 +56,7 @@ class PlaidClient {
     if (response.statusCode != 200) {
       ErrorHandler.onErrorClient(response, ErrorConstants.ADDING_ACCOUNTS);
     }
+    String body = response.body;
     PlaidInstitutionMetaResponse metaResponse =
         PlaidInstitutionMetaResponse.fromJson(jsonDecode(response.body));
     log(metaResponse.toString());
@@ -71,8 +72,9 @@ class PlaidClient {
     if (response.statusCode != 200) {
       ErrorHandler.onErrorClient(response, ErrorConstants.ADDING_ACCOUNTS);
     }
+    String body = response.body;
     PlaidAccountsResponse accountsResponse =
-        PlaidAccountsResponse.fromJson(jsonDecode(response.body));
+    PlaidAccountsResponse.fromJson(jsonDecode(response.body));
     log(accountsResponse.toString());
     return accountsResponse;
   }

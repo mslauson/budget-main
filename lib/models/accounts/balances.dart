@@ -8,9 +8,9 @@ class Balances {
   final available;
   @JsonKey(name: 'current')
   final current;
-  @JsonKey(name: 'isoCurrencyCode')
+  @JsonKey(name: 'iso_currency_code')
   final String isoCurrencyCode;
-  @JsonKey(name: 'unofficialCurrencyCode')
+  @JsonKey(name: 'unofficial_currency_code')
   final String unofficialCurrencyCode;
 
   Balances(

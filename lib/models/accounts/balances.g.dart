@@ -10,8 +10,8 @@ Balances _$BalancesFromJson(Map<String, dynamic> json) {
   return Balances(
     available: json['available'],
     current: json['current'],
-    isoCurrencyCode: json['isoCurrencyCode'] as String,
-    unofficialCurrencyCode: json['unofficialCurrencyCode'] as String,
+    isoCurrencyCode: json['iso_currency_code'] as String,
+    unofficialCurrencyCode: json['unofficial_currency_code'] as String,
   );
 }
 

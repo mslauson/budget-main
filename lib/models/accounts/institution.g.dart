@@ -8,13 +8,13 @@ part of 'institution.dart';
 
 Institution _$InstitutionFromJson(Map<String, dynamic> json) {
   return Institution(
-    institutionId: json['institutionId'] as String,
+    institutionId: json['institution_id'] as String,
     name: json['name'] as String,
     label: json['label'] as String,
     type: json['type'] as String,
     url: json['url'] as String,
     logo: json['logo'] as String,
-    primaryColor: json['primaryColor'] as String,
+    primaryColor: json['primary_color'] as String,
   );
 }
 

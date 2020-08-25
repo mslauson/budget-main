@@ -9,16 +9,16 @@ part of 'item_status.dart';
 ItemStatus _$ItemStatusFromJson(Map<String, dynamic> json) {
   return ItemStatus(
     availableProducts:
-        (json['availableProducts'] as List)?.map((e) => e as String)?.toList(),
+        (json['available_products'] as List)?.map((e) => e as String)?.toList(),
     billedProducts:
-        (json['billedProducts'] as List)?.map((e) => e as String)?.toList(),
+        (json['billed_products'] as List)?.map((e) => e as String)?.toList(),
     error: json['error'] == null
         ? null
         : Error.fromJson(json['error'] as Map<String, dynamic>),
-    institutionId: json['institutionId'] as String,
-    itemId: json['itemId'] as String,
+    institutionId: json['institution_id'] as String,
+    itemId: json['item_id'] as String,
     webhook: json['webhook'] as String,
-    consentExpirationTime: json['consentExpirationTime'] as String,
+    consentExpirationTime: json['consent_expiration_time'] as String,
   );
 }
 

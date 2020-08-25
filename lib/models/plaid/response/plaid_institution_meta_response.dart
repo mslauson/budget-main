@@ -1,20 +1,24 @@
-import 'package:json_annotation/json_annotation.dart';
+import 'package:main/models/plaid/plaid_institution.dart';
 
-part 'plaid_institution_meta_response.g.dart';
-
-@JsonSerializable()
 class PlaidInstitutionMetaResponse {
-  @JsonKey(name: 'url')
-  final String url;
-  @JsonKey(name: 'primary_color')
-  final String primaryColor;
-  @JsonKey(name: 'logo')
-  final String logo;
+  PlaidInstitution institution;
+  String requestId;
 
-  PlaidInstitutionMetaResponse({this.url, this.primaryColor, this.logo});
+  PlaidInstitutionMetaResponse({this.institution, this.requestId});
 
-  factory PlaidInstitutionMetaResponse.fromJson(Map<String, dynamic> json) =>
-      _$PlaidInstitutionMetaResponseFromJson(json);
+  PlaidInstitutionMetaResponse.fromJson(Map<String, dynamic> json) {
+    institution = json['institution'] != null
+        ? new PlaidInstitution.fromJson(json['institution'])
+        : null;
+    requestId = json['request_id'];
+  }
 
-  Map<String, dynamic> toJson() => _$PlaidInstitutionMetaResponseToJson(this);
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.institution != null) {
+      data['institution'] = this.institution.toJson();
+    }
+    data['request_id'] = this.requestId;
+    return data;
+  }
 }
