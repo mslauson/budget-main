@@ -6,14 +6,14 @@ import 'package:main/components/drawer_item.dart';
 import 'package:main/constants/routes.dart';
 import 'package:main/theme/blossom_text.dart';
 
-class DrawerScreen extends StatefulWidget {
-  DrawerScreen({Key key}) : super(key: key);
+class NavDrawer extends StatefulWidget {
+  NavDrawer({Key key}) : super(key: key);
 
   @override
-  _DrawerScreenState createState() => _DrawerScreenState();
+  _NavDrawerState createState() => _NavDrawerState();
 }
 
-class _DrawerScreenState extends State<DrawerScreen> {
+class _NavDrawerState extends State<NavDrawer> {
   @override
   void initState() {
     super.initState();
