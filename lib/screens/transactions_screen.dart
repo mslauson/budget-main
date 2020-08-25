@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:main/components/drawer_container.dart';
 import 'package:main/theme/blossom_text.dart';
-
-import 'nav_drawer.dart';
+import 'package:main/widgets/nav_drawer.dart';
 
 class TransactionsScreen extends StatefulWidget {
   @override
