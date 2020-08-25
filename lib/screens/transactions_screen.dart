@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:main/components/drawer_container.dart';
+import 'package:main/theme/blossom_text.dart';
+
+import 'drawer_screen.dart';
 
 class TransactionsScreen extends StatefulWidget {
   @override
@@ -8,7 +12,17 @@ class TransactionsScreen extends StatefulWidget {
 class _TransactionsScreenState extends State<TransactionsScreen> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Scaffold(
+      body: Stack(
+        children: [
+          DrawerScreen(),
+          DrawerContainer(
+            children: [
+              Text('Transactions', style: BlossomText.headline),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
