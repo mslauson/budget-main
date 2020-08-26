@@ -7,7 +7,6 @@ import 'package:main/error/error_handler.dart';
 import 'package:main/models/accounts/accounts.dart';
 import 'package:main/models/accounts/accounts_full_model.dart';
 import 'package:main/models/accounts/institution.dart';
-import 'package:main/models/accounts/item_status.dart';
 import 'package:main/models/plaid/plaid_user.dart';
 import 'package:main/models/plaid/request/link_token_request.dart';
 import 'package:main/models/plaid/request/plaid_accounts_request.dart';
@@ -122,8 +121,7 @@ class PlaidService {
         accounts: accounts,
         institution: _buildInstitution(metaResponse),
         accessToken: accessToken,
-        linkSessionId: linkSessionId,
-        itemStatus: ItemStatus());
+        linkSessionId: linkSessionId);
   }
 
   Institution _buildInstitution(PlaidInstitutionMetaResponse metaResponse) {
