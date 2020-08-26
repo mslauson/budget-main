@@ -8,9 +8,6 @@ part of 'accounts_full_model.dart';
 
 AccountsFullModel _$AccountsFullModelFromJson(Map<String, dynamic> json) {
   return AccountsFullModel(
-    itemStatus: json['itemStatus'] == null
-        ? null
-        : ItemStatus.fromJson(json['itemStatus'] as Map<String, dynamic>),
     accounts: (json['accounts'] as List)
         ?.map((e) =>
             e == null ? null : Accounts.fromJson(e as Map<String, dynamic>))
@@ -38,7 +35,6 @@ Map<String, dynamic> _$AccountsFullModelToJson(AccountsFullModel instance) {
     }
   }
 
-  writeNotNull('itemStatus', instance.itemStatus);
   writeNotNull('accounts', instance.accounts);
   writeNotNull('id', instance.id);
   writeNotNull('phone', instance.phone);
