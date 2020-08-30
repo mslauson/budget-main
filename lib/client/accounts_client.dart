@@ -11,9 +11,9 @@ import 'package:main/models/accounts/accounts_full_model.dart';
 import 'package:main/util/uri_builder.dart';
 
 class AccountsClient {
-   Future<AccountsFullModel> getAccountsForUser(String payload) async {
+   Future<AccountsFullModel> getAccountsForUser(String phone) async {
     Response response = await get(UriBuilder.blossomDevWithPath(
-        AccountsMicroserviceConstants.SERVICE, 1, payload));
+        AccountsMicroserviceConstants.SERVICE, 1, phone));
     if (response.statusCode != 200 && response.statusCode != 404) {
       ErrorHandler.onErrorClient(response, ErrorConstants.ACCOUNTS_RETRIEVAL);
     }

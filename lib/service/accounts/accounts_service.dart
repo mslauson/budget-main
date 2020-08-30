@@ -7,4 +7,8 @@ class AccountsService {
   void addAccount(AccountsFullModel accountsFullModel) {
     _accountsClient.addAccount(accountsFullModel);
   }
+
+  Future<AccountsFullModel> getAccountsForUser(String phone) {
+    return _accountsClient.getAccountsForUser(phone);
+  }
 }
