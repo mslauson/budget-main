@@ -12,13 +12,10 @@ import 'package:main/util/uri_builder.dart';
 
 class AccountsClient {
    Future<AccountsFullModel> getAccountsForUser(String payload) async {
-    Response response = await get(
-        AccountsMicroserviceConstants.BASE_URL_ACCOUNTS +
-            AccountsMicroserviceConstants.ENDPOINT_V1_ACCOUNTS +
-            payload);
+    Response response = await get(UriBuilder.blossomDevWithPath(
+        AccountsMicroserviceConstants.SERVICE, 1, payload));
     if (response.statusCode != 200 && response.statusCode != 404) {
-      ErrorHandler.onErrorClient(
-          response, ErrorConstants.AUTHENTICATION_FAILURE);
+      ErrorHandler.onErrorClient(response, ErrorConstants.ACCOUNTS_RETRIEVAL);
     }
     return AccountsFullModel.fromJson(jsonDecode(response.body));
   }
