@@ -8,16 +8,17 @@ import 'package:main/constants/global_constants.dart';
 import 'package:main/error/error_handler.dart';
 import 'package:main/models/accounts/AccessTokensResponse.dart';
 import 'package:main/models/accounts/accounts_full_model.dart';
+import 'package:main/models/accounts/response/accounts_response.dart';
 import 'package:main/util/uri_builder.dart';
 
 class AccountsClient {
-   Future<AccountsFullModel> getAccountsForUser(String phone) async {
+  Future<AccountsResponseModel> getAccountsForUser(String phone) async {
     Response response = await get(UriBuilder.blossomDevWithPath(
         AccountsMicroserviceConstants.SERVICE, 1, phone));
     if (response.statusCode != 200 && response.statusCode != 404) {
       ErrorHandler.onErrorClient(response, ErrorConstants.ACCOUNTS_RETRIEVAL);
     }
-    return AccountsFullModel.fromJson(jsonDecode(response.body));
+    return AccountsResponseModel.fromJson(jsonDecode(response.body));
   }
 
   Future<AccessTokensResponse> getAccessTokensForUser(String email) async {
