@@ -5,6 +5,10 @@ class UriBuilder {
     return 'http://dev.blossombudgeting.io/$service/api/v$version';
   }
 
+  static blossomDevWithPath(String service, int version, String pathParam) {
+    return 'http://dev.blossombudgeting.io/$service/api/v$version/$pathParam/';
+  }
+
   @Deprecated("using native sdk now")
   static plaidDev(String publicKey, String env, String products) {
     return 'https://cdn.plaid.com/link/v2/stable/link.html?isWebview=true'
