@@ -17,58 +17,74 @@ class AccountsScreen extends StatefulWidget {
 
 class _AccountsScreenState extends State<AccountsScreen> {
   AccountsResponseModel accountsResponseModel;
+  List<Widget> _accountsWidgets;
 
   @override
   Widget build(BuildContext context) {
-    _loadAccounts();
     return Scaffold(
       body: Stack(
         children: [
           NavDrawer(),
-          DrawerContainer(
-            children: [
-              Text('Accounts', style: BlossomText.headline),
-            ],
-          ),
+          DrawerContainer(children: [
+            SingleChildScrollView(
+              child: FutureBuilder(
+                future: _loadAccounts(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData && snapshot.data != null) {
+                    return new Column(children: _accountsWidgets);
+                  } else {
+                    //TODO:  Implement loading indicator
+                    return Text("loading");
+                  }
+                },
+              ),
+            ),
+          ]),
         ],
       ),
     );
   }
 
-  _loadAccounts() {
+  Future<void> _loadAccounts() async {
     final String phone =
-        ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone;
+        ScopedModel
+            .of<ActiveUser>(context, rebuildOnChange: true)
+            .phone;
     final HomeInitializationService initializationService =
-        HomeInitializationService(
-            getAccounts: (AccountsResponseModel fullModel) {
-      this.accountsResponseModel = fullModel;
-    });
-    initializationService.loadData(phone, context);
+    HomeInitializationService(
+        getAccounts: (AccountsResponseModel fullModel) async {
+          this.accountsResponseModel = fullModel;
+          await _buildAccountsByInstitution();
+        });
+    await initializationService.loadData(phone, context);
   }
+
+  AccountsResponseModel _onLoaded
 
   List<Widget> _buildAccountsByType(
       AccountsResponseModel accountsResponseModel) {}
 
-  List<Widget> _buildAccountsByInstitution() {
-    List<Widget> accountsWidgets = new List();
+  Future<void> _buildAccountsByInstitution() async {
+    List<Widget> accountsWidgetList = new List();
+    accountsWidgetList.add(Text('Accounts', style: BlossomText.headline));
     accountsResponseModel.itemList.forEach((accountsModel) {
-      accountsWidgets.add(
+      accountsWidgetList.add(
         Card(
             child: Column(
-          children: [
-            ListTile(
-              leading: Image.memory(
-                base64Decode(accountsModel.institution.logo),
-                height: 10,
-                width: 10,
-              ),
-              title: Text(accountsModel.institution.name,
-                  style: BlossomText.title),
-            )
-          ],
-        )),
+              children: [
+                ListTile(
+                  leading: Image.memory(
+                    base64Decode(accountsModel.institution.logo),
+                    height: 10,
+                    width: 10,
+                  ),
+                  title: Text(accountsModel.institution.name,
+                      style: BlossomText.title),
+                )
+              ],
+            )),
       );
     });
-    return accountsWidgets;
+    _accountsWidgets = accountsWidgetList;
   }
 }
