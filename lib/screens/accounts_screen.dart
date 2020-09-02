@@ -72,9 +72,9 @@ class _AccountsScreenState extends State<AccountsScreen> {
                 ListTile(
                   leading: Image.memory(
                     base64Decode(accountsModel.institution.logo),
-                    height: 10,
-                    width: 10,
-                  ),
+                height: 60,
+                width: 60,
+              ),
                   title: Text(accountsModel.institution.name,
                       style: BlossomText.title),
                 )
