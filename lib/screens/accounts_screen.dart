@@ -30,7 +30,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
               child: FutureBuilder(
                 future: _loadAccounts(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData && snapshot.data != null) {
+                  if (snapshot.connectionState == ConnectionState.done) {
                     return new Column(children: _accountsWidgets);
                   } else {
                     //TODO:  Implement loading indicator
@@ -47,19 +47,16 @@ class _AccountsScreenState extends State<AccountsScreen> {
 
   Future<void> _loadAccounts() async {
     final String phone =
-        ScopedModel
-            .of<ActiveUser>(context, rebuildOnChange: true)
-            .phone;
+        ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone;
     final HomeInitializationService initializationService =
-    HomeInitializationService(
-        getAccounts: (AccountsResponseModel fullModel) async {
-          this.accountsResponseModel = fullModel;
-          await _buildAccountsByInstitution();
-        });
+        HomeInitializationService(getAccounts: _onLoaded);
     await initializationService.loadData(phone, context);
   }
 
-  AccountsResponseModel _onLoaded
+  _onLoaded(AccountsResponseModel fullModel) async {
+    this.accountsResponseModel = fullModel;
+    await _buildAccountsByInstitution();
+  }
 
   List<Widget> _buildAccountsByType(
       AccountsResponseModel accountsResponseModel) {}
