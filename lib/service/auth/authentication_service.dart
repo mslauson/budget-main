@@ -1,16 +1,16 @@
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:main/constants/error_constants.dart';
 import 'package:main/constants/iam_constants.dart';
-import 'package:main/error/data_access_exception.dart';
+import 'package:main/constants/routes.dart';
 import 'package:main/error/error_handler.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/iam/signUpForm.dart';
 import 'package:main/screens/collect_otp.dart';
 import 'package:main/screens/collect_user_info.dart';
-import 'package:main/screens/dash_screen.dart';
 import 'package:main/service/auth/registration_service.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -33,15 +33,16 @@ class AuthenticationService {
   Future<void> authenticateGoogle(BuildContext context) async {
     _googleAuthService.attemptAuth(
         context,
-            (credential, signUpForm) => {
-          if (signUpForm != null)
-            {signInWithCredentials(credential, signUpForm.phone, context)}
-          else
-            {signInWithCredentials(credential, null, context)}
-        });
+        (credential, signUpForm) => {
+              if (signUpForm != null)
+                {signInWithCredentials(credential, signUpForm.phone, context)}
+              else
+                {signInWithCredentials(credential, null, context)}
+            });
   }
 
-  void signInWithCredentials(AuthCredential credentials, String phone, BuildContext context) {
+  void signInWithCredentials(
+      AuthCredential credentials, String phone, BuildContext context) {
     _auth.signInWithCredential(credentials).then((AuthResult result) {
       _currentUser = result.user;
       if (phone == null) {
@@ -59,7 +60,8 @@ class AuthenticationService {
   }
 
   void _authenticateOtp(String phoneNumber, BuildContext context) {
-    _auth.verifyPhoneNumber(
+    _auth
+        .verifyPhoneNumber(
         phoneNumber: "+1" + phoneNumber,
         timeout: Duration(seconds: 60),
         verificationCompleted: (AuthCredential authCredential) {
@@ -70,23 +72,24 @@ class AuthenticationService {
           }
         },
         verificationFailed: (AuthException authException) {
-              log(authException.message);
-              ErrorHandler.showError(ErrorConstants.AUTHENTICATION_FAILURE);
-            },
+          log(authException.message);
+          ErrorHandler.showError(ErrorConstants.AUTHENTICATION_FAILURE);
+        },
         codeSent: (String verificationId, [int forceResendingToken]) {
           _verificationId = verificationId;
           Navigator.push(
             context,
-                MaterialPageRoute(
-                    builder: (context) => new CollectOtp(
-                          onSubmit: (phone) => _acceptDialog(context, phone),
-                        )),
-              );
-            },
-            codeAutoRetrievalTimeout: (String verificationId) {
-              verificationId = verificationId;
-              print(verificationId);
-              print("OTP Auto Retrieval failed");
+            MaterialPageRoute(
+                builder: (context) =>
+                new CollectOtp(
+                  onSubmit: (phone) => _acceptDialog(context, phone),
+                )),
+          );
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {
+          verificationId = verificationId;
+          print(verificationId);
+          print("OTP Auto Retrieval failed");
             })
         .catchError((error) => log(error));
   }
@@ -132,12 +135,12 @@ class AuthenticationService {
                 phone: phone,
                 onSubmit: (SignUpForm signUpForm) async =>
                 {
-                  await _registrationService
-                      .addCustomer(signUpForm)
-                      .catchError((DataAccessException error) =>
-                  {
-                    _deleteUserFromFirebase(),
-                    ErrorHandler.showError(error.message)}),
+                  await _registrationService.addCustomer(signUpForm).catchError(
+                          (Object error) =>
+                      {
+                        _deleteUserFromFirebase(),
+                        ErrorHandler.showError(error)
+                      }),
                   _linkEmail(signUpForm.emailAddress, context)
                 },
               )),
@@ -160,8 +163,11 @@ class AuthenticationService {
   }
 
   void _navigateToHomeScreen(BuildContext context) {
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => DashScreen()));
+    Router.appRouter.navigateTo(
+      context,
+      Routes.blossomDash,
+      transition: TransitionType.fadeIn,
+    );
   }
 
   void _buildScopedModel(String phone, String lastSignIn,
