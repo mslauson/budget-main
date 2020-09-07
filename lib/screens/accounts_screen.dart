@@ -66,7 +66,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
   Future<void> _buildAccountsByInstitution() async {
     List<Widget> accountsWidgetList = new List();
     accountsWidgetList.add(Text('Accounts', style: BlossomText.headline));
-    accountsResponseModel.itemList.forEach((accountsModel) {
+    accountsResponseModel.itemList.forEach((accountsModel) async {
       accountsWidgetList.add(
         Card(
             child: Column(
@@ -82,7 +82,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
             ),
             ExpansionTile(
               title: Text(AccountsPageConstants.ACCOUNTS),
-              children: _createAccountsList(accountsModel.accounts),
+              children: await _createAccountsList(accountsModel.accounts),
             ),
           ],
         )),
@@ -91,43 +91,45 @@ class _AccountsScreenState extends State<AccountsScreen> {
     _accountsWidgets = accountsWidgetList;
   }
 
-  List<Widget> _createAccountsList(List<Accounts> accounts) {
+  Future<List<Widget>> _createAccountsList(List<Accounts> accounts) async {
     List<Widget> _accountSubList = new List();
     List<Accounts> _depositoryAccounts = accounts
-        .map((account) => account.type == AccountsPageConstants.DEPOSITORY_TYPE
-            ? account
-            : null)
+        .map((account) =>
+    account.type == AccountsPageConstants.DEPOSITORY_TYPE
+        ? account
+        : null)
         .toList();
     List<Accounts> _creditAccounts = accounts
         .map((account) =>
-            account.type == AccountsPageConstants.CREDIT_TYPE ? account : null)
+    account.type == AccountsPageConstants.CREDIT_TYPE ? account : null)
         .toList();
     List<Accounts> _loanAccounts = accounts
         .map((account) =>
-            account.type == AccountsPageConstants.LOAN_TYPE ? account : null)
+    account.type == AccountsPageConstants.LOAN_TYPE ? account : null)
         .toList();
     List<Accounts> _investmentAccounts = accounts
-        .map((account) => account.type == AccountsPageConstants.INVESTMENT_TYPE
-            ? account
-            : null)
+        .map((account) =>
+    account.type == AccountsPageConstants.INVESTMENT_TYPE
+        ? account
+        : null)
         .toList();
 
     _accountSubList.add(Text(AccountsPageConstants.DEPOSITORY_TYPE));
-    _accountSubList.addAll(_buildAccountTypeList(_depositoryAccounts));
+    _accountSubList.addAll(await _buildAccountTypeList(_depositoryAccounts));
 
     _accountSubList.add(Text(AccountsPageConstants.CREDIT_TYPE));
-    _accountSubList.addAll(_buildAccountTypeList(_creditAccounts));
+    _accountSubList.addAll(await _buildAccountTypeList(_creditAccounts));
 
     _accountSubList.add(Text(AccountsPageConstants.LOAN_TYPE));
-    _accountSubList.addAll(_buildAccountTypeList(_loanAccounts));
+    _accountSubList.addAll(await _buildAccountTypeList(_loanAccounts));
 
     _accountSubList.add(Text(AccountsPageConstants.INVESTMENT_TYPE));
-    _accountSubList.addAll(_buildAccountTypeList(_investmentAccounts));
+    _accountSubList.addAll(await _buildAccountTypeList(_investmentAccounts));
 
     return _accountSubList;
   }
 
-  List<Widget> _buildAccountTypeList(List<Accounts> accounts) {
+  Future<List<Widget>> _buildAccountTypeList(List<Accounts> accounts) async {
     List<Widget> _accountTypeList = new List();
     accounts.forEach((account) {
       _accountTypeList.add(Card(
@@ -142,5 +144,6 @@ class _AccountsScreenState extends State<AccountsScreen> {
         ),
       ));
     });
+    return _accountTypeList;
   }
 }
