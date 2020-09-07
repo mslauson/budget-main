@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:main/components/drawer_container.dart';
+import 'package:main/constants/accounts_page_constants.dart';
+import 'package:main/models/accounts/accounts.dart';
 import 'package:main/models/accounts/response/accounts_response.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/service/secure/home_initialization_service.dart';
@@ -68,20 +70,77 @@ class _AccountsScreenState extends State<AccountsScreen> {
       accountsWidgetList.add(
         Card(
             child: Column(
-              children: [
-                ListTile(
-                  leading: Image.memory(
-                    base64Decode(accountsModel.institution.logo),
+          children: [
+            ListTile(
+              leading: Image.memory(
+                base64Decode(accountsModel.institution.logo),
                 height: 60,
                 width: 60,
               ),
-                  title: Text(accountsModel.institution.name,
-                      style: BlossomText.title),
-                )
-              ],
-            )),
+              title: Text(accountsModel.institution.name,
+                  style: BlossomText.largeBody),
+            ),
+            ExpansionTile(
+              title: Text(AccountsPageConstants.ACCOUNTS),
+              children: _createAccountsList(accountsModel.accounts),
+            ),
+          ],
+        )),
       );
     });
     _accountsWidgets = accountsWidgetList;
+  }
+
+  List<Widget> _createAccountsList(List<Accounts> accounts) {
+    List<Widget> _accountSubList = new List();
+    List<Accounts> _depositoryAccounts = accounts
+        .map((account) => account.type == AccountsPageConstants.DEPOSITORY_TYPE
+            ? account
+            : null)
+        .toList();
+    List<Accounts> _creditAccounts = accounts
+        .map((account) =>
+            account.type == AccountsPageConstants.CREDIT_TYPE ? account : null)
+        .toList();
+    List<Accounts> _loanAccounts = accounts
+        .map((account) =>
+            account.type == AccountsPageConstants.LOAN_TYPE ? account : null)
+        .toList();
+    List<Accounts> _investmentAccounts = accounts
+        .map((account) => account.type == AccountsPageConstants.INVESTMENT_TYPE
+            ? account
+            : null)
+        .toList();
+
+    _accountSubList.add(Text(AccountsPageConstants.DEPOSITORY_TYPE));
+    _accountSubList.addAll(_buildAccountTypeList(_depositoryAccounts));
+
+    _accountSubList.add(Text(AccountsPageConstants.CREDIT_TYPE));
+    _accountSubList.addAll(_buildAccountTypeList(_creditAccounts));
+
+    _accountSubList.add(Text(AccountsPageConstants.LOAN_TYPE));
+    _accountSubList.addAll(_buildAccountTypeList(_loanAccounts));
+
+    _accountSubList.add(Text(AccountsPageConstants.INVESTMENT_TYPE));
+    _accountSubList.addAll(_buildAccountTypeList(_investmentAccounts));
+
+    return _accountSubList;
+  }
+
+  List<Widget> _buildAccountTypeList(List<Accounts> accounts) {
+    List<Widget> _accountTypeList = new List();
+    accounts.forEach((account) {
+      _accountTypeList.add(Card(
+        child: Row(
+          children: [
+            Text(account.name),
+            Padding(padding: EdgeInsets.all(10)),
+            Text("\$" + account.balances.current),
+            Padding(padding: EdgeInsets.all(10)),
+            Text("\$" + account.mask),
+          ],
+        ),
+      ));
+    });
   }
 }
