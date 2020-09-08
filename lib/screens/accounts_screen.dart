@@ -92,6 +92,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
 
   Future<List<Widget>> _createAccountsList(List<Accounts> accounts) async {
     List<Widget> _accountSubList = new List();
+    //TODO: figure out better way then using null in terinary
     List<Accounts> _depositoryAccounts = accounts
         .map((account) =>
     account.type == AccountsPageConstants.DEPOSITORY_TYPE
@@ -131,18 +132,21 @@ class _AccountsScreenState extends State<AccountsScreen> {
   Future<List<Widget>> _buildAccountTypeList(List<Accounts> accounts) async {
     List<Widget> _accountTypeList = new List();
     accounts.forEach((account) {
-      _accountTypeList.add(Card(
-        child: Row(
-          children: [
-            Text(account.name),
-            Padding(padding: EdgeInsets.all(10)),
-            Text("\$" + account.balances.current),
-            Padding(padding: EdgeInsets.all(10)),
-            Text("\$" + account.mask),
-          ],
-        ),
-      ));
+      if (account != null) {
+        _accountTypeList.add(Card(
+          child: Row(
+            children: [
+              Text(account.name),
+              Padding(padding: EdgeInsets.all(10)),
+              Text("\$" + account.balances.current.toString()),
+              Padding(padding: EdgeInsets.all(10)),
+              Text("\$" + account.mask),
+            ],
+          ),
+        ));
+      }
     });
+
     return _accountTypeList;
   }
 }
