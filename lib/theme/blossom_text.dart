@@ -42,6 +42,15 @@ class BlossomText {
     fontWeight: FontWeight.w300,
     color: Colors.white,
   );
+  static final mediumBody = GoogleFonts.imprima(
+    fontSize: 16,
+    fontWeight: FontWeight.w300,
+  );
+  static final mediumBodyLight = GoogleFonts.imprima(
+    fontSize: 16,
+    fontWeight: FontWeight.w300,
+    color: Colors.white,
+  );
   static final secondaryBody = GoogleFonts.imprima(
     fontSize: 14,
     fontWeight: FontWeight.w300,
