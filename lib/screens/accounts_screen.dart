@@ -19,7 +19,6 @@ class AccountsScreen extends StatefulWidget {
 
 class _AccountsScreenState extends State<AccountsScreen> {
   AccountsResponseModel accountsResponseModel;
-  Future<List<Widget>> _accountsWidgets;
   final AccountsClient _accountsClient = AccountsClient();
 
   @override
@@ -80,7 +79,8 @@ class _AccountsScreenState extends State<AccountsScreen> {
                   style: BlossomText.largeBody),
             ),
             ExpansionTile(
-              title: Text(AccountsPageConstants.ACCOUNTS),
+              title: Text(AccountsPageConstants.ACCOUNTS,
+                  style: BlossomText.mediumBody),
               children: await _createAccountsList(accountsModel.accounts),
             ),
           ],
@@ -105,25 +105,30 @@ class _AccountsScreenState extends State<AccountsScreen> {
         .toList();
     List<Accounts> _loanAccounts = accounts
         .map((account) =>
-    account.type == AccountsPageConstants.LOAN_TYPE ? account : null)
+            account.type == AccountsPageConstants.LOAN_TYPE ? account : null)
         .toList();
     List<Accounts> _investmentAccounts = accounts
-        .map((account) =>
-    account.type == AccountsPageConstants.INVESTMENT_TYPE
-        ? account
-        : null)
+        .map((account) => account.type == AccountsPageConstants.INVESTMENT_TYPE
+            ? account
+            : null)
         .toList();
 
-    _accountSubList.add(Text(AccountsPageConstants.DEPOSITORY_TYPE));
+    _accountSubList.add(Text(
+        AccountsPageConstants.DEPOSITORY_TYPE.toUpperCase(),
+        style: BlossomText.body));
     _accountSubList.addAll(await _buildAccountTypeList(_depositoryAccounts));
 
-    _accountSubList.add(Text(AccountsPageConstants.CREDIT_TYPE));
+    _accountSubList.add(Text(AccountsPageConstants.CREDIT_TYPE.toUpperCase(),
+        style: BlossomText.body));
     _accountSubList.addAll(await _buildAccountTypeList(_creditAccounts));
 
-    _accountSubList.add(Text(AccountsPageConstants.LOAN_TYPE));
+    _accountSubList.add(Text(AccountsPageConstants.LOAN_TYPE.toUpperCase(),
+        style: BlossomText.body));
     _accountSubList.addAll(await _buildAccountTypeList(_loanAccounts));
 
-    _accountSubList.add(Text(AccountsPageConstants.INVESTMENT_TYPE));
+    _accountSubList.add(Text(
+        AccountsPageConstants.INVESTMENT_TYPE.toUpperCase(),
+        style: BlossomText.body));
     _accountSubList.addAll(await _buildAccountTypeList(_investmentAccounts));
 
     return _accountSubList;
@@ -135,12 +140,13 @@ class _AccountsScreenState extends State<AccountsScreen> {
       if (account != null) {
         _accountTypeList.add(Card(
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(account.name),
-              Padding(padding: EdgeInsets.all(10)),
-              Text("\$" + account.balances.current.toString()),
-              Padding(padding: EdgeInsets.all(10)),
-              Text("\$" + account.mask),
+              Text(account.name, style: BlossomText.secondaryBody),
+              Text("\$" + account.balances.current.toString(),
+                  style: BlossomText.secondaryBody),
+              //TODO: Make look like checking number on check
+              Text(account.mask, style: BlossomText.secondaryBody),
             ],
           ),
         ));
