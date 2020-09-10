@@ -138,16 +138,18 @@ class _AccountsScreenState extends State<AccountsScreen> {
     List<Widget> _accountTypeList = new List();
     accounts.forEach((account) {
       if (account != null) {
-        _accountTypeList.add(Card(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(account.name, style: BlossomText.secondaryBody),
-              Text("\$" + account.balances.current.toString(),
-                  style: BlossomText.secondaryBody),
-              //TODO: Make look like checking number on check
-              Text(account.mask, style: BlossomText.secondaryBody),
-            ],
+        _accountTypeList.add(Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Card(
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(account.name, style: BlossomText.mediumBody),
+                  Text("\$" + account.balances.current.toString(),
+                      style: BlossomText.secondaryBody),
+//              //TODO: Make look like checking number on check
+//            Text(account.mask, style: BlossomText.secondaryBody),
+                ]),
           ),
         ));
       }
