@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:loading/indicator/ball_pulse_indicator.dart';
+import 'package:loading/loading.dart';
 import 'package:main/client/accounts_client.dart';
 import 'package:main/components/drawer_container.dart';
 import 'package:main/constants/accounts_page_constants.dart';
@@ -35,8 +37,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                   if (snapshot.hasData) {
                     return Column(children: snapshot.data);
                   } else {
-                    //TODO: implement loading indicator
-                    return Text("loading");
+                    return Loading(indicator: BallPulseIndicator());
                   }
                 },
               ),
