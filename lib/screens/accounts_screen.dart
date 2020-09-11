@@ -27,9 +27,9 @@ class _AccountsScreenState extends State<AccountsScreen> {
       body: Stack(
         children: [
           NavDrawer(),
-          DrawerContainer(children: [
-            SingleChildScrollView(
-              child: FutureBuilder(
+          SingleChildScrollView(
+            child: DrawerContainer(children: [
+              FutureBuilder(
                 future: _loadAccounts(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
@@ -40,8 +40,8 @@ class _AccountsScreenState extends State<AccountsScreen> {
                   }
                 },
               ),
-            ),
-          ]),
+            ]),
+          ),
         ],
       ),
     );
@@ -150,8 +150,8 @@ class _AccountsScreenState extends State<AccountsScreen> {
                       Text(account.name, style: BlossomText.mediumBody),
                       Text("\$" + account.balances.current.toString(),
                           style: BlossomText.secondaryBody),
-//              //TODO: Make look like checking number on check
-//            Text(account.mask, style: BlossomText.secondaryBody),
+                      //TODO: Make look like checking number on check
+                      Text(account.mask, style: BlossomText.secondaryBody),
                     ]),
               ),
             ),
