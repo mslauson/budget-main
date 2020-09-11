@@ -26,23 +26,22 @@ class _AccountsScreenState extends State<AccountsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       body: Stack(
         children: [
           NavDrawer(),
-          SingleChildScrollView(
-            child: DrawerContainer(children: [
-              FutureBuilder(
-                future: _loadAccounts(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
-                    return Column(children: snapshot.data);
-                  } else {
-                    return Loading(indicator: BallPulseIndicator());
-                  }
-                },
-              ),
-            ]),
-          ),
+          DrawerContainer(children: [
+            FutureBuilder(
+              future: _loadAccounts(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  return ListView(shrinkWrap: true, children: snapshot.data);
+                } else {
+                  return Loading(indicator: BallPulseIndicator());
+                }
+              },
+            ),
+          ]),
         ],
       ),
     );
