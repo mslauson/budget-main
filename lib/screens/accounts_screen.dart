@@ -174,6 +174,4 @@ class _AccountsScreenState extends State<AccountsScreen> {
 
     return _accountTypeList;
   }
-
-  Future<void> openAccountDetailScreen(Account account, String logo) {}
 }
