@@ -10,6 +10,7 @@ import 'package:main/constants/accounts_page_constants.dart';
 import 'package:main/models/accounts/account.dart';
 import 'package:main/models/accounts/response/accounts_response.dart';
 import 'package:main/models/global/activeUser.dart';
+import 'package:main/screens/account_detail_screen.dart';
 import 'package:main/theme/blossom_text.dart';
 import 'package:main/widgets/nav_drawer.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -50,9 +51,6 @@ class _AccountsScreenState extends State<AccountsScreen> {
   Future<List<Widget>> _loadAccounts() async {
     final String phone =
         ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone;
-//    final HomeInitializationService initializationService =
-//        HomeInitializationService(getAccounts: _onLoaded);
-//    await initializationService.loadData(phone, context);
     this.accountsResponseModel =
         await _accountsClient.getAccountsForUser(phone);
     return await _buildAccountsByInstitution();
@@ -68,10 +66,10 @@ class _AccountsScreenState extends State<AccountsScreen> {
       accountsWidgetList.add(
         Card(
             child: Column(
-              children: [
-                ListTile(
-                  leading: Image.memory(
-                    base64Decode(accountsModel.institution.logo),
+          children: [
+            ListTile(
+              leading: Image.memory(
+                base64Decode(accountsModel.institution.logo),
                 height: 60,
                 width: 60,
               ),
@@ -118,8 +116,8 @@ class _AccountsScreenState extends State<AccountsScreen> {
     _accountSubList.add(Text(
         AccountsPageConstants.DEPOSITORY_TYPE.toUpperCase(),
         style: BlossomText.body));
-    _accountSubList.addAll(
-        await _buildAccountTypeList(_depositoryAccounts, logo));
+    _accountSubList
+        .addAll(await _buildAccountTypeList(_depositoryAccounts, logo));
 
     _accountSubList.add(Text(AccountsPageConstants.CREDIT_TYPE.toUpperCase(),
         style: BlossomText.body));
@@ -132,8 +130,8 @@ class _AccountsScreenState extends State<AccountsScreen> {
     _accountSubList.add(Text(
         AccountsPageConstants.INVESTMENT_TYPE.toUpperCase(),
         style: BlossomText.body));
-    _accountSubList.addAll(
-        await _buildAccountTypeList(_investmentAccounts, logo));
+    _accountSubList
+        .addAll(await _buildAccountTypeList(_investmentAccounts, logo));
 
     return _accountSubList;
   }
@@ -149,7 +147,15 @@ class _AccountsScreenState extends State<AccountsScreen> {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
               child: InkWell(
-                onTap: openAccountDetailScreen(account, logo),
+                onTap: () =>
+                {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                        new AccountDetailScreen(account, logo)),
+                  )
+                },
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -169,7 +175,5 @@ class _AccountsScreenState extends State<AccountsScreen> {
     return _accountTypeList;
   }
 
-  openAccountDetailScreen(Account account, String logo) {
-
-  }
+  Future<void> openAccountDetailScreen(Account account, String logo) {}
 }
