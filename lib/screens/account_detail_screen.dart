@@ -41,19 +41,12 @@ class AccountDetailScreen extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                 child: Card(
-                  margin: EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      Text(AccountsPageConstants.AVAILABLE_BALANCE,
-                          style: BlossomText.body),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                      ),
-                      ParseUtils.parseAvailableBalance(
-                          _account.balances.current)
-                    ],
-                  ),
-                ),
+                    margin: EdgeInsets.all(20),
+                    child: ListTile(
+                        title: Text(AccountsPageConstants.AVAILABLE_BALANCE,
+                            style: BlossomText.body),
+                        subtitle: ParseUtils.parseAvailableBalance(
+                            _account.balances.current))),
               )
             ],
           ),
