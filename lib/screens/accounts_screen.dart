@@ -35,7 +35,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
               future: _loadAccounts(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
-                  return ListView(shrinkWrap: true, children: snapshot.data);
+                  return Column(children: snapshot.data);
                 } else {
                   return Loading(indicator: BallPulseIndicator());
                 }

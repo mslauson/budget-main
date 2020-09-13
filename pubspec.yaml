@@ -30,7 +30,7 @@ dependencies:
   intl_phone_number_input: ^0.4.6+2
   fluro: ^1.6.3
   flutter_signin_button: ^1.0.0
-  fluttertoast: ^7.0.1
+  fluttertoast: ^7.0.4
   font_awesome_flutter: ^8.8.1
   json_annotation: ^3.0.1
   adobe_xd: ^1.0.0
