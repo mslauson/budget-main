@@ -22,17 +22,18 @@ class AccountDetailScreen extends StatelessWidget {
           Column(
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Text(
-                    _account.name,
-                    style: BlossomText.title,
-                  ),
-                  Text(_account.mask),
                   Image.memory(
                     base64Decode(_logo),
                     height: 60,
                     width: 60,
                   ),
+                  Text(
+                    _account.name,
+                    style: BlossomText.title,
+                  ),
+                  _parseAccountMask(_account.mask),
                 ],
               )
             ],
@@ -40,5 +41,11 @@ class AccountDetailScreen extends StatelessWidget {
         ])
       ]),
     );
+  }
+
+  Text _parseAccountMask(String mask) {
+    int length = mask.length;
+    mask.replaceRange(0, length - 4, "X");
+    return Text(mask, style: BlossomText.accountNumber);
   }
 }
