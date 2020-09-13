@@ -61,4 +61,14 @@ class BlossomText {
     fontWeight: FontWeight.w300,
     color: BlossomColors.lightAccent,
   );
+  static final accountNumber = GoogleFonts.orbitron(
+    fontSize: 14,
+    fontWeight: FontWeight.w900,
+    color: BlossomColors.darkAccent,
+  );
+  static final accountNumberLight = GoogleFonts.orbitron(
+    fontSize: 14,
+    fontWeight: FontWeight.w900,
+    color: BlossomColors.lightAccent,
+  );
 }
