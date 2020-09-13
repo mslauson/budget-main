@@ -81,7 +81,8 @@ class _AccountsScreenState extends State<AccountsScreen> {
             ExpansionTile(
               title: Text(AccountsPageConstants.ACCOUNTS,
                   style: BlossomText.mediumBody),
-              children: await _createAccountsList(accountsModel.accounts),
+              children: await _createAccountsList(
+                  accountsModel.accounts, accountsModel.institution.logo),
             ),
           ],
         )),
@@ -90,7 +91,8 @@ class _AccountsScreenState extends State<AccountsScreen> {
     return accountsWidgetList;
   }
 
-  Future<List<Widget>> _createAccountsList(List<Account> accounts) async {
+  Future<List<Widget>> _createAccountsList(
+      List<Account> accounts, String logo) async {
     List<Widget> _accountSubList = new List();
     //TODO: figure out better way then using null in terinary
     List<Account> _depositoryAccounts = accounts
@@ -116,25 +118,28 @@ class _AccountsScreenState extends State<AccountsScreen> {
     _accountSubList.add(Text(
         AccountsPageConstants.DEPOSITORY_TYPE.toUpperCase(),
         style: BlossomText.body));
-    _accountSubList.addAll(await _buildAccountTypeList(_depositoryAccounts));
+    _accountSubList.addAll(
+        await _buildAccountTypeList(_depositoryAccounts, logo));
 
     _accountSubList.add(Text(AccountsPageConstants.CREDIT_TYPE.toUpperCase(),
         style: BlossomText.body));
-    _accountSubList.addAll(await _buildAccountTypeList(_creditAccounts));
+    _accountSubList.addAll(await _buildAccountTypeList(_creditAccounts, logo));
 
     _accountSubList.add(Text(AccountsPageConstants.LOAN_TYPE.toUpperCase(),
         style: BlossomText.body));
-    _accountSubList.addAll(await _buildAccountTypeList(_loanAccounts));
+    _accountSubList.addAll(await _buildAccountTypeList(_loanAccounts, logo));
 
     _accountSubList.add(Text(
         AccountsPageConstants.INVESTMENT_TYPE.toUpperCase(),
         style: BlossomText.body));
-    _accountSubList.addAll(await _buildAccountTypeList(_investmentAccounts));
+    _accountSubList.addAll(
+        await _buildAccountTypeList(_investmentAccounts, logo));
 
     return _accountSubList;
   }
 
-  Future<List<Widget>> _buildAccountTypeList(List<Account> accounts) async {
+  Future<List<Widget>> _buildAccountTypeList(List<Account> accounts,
+      String logo) async {
     List<Widget> _accountTypeList = new List();
     accounts.forEach((account) {
       if (account != null) {
@@ -144,7 +149,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
               child: InkWell(
-                onTap: openAccountDetailScreen(account),
+                onTap: openAccountDetailScreen(account, logo),
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -164,7 +169,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
     return _accountTypeList;
   }
 
-  openAccountDetailScreen(Account account) {
+  openAccountDetailScreen(Account account, String logo) {
 
   }
 }
