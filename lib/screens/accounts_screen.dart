@@ -144,6 +144,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
               child: InkWell(
+                onTap: openAccountDetailScreen,
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -162,4 +163,6 @@ class _AccountsScreenState extends State<AccountsScreen> {
 
     return _accountTypeList;
   }
+
+  void openAccountDetailScreen() {}
 }
