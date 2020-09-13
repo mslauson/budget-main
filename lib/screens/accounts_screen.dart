@@ -12,6 +12,7 @@ import 'package:main/models/accounts/response/accounts_response.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/screens/account_detail_screen.dart';
 import 'package:main/theme/blossom_text.dart';
+import 'package:main/util/parse_utils.dart';
 import 'package:main/widgets/nav_drawer.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -160,10 +161,10 @@ class _AccountsScreenState extends State<AccountsScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(account.name, style: BlossomText.mediumBody),
-                      Text("\$" + account.balances.current.toString(),
-                          style: BlossomText.secondaryBody),
+                      ParseUtils.parseAvailableBalance(
+                          account.balances.current),
                       //TODO: Make look like checking number on check
-                      Text(account.mask, style: BlossomText.secondaryBody),
+                      ParseUtils.parseAccountMask(account.mask),
                     ]),
               ),
             ),
