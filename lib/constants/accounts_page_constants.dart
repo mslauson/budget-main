@@ -13,4 +13,6 @@ class AccountsPageConstants{
   static const String FOUR_O_ONE_K_SUB_TYPE = "401k";
   static const String STUDENT_SUB_TYPE = "student";
   static const String MORTGAGE_SUB_TYPE = "mortgage";
+
+  static const String AVAILABLE_BALANCE = "Available Balance";
 }
