@@ -11,7 +11,7 @@ PlaidAccountsResponse _$PlaidAccountsResponseFromJson(
   return PlaidAccountsResponse(
     accounts: (json['accounts'] as List)
         ?.map((e) =>
-            e == null ? null : Accounts.fromJson(e as Map<String, dynamic>))
+            e == null ? null : Account.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
 }

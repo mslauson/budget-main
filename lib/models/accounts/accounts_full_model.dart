@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:main/models/accounts/accounts.dart';
+import 'package:main/models/accounts/account.dart';
 import 'package:main/models/accounts/institution.dart';
 
 part 'accounts_full_model.g.dart';
@@ -7,7 +7,7 @@ part 'accounts_full_model.g.dart';
 @JsonSerializable(includeIfNull: false)
 class AccountsFullModel {
   @JsonKey(name: 'accounts')
-  final List<Accounts> accounts;
+  final List<Account> accounts;
   @JsonKey(name: 'id')
   String id;
   @JsonKey(name: 'phone')

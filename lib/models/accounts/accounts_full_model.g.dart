@@ -10,7 +10,7 @@ AccountsFullModel _$AccountsFullModelFromJson(Map<String, dynamic> json) {
   return AccountsFullModel(
     accounts: (json['accounts'] as List)
         ?.map((e) =>
-            e == null ? null : Accounts.fromJson(e as Map<String, dynamic>))
+            e == null ? null : Account.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     id: json['id'] as String,
     phone: json['phone'] as String,

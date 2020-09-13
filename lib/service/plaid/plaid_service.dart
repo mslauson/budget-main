@@ -4,7 +4,7 @@ import 'package:main/client/plaid_client.dart';
 import 'package:main/constants/error_constants.dart';
 import 'package:main/constants/plaid_constants.dart';
 import 'package:main/error/error_handler.dart';
-import 'package:main/models/accounts/accounts.dart';
+import 'package:main/models/accounts/account.dart';
 import 'package:main/models/accounts/accounts_full_model.dart';
 import 'package:main/models/accounts/institution.dart';
 import 'package:main/models/plaid/plaid_user.dart';
@@ -112,8 +112,10 @@ class PlaidService {
     );
   }
 
-  AccountsFullModel _buildAccountsModel(String accessToken,
-      String linkSessionId, List<Accounts> accounts,
+  AccountsFullModel _buildAccountsModel(
+      String accessToken,
+      String linkSessionId,
+      List<Account> accounts,
       PlaidInstitutionMetaResponse metaResponse) {
     accounts.forEach((e) => e.id = e.accountId);
     return AccountsFullModel(

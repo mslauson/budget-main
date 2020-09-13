@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'accounts.dart';
+part of 'account.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Accounts _$AccountsFromJson(Map<String, dynamic> json) {
-  return Accounts(
+Account _$AccountsFromJson(Map<String, dynamic> json) {
+  return Account(
     id: json['id'] as String,
     accountId: json['account_id'] as String,
     name: json['name'] as String,
@@ -21,7 +21,7 @@ Accounts _$AccountsFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$AccountsToJson(Accounts instance) {
+Map<String, dynamic> _$AccountsToJson(Account instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {

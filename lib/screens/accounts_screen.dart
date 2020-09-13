@@ -7,7 +7,7 @@ import 'package:loading/loading.dart';
 import 'package:main/client/accounts_client.dart';
 import 'package:main/components/drawer_container.dart';
 import 'package:main/constants/accounts_page_constants.dart';
-import 'package:main/models/accounts/accounts.dart';
+import 'package:main/models/accounts/account.dart';
 import 'package:main/models/accounts/response/accounts_response.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/theme/blossom_text.dart';
@@ -90,27 +90,27 @@ class _AccountsScreenState extends State<AccountsScreen> {
     return accountsWidgetList;
   }
 
-  Future<List<Widget>> _createAccountsList(List<Accounts> accounts) async {
+  Future<List<Widget>> _createAccountsList(List<Account> accounts) async {
     List<Widget> _accountSubList = new List();
     //TODO: figure out better way then using null in terinary
-    List<Accounts> _depositoryAccounts = accounts
-        .map((account) =>
-    account.type == AccountsPageConstants.DEPOSITORY_TYPE
-        ? account
-        : null)
-        .toList();
-    List<Accounts> _creditAccounts = accounts
-        .map((account) =>
-    account.type == AccountsPageConstants.CREDIT_TYPE ? account : null)
-        .toList();
-    List<Accounts> _loanAccounts = accounts
-        .map((account) =>
-            account.type == AccountsPageConstants.LOAN_TYPE ? account : null)
-        .toList();
-    List<Accounts> _investmentAccounts = accounts
-        .map((account) => account.type == AccountsPageConstants.INVESTMENT_TYPE
+    List<Account> _depositoryAccounts = accounts
+        .map((account) => account.type == AccountsPageConstants.DEPOSITORY_TYPE
             ? account
             : null)
+        .toList();
+    List<Account> _creditAccounts = accounts
+        .map((account) =>
+            account.type == AccountsPageConstants.CREDIT_TYPE ? account : null)
+        .toList();
+    List<Account> _loanAccounts = accounts
+        .map((account) =>
+    account.type == AccountsPageConstants.LOAN_TYPE ? account : null)
+        .toList();
+    List<Account> _investmentAccounts = accounts
+        .map((account) =>
+    account.type == AccountsPageConstants.INVESTMENT_TYPE
+        ? account
+        : null)
         .toList();
 
     _accountSubList.add(Text(
@@ -134,7 +134,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
     return _accountSubList;
   }
 
-  Future<List<Widget>> _buildAccountTypeList(List<Accounts> accounts) async {
+  Future<List<Widget>> _buildAccountTypeList(List<Account> accounts) async {
     List<Widget> _accountTypeList = new List();
     accounts.forEach((account) {
       if (account != null) {
@@ -144,7 +144,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
               child: InkWell(
-                onTap: openAccountDetailScreen,
+                onTap: openAccountDetailScreen(account),
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -164,5 +164,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
     return _accountTypeList;
   }
 
-  void openAccountDetailScreen() {}
+  openAccountDetailScreen(Account account) {
+
+  }
 }

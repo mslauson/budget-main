@@ -2,10 +2,10 @@ import 'package:json_annotation/json_annotation.dart';
 
 import 'balances.dart';
 
-part 'accounts.g.dart';
+part 'account.g.dart';
 
 @JsonSerializable(includeIfNull: false)
-class Accounts {
+class Account {
   @JsonKey(name: 'id')
   String id;
   @JsonKey(name: 'account_id')
@@ -23,7 +23,7 @@ class Accounts {
   @JsonKey(name: 'verificationStatus')
   final String verificationStatus;
 
-  Accounts(
+  Account(
       {this.id,
       this.accountId,
       this.name,
@@ -33,7 +33,7 @@ class Accounts {
       this.balances,
       this.verificationStatus});
 
-  factory Accounts.fromJson(Map<String, dynamic> json) =>
+  factory Account.fromJson(Map<String, dynamic> json) =>
       _$AccountsFromJson(json);
 
   Map<String, dynamic> toJson() => _$AccountsToJson(this);
