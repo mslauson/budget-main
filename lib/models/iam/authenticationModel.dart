@@ -1,21 +1,19 @@
+@Deprecated(
+    'We only take in the phone number now, so deprecating in favor of a variable')
 class AuthenticationModel {
-  String username;
-  String password;
+  String phoneNumber;
 
-  AuthenticationModel({String username, String password}) {
-    this.username = username;
-    this.password = password;
+  AuthenticationModel({String phoneNumber}) {
+    this.phoneNumber = phoneNumber;
   }
 
   AuthenticationModel.fromJson(Map<String, dynamic> json) {
-    username = json['username'];
-    password = json['password'];
+    phoneNumber = json['phoneNumber'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['username'] = this.username;
-    data['password'] = this.password;
+    data['phoneNumber'] = this.phoneNumber;
     return data;
   }
 }

@@ -3,10 +3,11 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:main/constants/UrlConstants.dart';
 import 'package:main/constants/plaidMicroserviceConstants.dart';
-import 'package:main/error/errorHandler.dart';
+import 'package:main/error/error_handler.dart';
 import 'package:main/models/plaid/genericStatusResponseModel.dart';
 import 'package:main/models/plaid/tokenExchangeResponse.dart';
 
+@Deprecated('In favor of writing new client in dart')
 class PlaidMicroserviceClient {
   static Future<TokenExchangeResponse> exchangeToken(String publicToken) async {
     Response response = await get(
@@ -17,11 +18,11 @@ class PlaidMicroserviceClient {
           PlaidMicroserviceConstants.EXCHANGE_URI,
     );
     if (response.statusCode != 200) {
-      ErrorHandler.onError(response, "Access Token");
+      ErrorHandler.onErrorClient(response, "Access Token");
     }
     String responseBody = response.body;
     TokenExchangeResponse exchangeResponse =
-        TokenExchangeResponse.fromJson(jsonDecode(responseBody));
+    TokenExchangeResponse.fromJson(jsonDecode(responseBody));
     return exchangeResponse;
   }
 
@@ -33,11 +34,11 @@ class PlaidMicroserviceClient {
         headers: UrlConstants.JSON_HEADER,
         body: payload);
     if (response.statusCode != 200) {
-      ErrorHandler.onError(response, "Adding Accounts");
+      ErrorHandler.onErrorClient(response, "Adding Accounts");
     }
     String responseBody = response.body;
     GenericSuccessResponseModel exchangeResponse =
-        GenericSuccessResponseModel.fromJson(jsonDecode(responseBody));
+    GenericSuccessResponseModel.fromJson(jsonDecode(responseBody));
     return exchangeResponse.success;
   }
 
@@ -49,11 +50,11 @@ class PlaidMicroserviceClient {
         headers: UrlConstants.JSON_HEADER,
         body: payload);
     if (response.statusCode != 200) {
-      ErrorHandler.onError(response, "Adding Transactions");
+      ErrorHandler.onErrorClient(response, "Adding Transactions");
     }
     String responseBody = response.body;
     GenericSuccessResponseModel exchangeResponse =
-        GenericSuccessResponseModel.fromJson(jsonDecode(responseBody));
+    GenericSuccessResponseModel.fromJson(jsonDecode(responseBody));
     return exchangeResponse.success;
   }
 }
