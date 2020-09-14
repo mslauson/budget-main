@@ -4,5 +4,5 @@ class TransactionsPageConstants{
   static const MERCHANT = "Merchant";
   static const AMOUNT = "Amount";
   static const BUDGET = "Budget";
-
+  static const TRANSACTIONS = "Transactions";
 }

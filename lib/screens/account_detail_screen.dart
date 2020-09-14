@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:main/components/drawer_container.dart';
 import 'package:main/constants/accounts_page_constants.dart';
+import 'package:main/constants/transaction_page_constants.dart';
 import 'package:main/models/accounts/account.dart';
 import 'package:main/theme/blossom_text.dart';
 import 'package:main/util/parse_utils.dart';
@@ -53,7 +54,7 @@ class AccountDetailScreen extends StatelessWidget {
                   child: Card(
                     margin: EdgeInsets.all(20),
                     child: ListTile(
-                        title: Text(AccountsPageConstants.AVAILABLE_BALANCE,
+                        title: Text(TransactionsPageConstants.TRANSACTIONS,
                             style: BlossomText.body)),
                   ))
             ],
