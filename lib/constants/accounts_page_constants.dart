@@ -1,4 +1,4 @@
-class AccountsPageConstants{
+class AccountsPageConstants {
   static const String ACCOUNTS = "Accounts";
   static const String DEPOSITORY_TYPE = "depository";
   static const String CREDIT_TYPE = "credit";
