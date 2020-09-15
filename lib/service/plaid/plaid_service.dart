@@ -25,6 +25,9 @@ class PlaidService {
   String _phone;
   final PlaidClient _plaidClient = PlaidClient();
   final AccountsService _accountsService = AccountsService();
+  final Function() onfinish;
+
+  PlaidService({this.onfinish});
 
   void openLinkNewAccount(String phone) async {
     LinkConfiguration config;
@@ -44,8 +47,8 @@ class PlaidService {
   }
 
   Future<String> _retrieveLinkTokenNewAccount(String phone) async {
-    LinkTokenResponse response = await _plaidClient.getLinkToken(
-        _buildLinkRequestNewAccount(phone));
+    LinkTokenResponse response =
+    await _plaidClient.getLinkToken(_buildLinkRequestNewAccount(phone));
     return response.linkToken;
   }
 
@@ -65,16 +68,19 @@ class PlaidService {
     log("onSuccess: $publicToken, metadata: ${metadata.description()}");
     PlaidAccountsResponse accountsResponse;
     PlaidInstitutionMetaResponse metaResponse =
-        await _plaidClient.getInstitutionMetaData(_buildMetaRequest());
+    await _plaidClient.getInstitutionMetaData(_buildMetaRequest());
     _plaidClient
         .getAccessToken(_buildTokenExchangeRequest(publicToken))
-        .then((tokenResponse) async => {
-              accountsResponse = await _plaidClient.getAccounts(
-                  _buildAccountsRequest(tokenResponse.accessToken)),
-              await _accountsService.addAccount(_buildAccountsModel(
-                  tokenResponse.accessToken,
-                  metadata.linkSessionId,
-                  accountsResponse.accounts, metaResponse))
+        .then((tokenResponse) async =>
+    {
+      accountsResponse = await _plaidClient.getAccounts(
+          _buildAccountsRequest(tokenResponse.accessToken)),
+      await _accountsService.addAccount(_buildAccountsModel(
+          tokenResponse.accessToken,
+          metadata.linkSessionId,
+          accountsResponse.accounts,
+          metaResponse)),
+      onfinish()
     });
   }
 
@@ -100,16 +106,14 @@ class PlaidService {
     return PlaidTokenExchangeRequest(
         clientId: PlaidConstants.CLIENT_ID_SANDBOX,
         secret: PlaidConstants.CLIENT_SECRET_SANDBOX,
-        publicToken: publicToken
-    );
+        publicToken: publicToken);
   }
 
   PlaidAccountsRequest _buildAccountsRequest(String accessToken) {
     return PlaidAccountsRequest(
         clientId: PlaidConstants.CLIENT_ID_SANDBOX,
         secret: PlaidConstants.CLIENT_SECRET_SANDBOX,
-        accessToken: accessToken
-    );
+        accessToken: accessToken);
   }
 
   AccountsFullModel _buildAccountsModel(
@@ -132,7 +136,6 @@ class PlaidService {
         institutionId: _institutionId,
         logo: metaResponse.institution.logo,
         primaryColor: metaResponse.institution.primaryColor,
-        url: metaResponse.institution.url
-    );
+        url: metaResponse.institution.url);
   }
 }

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loading/indicator/ball_pulse_indicator.dart';
 import 'package:loading/loading.dart';
 import 'package:main/client/accounts_client.dart';
@@ -11,6 +12,7 @@ import 'package:main/models/accounts/account.dart';
 import 'package:main/models/accounts/response/accounts_response.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/screens/account_detail_screen.dart';
+import 'package:main/service/plaid/plaid_service.dart';
 import 'package:main/theme/blossom_text.dart';
 import 'package:main/util/parse_utils.dart';
 import 'package:main/widgets/nav_drawer.dart';
@@ -27,8 +29,17 @@ class _AccountsScreenState extends State<AccountsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final String phone =
+        ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone;
+    final PlaidService _plaidService =
+        PlaidService(onfinish: () => Navigator.pop(context));
     return Scaffold(
       extendBody: true,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(FontAwesomeIcons.plus),
+        backgroundColor: Colors.white,
+        onPressed: () => _plaidService.openLinkNewAccount(phone),
+      ),
       body: Stack(
         children: [
           NavDrawer(),
