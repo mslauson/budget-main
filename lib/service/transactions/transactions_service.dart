@@ -1,0 +1,3 @@
+class TransactionsService {
+  void addTransactions() {}
+}
