@@ -10,10 +10,12 @@ import 'package:main/models/plaid/request/link_token_request.dart';
 import 'package:main/models/plaid/request/plaid_accounts_request.dart';
 import 'package:main/models/plaid/request/plaid_institution_meta_request.dart';
 import 'package:main/models/plaid/request/plaid_token_exchange_request.dart';
+import 'package:main/models/plaid/request/plaid_transactions_request.dart';
 import 'package:main/models/plaid/response/link_token_response.dart';
 import 'package:main/models/plaid/response/plaid_accounts_response.dart';
 import 'package:main/models/plaid/response/plaid_institution_meta_response.dart';
 import 'package:main/models/plaid/response/plaid_token_exchange_response.dart';
+import 'package:main/models/plaid/response/plaid_transactions_response.dart';
 import 'package:main/util/uri_builder.dart';
 
 class PlaidClient {
@@ -74,8 +76,23 @@ class PlaidClient {
     }
     String body = response.body;
     PlaidAccountsResponse accountsResponse =
-    PlaidAccountsResponse.fromJson(jsonDecode(response.body));
+        PlaidAccountsResponse.fromJson(jsonDecode(response.body));
     log(accountsResponse.toString());
     return accountsResponse;
+  }
+
+  Future<PlaidTransactionsResponse> getTransactions(
+      PlaidTransactionsRequest request) async {
+    Response response = await post(
+        UriBuilder.plaidApiSandbox(PlaidConstants.URI_GET_TRANSACTIONS),
+        headers: GlobalConstants.BASIC_POST_HEADERS,
+        body: jsonEncode(request.toJson()));
+    if (response.statusCode != 200) {
+      ErrorHandler.onErrorClient(response, ErrorConstants.ADDING_ACCOUNTS);
+    }
+    PlaidTransactionsResponse transactionsResponse =
+        PlaidTransactionsResponse.fromJson(jsonDecode(response.body));
+    log(transactionsResponse.toString());
+    return transactionsResponse;
   }
 }

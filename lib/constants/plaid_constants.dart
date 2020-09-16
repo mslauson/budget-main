@@ -3,14 +3,16 @@ class PlaidConstants {
 
   static const String URI_ACCESS_TOKEN = "item/public_token/exchange";
   static const String URI_LINK_TOKEN = "link/token/create";
-  static const String URI_INSTITUTION_META = "/institutions/get_by_id";
-  static const String URI_GET_ACCOUNTS = "/accounts/get";
+  static const String URI_INSTITUTION_META = "institutions/get_by_id";
+  static const String URI_GET_ACCOUNTS = "accounts/get";
+  static const String URI_GET_TRANSACTIONS = "transactions/get";
 
   //product
   static const List IDENTITY_PRODUCT = ["identity", "auth"];
 
   //env
-  static const String ENV = "development";
+  static const String DEV_ENV = "development";
+  static const String SANDBOX_ENV = "sandbox";
 
   //sandbox credentials
   static const String CLIENT_ID_SANDBOX = "5e3e3876ba7c950013d677b8";
