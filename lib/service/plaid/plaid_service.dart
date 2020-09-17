@@ -13,9 +13,12 @@ import 'package:main/models/plaid/request/plaid_accounts_request.dart';
 import 'package:main/models/plaid/request/plaid_institution_meta_request.dart';
 import 'package:main/models/plaid/request/plaid_request_options.dart';
 import 'package:main/models/plaid/request/plaid_token_exchange_request.dart';
+import 'package:main/models/plaid/request/plaid_transactions_request.dart';
 import 'package:main/models/plaid/response/link_token_response.dart';
 import 'package:main/models/plaid/response/plaid_accounts_response.dart';
 import 'package:main/models/plaid/response/plaid_institution_meta_response.dart';
+import 'package:main/models/plaid/response/plaid_transactions_response.dart';
+import 'package:main/models/plaid/transaction_options.dart';
 import 'package:main/service/accounts/accounts_service.dart';
 import 'package:plaid_flutter/plaid_flutter.dart';
 
@@ -46,9 +49,20 @@ class PlaidService {
         .catchError((error) => ErrorHandler.showError(error));
   }
 
+  Future<PlaidTransactionsResponse> getTransactionsFromPlaid(String accessToken,
+      String start, String finish, TransactionOptions options) {
+    PlaidTransactionsRequest transactionsRequest = PlaidTransactionsRequest(
+        clientId: PlaidConstants.CLIENT_ID_SANDBOX,
+        secret: PlaidConstants.CLIENT_SECRET_SANDBOX,
+        accessToken: accessToken,
+        startDate: start,
+        endDate: finish,
+        options: options);
+  }
+
   Future<String> _retrieveLinkTokenNewAccount(String phone) async {
     LinkTokenResponse response =
-    await _plaidClient.getLinkToken(_buildLinkRequestNewAccount(phone));
+        await _plaidClient.getLinkToken(_buildLinkRequestNewAccount(phone));
     return response.linkToken;
   }
 
@@ -80,6 +94,10 @@ class PlaidService {
           metadata.linkSessionId,
           accountsResponse.accounts,
           metaResponse)),
+      getTransactionsFromPlaid(
+          tokenResponse.accessToken, _parseDate(DateTime.now()),
+          _parseDate(DateTime.now().subtract(Duration(days: 30))),
+          TransactionOptions(count: 500)),
       onfinish()
     });
   }
@@ -138,4 +156,11 @@ class PlaidService {
         primaryColor: metaResponse.institution.primaryColor,
         url: metaResponse.institution.url);
   }
+
+  String _parseDate(DateTime date) {
+    String dateString = date.toIso8601String();
+    return dateString.split("T")[0];
+  }
+
+
 }

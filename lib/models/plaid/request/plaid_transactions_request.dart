@@ -1,4 +1,4 @@
-import 'package:main/models/plaid/request/plaid_request_options.dart';
+import 'package:main/models/plaid/transaction_options.dart';
 
 class PlaidTransactionsRequest {
   String clientId;
@@ -6,7 +6,7 @@ class PlaidTransactionsRequest {
   String accessToken;
   String startDate;
   String endDate;
-  Options options;
+  TransactionOptions options;
 
   PlaidTransactionsRequest(
       {this.clientId,
@@ -23,7 +23,9 @@ class PlaidTransactionsRequest {
     startDate = json['start_date'];
     endDate = json['end_date'];
     options =
-        json['options'] != null ? new Options.fromJson(json['options']) : null;
+    json['options'] != null
+        ? new TransactionOptions.fromJson(json['options'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {

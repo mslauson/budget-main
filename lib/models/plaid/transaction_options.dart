@@ -1,10 +1,10 @@
-class Options {
+class TransactionOptions {
   int count;
   int offset;
 
-  Options({this.count, this.offset});
+  TransactionOptions({this.count, this.offset});
 
-  Options.fromJson(Map<String, dynamic> json) {
+  TransactionOptions.fromJson(Map<String, dynamic> json) {
     count = json['count'];
     offset = json['offset'];
   }
