@@ -87,19 +87,15 @@ class PlaidService {
         .getAccessToken(_buildTokenExchangeRequest(publicToken))
         .then((tokenResponse) async =>
     {
-      accountsResponse = await _plaidClient.getAccounts(
-          _buildAccountsRequest(tokenResponse.accessToken)),
-      await _accountsService.addAccount(_buildAccountsModel(
-          tokenResponse.accessToken,
-          metadata.linkSessionId,
-          accountsResponse.accounts,
-          metaResponse)),
-      getTransactionsFromPlaid(
-          tokenResponse.accessToken, _parseDate(DateTime.now()),
-          _parseDate(DateTime.now().subtract(Duration(days: 30))),
-          TransactionOptions(count: 500)),
-      onfinish()
-    });
+              accountsResponse = await _plaidClient.getAccounts(
+                  _buildAccountsRequest(tokenResponse.accessToken)),
+              await _accountsService.addAccount(_buildAccountsModel(
+                  tokenResponse.accessToken,
+                  metadata.linkSessionId,
+                  accountsResponse.accounts,
+                  metaResponse)),
+              _finializeItemWithTransactions(tokenResponse.accessToken)
+            });
   }
 
   void _onEventLinkCallBack(String event, LinkEventMetadata metadata) {
@@ -155,6 +151,14 @@ class PlaidService {
         logo: metaResponse.institution.logo,
         primaryColor: metaResponse.institution.primaryColor,
         url: metaResponse.institution.url);
+  }
+
+  Future<void> _finializeItemWithTransactions(String accessToken) async {
+    PlaidTransactionsResponse transactionsResponse = await getTransactionsFromPlaid(
+        accessToken, _parseDate(DateTime.now()),
+        _parseDate(DateTime.now().subtract(Duration(days: 30))),
+        TransactionOptions(count: 500));
+    onfinish();
   }
 
   String _parseDate(DateTime date) {
