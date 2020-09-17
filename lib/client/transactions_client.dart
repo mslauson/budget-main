@@ -29,7 +29,7 @@ class TransactionsClient {
 //    return TransactionsGetResponse.fromJson(jsonDecode(response.body));
 //  }
 
-  static Future<GenericSuccessResponseModel> postTransactionBatch(
+  Future<GenericSuccessResponseModel> postTransactionBatch(
       TransactionsBatchRequest batchRequest) async {
     Response response = await post(
         UriBuilder.blossomDevWithPath(

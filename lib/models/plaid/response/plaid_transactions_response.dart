@@ -1,6 +1,6 @@
 import 'package:main/models/plaid/accounts.dart';
 import 'package:main/models/plaid/item.dart';
-import 'package:main/models/plaid/transactions.dart';
+import 'package:main/models/transactions/transactions.dart';
 
 class PlaidTransactionsResponse {
   List<Accounts> accounts;
