@@ -92,7 +92,7 @@ class PlaidClient {
     }
     PlaidTransactionsResponse transactionsResponse =
         PlaidTransactionsResponse.fromJson(jsonDecode(response.body));
-    log(transactionsResponse.toString());
+    log(response.body);
     return transactionsResponse;
   }
 }

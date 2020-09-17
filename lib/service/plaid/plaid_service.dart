@@ -20,6 +20,7 @@ import 'package:main/models/plaid/response/plaid_institution_meta_response.dart'
 import 'package:main/models/plaid/response/plaid_transactions_response.dart';
 import 'package:main/models/plaid/transaction_options.dart';
 import 'package:main/service/accounts/accounts_service.dart';
+import 'package:main/service/transactions/transactions_service.dart';
 import 'package:plaid_flutter/plaid_flutter.dart';
 
 class PlaidService {
@@ -28,6 +29,7 @@ class PlaidService {
   String _phone;
   final PlaidClient _plaidClient = PlaidClient();
   final AccountsService _accountsService = AccountsService();
+  final TransactionsService _transactionsService = TransactionsService();
   final Function() onfinish;
 
   PlaidService({this.onfinish});
@@ -50,7 +52,7 @@ class PlaidService {
   }
 
   Future<PlaidTransactionsResponse> getTransactionsFromPlaid(String accessToken,
-      String start, String finish, TransactionOptions options) {
+      String start, String finish, TransactionOptions options) async {
     PlaidTransactionsRequest transactionsRequest = PlaidTransactionsRequest(
         clientId: PlaidConstants.CLIENT_ID_SANDBOX,
         secret: PlaidConstants.CLIENT_SECRET_SANDBOX,
@@ -58,6 +60,7 @@ class PlaidService {
         startDate: start,
         endDate: finish,
         options: options);
+    return await _plaidClient.getTransactions(transactionsRequest);
   }
 
   Future<String> _retrieveLinkTokenNewAccount(String phone) async {
@@ -154,10 +157,15 @@ class PlaidService {
   }
 
   Future<void> _finializeItemWithTransactions(String accessToken) async {
+    //TODO: Figure out the alternative for this
+    //maybe add a loading indicator
+    await Future.delayed(Duration(seconds: 30));
     PlaidTransactionsResponse transactionsResponse = await getTransactionsFromPlaid(
-        accessToken, _parseDate(DateTime.now()),
+        accessToken,
         _parseDate(DateTime.now().subtract(Duration(days: 30))),
+        _parseDate(DateTime.now()),
         TransactionOptions(count: 500));
+    await _transactionsService.addTransactions(transactionsResponse, _phone);
     onfinish();
   }
 
