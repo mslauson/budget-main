@@ -76,7 +76,7 @@ class PlaidService {
         clientName: PlaidConstants.CLIENT_NAME,
         language: PlaidConstants.LANGUAGE,
         user: PlaidUser(clientUserId: phone),
-        products: PlaidConstants.IDENTITY_PRODUCT,
+        products: PlaidConstants.TRANSACTION_PRODUCT,
         countryCodes: PlaidConstants.COUNTRY_CODES);
   }
 

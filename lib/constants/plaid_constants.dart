@@ -8,7 +8,7 @@ class PlaidConstants {
   static const String URI_GET_TRANSACTIONS = "transactions/get";
 
   //product
-  static const List IDENTITY_PRODUCT = ["identity", "auth"];
+  static const List TRANSACTION_PRODUCT = ["identity", "auth", "transactions"];
 
   //env
   static const String DEV_ENV = "development";
