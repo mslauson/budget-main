@@ -1,6 +1,6 @@
 class Balances {
-  int available;
-  int current;
+  double available;
+  double current;
   String isoCurrencyCode;
   var limit;
   var unofficialCurrencyCode;

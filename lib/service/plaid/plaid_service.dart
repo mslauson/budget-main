@@ -96,8 +96,7 @@ class PlaidService {
                   tokenResponse.accessToken,
                   metadata.linkSessionId,
                   accountsResponse.accounts,
-                  metaResponse)),
-              _finializeItemWithTransactions(tokenResponse.accessToken)
+                  metaResponse))
             });
   }
 
@@ -156,23 +155,6 @@ class PlaidService {
         url: metaResponse.institution.url);
   }
 
-  Future<void> _finializeItemWithTransactions(String accessToken) async {
-    //TODO: Figure out the alternative for this
-    //maybe add a loading indicator
-    await Future.delayed(Duration(seconds: 30));
-    PlaidTransactionsResponse transactionsResponse = await getTransactionsFromPlaid(
-        accessToken,
-        _parseDate(DateTime.now().subtract(Duration(days: 30))),
-        _parseDate(DateTime.now()),
-        TransactionOptions(count: 500));
-    await _transactionsService.addTransactions(transactionsResponse, _phone);
-    onfinish();
-  }
-
-  String _parseDate(DateTime date) {
-    String dateString = date.toIso8601String();
-    return dateString.split("T")[0];
-  }
 
 
 }

@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:main/client/budget_client.dart';
 import 'package:main/client/plaidMicroserviceClient.dart';
-import 'package:main/client/transactions_client.dart';
-import 'package:main/constants/transaction_microservice_constants.dart';
 import 'package:main/constants/transaction_page_constants.dart';
 import 'package:main/models/accounts/AccessTokensResponse.dart';
 import 'package:main/models/accounts/accounts_full_model.dart';
@@ -172,11 +170,11 @@ class SecureHomeWidgets {
     Jiffy nextMonthJiffy = new Jiffy(nextMonthDt);
     String monthEnd =
         nextMonthJiffy.startOf(Units.MONTH).toIso8601String().split("T")[0];
-    return await TransactionsClient.getTransactionsForUser(
-        email,
-        TransactionsMicroserviceConstants.DATE_TIME_RANGE_QUERY,
-        monthStart,
-        monthEnd);
+//    return await TransactionsClient.getTransactionsForUser(
+//        email,
+//        TransactionsMicroserviceConstants.DATE_TIME_RANGE_QUERY,
+//        monthStart,
+//        monthEnd);
   }
 
   static _loadBudgets(String email) async {
