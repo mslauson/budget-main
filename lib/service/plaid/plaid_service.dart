@@ -13,14 +13,11 @@ import 'package:main/models/plaid/request/plaid_accounts_request.dart';
 import 'package:main/models/plaid/request/plaid_institution_meta_request.dart';
 import 'package:main/models/plaid/request/plaid_request_options.dart';
 import 'package:main/models/plaid/request/plaid_token_exchange_request.dart';
-import 'package:main/models/plaid/request/plaid_transactions_request.dart';
 import 'package:main/models/plaid/response/link_token_response.dart';
 import 'package:main/models/plaid/response/plaid_accounts_response.dart';
 import 'package:main/models/plaid/response/plaid_institution_meta_response.dart';
-import 'package:main/models/plaid/response/plaid_transactions_response.dart';
-import 'package:main/models/plaid/transaction_options.dart';
 import 'package:main/service/accounts/accounts_service.dart';
-import 'package:main/service/transactions/transactions_service.dart';
+import 'package:main/util/uri_builder.dart';
 import 'package:plaid_flutter/plaid_flutter.dart';
 
 class PlaidService {
@@ -29,7 +26,6 @@ class PlaidService {
   String _phone;
   final PlaidClient _plaidClient = PlaidClient();
   final AccountsService _accountsService = AccountsService();
-  final TransactionsService _transactionsService = TransactionsService();
   final Function() onfinish;
 
   PlaidService({this.onfinish});
@@ -39,8 +35,11 @@ class PlaidService {
     PlaidLink plaidLink;
     _phone = phone;
     _retrieveLinkTokenNewAccount(phone)
-        .then((linkToken) => {
-              config = LinkConfiguration(linkToken: linkToken),
+        .then((linkToken) =>
+    {
+              config = LinkConfiguration(
+                  linkToken: linkToken,
+                  webhook: UriBuilder.blossomDev(PlaidConstants.SERVICE, 1)),
               plaidLink = PlaidLink(
                   configuration: config,
                   onSuccess: _onSuccessLinkCallback,
@@ -51,17 +50,6 @@ class PlaidService {
         .catchError((error) => ErrorHandler.showError(error));
   }
 
-  Future<PlaidTransactionsResponse> getTransactionsFromPlaid(String accessToken,
-      String start, String finish, TransactionOptions options) async {
-    PlaidTransactionsRequest transactionsRequest = PlaidTransactionsRequest(
-        clientId: PlaidConstants.CLIENT_ID_SANDBOX,
-        secret: PlaidConstants.CLIENT_SECRET_SANDBOX,
-        accessToken: accessToken,
-        startDate: start,
-        endDate: finish,
-        options: options);
-    return await _plaidClient.getTransactions(transactionsRequest);
-  }
 
   Future<String> _retrieveLinkTokenNewAccount(String phone) async {
     LinkTokenResponse response =

@@ -1,6 +1,7 @@
 class PlaidConstants {
   PlaidConstants._();
 
+  static const String SERVICE = "plaid";
   static const String URI_ACCESS_TOKEN = "item/public_token/exchange";
   static const String URI_LINK_TOKEN = "link/token/create";
   static const String URI_INSTITUTION_META = "institutions/get_by_id";
