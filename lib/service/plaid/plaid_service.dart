@@ -8,6 +8,7 @@ import 'package:main/models/accounts/account.dart';
 import 'package:main/models/accounts/accounts_full_model.dart';
 import 'package:main/models/accounts/institution.dart';
 import 'package:main/models/plaid/plaid_user.dart';
+import 'package:main/models/plaid/request/UpdateWebhookRequestModel.dart';
 import 'package:main/models/plaid/request/link_token_request.dart';
 import 'package:main/models/plaid/request/plaid_accounts_request.dart';
 import 'package:main/models/plaid/request/plaid_institution_meta_request.dart';
@@ -35,11 +36,8 @@ class PlaidService {
     PlaidLink plaidLink;
     _phone = phone;
     _retrieveLinkTokenNewAccount(phone)
-        .then((linkToken) =>
-    {
-              config = LinkConfiguration(
-                  linkToken: linkToken,
-                  webhook: UriBuilder.blossomDev(PlaidConstants.SERVICE, 1)),
+        .then((linkToken) => {
+              config = LinkConfiguration(linkToken: linkToken),
               plaidLink = PlaidLink(
                   configuration: config,
                   onSuccess: _onSuccessLinkCallback,
@@ -49,7 +47,6 @@ class PlaidService {
             })
         .catchError((error) => ErrorHandler.showError(error));
   }
-
 
   Future<String> _retrieveLinkTokenNewAccount(String phone) async {
     LinkTokenResponse response =
@@ -78,14 +75,16 @@ class PlaidService {
         .getAccessToken(_buildTokenExchangeRequest(publicToken))
         .then((tokenResponse) async =>
     {
-              accountsResponse = await _plaidClient.getAccounts(
-                  _buildAccountsRequest(tokenResponse.accessToken)),
-              await _accountsService.addAccount(_buildAccountsModel(
-                  tokenResponse.accessToken,
-                  metadata.linkSessionId,
-                  accountsResponse.accounts,
-                  metaResponse))
-            });
+      accountsResponse = await _plaidClient.getAccounts(
+          _buildAccountsRequest(tokenResponse.accessToken)),
+      await _accountsService.addAccount(_buildAccountsModel(
+          tokenResponse.accessToken,
+          metadata.linkSessionId,
+          accountsResponse.accounts,
+          metaResponse)),
+      await _plaidClient.updateWebhook(
+          _buildUpdateWebhooksModel(tokenResponse.accessToken))
+    });
   }
 
   void _onEventLinkCallBack(String event, LinkEventMetadata metadata) {
@@ -143,6 +142,11 @@ class PlaidService {
         url: metaResponse.institution.url);
   }
 
-
-
+  UpdateWebhookRequestModel _buildUpdateWebhooksModel(String accessToken) {
+    return UpdateWebhookRequestModel(
+        clientId: PlaidConstants.CLIENT_ID_SANDBOX,
+        secret: PlaidConstants.CLIENT_SECRET_SANDBOX,
+        accessToken: accessToken,
+        webhook: UriBuilder.blossomDev(PlaidConstants.SERVICE, 1));
+  }
 }
