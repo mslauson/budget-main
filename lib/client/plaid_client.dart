@@ -6,6 +6,7 @@ import 'package:main/constants/error_constants.dart';
 import 'package:main/constants/global_constants.dart';
 import 'package:main/constants/plaid_constants.dart';
 import 'package:main/error/error_handler.dart';
+import 'package:main/models/plaid/request/UpdateWebhookRequestModel.dart';
 import 'package:main/models/plaid/request/link_token_request.dart';
 import 'package:main/models/plaid/request/plaid_accounts_request.dart';
 import 'package:main/models/plaid/request/plaid_institution_meta_request.dart';
@@ -94,5 +95,17 @@ class PlaidClient {
         PlaidTransactionsResponse.fromJson(jsonDecode(response.body));
     log(response.body);
     return transactionsResponse;
+  }
+
+  Future<String> updateWebhook(UpdateWebhookRequestModel request) async {
+    Response response = await post(
+        UriBuilder.plaidApiSandbox(PlaidConstants.URI_UPDATE_WEBHOOK),
+        headers: GlobalConstants.BASIC_POST_HEADERS,
+        body: jsonEncode(request.toJson()));
+    if (response.statusCode != 200) {
+      ErrorHandler.onErrorClient(response, ErrorConstants.ADDING_ACCOUNTS);
+    }
+    log(response.body);
+    return response.body;
   }
 }
