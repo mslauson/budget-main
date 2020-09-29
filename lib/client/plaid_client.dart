@@ -8,7 +8,7 @@ import 'package:main/constants/plaid_constants.dart';
 import 'package:main/error/error_handler.dart';
 import 'package:main/models/plaid/request/UpdateWebhookRequestModel.dart';
 import 'package:main/models/plaid/request/link_token_request.dart';
-import 'package:main/models/plaid/request/plaid_accounts_request.dart';
+import 'package:main/models/plaid/request/plaid_generic_request.dart';
 import 'package:main/models/plaid/request/plaid_institution_meta_request.dart';
 import 'package:main/models/plaid/request/plaid_token_exchange_request.dart';
 import 'package:main/models/plaid/request/plaid_transactions_request.dart';
@@ -66,8 +66,7 @@ class PlaidClient {
     return metaResponse;
   }
 
-  Future<PlaidAccountsResponse> getAccounts(
-      PlaidAccountsRequest request) async {
+  Future<PlaidAccountsResponse> getAccounts(PlaidGenericRequest request) async {
     Response response = await post(
         UriBuilder.plaidApiSandbox(PlaidConstants.URI_GET_ACCOUNTS),
         headers: GlobalConstants.BASIC_POST_HEADERS,
