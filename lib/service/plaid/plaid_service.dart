@@ -10,13 +10,14 @@ import 'package:main/models/accounts/institution.dart';
 import 'package:main/models/plaid/plaid_user.dart';
 import 'package:main/models/plaid/request/UpdateWebhookRequestModel.dart';
 import 'package:main/models/plaid/request/link_token_request.dart';
-import 'package:main/models/plaid/request/plaid_accounts_request.dart';
+import 'package:main/models/plaid/request/plaid_generic_request.dart';
 import 'package:main/models/plaid/request/plaid_institution_meta_request.dart';
 import 'package:main/models/plaid/request/plaid_request_options.dart';
 import 'package:main/models/plaid/request/plaid_token_exchange_request.dart';
 import 'package:main/models/plaid/response/link_token_response.dart';
 import 'package:main/models/plaid/response/plaid_accounts_response.dart';
 import 'package:main/models/plaid/response/plaid_institution_meta_response.dart';
+import 'package:main/models/plaid/response/plaid_item_response_model.dart';
 import 'package:main/service/accounts/accounts_service.dart';
 import 'package:main/util/uri_builder.dart';
 import 'package:plaid_flutter/plaid_flutter.dart';
@@ -69,22 +70,25 @@ class PlaidService {
       LinkSuccessMetadata metadata) async {
     log("onSuccess: $publicToken, metadata: ${metadata.description()}");
     PlaidAccountsResponse accountsResponse;
+    PlaidItemResponseModel itemResponseModel;
     PlaidInstitutionMetaResponse metaResponse =
-    await _plaidClient.getInstitutionMetaData(_buildMetaRequest());
+        await _plaidClient.getInstitutionMetaData(_buildMetaRequest());
     _plaidClient
         .getAccessToken(_buildTokenExchangeRequest(publicToken))
-        .then((tokenResponse) async =>
-    {
-      accountsResponse = await _plaidClient.getAccounts(
-          _buildAccountsRequest(tokenResponse.accessToken)),
-      await _accountsService.addAccount(_buildAccountsModel(
-          tokenResponse.accessToken,
-          metadata.linkSessionId,
-          accountsResponse.accounts,
-          metaResponse)),
-      await _plaidClient.updateWebhook(
-          _buildUpdateWebhooksModel(tokenResponse.accessToken))
-    });
+        .then((tokenResponse) async => {
+              accountsResponse = await _plaidClient
+                  .getAccounts(_buildGenericRequest(tokenResponse.accessToken)),
+              itemResponseModel = await _plaidClient
+                  .getItemId(_buildGenericRequest(tokenResponse.accessToken)),
+              await _accountsService.addAccount(_buildAccountsModel(
+                  tokenResponse.accessToken,
+                  metadata.linkSessionId,
+                  accountsResponse.accounts,
+                  metaResponse,
+                  itemResponseModel)),
+              await _plaidClient.updateWebhook(
+                  _buildUpdateWebhooksModel(tokenResponse.accessToken))
+            });
   }
 
   void _onEventLinkCallBack(String event, LinkEventMetadata metadata) {
@@ -112,20 +116,21 @@ class PlaidService {
         publicToken: publicToken);
   }
 
-  PlaidAccountsRequest _buildAccountsRequest(String accessToken) {
-    return PlaidAccountsRequest(
+  PlaidGenericRequest _buildGenericRequest(String accessToken) {
+    return PlaidGenericRequest(
         clientId: PlaidConstants.CLIENT_ID_SANDBOX,
         secret: PlaidConstants.CLIENT_SECRET_SANDBOX,
         accessToken: accessToken);
   }
 
-  AccountsFullModel _buildAccountsModel(
-      String accessToken,
+  AccountsFullModel _buildAccountsModel(String accessToken,
       String linkSessionId,
       List<Account> accounts,
-      PlaidInstitutionMetaResponse metaResponse) {
+      PlaidInstitutionMetaResponse metaResponse,
+      PlaidItemResponseModel itemResponseModel) {
     accounts.forEach((e) => e.id = e.accountId);
     return AccountsFullModel(
+        id: itemResponseModel.item.itemId,
         phone: _phone,
         accounts: accounts,
         institution: _buildInstitution(metaResponse),
