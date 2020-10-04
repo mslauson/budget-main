@@ -48,7 +48,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
         await _transactionsClient.getTransactionsForUser(
             phone,
             TransactionsMicroserviceConstants.DATE_TIME_RANGE_QUERY,
-            DateUtils.currentFirstOfMonthIso(),
+            DateUtils.currentLastOfMonthIso(),
             DateUtils.currentDateIso());
     return await _buildTransactions();
   }
