@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:loading/indicator/ball_pulse_indicator.dart';
+import 'package:loading/loading.dart';
 import 'package:main/client/transactions_client.dart';
 import 'package:main/components/drawer_container.dart';
+import 'package:main/constants/transaction_microservice_constants.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/transactions/transactions_get_response.dart';
-import 'package:main/theme/blossom_text.dart';
+import 'package:main/util/date_utils.dart';
 import 'package:main/widgets/nav_drawer.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -21,23 +24,34 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
       body: Stack(
         children: [
           NavDrawer(),
-          DrawerContainer(
-            children: [
-              Text('Transactions', style: BlossomText.headline),
-            ],
-          ),
+          DrawerContainer(children: [
+            FutureBuilder(
+              future: _loadTransactions(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  return Column(children: snapshot.data);
+                } else {
+                  return Loading(indicator: BallPulseIndicator());
+                }
+              },
+            ),
+          ]),
         ],
       ),
     );
   }
 
-  Future<List<Widget>> _loadAccounts() async {
+  Future<List<Widget>> _loadTransactions() async {
     final String phone =
-        ScopedModel
-            .of<ActiveUser>(context, rebuildOnChange: true)
-            .phone;
-    final TransactionsGetResponse _getResponse = _transactionsClient
-        .getTransactionsForUser(phone, transactionQuery, dateStart, dateFinish)
-    return await _buildAccountsByInstitution();
+        ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone;
+    final TransactionsGetResponse _getResponse =
+        await _transactionsClient.getTransactionsForUser(
+            phone,
+            TransactionsMicroserviceConstants.DATE_TIME_RANGE_QUERY,
+            DateUtils.currentFirstOfMonthIso(),
+            DateUtils.currentDateIso());
+    return await _buildTransactions();
   }
+
+  Future<List<Widget>> _buildTransactions() async {}
 }
