@@ -7,16 +7,16 @@ import 'package:main/constants/transaction_microservice_constants.dart';
 import 'package:main/error/error_handler.dart';
 import 'package:main/models/plaid/genericStatusResponseModel.dart';
 import 'package:main/models/transactions/request/transactions_batch_request.dart';
+import 'package:main/models/transactions/transactions_get_response.dart';
 import 'package:main/util/uri_builder.dart';
 
 class TransactionsClient {
-  static Future<TransactionsGetResponse> getTransactionsForUser(String email,
+  static Future<TransactionsGetResponse> getTransactionsForUser(String phone,
       String transactionQuery, String dateStart, String dateFinish) async {
     Response response = await get(
-        TransactionsMicroserviceConstants.BASE_URL_TRANSACTIONS +
-            TransactionsMicroserviceConstants.ENDPOINT_V1_TRANSACTIONS +
-            "?email=" +
-            email +
+        UriBuilder.blossomDev(TransactionsMicroserviceConstants.BASE_URI, 1) +
+            "?phone=" +
+            phone +
             "&transactionQuery=" +
             transactionQuery +
             "&dateStart=" +
