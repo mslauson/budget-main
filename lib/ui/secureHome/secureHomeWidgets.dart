@@ -11,7 +11,7 @@ import 'package:main/models/accounts/accounts_full_model.dart';
 import 'package:main/models/budget/getBudgetsResponse.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/plaid/putTransactionsRequest.dart';
-import 'package:main/models/transactions/transactionsGetResponse.dart';
+import 'package:main/models/transactions/transactions_get_response.dart';
 import 'package:main/service/plaid/plaid_service.dart';
 
 class SecureHomeWidgets {

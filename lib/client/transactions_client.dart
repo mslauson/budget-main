@@ -10,24 +10,25 @@ import 'package:main/models/transactions/request/transactions_batch_request.dart
 import 'package:main/util/uri_builder.dart';
 
 class TransactionsClient {
-//  static Future<TransactionsGetResponse> getTransactionsForUser(String email, String transactionQuery, String dateStart, String dateFinish) async {
-//    Response response = await get(
-//        TransactionsMicroserviceConstants.BASE_URL_TRANSACTIONS +
-//            TransactionsMicroserviceConstants.ENDPOINT_V1_TRANSACTIONS +
-//            "?email=" +
-//            email +
-//            "&transactionQuery=" +
-//            transactionQuery +
-//            "&dateStart=" +
-//            dateStart +
-//            "&dateFinish=" +
-//            dateFinish);
-//    if (response.statusCode != 200 && response.statusCode != 404) {
-//      ErrorHandler.onErrorClient(
-//          response, ErrorConstants.TRANSACTIONS_RETRIEVAL);
-//    }
-//    return TransactionsGetResponse.fromJson(jsonDecode(response.body));
-//  }
+  static Future<TransactionsGetResponse> getTransactionsForUser(String email,
+      String transactionQuery, String dateStart, String dateFinish) async {
+    Response response = await get(
+        TransactionsMicroserviceConstants.BASE_URL_TRANSACTIONS +
+            TransactionsMicroserviceConstants.ENDPOINT_V1_TRANSACTIONS +
+            "?email=" +
+            email +
+            "&transactionQuery=" +
+            transactionQuery +
+            "&dateStart=" +
+            dateStart +
+            "&dateFinish=" +
+            dateFinish);
+    if (response.statusCode != 200 && response.statusCode != 404) {
+      ErrorHandler.onErrorClient(
+          response, ErrorConstants.TRANSACTIONS_RETRIEVAL);
+    }
+    return TransactionsGetResponse.fromJson(jsonDecode(response.body));
+  }
 
   Future<GenericSuccessResponseModel> postTransactionBatch(
       TransactionsBatchRequest batchRequest) async {
