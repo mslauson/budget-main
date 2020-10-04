@@ -11,7 +11,7 @@ import 'package:main/models/transactions/transactions_get_response.dart';
 import 'package:main/util/uri_builder.dart';
 
 class TransactionsClient {
-  static Future<TransactionsGetResponse> getTransactionsForUser(String phone,
+  Future<TransactionsGetResponse> getTransactionsForUser(String phone,
       String transactionQuery, String dateStart, String dateFinish) async {
     Response response = await get(
         UriBuilder.blossomDev(TransactionsMicroserviceConstants.BASE_URI, 1) +
