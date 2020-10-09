@@ -71,8 +71,8 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
 
   List<DateTime> _buildDateList(TransactionsGetResponse response) {
     List<DateTime> _dateList =
-        response.transactions.map((e) => DateTime.parse(e.date));
-    _dateList.sort((a, b) => a.compareTo(b));
+        response.transactions.map((e) => DateTime.parse(e.date)).toList();
+    _dateList.sort((a, b) => b.compareTo(a));
     return _dateList;
   }
 }
