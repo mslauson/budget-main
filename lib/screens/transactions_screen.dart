@@ -6,6 +6,7 @@ import 'package:main/components/drawer_container.dart';
 import 'package:main/constants/transaction_microservice_constants.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/transactions/transactions_get_response.dart';
+import 'package:main/theme/blossom_text.dart';
 import 'package:main/util/date_utils.dart';
 import 'package:main/widgets/nav_drawer.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -50,8 +51,13 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
             TransactionsMicroserviceConstants.DATE_TIME_RANGE_QUERY,
             DateUtils.currentLastOfMonthIso(),
             DateUtils.currentDateIso());
-    return await _buildTransactions();
+    return await _buildTransactions(_getResponse);
   }
 
-  Future<List<Widget>> _buildTransactions() async {}
+  Future<List<Widget>> _buildTransactions(
+      TransactionsGetResponse getResponse) async {
+    List<Widget> _transactionWidgets = new List();
+    _transactionWidgets.add(Text('Transactions', style: BlossomText.headline));
+  }
 }
+
