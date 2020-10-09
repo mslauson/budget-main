@@ -51,13 +51,29 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
             TransactionsMicroserviceConstants.DATE_TIME_RANGE_QUERY,
             DateUtils.currentLastOfMonthIso(),
             DateUtils.currentDateIso());
-    return await _buildTransactions(_getResponse);
+    return await _buildTransactions(_getResponse, _buildDateList(_getResponse));
   }
 
   Future<List<Widget>> _buildTransactions(
-      TransactionsGetResponse getResponse) async {
+      TransactionsGetResponse _getResponse, List<DateTime> _dateList) async {
     List<Widget> _transactionWidgets = new List();
     _transactionWidgets.add(Text('Transactions', style: BlossomText.headline));
+    _dateList.forEach((date) {
+      List<Transactions> _transactionList = _getResponse.transactions
+          .where((transaction) => DateTime.parse(transaction.date) == date);
+      _buildTransactionsForADate(_transactionList);
+    });
+    return _transactionWidgets;
+  }
+
+  Future<List<Widget>> _buildTransactionsForADate(
+      List<Transactions> transactions) {}
+
+  List<DateTime> _buildDateList(TransactionsGetResponse response) {
+    List<DateTime> _dateList =
+        response.transactions.map((e) => DateTime.parse(e.date));
+    _dateList.sort((a, b) => a.compareTo(b));
+    return _dateList;
   }
 }
 
