@@ -85,9 +85,12 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
         Column(
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ListTile(
-                  title: Text(transaction.merchant, style: BlossomText.body),
+                Flexible(
+                  child: ListTile(
+                    title: Text(transaction.merchant, style: BlossomText.body),
+                  ),
                 ),
                 Text("\$" + transaction.amount.toString(),
                     style: BlossomText.body)
