@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:loading/indicator/ball_pulse_indicator.dart';
 import 'package:loading/loading.dart';
 import 'package:main/client/transactions_client.dart';
@@ -51,29 +52,60 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
             TransactionsMicroserviceConstants.DATE_TIME_RANGE_QUERY,
             DateUtils.currentLastOfMonthIso(),
             DateUtils.currentDateIso());
-    return await _buildTransactions(_getResponse, _buildDateList(_getResponse));
+    return await _buildTransactions(
+        _getResponse, await _buildDateList(_getResponse));
   }
 
   Future<List<Widget>> _buildTransactions(
-      TransactionsGetResponse _getResponse, List<DateTime> _dateList) async {
+      TransactionsGetResponse getResponse, List<DateTime> dateList) async {
     List<Widget> _transactionWidgets = new List();
     _transactionWidgets.add(Text('Transactions', style: BlossomText.headline));
-    _dateList.forEach((date) {
-      List<Transactions> _transactionList = _getResponse.transactions
-          .where((transaction) => DateTime.parse(transaction.date) == date);
-      _buildTransactionsForADate(_transactionList);
+    dateList.forEach((date) async {
+      List<Transactions> _transactionList = getResponse.transactions
+          .where((transaction) => DateTime.parse(transaction.date) == date)
+          .toList();
+      List<Widget> _dateWidgets =
+          await _buildTransactionsForADate(_transactionList);
+      _transactionWidgets
+          .add(Neumorphic(child: Column(children: _dateWidgets)));
     });
     return _transactionWidgets;
   }
 
   Future<List<Widget>> _buildTransactionsForADate(
-      List<Transactions> transactions) {}
+      List<Transactions> _transactions) async {
+    List<Widget> _dateTransactions = new List();
 
-  List<DateTime> _buildDateList(TransactionsGetResponse response) {
+    _dateTransactions.add(Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(_transactions[0].date, style: BlossomText.body),
+    ));
+    _transactions.forEach((transaction) {
+      _dateTransactions.add(
+        Column(
+          children: [
+            Row(
+              children: [
+                ListTile(
+                  title: Text(transaction.merchant, style: BlossomText.body),
+                ),
+                Text("\$" + transaction.amount.toString(),
+                    style: BlossomText.body)
+              ],
+            )
+          ],
+        ),
+      );
+    });
+    return _dateTransactions;
+  }
+
+  Future<List<DateTime>> _buildDateList(
+      TransactionsGetResponse response) async {
     List<DateTime> _dateList =
         response.transactions.map((e) => DateTime.parse(e.date)).toList();
     _dateList.sort((a, b) => b.compareTo(a));
-    return _dateList;
+    return _dateList.toSet().toList();
   }
 }
 
