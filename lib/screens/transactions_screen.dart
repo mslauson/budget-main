@@ -7,6 +7,7 @@ import 'package:main/components/drawer_container.dart';
 import 'package:main/constants/transaction_microservice_constants.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/transactions/transactions_get_response.dart';
+import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/theme/blossom_text.dart';
 import 'package:main/util/date_utils.dart';
@@ -63,6 +64,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     _transactionWidgets.add(NeumorphicText(
       'Transactions',
       textStyle: BlossomNeumorphicText.headline,
+      style: BlossomNeumorphicStyles.fourWhite,
     ));
     dateList.forEach((date) async {
       List<Transactions> _transactionList = getResponse.transactions
@@ -70,8 +72,10 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
           .toList();
       List<Widget> _dateWidgets =
           await _buildTransactionsForADate(_transactionList);
-      _transactionWidgets
-          .add(Neumorphic(child: Column(children: _dateWidgets)));
+      _transactionWidgets.add(Neumorphic(
+        child: Column(children: _dateWidgets),
+        style: BlossomNeumorphicStyles.fourWhite,
+      ));
     });
     return _transactionWidgets;
   }
@@ -81,7 +85,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     List<Widget> _dateTransactions = new List();
 
     _dateTransactions.add(Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.fromLTRB(16, 25, 16, 25),
       child: Text(_transactions[0].date, style: BlossomText.body),
     ));
     _transactions.forEach((transaction) {
