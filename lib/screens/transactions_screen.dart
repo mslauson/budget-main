@@ -72,9 +72,12 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
           .toList();
       List<Widget> _dateWidgets =
           await _buildTransactionsForADate(_transactionList);
-      _transactionWidgets.add(Neumorphic(
-        child: Column(children: _dateWidgets),
-        style: BlossomNeumorphicStyles.fourWhite,
+      _transactionWidgets.add(Padding(
+        padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
+        child: Neumorphic(
+          child: Column(children: _dateWidgets),
+          style: BlossomNeumorphicStyles.fourWhite,
+        ),
       ));
     });
     return _transactionWidgets;
@@ -83,9 +86,8 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
   Future<List<Widget>> _buildTransactionsForADate(
       List<Transactions> _transactions) async {
     List<Widget> _dateTransactions = new List();
-
     _dateTransactions.add(Padding(
-      padding: const EdgeInsets.fromLTRB(16, 25, 16, 25),
+      padding: const EdgeInsets.all(8),
       child: Text(_transactions[0].date, style: BlossomText.body),
     ));
     _transactions.forEach((transaction) {
@@ -100,8 +102,11 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                     title: Text(transaction.merchant, style: BlossomText.body),
                   ),
                 ),
-                Text("\$" + transaction.amount.toString(),
-                    style: BlossomText.body)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                  child: Text("\$" + transaction.amount.toString(),
+                      style: BlossomText.body),
+                )
               ],
             )
           ],
