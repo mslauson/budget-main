@@ -121,7 +121,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
                           child: Text(
-                            _formatAmount(transaction.amount.toString()),
+                            "\$" + _formatAmount(transaction.amount.toString()),
                             style: BlossomText.body,
                           ),
                         ),
