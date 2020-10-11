@@ -7,6 +7,7 @@ import 'package:main/components/drawer_container.dart';
 import 'package:main/constants/transaction_microservice_constants.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/transactions/transactions_get_response.dart';
+import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/theme/blossom_text.dart';
 import 'package:main/util/date_utils.dart';
 import 'package:main/widgets/nav_drawer.dart';
@@ -59,7 +60,10 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
   Future<List<Widget>> _buildTransactions(
       TransactionsGetResponse getResponse, List<DateTime> dateList) async {
     List<Widget> _transactionWidgets = new List();
-    _transactionWidgets.add(Text('Transactions', style: BlossomText.headline));
+    _transactionWidgets.add(NeumorphicText(
+      'Transactions',
+      textStyle: BlossomNeumorphicText.headline,
+    ));
     dateList.forEach((date) async {
       List<Transactions> _transactionList = getResponse.transactions
           .where((transaction) => DateTime.parse(transaction.date) == date)

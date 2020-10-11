@@ -4,8 +4,8 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 /// With the Neumorphic Framework, we have to specify the color in the text
 /// widget itself
-class BlossomText {
-  BlossomText._();
+class BlossomNeumorphicText {
+  BlossomNeumorphicText._();
 
   static final headline = NeumorphicTextStyle(
       fontSize: 36, fontWeight: FontWeight.w700, fontFamily: 'Neuton');
