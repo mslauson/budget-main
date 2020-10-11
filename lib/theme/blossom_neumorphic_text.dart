@@ -16,6 +16,9 @@ class BlossomNeumorphicText {
   static final largeBody = NeumorphicTextStyle(
       fontSize: 22, fontWeight: FontWeight.w300, fontFamily: 'Imprima');
 
+  static final largeBodyBold = NeumorphicTextStyle(
+      fontSize: 22, fontWeight: FontWeight.w500, fontFamily: 'Imprima');
+
   static final body = NeumorphicTextStyle(
       fontSize: 18, fontWeight: FontWeight.w300, fontFamily: 'Imprima');
 

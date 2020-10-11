@@ -64,7 +64,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     _transactionWidgets.add(NeumorphicText(
       'Transactions',
       textStyle: BlossomNeumorphicText.headline,
-      style: BlossomNeumorphicStyles.fourWhite,
+      style: BlossomNeumorphicStyles.four,
     ));
     dateList.forEach((date) async {
       List<Transactions> _transactionList = getResponse.transactions
@@ -88,7 +88,9 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     List<Widget> _dateTransactions = new List();
     _dateTransactions.add(Padding(
       padding: const EdgeInsets.all(8),
-      child: Text(_transactions[0].date, style: BlossomText.body),
+      child: NeumorphicText(_transactions[0].date,
+          textStyle: BlossomNeumorphicText.largeBodyBold,
+          style: BlossomNeumorphicStyles.four),
     ));
     _transactions.forEach((transaction) {
       _dateTransactions.add(
@@ -99,13 +101,14 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
               children: [
                 Flexible(
                   child: ListTile(
-                    title: Text(transaction.merchant, style: BlossomText.body),
+                    title: Text(_subStrMerchant(transaction.merchant),
+                      style: BlossomText.body,),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
                   child: Text("\$" + transaction.amount.toString(),
-                      style: BlossomText.body),
+                    style: BlossomText.body,),
                 )
               ],
             )
@@ -119,9 +122,13 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
   Future<List<DateTime>> _buildDateList(
       TransactionsGetResponse response) async {
     List<DateTime> _dateList =
-        response.transactions.map((e) => DateTime.parse(e.date)).toList();
+    response.transactions.map((e) => DateTime.parse(e.date)).toList();
     _dateList.sort((a, b) => b.compareTo(a));
     return _dateList.toSet().toList();
+  }
+
+  String _subStrMerchant(String merchant) {
+    return merchant.length >= 25 ? merchant.substring(0, 25) : merchant;
   }
 }
 

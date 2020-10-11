@@ -1,5 +1,6 @@
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
+///we set colors and depth for things like text and such in here
 class BlossomNeumorphicStyles {
   BlossomNeumorphicStyles._();
 
@@ -11,6 +12,11 @@ class BlossomNeumorphicStyles {
   static final fourWhite = NeumorphicStyle(
     depth: 4, //customize depth here
     color: Colors.white, //customize color here
+  );
+
+  static final fourGrey = NeumorphicStyle(
+    depth: 4, //customize depth here
+    color: Colors.grey, //customize color here
   );
 
   static final three = NeumorphicStyle(
