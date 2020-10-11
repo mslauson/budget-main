@@ -64,7 +64,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     _transactionWidgets.add(NeumorphicText(
       'Transactions',
       textStyle: BlossomNeumorphicText.headline,
-      style: BlossomNeumorphicStyles.four,
+      style: BlossomNeumorphicStyles.tenWhite,
     ));
     dateList.forEach((date) async {
       List<Transactions> _transactionList = getResponse.transactions
@@ -76,7 +76,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
         padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
         child: Neumorphic(
           child: Column(children: _dateWidgets),
-          style: BlossomNeumorphicStyles.fourWhite,
+          style: BlossomNeumorphicStyles.eightConcave,
         ),
       ));
     });
@@ -96,26 +96,48 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
       _dateTransactions.add(
         Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  child: ListTile(
-                    title: Text(_subStrMerchant(transaction.merchant),
-                      style: BlossomText.body,),
-                  ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
+              child: Neumorphic(
+                style: BlossomNeumorphicStyles.negativeEightConcave,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      child: ListTile(
+                        title: Text(
+                          _subStrMerchant(transaction.merchant),
+                          style: BlossomText.body,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(3, 0, 3, 0),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                      child: Neumorphic(
+                        style: BlossomNeumorphicStyles.eightConcave,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
+                          child: Text(
+                            _formatAmount(transaction.amount.toString()),
+                            style: BlossomText.body,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
-                  child: Text("\$" + transaction.amount.toString(),
-                    style: BlossomText.body,),
-                )
-              ],
+              ),
             )
           ],
         ),
       );
     });
+    _dateTransactions.add(Padding(
+      padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+    ));
     return _dateTransactions;
   }
 
@@ -129,6 +151,14 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
 
   String _subStrMerchant(String merchant) {
     return merchant.length >= 25 ? merchant.substring(0, 25) : merchant;
+  }
+
+  String _formatAmount(String amount) {
+    if (amount.contains("-")) {
+      amount = amount.replaceAll("-", "(");
+      return amount + ")";
+    }
+    return amount;
   }
 }
 
