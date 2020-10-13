@@ -6,6 +6,7 @@ import 'package:main/client/accounts_client.dart';
 import 'package:main/client/transactions_client.dart';
 import 'package:main/components/drawer_container.dart';
 import 'package:main/constants/transaction_microservice_constants.dart';
+import 'package:main/models/accounts/account_meta.dart';
 import 'package:main/models/accounts/response/account_meta_response.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/transactions/transactions_get_response.dart';
@@ -98,6 +99,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
           style: BlossomNeumorphicStyles.four),
     ));
     _transactions.forEach((transaction) {
+      AccountMeta _currentMeta = _getCorrectMeta(transaction.accountId);
       _dateTransactions.add(
         Column(
           children: [
@@ -113,6 +115,15 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                         title: Text(
                           _subStrMerchant(transaction.merchant),
                           style: BlossomText.body,
+                        ),
+                        subtitle: Row(
+                          children: [
+                            Text(_currentMeta.accountName,
+                                style: BlossomText.secondaryBody),
+                            Padding(padding: EdgeInsets.fromLTRB(5, 0, 5, 0)),
+                            Text(_currentMeta.accountNumber,
+                                style: BlossomText.accountNumber)
+                          ],
                         ),
                       ),
                     ),
@@ -164,6 +175,12 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
       return amount + ")";
     }
     return amount;
+  }
+
+  AccountMeta _getCorrectMeta(String accountId) {
+    return _metaResponse.accountMetaList
+        .where((element) => element.accountId == accountId)
+        .toList()[0];
   }
 }
 
