@@ -8,6 +8,7 @@ import 'package:main/constants/global_constants.dart';
 import 'package:main/error/error_handler.dart';
 import 'package:main/models/accounts/AccessTokensResponse.dart';
 import 'package:main/models/accounts/accounts_full_model.dart';
+import 'package:main/models/accounts/response/account_meta_response.dart';
 import 'package:main/models/accounts/response/accounts_response.dart';
 import 'package:main/util/uri_builder.dart';
 
@@ -21,11 +22,11 @@ class AccountsClient {
     return AccountsResponseModel.fromJson(jsonDecode(response.body));
   }
 
-  Future<AccessTokensResponse> getAccessTokensForUser(String email) async {
+  Future<AccessTokensResponse> getAccessTokensForUser(String phone) async {
     Response response = await get(
         AccountsMicroserviceConstants.BASE_URL_ACCOUNTS +
             AccountsMicroserviceConstants.ENDPOINT_V1_ACCOUNTS +
-            email +
+            phone +
             AccountsMicroserviceConstants.ENDPOINT_ACCESS_TOKENS);
     if (response.statusCode == 404) {
       return null;
@@ -33,6 +34,17 @@ class AccountsClient {
       ErrorHandler.onErrorClient(response, "AccessToken Retrieval");
     }
     return AccessTokensResponse.fromJson(jsonDecode(response.body));
+  }
+
+  Future<AccountMetaResponse> getAccountMetaDataForUser(String phone) async {
+    Response response = await get(UriBuilder.blossomDevWithPath(
+            AccountsMicroserviceConstants.SERVICE, 1, phone) +
+        AccountsMicroserviceConstants.ENDPOINT_META);
+    if (response.statusCode != 200) {
+      ErrorHandler.onErrorClient(response, "AccessToken Retrieval");
+    }
+    log(response.body);
+    return AccountMetaResponse.fromJson(jsonDecode(response.body));
   }
 
   Future<AccountsFullModel> addAccount(AccountsFullModel request) async {
