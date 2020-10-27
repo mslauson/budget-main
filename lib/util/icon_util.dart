@@ -9,17 +9,17 @@ class IconUtil {
         EnumToString.fromString(BudgetIconsEnum.values, budget);
     switch (currentEnum) {
       case BudgetIconsEnum.Food:
-        return BudgetIcons.food;
+        return BudgetIcons.FOOD;
       case BudgetIconsEnum.Travel:
-        return BudgetIcons.travel;
+        return BudgetIcons.TRAVEL;
       case BudgetIconsEnum.Restaurants:
-        return BudgetIcons.food;
+        return BudgetIcons.FOOD;
       case BudgetIconsEnum.Sporting:
         return BudgetIcons.SPORTS;
       case BudgetIconsEnum.Payment:
-        return BudgetIcons.payment;
+        return BudgetIcons.PAYMENT;
       case BudgetIconsEnum.Shops:
-        return BudgetIcons.shopping;
+        return BudgetIcons.SHOPPING;
       case BudgetIconsEnum.Transfer:
         return BudgetIcons.TRANSFER;
       case BudgetIconsEnum.Recreation:
