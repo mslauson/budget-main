@@ -163,7 +163,7 @@ class AuthenticationService {
   }
 
   void _navigateToHomeScreen(BuildContext context) {
-    Router.appRouter.navigateTo(
+    FluroRouter.appRouter.navigateTo(
       context,
       Routes.blossomDash,
       transition: TransitionType.fadeIn,

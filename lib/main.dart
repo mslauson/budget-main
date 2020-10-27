@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: GlobalConstants.appName,
         home: Splash(),
-        onGenerateRoute: (settings) => Router.appRouter
+        onGenerateRoute: (settings) => FluroRouter.appRouter
             .matchRoute(context, settings.name, routeSettings: settings)
             .route,
         theme: _buildThemeData(),
@@ -52,17 +52,16 @@ ThemeData _buildThemeData() => ThemeData(
       ),
     );
 
-Router _buildRouter() => Router.appRouter
-  ..define(
-    Routes.home,
-    transitionType: TransitionType.fadeIn,
-    handler: Handler(
-      handlerFunc: (context, params) => Splash(),
-    ),
-  )
-  ..define(
-    Routes.formOtp,
-    transitionType: TransitionType.fadeIn,
+FluroRouter _buildRouter() =>
+    FluroRouter.appRouter..define(
+      Routes.home,
+      transitionType: TransitionType.fadeIn,
+      handler: Handler(
+        handlerFunc: (context, params) => Splash(),
+      ),
+    )..define(
+      Routes.formOtp,
+      transitionType: TransitionType.fadeIn,
     handler: Handler(
       handlerFunc: (context, params) => Splash(),
     ),

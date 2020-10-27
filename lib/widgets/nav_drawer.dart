@@ -79,7 +79,7 @@ class _NavDrawerState extends State<NavDrawer> {
                   padding: EdgeInsets.symmetric(vertical: 12),
                   child: GestureDetector(
                     onTap: () =>
-                        Router.appRouter.navigateTo(context, item.route),
+                        FluroRouter.appRouter.navigateTo(context, item.route),
                     child: Row(
                       children: [
                         Spacer(flex: 2),

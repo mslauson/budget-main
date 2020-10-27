@@ -47,7 +47,7 @@ class Splash extends StatelessWidget {
       ),
       IconActionButton(
         iconData: FontAwesomeIcons.twitter,
-            onPressed: () => Router.appRouter.navigateTo(
+            onPressed: () => FluroRouter.appRouter.navigateTo(
               context,
               Routes.blossomDash,
               transition: TransitionType.fadeIn,
