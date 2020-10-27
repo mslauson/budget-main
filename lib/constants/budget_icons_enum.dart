@@ -1,1 +1,10 @@
-enum BudgetIconsEnum { Travel, Food, Payment, Shops, Transfer, Recreation }
+enum BudgetIconsEnum {
+  Food,
+  Travel,
+  Restaurants,
+  Sporting,
+  Payment,
+  Shops,
+  Transfer,
+  Recreation
+}
