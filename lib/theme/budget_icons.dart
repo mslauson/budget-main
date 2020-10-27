@@ -6,6 +6,7 @@ class BudgetIcons {
 
   static const food = Icon(FontAwesomeIcons.utensils);
   static const transportation = Icon(FontAwesomeIcons.car);
+  static const travel = Icon(FontAwesomeIcons.plane);
   static const shopping = Icon(FontAwesomeIcons.shoppingBag);
   static const deposit = Icon(FontAwesomeIcons.dollarSign);
   static const withdraw = Icon(FontAwesomeIcons.university);
