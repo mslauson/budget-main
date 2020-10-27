@@ -14,6 +14,7 @@ import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/theme/blossom_text.dart';
 import 'package:main/util/date_utils.dart';
+import 'package:main/util/icon_util.dart';
 import 'package:main/widgets/nav_drawer.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -112,6 +113,8 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                   children: [
                     Flexible(
                       child: ListTile(
+                        leading: NeumorphicIcon(
+                            _getIconForTransaction(transaction.budgetId).icon),
                         title: Text(
                           _subStrMerchant(transaction.merchant),
                           style: BlossomText.body,
@@ -181,6 +184,14 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     return _metaResponse.accountMetaList
         .where((element) => element.accountId == accountId)
         .toList()[0];
+  }
+
+  Icon _getIconForTransaction(String budgetId) {
+    String budgetSubString = budgetId.split(new RegExp(r"[0-9]"))[0];
+    if (budgetSubString.indexOf(" ") >= 0) {
+      budgetSubString = budgetSubString.split(" ")[0];
+    }
+    return IconUtil.determineIcon(budgetSubString);
   }
 }
 
