@@ -4,7 +4,9 @@ import 'package:main/constants/budget_icons_enum.dart';
 import 'package:main/theme/budget_icons.dart';
 
 class IconUtil {
-  Icon determineIcon(String budget) {
+  IconUtil._();
+
+  static Icon determineIcon(String budget) {
     BudgetIconsEnum currentEnum =
         EnumToString.fromString(BudgetIconsEnum.values, budget);
     switch (currentEnum) {
