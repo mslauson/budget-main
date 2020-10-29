@@ -8,7 +8,8 @@ class IconUtil {
 
   static Icon getIconByBudget(String budget, String subBudget) {
     String budgetId;
-    if (budget.contains("Payment") || budget.contains("Transfer")) {
+    if ((budget.contains("Payment") || budget.contains("Transfer")) &&
+        !subBudget.contains("Deposit")) {
       budgetId = budget;
     } else {
       budgetId = subBudget != null ? subBudget : budgetId;
