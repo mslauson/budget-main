@@ -186,7 +186,10 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
         .toList()[0];
   }
 
-  Icon _getIconForTransaction(String budgetId) {
+  Icon _getIconForTransaction(Transactions transaction) {
+    String budgetId = transaction.subBudgetId != null
+        ? transaction.subBudgetId
+        : transaction.budgetId;
     String budgetSubString = budgetId.split(new RegExp(r"[0-9]"))[0];
     if (budgetSubString.indexOf(" ") >= 0) {
       budgetSubString = budgetSubString.split(" ")[0];
