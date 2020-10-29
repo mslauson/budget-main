@@ -9,6 +9,7 @@ class BudgetIcons {
   static const TRAVEL = Icon(FontAwesomeIcons.plane);
   static const SHOPPING = Icon(FontAwesomeIcons.shoppingBag);
   static const SPORTS = Icon(FontAwesomeIcons.basketballBall);
+  static const GYM = Icon(FontAwesomeIcons.dumbbell);
   static const DEPOSIT = Icon(FontAwesomeIcons.dollarSign);
   static const WITHDRAW = Icon(FontAwesomeIcons.university);
   static const TRANSFER = Icon(FontAwesomeIcons.exchangeAlt);

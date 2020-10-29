@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:loading/indicator/ball_pulse_indicator.dart';
@@ -55,18 +57,17 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     final String phone =
         ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone;
     final TransactionsGetResponse _getResponse =
-        await _transactionsClient.getTransactionsForUser(
-            phone,
-            TransactionsMicroserviceConstants.DATE_TIME_RANGE_QUERY,
-            DateUtils.currentLastOfMonthIso(),
-            DateUtils.currentDateIso());
+    await _transactionsClient.getTransactionsForUser(
+        phone,
+        TransactionsMicroserviceConstants.DATE_TIME_RANGE_QUERY,
+        DateUtils.currentLastOfMonthIso(),
+        DateUtils.currentDateIso());
     _metaResponse = await _accountsClient.getAccountMetaDataForUser(phone);
     return await _buildTransactions(
         _getResponse, await _buildDateList(_getResponse));
   }
 
-  Future<List<Widget>> _buildTransactions(
-      TransactionsGetResponse getResponse, List<DateTime> dateList) async {
+  Future<List<Widget>> _buildTransactions(TransactionsGetResponse getResponse, List<DateTime> dateList) async {
     List<Widget> _transactionWidgets = new List();
     _transactionWidgets.add(NeumorphicText(
       'Transactions',
@@ -78,7 +79,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
           .where((transaction) => DateTime.parse(transaction.date) == date)
           .toList();
       List<Widget> _dateWidgets =
-          await _buildTransactionsForADate(_transactionList);
+      await _buildTransactionsForADate(_transactionList);
       _transactionWidgets.add(Padding(
         padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
         child: Neumorphic(
@@ -90,8 +91,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     return _transactionWidgets;
   }
 
-  Future<List<Widget>> _buildTransactionsForADate(
-      List<Transactions> _transactions) async {
+  Future<List<Widget>> _buildTransactionsForADate(List<Transactions> _transactions) async {
     List<Widget> _dateTransactions = new List();
     _dateTransactions.add(Padding(
       padding: const EdgeInsets.all(8),
@@ -160,8 +160,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     return _dateTransactions;
   }
 
-  Future<List<DateTime>> _buildDateList(
-      TransactionsGetResponse response) async {
+  Future<List<DateTime>> _buildDateList(TransactionsGetResponse response) async {
     List<DateTime> _dateList =
     response.transactions.map((e) => DateTime.parse(e.date)).toList();
     _dateList.sort((a, b) => b.compareTo(a));
@@ -187,6 +186,8 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
   }
 
   Icon _getIconForTransaction(Transactions transaction) {
+    log(transaction.merchant);
+    log(transaction.budgetId);
     String budgetId = transaction.subBudgetId != null
         ? transaction.subBudgetId
         : transaction.budgetId;

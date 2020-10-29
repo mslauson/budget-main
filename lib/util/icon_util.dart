@@ -14,15 +14,25 @@ class IconUtil {
         return BudgetIcons.FOOD;
       case BudgetIconsEnum.Travel:
         return BudgetIcons.TRAVEL;
+      case BudgetIconsEnum.Airlines:
+        return BudgetIcons.TRAVEL;
+      case BudgetIconsEnum.Taxi:
+        return BudgetIcons.TRANSPORTATION;
       case BudgetIconsEnum.Restaurants:
         return BudgetIcons.FOOD;
       case BudgetIconsEnum.Sporting:
         return BudgetIcons.SPORTS;
+      case BudgetIconsEnum.Gyms:
+        return BudgetIcons.GYM;
       case BudgetIconsEnum.Payment:
+        return BudgetIcons.PAYMENT;
+      case BudgetIconsEnum.Credit:
         return BudgetIcons.PAYMENT;
       case BudgetIconsEnum.Shops:
         return BudgetIcons.SHOPPING;
       case BudgetIconsEnum.Transfer:
+        return BudgetIcons.TRANSFER;
+      case BudgetIconsEnum.Debit:
         return BudgetIcons.TRANSFER;
       case BudgetIconsEnum.Recreation:
         return BudgetIcons.ENTERTAINMENT;
