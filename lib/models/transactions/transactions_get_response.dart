@@ -40,6 +40,7 @@ class Transactions {
   Reimbursement reimbursement;
   String tags;
   String budgetId;
+  String subBudgetId;
   String notes;
   String creationTimeStamp;
   String lastUpdated;
@@ -48,28 +49,29 @@ class Transactions {
 
   Transactions(
       {this.transactionId,
-        this.pendingTransactionId,
-        this.transacionType,
-        this.userName,
+      this.pendingTransactionId,
+      this.transacionType,
+      this.userName,
         this.accountId,
         this.amount,
         this.date,
         this.authorizationDate,
-        this.merchant,
-        this.isPending,
-        this.isoCurrencyCode,
-        this.categories,
-        this.categoryId,
-        this.location,
-        this.paymentMeta,
-        this.reimbursement,
-        this.tags,
-        this.budgetId,
-        this.notes,
-        this.creationTimeStamp,
-        this.lastUpdated,
-        this.flaggedForDeletion,
-        this.deletionTimeStamp});
+    this.merchant,
+    this.isPending,
+    this.isoCurrencyCode,
+    this.categories,
+    this.categoryId,
+    this.location,
+    this.paymentMeta,
+    this.reimbursement,
+    this.tags,
+    this.budgetId,
+    this.subBudgetId,
+    this.notes,
+    this.creationTimeStamp,
+    this.lastUpdated,
+    this.flaggedForDeletion,
+    this.deletionTimeStamp});
 
   Transactions.fromJson(Map<String, dynamic> json) {
     transactionId = json['transactionId'];
@@ -96,6 +98,7 @@ class Transactions {
         : null;
     tags = json['tags'];
     budgetId = json['budgetId'];
+    subBudgetId = json['subBudgetId'];
     notes = json['notes'];
     creationTimeStamp = json['creationTimeStamp'];
     lastUpdated = json['lastUpdated'];
@@ -129,6 +132,7 @@ class Transactions {
     }
     data['tags'] = this.tags;
     data['budgetId'] = this.budgetId;
+    data['subBudgetId'] = this.subBudgetId;
     data['notes'] = this.notes;
     data['creationTimeStamp'] = this.creationTimeStamp;
     data['lastUpdated'] = this.lastUpdated;
