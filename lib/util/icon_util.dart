@@ -6,9 +6,23 @@ import 'package:main/theme/budget_icons.dart';
 class IconUtil {
   IconUtil._();
 
-  static Icon determineIcon(String budget) {
-    BudgetIconsEnum currentEnum =
-        EnumToString.fromString(BudgetIconsEnum.values, budget);
+  static Icon getIconByBudget(String budget, String subBudget) {
+    String budgetId;
+    if (budget.contains("Payment") || budget.contains("Transfer")) {
+      budgetId = budget;
+    } else {
+      budgetId = subBudget != null ? subBudget : budgetId;
+    }
+    String budgetSubString = budgetId.split(new RegExp(r"[0-9]"))[0];
+    if (budgetSubString.indexOf(" ") >= 0) {
+      budgetSubString = budgetSubString.split(" ")[0];
+    }
+
+    return _determineIcon(
+        EnumToString.fromString(BudgetIconsEnum.values, budget));
+  }
+
+  static Icon _determineIcon(BudgetIconsEnum currentEnum) {
     switch (currentEnum) {
       case BudgetIconsEnum.Food:
         return BudgetIcons.FOOD;

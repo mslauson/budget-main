@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -186,16 +185,8 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
   }
 
   Icon _getIconForTransaction(Transactions transaction) {
-    log(transaction.merchant);
-    log(transaction.budgetId);
-    String budgetId = transaction.subBudgetId != null
-        ? transaction.subBudgetId
-        : transaction.budgetId;
-    String budgetSubString = budgetId.split(new RegExp(r"[0-9]"))[0];
-    if (budgetSubString.indexOf(" ") >= 0) {
-      budgetSubString = budgetSubString.split(" ")[0];
-    }
-    return IconUtil.determineIcon(budgetSubString);
+     return IconUtil.getIconByBudget(
+        transaction.budgetId, transaction.subBudgetId);
   }
 }
 
