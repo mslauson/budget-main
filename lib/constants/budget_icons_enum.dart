@@ -9,6 +9,7 @@ enum BudgetIconsEnum {
   Payment,
   Credit,
   Debit,
+  Deposit,
   Shops,
   Transfer,
   Recreation,

@@ -34,6 +34,8 @@ class IconUtil {
         return BudgetIcons.TRANSFER;
       case BudgetIconsEnum.Debit:
         return BudgetIcons.TRANSFER;
+      case BudgetIconsEnum.Deposit:
+        return BudgetIcons.DEPOSIT;
       case BudgetIconsEnum.Recreation:
         return BudgetIcons.ENTERTAINMENT;
     }

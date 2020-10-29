@@ -101,6 +101,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     ));
     _transactions.forEach((transaction) {
       AccountMeta _currentMeta = _getCorrectMeta(transaction.accountId);
+      Icon iconData = _getIconForTransaction(transaction);
       _dateTransactions.add(
         Column(
           children: [
@@ -113,8 +114,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                   children: [
                     Flexible(
                       child: ListTile(
-                        leading: NeumorphicIcon(
-                            _getIconForTransaction(transaction).icon),
+                        leading: NeumorphicIcon(iconData.icon),
                         title: Text(
                           _subStrMerchant(transaction.merchant),
                           style: BlossomText.body,
