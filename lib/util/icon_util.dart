@@ -18,11 +18,13 @@ class IconUtil {
       budgetSubString = budgetSubString.split(" ")[0];
     }
 
-    return _determineIcon(
-        EnumToString.fromString(BudgetIconsEnum.values, budget));
+    Icon icon = _determineIcon(budgetSubString);
+    return icon;
   }
 
-  static Icon _determineIcon(BudgetIconsEnum currentEnum) {
+  static Icon _determineIcon(String budgetSubString) {
+    BudgetIconsEnum currentEnum =
+        EnumToString.fromString(BudgetIconsEnum.values, budgetSubString);
     switch (currentEnum) {
       case BudgetIconsEnum.Food:
         return BudgetIcons.FOOD;
@@ -40,13 +42,9 @@ class IconUtil {
         return BudgetIcons.GYM;
       case BudgetIconsEnum.Payment:
         return BudgetIcons.PAYMENT;
-      case BudgetIconsEnum.Credit:
-        return BudgetIcons.PAYMENT;
       case BudgetIconsEnum.Shops:
         return BudgetIcons.SHOPPING;
       case BudgetIconsEnum.Transfer:
-        return BudgetIcons.TRANSFER;
-      case BudgetIconsEnum.Debit:
         return BudgetIcons.TRANSFER;
       case BudgetIconsEnum.Deposit:
         return BudgetIcons.DEPOSIT;
