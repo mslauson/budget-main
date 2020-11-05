@@ -14,19 +14,21 @@ class AccountDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              NeumorphicIcon(_icon.icon),
-              NeumorphicText(_transaction.merchant,
-                  textStyle: BlossomNeumorphicText.title,
-                  style: BlossomNeumorphicStyles.four)
-            ],
-              ),
-            ],
-          ),
+      body: Neumorphic(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                NeumorphicIcon(_icon.icon),
+                NeumorphicText(_transaction.merchant,
+                    textStyle: BlossomNeumorphicText.title,
+                    style: BlossomNeumorphicStyles.four)
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
