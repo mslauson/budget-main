@@ -6,7 +6,6 @@ class BlossomNeumorphicStyles {
 
   static final ten = NeumorphicStyle(
       depth: 10, //customize depth here
-      color: Colors.black, //customize color here
       lightSource: LightSource.topRight,
       intensity: .75);
 
@@ -18,7 +17,6 @@ class BlossomNeumorphicStyles {
 
   static final four = NeumorphicStyle(
       depth: 4, //customize depth here
-      color: Colors.black, //customize color here
       lightSource: LightSource.topRight);
 
   static final fourWhite = NeumorphicStyle(
@@ -33,7 +31,6 @@ class BlossomNeumorphicStyles {
 
   static final three = NeumorphicStyle(
       depth: 3, //customize depth here
-      color: Colors.black, //customize color here
       lightSource: LightSource.topRight
   );
 
@@ -45,7 +42,6 @@ class BlossomNeumorphicStyles {
 
   static final two = NeumorphicStyle(
     depth: 2, //customize depth here
-    color: Colors.black, //customize color here
       lightSource: LightSource.topRight
   );
 
@@ -57,7 +53,6 @@ class BlossomNeumorphicStyles {
 
   static final one = NeumorphicStyle(
       depth: 1, //customize depth here
-      color: Colors.black, //customize color here
       lightSource: LightSource.topRight
   );
 
@@ -71,28 +66,25 @@ class BlossomNeumorphicStyles {
       shape: NeumorphicShape.concave,
       boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(8)),
       depth: -8,
-      lightSource: LightSource.topRight,
-      color: Colors.white
-  );
+      lightSource: LightSource.topRight);
 
   static final eightConcave = NeumorphicStyle(
       shape: NeumorphicShape.concave,
       boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
       depth: 8,
-      lightSource: LightSource.topRight,
-      color: Colors.white);
+      lightSource: LightSource.topRight);
 
   static final eightConvex = NeumorphicStyle(
-      shape: NeumorphicShape.convex,
-      boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
-      depth: 8,
-      lightSource: LightSource.topRight,
-      color: Colors.white);
+    shape: NeumorphicShape.convex,
+    boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+    depth: 8,
+    lightSource: LightSource.topRight,
+  );
 
   static final eightIcon = NeumorphicStyle(
     shape: NeumorphicShape.flat,
     boxShape: NeumorphicBoxShape.circle(),
     depth: 8,
-    lightSource: LightSource.topRight,
+    lightSource: LightSource.topLeft,
   );
 }
