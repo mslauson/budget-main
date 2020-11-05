@@ -11,6 +11,7 @@ import 'package:main/models/accounts/account_meta.dart';
 import 'package:main/models/accounts/response/account_meta_response.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/transactions/transactions_get_response.dart';
+import 'package:main/screens/transaction_detail_screen.dart';
 import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/theme/blossom_text.dart';
@@ -127,6 +128,14 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                                 style: BlossomText.accountNumber)
                           ],
                         ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => TransactionDetailScreen(
+                                    transaction, iconData)),
+                          );
+                        },
                       ),
                     ),
                     Padding(
