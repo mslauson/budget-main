@@ -80,14 +80,19 @@ class BlossomNeumorphicStyles {
       boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
       depth: 8,
       lightSource: LightSource.topRight,
-      color: Colors.white
-  );
+      color: Colors.white);
 
   static final eightConvex = NeumorphicStyle(
       shape: NeumorphicShape.convex,
       boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
       depth: 8,
       lightSource: LightSource.topRight,
-      color: Colors.white
+      color: Colors.white);
+
+  static final eightIcon = NeumorphicStyle(
+    shape: NeumorphicShape.flat,
+    boxShape: NeumorphicBoxShape.circle(),
+    depth: 8,
+    lightSource: LightSource.topRight,
   );
 }

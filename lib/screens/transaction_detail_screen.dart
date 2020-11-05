@@ -17,14 +17,22 @@ class TransactionDetailScreen extends StatelessWidget {
       body: Neumorphic(
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                NeumorphicIcon(_icon.icon),
-                NeumorphicText(_transaction.merchant,
-                    textStyle: BlossomNeumorphicText.title,
-                    style: BlossomNeumorphicStyles.four)
-              ],
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Neumorphic(
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: NeumorphicIcon(_icon.icon),
+                      ),
+                      style: BlossomNeumorphicStyles.eightIcon),
+                  NeumorphicText(_transaction.merchant,
+                      textStyle: BlossomNeumorphicText.headline,
+                      style: BlossomNeumorphicStyles.four)
+                ],
+              ),
             ),
           ],
         ),

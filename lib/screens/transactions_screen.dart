@@ -114,7 +114,12 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                   children: [
                     Flexible(
                       child: ListTile(
-                        leading: NeumorphicIcon(iconData.icon),
+                        leading: Neumorphic(
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: NeumorphicIcon(iconData.icon),
+                            ),
+                            style: BlossomNeumorphicStyles.eightIcon),
                         title: Text(
                           _subStrMerchant(transaction.merchant),
                           style: BlossomText.body,
