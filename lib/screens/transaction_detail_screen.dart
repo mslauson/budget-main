@@ -34,25 +34,33 @@ class TransactionDetailScreen extends StatelessWidget {
                       textStyle: BlossomNeumorphicText.headline,
                       style: BlossomNeumorphicStyles.eightGrey)),
               Padding(padding: EdgeInsets.only(top: 10, bottom: 10)),
-              Row(
-                children: [
-                  Column(
-                    children: [
-                      NeumorphicText(
-                        TransactionsPageConstants.MERCHANT,
-                        textStyle: BlossomNeumorphicText.body,
-                        style: BlossomNeumorphicStyles.fourGrey,
-                      ),
-                      Neumorphic(
-                        child: NeumorphicText(
-                          _transaction.merchant,
-                          textStyle: BlossomNeumorphicText.title,
+              Padding(
+                padding: const EdgeInsets.only(left: 8, right: 8),
+                child: Row(
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        NeumorphicText(
+                          TransactionsPageConstants.MERCHANT,
+                          textStyle: BlossomNeumorphicText.body,
                           style: BlossomNeumorphicStyles.fourGrey,
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                        Neumorphic(
+                          style: BlossomNeumorphicStyles.negativeEightConcave,
+                          child: Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: NeumorphicText(
+                              _transaction.merchant,
+                              textStyle: BlossomNeumorphicText.title,
+                              style: BlossomNeumorphicStyles.fourGrey,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               )
             ],
           ),
