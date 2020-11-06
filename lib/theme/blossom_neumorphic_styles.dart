@@ -71,6 +71,12 @@ class BlossomNeumorphicStyles {
       lightSource: LightSource.topRight,
       intensity: .75);
 
+  static final twoGrey = NeumorphicStyle(
+      depth: 2, //customize depth here
+      color: Colors.grey, //customize color here
+      lightSource: LightSource.topRight,
+      intensity: .75);
+
   static final one = NeumorphicStyle(
       depth: 1, //customize depth here
       lightSource: LightSource.topRight,
@@ -79,6 +85,12 @@ class BlossomNeumorphicStyles {
   static final oneWhite = NeumorphicStyle(
       depth: 1, //customize depth here
       color: Colors.white, //customize color here
+      lightSource: LightSource.topRight,
+      intensity: .75);
+
+  static final oneGrey = NeumorphicStyle(
+      depth: 1, //customize depth here
+      color: Colors.grey, //customize color here
       lightSource: LightSource.topRight,
       intensity: .75);
 

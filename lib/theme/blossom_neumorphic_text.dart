@@ -28,6 +28,9 @@ class BlossomNeumorphicText {
   static final secondaryBody = NeumorphicTextStyle(
       fontSize: 14, fontWeight: FontWeight.w300, fontFamily: 'Imprima');
 
+  static final textHint = NeumorphicTextStyle(
+      fontSize: 8, fontWeight: FontWeight.w300, fontFamily: 'Imprima');
+
   static final accountNumber = NeumorphicTextStyle(
       fontSize: 14, fontWeight: FontWeight.w900, fontFamily: 'Orbitron');
 }
