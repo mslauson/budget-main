@@ -15,6 +15,30 @@
       },
       "oauth_client": [
         {
+          "client_id": "391966192154-ig1iaee0vhe66acefpkk8rnpe576ff5u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.blossombudgeting.app.main",
+            "certificate_hash": "9acc4181a8f3dd9fb1c030343471043c16cb667d"
+          }
+        },
+        {
+          "client_id": "391966192154-eitgig5h20gflvdarqoqehbdrtgap6vm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.blossombudgeting.app.main",
+            "certificate_hash": "48dd331a58e3241f535e3fc241c6e3b7a074f37f"
+          }
+        },
+        {
+          "client_id": "391966192154-5u3gi7mr4ngm8the28v3rn0e0ql7t3i6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.blossombudgeting.app.main",
+            "certificate_hash": "843437673a1e570b1ea4c0ad003fc9aaed45f84d"
+          }
+        },
+        {
           "client_id": "391966192154-778d3741odt3ukm74n25lnclpsboseu5.apps.googleusercontent.com",
           "client_type": 3
         }
