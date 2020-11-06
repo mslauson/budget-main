@@ -71,9 +71,8 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     List<Widget> _transactionWidgets = new List();
     _transactionWidgets.add(NeumorphicText(
       'Transactions',
-      textStyle: BlossomNeumorphicText.headline,
-      style: BlossomNeumorphicStyles.tenWhite,
-    ));
+        textStyle: BlossomNeumorphicText.headline,
+        style: BlossomNeumorphicStyles.eightGrey));
     dateList.forEach((date) async {
       List<Transactions> _transactionList = getResponse.transactions
           .where((transaction) => DateTime.parse(transaction.date) == date)
@@ -97,7 +96,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
       padding: const EdgeInsets.all(8),
       child: NeumorphicText(_transactions[0].date,
           textStyle: BlossomNeumorphicText.largeBodyBold,
-          style: BlossomNeumorphicStyles.four),
+          style: BlossomNeumorphicStyles.fourGrey),
     ));
     _transactions.forEach((transaction) {
       AccountMeta _currentMeta = _getCorrectMeta(transaction.accountId);
@@ -116,10 +115,10 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                       child: ListTile(
                         leading: Neumorphic(
                             child: Padding(
-                              padding: const EdgeInsets.all(12.0),
+                              padding: const EdgeInsets.all(16.0),
                               child: NeumorphicIcon(iconData.icon,
                                   style:
-                                      BlossomNeumorphicStyles.twentyIconGrey),
+                                  BlossomNeumorphicStyles.twentyIconGrey),
                             ),
                             style: BlossomNeumorphicStyles.fourIconCircle),
                         title: Text(
