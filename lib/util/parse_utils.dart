@@ -16,4 +16,8 @@ class ParseUtils {
     String formattedBalance = formatter.format(balance);
     return Text("\$" + formattedBalance, style: BlossomText.mediumBody);
   }
+
+  static String parseBudgetId(String budgetId) {
+    return budgetId.split(new RegExp(r"[0-9]"))[0];
+  }
 }

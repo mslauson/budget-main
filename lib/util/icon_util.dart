@@ -2,6 +2,7 @@ import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:main/constants/budget_icons_enum.dart';
 import 'package:main/theme/budget_icons.dart';
+import 'package:main/util/parse_utils.dart';
 
 class IconUtil {
   IconUtil._();
@@ -14,7 +15,7 @@ class IconUtil {
     } else {
       budgetId = subBudget != null ? subBudget : budgetId;
     }
-    String budgetSubString = budgetId.split(new RegExp(r"[0-9]"))[0];
+    String budgetSubString = ParseUtils.parseBudgetId(budgetId);
     if (budgetSubString.indexOf(" ") >= 0) {
       budgetSubString = budgetSubString.split(" ")[0];
     }
