@@ -15,6 +15,23 @@ class BlossomNeumorphicStyles {
       lightSource: LightSource.topRight,
       intensity: .75);
 
+  static final eight = NeumorphicStyle(
+      depth: 8, //customize depth here
+      lightSource: LightSource.topRight,
+      intensity: .75);
+
+  static final eightWhite = NeumorphicStyle(
+      depth: 8, //customize depth here
+      color: Colors.white, //customize color here
+      lightSource: LightSource.topRight,
+      intensity: .75);
+
+  static final eightGrey = NeumorphicStyle(
+      depth: 8, //customize depth here
+      color: Colors.grey, //customize color here
+      lightSource: LightSource.topRight,
+      intensity: .75);
+
   static final four = NeumorphicStyle(
       depth: 4, //customize depth here
       lightSource: LightSource.topRight,
@@ -93,9 +110,16 @@ class BlossomNeumorphicStyles {
       lightSource: LightSource.topLeft,
       intensity: .75);
 
-  static final eightIcon = NeumorphicStyle(
+  static final fourIconCircle = NeumorphicStyle(
       shape: NeumorphicShape.flat,
-      depth: 8,
+      boxShape: NeumorphicBoxShape.circle(),
+      depth: 4,
       lightSource: LightSource.topLeft,
       intensity: .75);
+
+  static final twentyIconGrey = NeumorphicStyle(
+      depth: 20,
+      lightSource: LightSource.topLeft,
+      intensity: .75,
+      color: Colors.grey);
 }

@@ -118,9 +118,10 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                             child: Padding(
                               padding: const EdgeInsets.all(12.0),
                               child: NeumorphicIcon(iconData.icon,
-                                  style: BlossomNeumorphicStyles.eightIcon),
+                                  style:
+                                      BlossomNeumorphicStyles.twentyIconGrey),
                             ),
-                            style: BlossomNeumorphicStyles.eightIconCircle),
+                            style: BlossomNeumorphicStyles.fourIconCircle),
                         title: Text(
                           _subStrMerchant(transaction.merchant),
                           style: BlossomText.body,
