@@ -18,6 +18,10 @@ class ParseUtils {
   }
 
   static String parseBudgetId(String budgetId) {
-    return budgetId.split(new RegExp(r"[0-9]"))[0];
+    String budgetSubString = budgetId.split(new RegExp(r"[0-9]"))[0];
+    if (budgetSubString.indexOf(" ") >= 0) {
+      budgetSubString = budgetSubString.split(" ")[0];
+    }
+    return budgetSubString;
   }
 }

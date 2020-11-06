@@ -16,10 +16,6 @@ class IconUtil {
       budgetId = subBudget != null ? subBudget : budgetId;
     }
     String budgetSubString = ParseUtils.parseBudgetId(budgetId);
-    if (budgetSubString.indexOf(" ") >= 0) {
-      budgetSubString = budgetSubString.split(" ")[0];
-    }
-
     Icon icon = _determineIcon(budgetSubString);
     return icon;
   }
