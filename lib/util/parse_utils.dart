@@ -22,6 +22,9 @@ class ParseUtils {
     if (budgetSubString.indexOf(" ") >= 0) {
       budgetSubString = budgetSubString.split(" ")[0];
     }
+    if (budgetSubString.indexOf("and") >= 0) {
+      budgetSubString = budgetSubString.replaceAll("and", " & ");
+    }
     return budgetSubString;
   }
 }
