@@ -47,31 +47,34 @@ class TransactionDetailScreen extends StatelessWidget {
                             textStyle: BlossomNeumorphicText.largeBodyBold,
                             style: BlossomNeumorphicStyles.fourGrey),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Column(
-                            children: [
-                              NeumorphicText(
-                                TransactionsPageConstants.MERCHANT,
-                                textStyle: BlossomNeumorphicText.secondaryBody,
-                                style: BlossomNeumorphicStyles.fourGrey,
-                              ),
-                              Padding(padding: EdgeInsets.only(top: 2, bottom: 2)),
-                              Neumorphic(
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16,top: 8,bottom: 8, right: 16),
+                        child: Row(
+                          children: [
+                            NeumorphicText(
+                              TransactionsPageConstants.MERCHANT,
+                              textStyle: BlossomNeumorphicText.secondaryBody,
+                              style: BlossomNeumorphicStyles.fourGrey,
+                            ),
+                            Padding(padding: EdgeInsets.only(left: 2, right: 2)),
+                            Expanded(
+                              child: Neumorphic(
                                 style: BlossomNeumorphicStyles.negativeEightConcave,
                                 child: Padding(
                                   padding: const EdgeInsets.all(16.0),
-                                  child: NeumorphicText(
-                                    _transaction.merchant,
-                                    textStyle: BlossomNeumorphicText.body,
-                                    style: BlossomNeumorphicStyles.fourGrey,
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: NeumorphicText(
+                                      _transaction.merchant,
+                                      textStyle: BlossomNeumorphicText.body,
+                                      style: BlossomNeumorphicStyles.fourGrey,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
-                        ],
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
