@@ -239,6 +239,7 @@ class TransactionDetailScreen extends StatelessWidget {
                                         errorBorder: InputBorder.none,
                                         disabledBorder: InputBorder.none,
                                         ),
+                                    maxLines: null,
                                   )
                                 ),
                               ),
