@@ -37,28 +37,32 @@ class TransactionDetailScreen extends StatelessWidget {
                       style: BlossomNeumorphicStyles.eightGrey)]),
               Padding(padding: EdgeInsets.only(top: 10, bottom: 10)),
               Padding(
-                padding: const EdgeInsets.only(left: 8, right: 8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                padding: const EdgeInsets.only(left: 16, right: 16),
+                child: Column(
                   children: [
-                    Column(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        NeumorphicText(
-                          TransactionsPageConstants.MERCHANT,
-                          textStyle: BlossomNeumorphicText.secondaryBody,
-                          style: BlossomNeumorphicStyles.fourGrey,
-                        ),
-                        Padding(padding: EdgeInsets.only(top: 2, bottom: 2)),
-                        Neumorphic(
-                          style: BlossomNeumorphicStyles.negativeEightConcave,
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: NeumorphicText(
-                              _transaction.merchant,
-                              textStyle: BlossomNeumorphicText.body,
+                        Column(
+                          children: [
+                            NeumorphicText(
+                              TransactionsPageConstants.MERCHANT,
+                              textStyle: BlossomNeumorphicText.secondaryBody,
                               style: BlossomNeumorphicStyles.fourGrey,
                             ),
-                          ),
+                            Padding(padding: EdgeInsets.only(top: 2, bottom: 2)),
+                            Neumorphic(
+                              style: BlossomNeumorphicStyles.negativeEightConcave,
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: NeumorphicText(
+                                  _transaction.merchant,
+                                  textStyle: BlossomNeumorphicText.body,
+                                  style: BlossomNeumorphicStyles.fourGrey,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
