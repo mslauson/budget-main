@@ -43,7 +43,7 @@ class TransactionDetailScreen extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8),
-                        child: NeumorphicText(_transaction.date,
+                        child: NeumorphicText(ParseUtils.formatDate(_transaction.date),
                             textStyle: BlossomNeumorphicText.largeBodyBold,
                             style: BlossomNeumorphicStyles.fourGrey),
                       ),

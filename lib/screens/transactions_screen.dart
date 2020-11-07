@@ -17,6 +17,7 @@ import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/theme/blossom_text.dart';
 import 'package:main/util/date_utils.dart';
 import 'package:main/util/icon_util.dart';
+import 'package:main/util/parse_utils.dart';
 import 'package:main/widgets/nav_drawer.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -94,7 +95,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     List<Widget> _dateTransactions = new List();
     _dateTransactions.add(Padding(
       padding: const EdgeInsets.all(8),
-      child: NeumorphicText(_transactions[0].date,
+      child: NeumorphicText(ParseUtils.formatDate(_transactions[0].date),
           textStyle: BlossomNeumorphicText.largeBodyBold,
           style: BlossomNeumorphicStyles.fourGrey),
     ));

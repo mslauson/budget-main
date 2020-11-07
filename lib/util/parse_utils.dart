@@ -27,4 +27,12 @@ class ParseUtils {
     }
     return budgetSubString;
   }
+
+  static String formatDate(String date){
+    DateFormat dateFormatIso = DateFormat("yyyy-MM-dd");
+    DateFormat dateFormatAmerican = DateFormat("MM/dd/yyyy");
+    DateTime timestamp = dateFormatIso.parse(date);
+    return dateFormatAmerican.format(timestamp);
+
+  }
 }
