@@ -205,7 +205,7 @@ class TransactionDetailScreen extends StatelessWidget {
                               style: BlossomNeumorphicStyles.fourGrey,
                             ),
                             Padding(padding: EdgeInsets.only(left: 4, right: 4)),
-                            NeumorphicCheckbox(value: false, onChanged: (value) {  },),
+                            NeumorphicCheckbox(value:  _determineBools(_transaction.reimbursement), onChanged: (value) {  },),
                           ],
                         ),
                       ),
@@ -268,5 +268,9 @@ class TransactionDetailScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  bool _determineBools(Object boolObject){
+    return boolObject != null;
   }
 }
