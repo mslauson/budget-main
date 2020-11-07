@@ -11,7 +11,8 @@ class ErrorConstants {
   static const String BUDGET_RETRIEVAL = "Budget retrieval";
 
   //Transactions Client
-  static const String TRANSACTIONS_RETRIEVAL = "Transactions retrieval";
+  static const String TRANSACTIONS_RETRIEVAL = "Transactions Retrieval";
+  static const String TRANSACTIONS_UPDATE = "Transaction Update";
 
   //Customer Client
   static const String REGISTRATION = "Registration";
