@@ -28,8 +28,9 @@ class TransactionDetailScreen extends StatelessWidget {
           child: Column(
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    Padding(padding: EdgeInsets.only(left: 24)),
                     Neumorphic(
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
@@ -37,13 +38,7 @@ class TransactionDetailScreen extends StatelessWidget {
                               style: BlossomNeumorphicStyles.twentyIconGrey),
                         ),
                         style: BlossomNeumorphicStyles.fourIconCircle),
-                    Neumorphic(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: NeumorphicIcon(_icon.icon,
-                            style: BlossomNeumorphicStyles.twentyIconGrey),
-                      ),
-                      style: BlossomNeumorphicStyles.fourIconCircle),
+                    Padding(padding: EdgeInsets.only(right: 16, left: 16)),
                    NeumorphicText(
                       ParseUtils.parseBudgetId(_transaction.budgetId),
                       textStyle: BlossomNeumorphicText.headline,
@@ -57,9 +52,22 @@ class TransactionDetailScreen extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8),
-                        child: NeumorphicText(ParseUtils.formatDate(_transaction.date),
-                            textStyle: BlossomNeumorphicText.largeBodyBold,
-                            style: BlossomNeumorphicStyles.fourGrey),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Neumorphic(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: NeumorphicIcon(_icon.icon,
+                                      style: BlossomNeumorphicStyles.twentyIconGrey),
+                                ),
+                                style: BlossomNeumorphicStyles.fourIconCircle),
+                            Padding(padding: EdgeInsets.only(right: 40, left: 40)),
+                            NeumorphicText(ParseUtils.formatDate(_transaction.date),
+                                textStyle: BlossomNeumorphicText.largeBodyBold,
+                                style: BlossomNeumorphicStyles.fourGrey),
+                          ],
+                        ),
                       ),
                       //Merchant
                       Padding(
