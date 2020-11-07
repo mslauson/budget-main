@@ -91,23 +91,27 @@ class TransactionDetailScreen extends StatelessWidget {
                               style: BlossomNeumorphicStyles.fourGrey,
                             ),
                             Padding(padding: EdgeInsets.only(left: 2, right: 2)),
-                            Expanded(
-                              child: Neumorphic(
-                                style: BlossomNeumorphicStyles.negativeEightConcave,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: NeumorphicText(
-                                      ParseUtils.formatAmount(_transaction.amount),
-                                      textStyle: BlossomNeumorphicText.body,
-                                      style: BlossomNeumorphicStyles.fourGrey,
-                                    ),
+                            Neumorphic(
+                              style: BlossomNeumorphicStyles.negativeEightConcave,
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: NeumorphicText(
+                                    ParseUtils.formatAmount(_transaction.amount),
+                                    textStyle: BlossomNeumorphicText.body,
+                                    style: BlossomNeumorphicStyles.fourGrey,
                                   ),
                                 ),
                               ),
-                            ),
-
+                            )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16,top: 8,bottom: 8, right: 16),
+                        child: Row(
+                          children: [
                             NeumorphicText(
                               TransactionsPageConstants.ACCOUNT,
                               textStyle: BlossomNeumorphicText.secondaryBody,

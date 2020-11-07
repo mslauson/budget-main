@@ -36,6 +36,6 @@ class ParseUtils {
   }
 
   static String formatAmount(double amount){
-    return amount.toStringAsExponential(2);
+    return "\$" +  amount.toStringAsFixed(2);
   }
 }
