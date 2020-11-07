@@ -6,6 +6,7 @@ import 'package:main/models/accounts/account_meta.dart';
 import 'package:main/models/transactions/transactions_get_response.dart';
 import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
+import 'package:main/theme/budget_icons.dart';
 import 'package:main/util/parse_utils.dart';
 
 class TransactionDetailScreen extends StatelessWidget {
@@ -21,7 +22,6 @@ class TransactionDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     _notesController.text=_transaction.notes;
     return Scaffold(
-
       body: Neumorphic(
         child: Padding(
           padding: EdgeInsets.only(top: 80, bottom: 50),
@@ -30,6 +30,13 @@ class TransactionDetailScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
+                    Neumorphic(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: NeumorphicIcon(BudgetIcons.BACK.icon,
+                              style: BlossomNeumorphicStyles.twentyIconGrey),
+                        ),
+                        style: BlossomNeumorphicStyles.fourIconCircle),
                     Neumorphic(
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
