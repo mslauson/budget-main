@@ -37,27 +37,23 @@ class TransactionDetailScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 8, right: 8),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Column(
                       children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: NeumorphicText(
-                            TransactionsPageConstants.MERCHANT,
-                            textStyle: BlossomNeumorphicText.body,
-                            style: BlossomNeumorphicStyles.fourGrey,
-
-                          ),
+                        NeumorphicText(
+                          TransactionsPageConstants.MERCHANT,
+                          textStyle: BlossomNeumorphicText.secondaryBody,
+                          style: BlossomNeumorphicStyles.fourGrey,
                         ),
                         Padding(padding: EdgeInsets.only(top: 2, bottom: 2)),
                         Neumorphic(
                           style: BlossomNeumorphicStyles.negativeEightConcave,
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(16.0),
                             child: NeumorphicText(
                               _transaction.merchant,
-                              textStyle: BlossomNeumorphicText.title,
+                              textStyle: BlossomNeumorphicText.body,
                               style: BlossomNeumorphicStyles.fourGrey,
                             ),
                           ),
