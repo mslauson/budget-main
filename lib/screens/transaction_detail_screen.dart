@@ -38,35 +38,43 @@ class TransactionDetailScreen extends StatelessWidget {
               Padding(padding: EdgeInsets.only(top: 10, bottom: 10)),
               Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
-                          children: [
-                            NeumorphicText(
-                              TransactionsPageConstants.MERCHANT,
-                              textStyle: BlossomNeumorphicText.secondaryBody,
-                              style: BlossomNeumorphicStyles.fourGrey,
-                            ),
-                            Padding(padding: EdgeInsets.only(top: 2, bottom: 2)),
-                            Neumorphic(
-                              style: BlossomNeumorphicStyles.negativeEightConcave,
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: NeumorphicText(
-                                  _transaction.merchant,
-                                  textStyle: BlossomNeumorphicText.body,
-                                  style: BlossomNeumorphicStyles.fourGrey,
+                child: Neumorphic(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: NeumorphicText(_transaction.date,
+                            textStyle: BlossomNeumorphicText.largeBodyBold,
+                            style: BlossomNeumorphicStyles.fourGrey),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                            children: [
+                              NeumorphicText(
+                                TransactionsPageConstants.MERCHANT,
+                                textStyle: BlossomNeumorphicText.secondaryBody,
+                                style: BlossomNeumorphicStyles.fourGrey,
+                              ),
+                              Padding(padding: EdgeInsets.only(top: 2, bottom: 2)),
+                              Neumorphic(
+                                style: BlossomNeumorphicStyles.negativeEightConcave,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: NeumorphicText(
+                                    _transaction.merchant,
+                                    textStyle: BlossomNeumorphicText.body,
+                                    style: BlossomNeumorphicStyles.fourGrey,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               )
             ],
