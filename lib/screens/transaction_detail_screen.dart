@@ -224,6 +224,7 @@ class TransactionDetailScreen extends StatelessWidget {
                                 child: Align(
                                   alignment: Alignment.centerLeft,
                                   child: TextField(
+                                    autofocus: false,
                                     controller: _notesController,
                                     decoration: new InputDecoration(
                                         border: InputBorder.none,
