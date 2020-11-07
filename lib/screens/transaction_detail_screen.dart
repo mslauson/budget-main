@@ -82,7 +82,7 @@ class TransactionDetailScreen extends StatelessWidget {
                               textStyle: BlossomNeumorphicText.secondaryBody,
                               style: BlossomNeumorphicStyles.fourGrey,
                             ),
-                            Padding(padding: EdgeInsets.only(left: 2, right: 2)),
+                            Padding(padding: EdgeInsets.only(left: 2, right: 16)),
                             Expanded(
                               child: Neumorphic(
                                 style: BlossomNeumorphicStyles.negativeEightConcave,
@@ -112,7 +112,7 @@ class TransactionDetailScreen extends StatelessWidget {
                               textStyle: BlossomNeumorphicText.secondaryBody,
                               style: BlossomNeumorphicStyles.fourGrey,
                             ),
-                            Padding(padding: EdgeInsets.only(left: 2, right: 2)),
+                            Padding(padding: EdgeInsets.only(left: 16, right: 16)),
                             Neumorphic(
                               style: BlossomNeumorphicStyles.negativeEightConcave,
                               child: Padding(
@@ -140,7 +140,7 @@ class TransactionDetailScreen extends StatelessWidget {
                               textStyle: BlossomNeumorphicText.secondaryBody,
                               style: BlossomNeumorphicStyles.fourGrey,
                             ),
-                            Padding(padding: EdgeInsets.only(left: 2, right: 2)),
+                            Padding(padding: EdgeInsets.only(left: 16, right: 15)),
                             Expanded(
                               child: Neumorphic(
                                 style: BlossomNeumorphicStyles.negativeEightConcave,
@@ -176,7 +176,7 @@ class TransactionDetailScreen extends StatelessWidget {
                               textStyle: BlossomNeumorphicText.secondaryBody,
                               style: BlossomNeumorphicStyles.fourGrey,
                             ),
-                            Padding(padding: EdgeInsets.only(left: 2, right: 2)),
+                            Padding(padding: EdgeInsets.only(left: 18, right: 18)),
                             Expanded(
                               child: Neumorphic(
                                 style: BlossomNeumorphicStyles.negativeEightConcave,
@@ -204,7 +204,7 @@ class TransactionDetailScreen extends StatelessWidget {
                               textStyle: BlossomNeumorphicText.secondaryBody,
                               style: BlossomNeumorphicStyles.fourGrey,
                             ),
-                            Padding(padding: EdgeInsets.only(left: 2, right: 2)),
+                            Padding(padding: EdgeInsets.only(left: 4, right: 4)),
                             NeumorphicCheckbox(value: false, onChanged: (value) {  },),
                           ],
                         ),
@@ -219,7 +219,7 @@ class TransactionDetailScreen extends StatelessWidget {
                               textStyle: BlossomNeumorphicText.secondaryBody,
                               style: BlossomNeumorphicStyles.fourGrey,
                             ),
-                            Padding(padding: EdgeInsets.only(left: 2, right: 2)),
+                            Padding(padding: EdgeInsets.only(left: 28, right: 28)),
                             NeumorphicCheckbox(value: false, onChanged: (value) {  },),
                           ],
                         ),
