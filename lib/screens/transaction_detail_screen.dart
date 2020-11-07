@@ -47,6 +47,7 @@ class TransactionDetailScreen extends StatelessWidget {
                           ),
                           style: BlossomNeumorphicStyles.fourIconCircle),
                       onTap: (){
+                        _determineIfTransactionUpdated(_initialNote);
                         Navigator.of(context).pop();
                         },
                     ),
@@ -260,10 +261,7 @@ class TransactionDetailScreen extends StatelessWidget {
                                         errorBorder: InputBorder.none,
                                         disabledBorder: InputBorder.none,
                                         ),
-                                    maxLines: null,
-                                    onChanged: (value){
-                                      log(value);
-                                      _updateTransaction(_notesController.text);},
+                                    maxLines: null
                                   )
                                 ),
                               ),
@@ -285,7 +283,13 @@ class TransactionDetailScreen extends StatelessWidget {
   bool _determineBools(Object boolObject){
     return boolObject != null;
   }
-
+  
+  void _determineIfTransactionUpdated(String existingNote){
+    if(existingNote!=_notesController.text){
+      _updateTransaction(_notesController.text);
+    }
+  }
+  
   Future<void> _updateTransaction(String notes) async {
     TransactionUpdates update = TransactionUpdates(notes: notes);
     await _transactionsClient.updateTransaction(TransactionUpdatesRequestModel(transactionUpdates: [update]));
