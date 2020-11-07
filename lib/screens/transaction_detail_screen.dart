@@ -31,13 +31,16 @@ class TransactionDetailScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(padding: EdgeInsets.only(left: 24)),
-                    Neumorphic(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: NeumorphicIcon(BudgetIcons.BACK.icon,
-                              style: BlossomNeumorphicStyles.twentyIconGrey),
-                        ),
-                        style: BlossomNeumorphicStyles.fourIconCircle),
+                    GestureDetector(
+                      child: Neumorphic(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: NeumorphicIcon(BudgetIcons.BACK.icon,
+                                style: BlossomNeumorphicStyles.twentyIconGrey),
+                          ),
+                          style: BlossomNeumorphicStyles.fourIconCircle),
+                      onTap: (){Navigator.of(context).pop();},
+                    ),
                     Padding(padding: EdgeInsets.only(right: 16, left: 16)),
                    NeumorphicText(
                       ParseUtils.parseBudgetId(_transaction.budgetId),
