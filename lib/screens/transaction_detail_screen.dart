@@ -47,6 +47,7 @@ class TransactionDetailScreen extends StatelessWidget {
                             TransactionsPageConstants.MERCHANT,
                             textStyle: BlossomNeumorphicText.body,
                             style: BlossomNeumorphicStyles.fourGrey,
+
                           ),
                         ),
                         Padding(padding: EdgeInsets.only(top: 2, bottom: 2)),
