@@ -7,4 +7,5 @@ class TransactionsPageConstants{
   static const TRANSACTIONS = "Transactions:";
   static const REIMBURSED = "Reimbursed:";
   static const SPLIT = "Split:";
+  static const NOTES = "Notes:";
 }

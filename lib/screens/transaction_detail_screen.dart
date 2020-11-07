@@ -15,8 +15,11 @@ class TransactionDetailScreen extends StatelessWidget {
 
   TransactionDetailScreen(this._transaction,this._accountMeta, this._icon);
 
+  final TextEditingController _notesController = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    _notesController.text=_transaction.notes;
     return Scaffold(
       body: Neumorphic(
         child: Padding(
@@ -207,6 +210,39 @@ class TransactionDetailScreen extends StatelessWidget {
                             ),
                             Padding(padding: EdgeInsets.only(left: 2, right: 2)),
                             NeumorphicCheckbox(value: false, onChanged: (value) {  },),
+                          ],
+                        ),
+                      ),
+                      //Notes
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16,top: 8,bottom: 8, right: 16),
+                        child: Column(
+                          children: [
+                            NeumorphicText(
+                              TransactionsPageConstants.NOTES,
+                              textStyle: BlossomNeumorphicText.secondaryBody,
+                              style: BlossomNeumorphicStyles.fourGrey,
+                            ),
+                            Padding(padding: EdgeInsets.only(left: 2, right: 2)),
+                            Neumorphic(
+                              style: BlossomNeumorphicStyles.negativeEightConcave,
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: TextField(
+                                    controller: _notesController,
+                                    decoration: new InputDecoration(
+                                        border: InputBorder.none,
+                                        focusedBorder: InputBorder.none,
+                                        enabledBorder: InputBorder.none,
+                                        errorBorder: InputBorder.none,
+                                        disabledBorder: InputBorder.none,
+                                        ),
+                                  )
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
