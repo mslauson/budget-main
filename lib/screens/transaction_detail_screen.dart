@@ -21,18 +21,20 @@ class TransactionDetailScreen extends StatelessWidget {
           padding: EdgeInsets.only(top: 80, bottom: 50),
           child: Column(
             children: [
-              ListTile(
-                  leading: Neumorphic(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Neumorphic(
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: NeumorphicIcon(_icon.icon,
                             style: BlossomNeumorphicStyles.twentyIconGrey),
                       ),
                       style: BlossomNeumorphicStyles.fourIconCircle),
-                  title: NeumorphicText(
+                   NeumorphicText(
                       ParseUtils.parseBudgetId(_transaction.budgetId),
                       textStyle: BlossomNeumorphicText.headline,
-                      style: BlossomNeumorphicStyles.eightGrey)),
+                      style: BlossomNeumorphicStyles.eightGrey)]),
               Padding(padding: EdgeInsets.only(top: 10, bottom: 10)),
               Padding(
                 padding: const EdgeInsets.only(left: 8, right: 8),
