@@ -16,4 +16,6 @@ class BudgetIcons {
   static const PAYMENT = Icon(FontAwesomeIcons.moneyCheck);
   static const HEALTH = Icon(FontAwesomeIcons.starOfLife);
   static const ENTERTAINMENT = Icon(FontAwesomeIcons.umbrellaBeach);
+  static const BACK = Icon(FontAwesomeIcons.arrowLeft);
+  static const FORWARD = Icon(FontAwesomeIcons.arrowRight);
 }
