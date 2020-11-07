@@ -21,6 +21,7 @@ class TransactionDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     _notesController.text=_transaction.notes;
     return Scaffold(
+
       body: Neumorphic(
         child: Padding(
           padding: EdgeInsets.only(top: 80, bottom: 50),
@@ -165,17 +166,9 @@ class TransactionDetailScreen extends StatelessWidget {
                                   padding: const EdgeInsets.all(16.0),
                                   child: Align(
                                     alignment: Alignment.centerLeft,
-                                    child: Row(
-                                      children: [
-                                        NeumorphicText(_accountMeta.accountName,
-                                            textStyle: BlossomNeumorphicText.body,
-                                            style: BlossomNeumorphicStyles.fourGrey),
-                                        Padding(padding: EdgeInsets.fromLTRB(5, 0, 5, 0)),
-                                        NeumorphicText(ParseUtils.parseBudgetId(_transaction.budgetId),
-                                            textStyle: BlossomNeumorphicText.accountNumber,
-                                            style: BlossomNeumorphicStyles.fourGrey)
-                                      ],
-                                    ),
+                                    child: NeumorphicText(ParseUtils.parseBudgetId(_transaction.budgetId),
+                                        textStyle: BlossomNeumorphicText.body,
+                                        style: BlossomNeumorphicStyles.fourGrey),
                                   ),
                                 ),
                               ),
