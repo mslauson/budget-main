@@ -1,8 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:main/client/transactions_client.dart';
 import 'package:main/constants/transaction_page_constants.dart';
 import 'package:main/models/accounts/account_meta.dart';
+import 'package:main/models/transactions/request/transaction_updates.dart';
+import 'package:main/models/transactions/request/transaction_updates_request_model.dart';
 import 'package:main/models/transactions/transactions_get_response.dart';
 import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
@@ -16,11 +21,13 @@ class TransactionDetailScreen extends StatelessWidget {
 
   TransactionDetailScreen(this._transaction,this._accountMeta, this._icon);
 
-  final TextEditingController _notesController = new TextEditingController();
+  final TextEditingController _notesController = TextEditingController();
+  final TransactionsClient _transactionsClient = TransactionsClient();
 
   @override
   Widget build(BuildContext context) {
     _notesController.text=_transaction.notes;
+    final String _initialNote =_transaction.notes;
     return Scaffold(
       body: Neumorphic(
         child: Padding(
@@ -39,7 +46,9 @@ class TransactionDetailScreen extends StatelessWidget {
                                 style: BlossomNeumorphicStyles.twentyIconGrey),
                           ),
                           style: BlossomNeumorphicStyles.fourIconCircle),
-                      onTap: (){Navigator.of(context).pop();},
+                      onTap: (){
+                        Navigator.of(context).pop();
+                        },
                     ),
                     Padding(padding: EdgeInsets.only(right: 16, left: 16)),
                    NeumorphicText(
@@ -252,6 +261,9 @@ class TransactionDetailScreen extends StatelessWidget {
                                         disabledBorder: InputBorder.none,
                                         ),
                                     maxLines: null,
+                                    onChanged: (value){
+                                      log(value);
+                                      _updateTransaction(_notesController.text);},
                                   )
                                 ),
                               ),
@@ -272,5 +284,10 @@ class TransactionDetailScreen extends StatelessWidget {
 
   bool _determineBools(Object boolObject){
     return boolObject != null;
+  }
+
+  Future<void> _updateTransaction(String notes) async {
+    TransactionUpdates update = TransactionUpdates(notes: notes);
+    await _transactionsClient.updateTransaction(TransactionUpdatesRequestModel(transactionUpdates: [update]));
   }
 }
