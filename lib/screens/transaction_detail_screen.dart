@@ -80,7 +80,7 @@ class TransactionDetailScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      //Amount/account number
+                      //Amount
                       Padding(
                         padding: const EdgeInsets.only(left: 16,top: 8,bottom: 8, right: 16),
                         child: Row(
@@ -108,6 +108,7 @@ class TransactionDetailScreen extends StatelessWidget {
                           ],
                         ),
                       ),
+                      //Account information
                       Padding(
                         padding: const EdgeInsets.only(left: 16,top: 8,bottom: 8, right: 16),
                         child: Row(
@@ -140,6 +141,72 @@ class TransactionDetailScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
+                          ],
+                        ),
+                      ),
+                      //budget id
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16,top: 8,bottom: 8, right: 16),
+                        child: Row(
+                          children: [
+                            NeumorphicText(
+                              TransactionsPageConstants.BUDGET,
+                              textStyle: BlossomNeumorphicText.secondaryBody,
+                              style: BlossomNeumorphicStyles.fourGrey,
+                            ),
+                            Padding(padding: EdgeInsets.only(left: 2, right: 2)),
+                            Expanded(
+                              child: Neumorphic(
+                                style: BlossomNeumorphicStyles.negativeEightConcave,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Row(
+                                      children: [
+                                        NeumorphicText(_accountMeta.accountName,
+                                            textStyle: BlossomNeumorphicText.body,
+                                            style: BlossomNeumorphicStyles.fourGrey),
+                                        Padding(padding: EdgeInsets.fromLTRB(5, 0, 5, 0)),
+                                        NeumorphicText(ParseUtils.parseBudgetId(_transaction.budgetId),
+                                            textStyle: BlossomNeumorphicText.accountNumber,
+                                            style: BlossomNeumorphicStyles.fourGrey)
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      //Reimbursed
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16,top: 8,bottom: 8, right: 16),
+                        child: Row(
+                          children: [
+                            NeumorphicText(
+                              TransactionsPageConstants.REIMBURSED,
+                              textStyle: BlossomNeumorphicText.secondaryBody,
+                              style: BlossomNeumorphicStyles.fourGrey,
+                            ),
+                            Padding(padding: EdgeInsets.only(left: 2, right: 2)),
+                            NeumorphicCheckbox(value: false, onChanged: (value) {  },),
+                          ],
+                        ),
+                      ),
+                      //split
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16,top: 8,bottom: 8, right: 16),
+                        child: Row(
+                          children: [
+                            NeumorphicText(
+                              TransactionsPageConstants.SPLIT,
+                              textStyle: BlossomNeumorphicText.secondaryBody,
+                              style: BlossomNeumorphicStyles.fourGrey,
+                            ),
+                            Padding(padding: EdgeInsets.only(left: 2, right: 2)),
+                            NeumorphicCheckbox(value: false, onChanged: (value) {  },),
                           ],
                         ),
                       ),
