@@ -140,7 +140,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => TransactionDetailScreen(
-                                    transaction, iconData)),
+                                    transaction, _currentMeta, iconData)),
                           );
                         },
                       ),

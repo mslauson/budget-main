@@ -33,6 +33,9 @@ class ParseUtils {
     DateFormat dateFormatAmerican = DateFormat("MM/dd/yyyy");
     DateTime timestamp = dateFormatIso.parse(date);
     return dateFormatAmerican.format(timestamp);
+  }
 
+  static String formatAmount(double amount){
+    return amount.toStringAsExponential(2);
   }
 }
