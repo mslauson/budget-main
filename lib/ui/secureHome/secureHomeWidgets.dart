@@ -177,9 +177,9 @@ class SecureHomeWidgets {
 //        monthEnd);
   }
 
-  static _loadBudgets(String email) async {
-    return await BudgetClient.getBudgetsForUser(email, monthStart);
-  }
+  // static _loadBudgets(String email) async {
+  //   return await BudgetClient.getBudgetsForUser(email, monthStart);
+  // }
 
   static void _buildAccountList() {
     List<Widget> widgets = new List<Widget>();
