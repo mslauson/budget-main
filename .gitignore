@@ -58,5 +58,4 @@ android/app/.settings/org.eclipse.buildship.core.prefs
 /android/app/src/profile/gen/io/blossombudgeting/app/main/R.java
 
 #ios
-/ios/Runner.xcodeproj/
 /ios/Runner.xcworkspace/
