@@ -21,7 +21,7 @@ class AuthenticationService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final RegistrationService _registrationService = new RegistrationService();
   GoogleAuthService _googleAuthService = GoogleAuthService();
-  User _currentUser;
+  FirebaseUser _currentUser;
   SignUpForm _signUpForm;
   String _otpPhone;
 
@@ -43,7 +43,7 @@ class AuthenticationService {
 
   void signInWithCredentials(
       AuthCredential credentials, String phone, BuildContext context) {
-    _auth.signInWithCredential(credentials).then((UserCredential result) {
+    _auth.signInWithCredential(credentials).then((AuthResult result) {
       _currentUser = result.user;
       if (phone == null) {
         _buildScopedModel(result.user.phoneNumber.substring(1),
@@ -63,38 +63,38 @@ class AuthenticationService {
     _auth
         .verifyPhoneNumber(
         phoneNumber: "+1" + phoneNumber,
-        timeout: Duration(seconds: 60),
-        verificationCompleted: (AuthCredential authCredential) {
-          if (_signUpForm != null) {
-            _linkPhone(authCredential, context);
-          } else {
-            signInWithCredentials(authCredential, phoneNumber, context);
-          }
-        },
-        verificationFailed: (FirebaseAuthException error) {
-          log(error.message);
-          ErrorHandler.showError(ErrorConstants.AUTHENTICATION_FAILURE);
-        },
-        codeSent: (String verificationId, [int forceResendingToken]) {
-          _verificationId = verificationId;
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => new CollectOtp(
-                      onSubmit: (phone) => _acceptDialog(context, phone),
-                    )),
-          );
-        },
-        codeAutoRetrievalTimeout: (String verificationId) {
-          verificationId = verificationId;
-          print(verificationId);
-          print("OTP Auto Retrieval failed");
-        });
-    // .catchError((error) => {log(error)});
+            timeout: Duration(seconds: 60),
+            verificationCompleted: (AuthCredential authCredential) {
+              if (_signUpForm != null) {
+                _linkPhone(authCredential, context);
+              } else {
+                signInWithCredentials(authCredential, phoneNumber, context);
+              }
+            },
+            verificationFailed: (AuthException authException) {
+              log(authException.message);
+              ErrorHandler.showError(ErrorConstants.AUTHENTICATION_FAILURE);
+            },
+            codeSent: (String verificationId, [int forceResendingToken]) {
+              _verificationId = verificationId;
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => new CollectOtp(
+                          onSubmit: (phone) => _acceptDialog(context, phone),
+                        )),
+              );
+            },
+            codeAutoRetrievalTimeout: (String verificationId) {
+              verificationId = verificationId;
+              print(verificationId);
+              print("OTP Auto Retrieval failed");
+            })
+        .catchError((error) => log(error));
   }
 
   void _acceptDialog(BuildContext context, String code) {
-    AuthCredential authCredential = PhoneAuthProvider.credential(
+    AuthCredential authCredential = PhoneAuthProvider.getCredential(
         verificationId: _verificationId, smsCode: code);
     if (_signUpForm != null) {
       _linkPhone(authCredential, context);
@@ -103,7 +103,7 @@ class AuthenticationService {
     }
   }
 
-  void _checkIfUserExists(UserCredential result, String phone,
+  void _checkIfUserExists(AuthResult result, String phone,
       BuildContext context) {
     _registrationService.checkIfUserExists(phone).then((userExists) async {
       if (!userExists) {
@@ -148,7 +148,7 @@ class AuthenticationService {
 
   void _linkPhone(AuthCredential credential, BuildContext context) {
     _currentUser
-        .updatePhoneNumber(credential)
+        .updatePhoneNumberCredential(credential)
         .catchError((error) => log(error))
         .whenComplete(() => _navigateToHomeScreen(context));
   }
