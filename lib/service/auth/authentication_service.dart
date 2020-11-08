@@ -80,18 +80,17 @@ class AuthenticationService {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                new CollectOtp(
-                  onSubmit: (phone) => _acceptDialog(context, phone),
-                )),
+                builder: (context) => new CollectOtp(
+                      onSubmit: (phone) => _acceptDialog(context, phone),
+                    )),
           );
         },
         codeAutoRetrievalTimeout: (String verificationId) {
           verificationId = verificationId;
           print(verificationId);
           print("OTP Auto Retrieval failed");
-            })
-        .catchError((error) => log(error));
+        });
+    // .catchError((error) => {log(error)});
   }
 
   void _acceptDialog(BuildContext context, String code) {

@@ -66,7 +66,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
     List<Widget> widgets = new List();
     budgetResponse.budgets.forEach((budget) {
       Neumorphic(
-          child: Column(children:),
+          child: Column(children: []),
           style: BlossomNeumorphicStyles.eightConcave);
     });
   }
