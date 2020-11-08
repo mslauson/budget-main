@@ -285,7 +285,8 @@ class TransactionDetailScreen extends StatelessWidget {
   }
   
   void _determineIfTransactionUpdated(String existingNote){
-    if(existingNote!=_notesController.text){
+    bool needsUpdating = (existingNote == null && _notesController.text != "") || (existingNote != null && _notesController.text == "");
+    if(needsUpdating){
       _updateTransaction(_notesController.text);
     }
   }
