@@ -291,7 +291,7 @@ class TransactionDetailScreen extends StatelessWidget {
   }
   
   Future<void> _updateTransaction(String notes) async {
-    TransactionUpdates update = TransactionUpdates(notes: notes);
+    TransactionUpdates update = TransactionUpdates(notes: notes, transactionId: _transaction.transactionId, budget: _transaction.budgetId);
     await _transactionsClient.updateTransaction(TransactionUpdatesRequestModel(transactionUpdates: [update]));
   }
 }
