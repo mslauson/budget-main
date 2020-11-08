@@ -21,7 +21,7 @@ class AuthenticationService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final RegistrationService _registrationService = new RegistrationService();
   GoogleAuthService _googleAuthService = GoogleAuthService();
-  FirebaseUser _currentUser;
+  User _currentUser;
   SignUpForm _signUpForm;
   String _otpPhone;
 
@@ -43,7 +43,7 @@ class AuthenticationService {
 
   void signInWithCredentials(
       AuthCredential credentials, String phone, BuildContext context) {
-    _auth.signInWithCredential(credentials).then((AuthResult result) {
+    _auth.signInWithCredential(credentials).then((UserCredential result) {
       _currentUser = result.user;
       if (phone == null) {
         _buildScopedModel(result.user.phoneNumber.substring(1),
@@ -71,8 +71,8 @@ class AuthenticationService {
             signInWithCredentials(authCredential, phoneNumber, context);
           }
         },
-        verificationFailed: (AuthException authException) {
-          log(authException.message);
+        verificationFailed: (FirebaseAuthException error) {
+          log(error.message);
           ErrorHandler.showError(ErrorConstants.AUTHENTICATION_FAILURE);
         },
         codeSent: (String verificationId, [int forceResendingToken]) {
@@ -94,7 +94,7 @@ class AuthenticationService {
   }
 
   void _acceptDialog(BuildContext context, String code) {
-    AuthCredential authCredential = PhoneAuthProvider.getCredential(
+    AuthCredential authCredential = PhoneAuthProvider.credential(
         verificationId: _verificationId, smsCode: code);
     if (_signUpForm != null) {
       _linkPhone(authCredential, context);
@@ -103,7 +103,7 @@ class AuthenticationService {
     }
   }
 
-  void _checkIfUserExists(AuthResult result, String phone,
+  void _checkIfUserExists(UserCredential result, String phone,
       BuildContext context) {
     _registrationService.checkIfUserExists(phone).then((userExists) async {
       if (!userExists) {
@@ -148,7 +148,7 @@ class AuthenticationService {
 
   void _linkPhone(AuthCredential credential, BuildContext context) {
     _currentUser
-        .updatePhoneNumberCredential(credential)
+        .updatePhoneNumber(credential)
         .catchError((error) => log(error))
         .whenComplete(() => _navigateToHomeScreen(context));
   }
