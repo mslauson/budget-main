@@ -57,12 +57,17 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
     _budgetWidgets.add(NeumorphicText('Budgets',
         textStyle: BlossomNeumorphicText.headline,
         style: BlossomNeumorphicStyles.eightGrey));
-    _budgetWidgets.add(Neumorphic(
-        child: Column(children: await _buildWidgetForBudgets(budgetResponse)),
-        style: BlossomNeumorphicStyles.eightConcave));
+    _budgetWidgets.addAll(await _buildWidgetForBudgets(budgetResponse));
     return _budgetWidgets;
   }
 
   Future<List<Widget>> _buildWidgetForBudgets(
-      GetBudgetsResponse budgetResponse) async {}
+      GetBudgetsResponse budgetResponse) async {
+    List<Widget> widgets = new List();
+    budgetResponse.budgets.forEach((budget) {
+      Neumorphic(
+          child: Column(children:),
+          style: BlossomNeumorphicStyles.eightConcave);
+    });
+  }
 }
