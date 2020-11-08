@@ -9,7 +9,6 @@ import 'package:main/models/budget/getBudgetsResponse.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
-import 'package:main/theme/blossom_text.dart';
 import 'package:main/util/date_utils.dart';
 import 'package:main/widgets/nav_drawer.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -55,11 +54,15 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
 
   Future<List<Widget>> _buidBudgets(GetBudgetsResponse budgetResponse) async{
     List<Widget> _budgetWidgets = new List();
-    _budgetWidgets.add(NeumorphicText(
-        'Budgets',
+    _budgetWidgets.add(NeumorphicText('Budgets',
         textStyle: BlossomNeumorphicText.headline,
         style: BlossomNeumorphicStyles.eightGrey));
+    _budgetWidgets.add(Neumorphic(
+        child: Column(children: await _buildWidgetForBudgets(budgetResponse)),
+        style: BlossomNeumorphicStyles.eightConcave));
     return _budgetWidgets;
   }
 
+  Future<List<Widget>> _buildWidgetForBudgets(
+      GetBudgetsResponse budgetResponse) async {}
 }
