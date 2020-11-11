@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'constants/global_constants.dart';
 import 'constants/routes.dart';
@@ -13,7 +14,9 @@ import 'screens/profile_screen.dart';
 import 'screens/splash.dart';
 import 'screens/transactions_screen.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   _buildRouter();
   runApp(MyApp());
 }
