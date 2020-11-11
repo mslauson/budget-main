@@ -43,7 +43,7 @@ class AuthenticationService {
 
   void signInWithCredentials(
       AuthCredential credentials, String phone, BuildContext context) {
-    _auth.signInWithCredential(credentials).then((AuthResult result) {
+    _auth.signInWithCredential(credentials).then((UserCredential result) {
       _currentUser = result.user;
       if (phone == null) {
         _buildScopedModel(result.user.phoneNumber.substring(1),
@@ -71,7 +71,7 @@ class AuthenticationService {
                 signInWithCredentials(authCredential, phoneNumber, context);
               }
             },
-            verificationFailed: (AuthException authException) {
+            verificationFailed: (FirebaseAuthException authException) {
               log(authException.message);
               ErrorHandler.showError(ErrorConstants.AUTHENTICATION_FAILURE);
             },
@@ -103,7 +103,7 @@ class AuthenticationService {
     }
   }
 
-  void _checkIfUserExists(AuthResult result, String phone,
+  void _checkIfUserExists(UserCredential result, String phone,
       BuildContext context) {
     _registrationService.checkIfUserExists(phone).then((userExists) async {
       if (!userExists) {
@@ -148,7 +148,7 @@ class AuthenticationService {
 
   void _linkPhone(AuthCredential credential, BuildContext context) {
     _currentUser
-        .updatePhoneNumberCredential(credential)
+        .updatePhoneNumber(credential)
         .catchError((error) => log(error))
         .whenComplete(() => _navigateToHomeScreen(context));
   }

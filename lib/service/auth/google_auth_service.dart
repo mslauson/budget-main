@@ -29,7 +29,7 @@ class GoogleAuthService {
     String email = _googleSignInAccount.email;
 
     final List<String> signInMethods =
-        await _auth.fetchSignInMethodsForEmail(email: email);
+        await _auth.fetchSignInMethodsForEmail(email);
     if (signInMethods.isEmpty) {
       String phone = await _getPhoneNumber(credential, context);
       List<String> name = _getName();

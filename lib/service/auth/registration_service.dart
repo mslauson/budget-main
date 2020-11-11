@@ -12,7 +12,7 @@ class RegistrationService {
   @Deprecated("In favor of OTP")
   Future<bool> registerToFirebase(
       SignUpForm signUpForm, ValueModel valueModel) async {
-    final AuthResult authResult = await _auth.createUserWithEmailAndPassword(
+    final UserCredential authResult = await _auth.createUserWithEmailAndPassword(
       email: signUpForm.emailAddress,
       password: valueModel.value,
     );
