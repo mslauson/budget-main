@@ -21,7 +21,7 @@ class AuthenticationService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final RegistrationService _registrationService = new RegistrationService();
   GoogleAuthService _googleAuthService = GoogleAuthService();
-  FirebaseUser _currentUser;
+  User _currentUser;
   SignUpForm _signUpForm;
   String _otpPhone;
 
@@ -54,7 +54,6 @@ class AuthenticationService {
         _checkIfUserExists(result, phone, context);
       }
     }).catchError((error) {
-      log(error);
       ErrorHandler.showError(ErrorConstants.AUTHENTICATION_FAILURE);
     });
   }
