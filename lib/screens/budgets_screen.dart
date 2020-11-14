@@ -10,6 +10,7 @@ import 'package:main/models/global/activeUser.dart';
 import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/util/date_utils.dart';
+import 'package:main/util/parse_utils.dart';
 import 'package:main/widgets/nav_drawer.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -20,6 +21,7 @@ class BudgetsScreen extends StatefulWidget {
 
 class _BudgetsScreenState extends State<BudgetsScreen> {
   final BudgetClient _budgetClient = BudgetClient();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,14 +47,15 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
     );
   }
 
-  Future<List<Widget>> _loadBudgets() async{
+  Future<List<Widget>> _loadBudgets() async {
     final String phone =
         ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone;
-    GetBudgetsResponse budgetResponse = await _budgetClient.getBudgetsForUser(phone, DateUtils.currentFirstOfMonthIso());
+    GetBudgetsResponse budgetResponse = await _budgetClient.getBudgetsForUser(
+        phone, DateUtils.currentFirstOfMonthIso());
     return await _buidBudgets(budgetResponse);
   }
 
-  Future<List<Widget>> _buidBudgets(GetBudgetsResponse budgetResponse) async{
+  Future<List<Widget>> _buidBudgets(GetBudgetsResponse budgetResponse) async {
     List<Widget> _budgetWidgets = new List();
     _budgetWidgets.add(NeumorphicText('Budgets',
         textStyle: BlossomNeumorphicText.headline,
@@ -65,9 +68,17 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
       GetBudgetsResponse budgetResponse) async {
     List<Widget> widgets = new List();
     budgetResponse.budgets.forEach((budget) {
-      Neumorphic(
-          child: Column(children: []),
-          style: BlossomNeumorphicStyles.eightConcave);
+      Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Neumorphic(
+            child: Column(children: [
+              ListTile(
+                  title: NeumorphicText(ParseUtils.parseBudgetId(budget.id),
+                      textStyle: BlossomNeumorphicText.largeBodyBold,
+                      style: BlossomNeumorphicStyles.fourGrey))
+            ]),
+            style: BlossomNeumorphicStyles.eightConcave),
+      );
     });
   }
 }
