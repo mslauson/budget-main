@@ -1,7 +1,8 @@
 class MathUtils {
   MathUtils._();
 
-  static String _getAvailabileBalance(double allocated, double used) {
-    return allocated - used as String;
+  static String getAvailabileBalance(double allocated, double used) {
+    double available = allocated - used;
+    return "\$" + available.toString();
   }
 }
