@@ -10,6 +10,7 @@ import 'package:main/models/global/activeUser.dart';
 import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/util/date_utils.dart';
+import 'package:main/util/math_utils.dart';
 import 'package:main/util/parse_utils.dart';
 import 'package:main/widgets/nav_drawer.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -61,24 +62,36 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
         textStyle: BlossomNeumorphicText.headline,
         style: BlossomNeumorphicStyles.eightGrey));
     _budgetWidgets.addAll(await _buildWidgetForBudgets(budgetResponse));
-    return _budgetWidgets;
+    return await _budgetWidgets;
   }
 
   Future<List<Widget>> _buildWidgetForBudgets(
       GetBudgetsResponse budgetResponse) async {
     List<Widget> widgets = new List();
     budgetResponse.budgets.forEach((budget) {
-      Padding(
+      widgets.add(Padding(
         padding: const EdgeInsets.all(16.0),
         child: Neumorphic(
-            child: Column(children: [
-              ListTile(
-                  title: NeumorphicText(ParseUtils.parseBudgetId(budget.id),
-                      textStyle: BlossomNeumorphicText.largeBodyBold,
-                      style: BlossomNeumorphicStyles.fourGrey))
-            ]),
-            style: BlossomNeumorphicStyles.eightConcave),
-      );
+          child: Column(children: [
+            Neumorphic(
+              child: ListTile(
+                title: NeumorphicText(ParseUtils.parseBudgetId(budget.id),
+                    textStyle: BlossomNeumorphicText.largeBodyBold,
+                    style: BlossomNeumorphicStyles.fourGrey),
+                subtitle: NeumorphicText(
+                    "Left To Spend: " +
+                        MathUtils.getAvailabileBalance(
+                            budget.allocation, budget.used),
+                    textStyle: BlossomNeumorphicText.largeBodyBold,
+                    style: BlossomNeumorphicStyles.fourGrey),
+              ),
+              style: BlossomNeumorphicStyles.negativeEightConcave,
+            )
+          ]),
+          style: BlossomNeumorphicStyles.eightConcave,
+        ),
+      ));
     });
+    return widgets;
   }
 }
