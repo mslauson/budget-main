@@ -10,6 +10,7 @@ import 'package:main/models/global/activeUser.dart';
 import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/util/date_utils.dart';
+import 'package:main/util/icon_util.dart';
 import 'package:main/util/math_utils.dart';
 import 'package:main/util/parse_utils.dart';
 import 'package:main/widgets/nav_drawer.dart';
@@ -69,6 +70,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
       GetBudgetsResponse budgetResponse) async {
     List<Widget> widgets = new List();
     budgetResponse.budgets.forEach((budget) {
+      Icon iconData = IconUtil.getIconByBudget(budget.id, null);
       widgets.add(Padding(
         padding: const EdgeInsets.all(8.0),
         child: Neumorphic(
@@ -77,6 +79,13 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
             child: Column(children: [
               Neumorphic(
                 child: ListTile(
+                  leading: Neumorphic(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: NeumorphicIcon(iconData.icon,
+                            style: BlossomNeumorphicStyles.twentyIconGrey),
+                      ),
+                      style: BlossomNeumorphicStyles.fourIconCircle),
                   title: NeumorphicText(ParseUtils.parseBudgetId(budget.id),
                       textStyle: BlossomNeumorphicText.largeBodyBold,
                       style: BlossomNeumorphicStyles.fourGrey),
