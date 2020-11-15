@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:charts_flutter/flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -8,7 +7,6 @@ import 'package:loading/indicator/ball_pulse_indicator.dart';
 import 'package:loading/loading.dart';
 import 'package:main/client/budget_client.dart';
 import 'package:main/components/drawer_container.dart';
-import 'package:main/models/budget/budget_allocation_graph_model.dart';
 import 'package:main/models/budget/getBudgetsResponse.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/theme/blossom_neumorphic_styles.dart';
@@ -71,7 +69,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
         textStyle: BlossomNeumorphicText.headline,
         style: BlossomNeumorphicStyles.eightGrey));
     _budgetWidgets.addAll(await _buildWidgetForBudgets(budgetResponse));
-    return await _budgetWidgets;
+    return _budgetWidgets;
   }
 
   Future<List<Widget>> _buildWidgetForBudgets(
@@ -88,7 +86,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
             padding: const EdgeInsets.all(16.0),
             child: Column(children: [
               Neumorphic(
-                child: Column(
+                child: Row(
                   children: [
                     Neumorphic(
                         child: Padding(
@@ -125,22 +123,12 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
   }
 
   Widget _buildGraphForBudget(double allocated, double used) {
-    var data = [
-      new BudgetAllocationGraphModel(
-          allocated, used, Color.fromHex(code: "#00FF00")),
-    ];
-    var series = [
-      new Series(
-        id: 'Used',
-        domainFn: (BudgetAllocationGraphModel allocationModel, _) =>
-        allocationModel.allocated,
-        measureFn: (BudgetAllocationGraphModel allocationModel, _) =>
-            allocationModel.used,
-        colorFn: (BudgetAllocationGraphModel allocationModel, _) =>
-            allocationModel.color,
-        data: data,
-      ),
-    ];
-    return LineChart(series, animate: true);
+    double percent = allocated / used;
+    return Flexible(
+      child: NeumorphicProgress(
+          percent: percent,
+          style: ProgressStyle(accent: Colors.red, variant: Colors.green)),
+      flex: 1,
+    );
   }
 }
