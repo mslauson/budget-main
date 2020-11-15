@@ -127,6 +127,9 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
     if (percent.isNegative) {
       percent = 0.00;
     }
+    if (allocated == 0.00 && !used.isNegative) {
+      percent = 1.00;
+    }
     return Flexible(
       child: NeumorphicProgress(
           percent: percent,
