@@ -75,7 +75,8 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
   Future<List<Widget>> _buildWidgetForBudgets(GetBudgetsResponse budgetResponse) async {
     List<Widget> widgets = new List();
     budgetResponse.budgets.forEach((budget) {
-      Icon iconData = IconUtil.getIconByBudget(budget.id, null);
+      Icon iconData =
+          IconUtil.determineIcon(ParseUtils.parseBudgetId(budget.id));
       widgets.add(Padding(
         padding: const EdgeInsets.all(8.0),
         child: Neumorphic(

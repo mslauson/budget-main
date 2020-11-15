@@ -16,11 +16,14 @@ class IconUtil {
       budgetId = subBudget != null ? subBudget : budgetId;
     }
     String budgetSubString = ParseUtils.parseBudgetId(budgetId);
-    Icon icon = _determineIcon(budgetSubString);
+    Icon icon = determineIcon(budgetSubString);
     return icon;
   }
 
-  static Icon _determineIcon(String budgetSubString) {
+  static Icon determineIcon(String budgetSubString) {
+    if (budgetSubString.indexOf(" ") >= 0) {
+      budgetSubString = budgetSubString.split(" ")[0];
+    }
     BudgetIconsEnum currentEnum =
         EnumToString.fromString(BudgetIconsEnum.values, budgetSubString);
     switch (currentEnum) {
@@ -48,6 +51,15 @@ class IconUtil {
         return BudgetIcons.DEPOSIT;
       case BudgetIconsEnum.Recreation:
         return BudgetIcons.ENTERTAINMENT;
+      case BudgetIconsEnum.Car:
+      // TODO: Handle this case.
+        break;
+      case BudgetIconsEnum.Credit:
+      // TODO: Handle this case.
+        break;
+      case BudgetIconsEnum.Debit:
+      // TODO: Handle this case.
+        break;
     }
     return null;
   }
