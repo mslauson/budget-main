@@ -123,11 +123,11 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
   }
 
   Widget _buildGraphForBudget(double allocated, double used) {
-    double percent = allocated / used;
+    double percent = used / allocated;
     if (percent.isNegative) {
       percent = 0.00;
     }
-    if (allocated == 0.00 && !used.isNegative) {
+    if (allocated == 0.00 || !used.isNegative) {
       percent = 1.00;
     }
     return Flexible(
