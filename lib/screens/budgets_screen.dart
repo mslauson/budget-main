@@ -74,14 +74,13 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
     return await _budgetWidgets;
   }
 
-  Future<List<Widget>> _buildWidgetForBudgets(GetBudgetsResponse budgetResponse) async {
+  Future<List<Widget>> _buildWidgetForBudgets(
+      GetBudgetsResponse budgetResponse) async {
     List<Widget> widgets = new List();
-    budgetResponse.budgets.forEach((budget) async {
+    budgetResponse.budgets.forEach((budget) {
       final Icon iconData =
           IconUtil.determineIcon(ParseUtils.parseBudgetId(budget.id));
-      final Widget graph =
-          await _buildGraphForBudget(budget.allocation, budget.used)
-              .catchError((error) => log(error));
+      final Widget graph = _buildGraphForBudget(budget.allocation, budget.used);
       widgets.add(Padding(
         padding: const EdgeInsets.all(8.0),
         child: Neumorphic(
@@ -89,25 +88,27 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
             padding: const EdgeInsets.all(16.0),
             child: Column(children: [
               Neumorphic(
-                child: Row(
+                child: Column(
                   children: [
-                    ListTile(
-                      leading: Neumorphic(
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: NeumorphicIcon(iconData.icon,
-                                style: BlossomNeumorphicStyles.twentyIconGrey),
-                          ),
-                          style: BlossomNeumorphicStyles.fourIconCircle),
-                      title: NeumorphicText(ParseUtils.parseBudgetId(budget.id),
-                          textStyle: BlossomNeumorphicText.largeBodyBold,
-                          style: BlossomNeumorphicStyles.fourGrey),
-                      subtitle: NeumorphicText(
-                          "Left To Spend: " +
-                              MathUtils.getAvailabileBalance(
-                                  budget.allocation, budget.used),
-                          textStyle: BlossomNeumorphicText.body,
-                          style: BlossomNeumorphicStyles.fourGrey),
+                    Neumorphic(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: NeumorphicIcon(iconData.icon,
+                              style: BlossomNeumorphicStyles.twentyIconGrey),
+                        ),
+                        style: BlossomNeumorphicStyles.fourIconCircle),
+                    Column(
+                      children: [
+                        NeumorphicText(ParseUtils.parseBudgetId(budget.id),
+                            textStyle: BlossomNeumorphicText.largeBodyBold,
+                            style: BlossomNeumorphicStyles.fourGrey),
+                        NeumorphicText(
+                            "Left To Spend: " +
+                                MathUtils.getAvailabileBalance(
+                                    budget.allocation, budget.used),
+                            textStyle: BlossomNeumorphicText.body,
+                            style: BlossomNeumorphicStyles.fourGrey),
+                      ],
                     ),
                     graph
                   ],
@@ -123,7 +124,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
     return widgets;
   }
 
-  Future<Widget> _buildGraphForBudget(double allocated, double used) async {
+  Widget _buildGraphForBudget(double allocated, double used) {
     var data = [
       new BudgetAllocationGraphModel(
           allocated, used, Color.fromHex(code: "#00FF00")),
@@ -132,7 +133,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
       new Series(
         id: 'Used',
         domainFn: (BudgetAllocationGraphModel allocationModel, _) =>
-            allocationModel.allocated,
+        allocationModel.allocated,
         measureFn: (BudgetAllocationGraphModel allocationModel, _) =>
             allocationModel.used,
         colorFn: (BudgetAllocationGraphModel allocationModel, _) =>
