@@ -124,6 +124,9 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
 
   Widget _buildGraphForBudget(double allocated, double used) {
     double percent = allocated / used;
+    if (percent.isNegative) {
+      percent = 0.00;
+    }
     return Flexible(
       child: NeumorphicProgress(
           percent: percent,
