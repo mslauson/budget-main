@@ -1,3 +1,4 @@
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -41,6 +42,10 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
             FutureBuilder(
               future: _loadTransactions(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.hasError) {
+                  //TODO: display toast
+                  log(snapshot.error);
+                }
                 if (snapshot.hasData) {
                   return Column(children: snapshot.data);
                 } else {

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -47,6 +48,10 @@ class _AccountsScreenState extends State<AccountsScreen> {
             FutureBuilder(
               future: _loadAccounts(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.hasError) {
+                  //TODO: display toast
+                  log(snapshot.error);
+                }
                 if (snapshot.hasData) {
                   return Column(children: snapshot.data);
                 } else {

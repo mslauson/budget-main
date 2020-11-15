@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -35,6 +37,10 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
               FutureBuilder(
                 future: _loadBudgets(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasError) {
+                    //TODO: display toast
+                    log(snapshot.error);
+                  }
                   if (snapshot.hasData) {
                     return Column(children: snapshot.data);
                   } else {
@@ -66,8 +72,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
     return await _budgetWidgets;
   }
 
-  Future<List<Widget>> _buildWidgetForBudgets(
-      GetBudgetsResponse budgetResponse) async {
+  Future<List<Widget>> _buildWidgetForBudgets(GetBudgetsResponse budgetResponse) async {
     List<Widget> widgets = new List();
     budgetResponse.budgets.forEach((budget) {
       Icon iconData = IconUtil.getIconByBudget(budget.id, null);
