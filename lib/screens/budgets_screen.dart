@@ -70,24 +70,27 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
     List<Widget> widgets = new List();
     budgetResponse.budgets.forEach((budget) {
       widgets.add(Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(8.0),
         child: Neumorphic(
-          child: Column(children: [
-            Neumorphic(
-              child: ListTile(
-                title: NeumorphicText(ParseUtils.parseBudgetId(budget.id),
-                    textStyle: BlossomNeumorphicText.largeBodyBold,
-                    style: BlossomNeumorphicStyles.fourGrey),
-                subtitle: NeumorphicText(
-                    "Left To Spend: " +
-                        MathUtils.getAvailabileBalance(
-                            budget.allocation, budget.used),
-                    textStyle: BlossomNeumorphicText.largeBodyBold,
-                    style: BlossomNeumorphicStyles.fourGrey),
-              ),
-              style: BlossomNeumorphicStyles.negativeEightConcave,
-            )
-          ]),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(children: [
+              Neumorphic(
+                child: ListTile(
+                  title: NeumorphicText(ParseUtils.parseBudgetId(budget.id),
+                      textStyle: BlossomNeumorphicText.largeBodyBold,
+                      style: BlossomNeumorphicStyles.fourGrey),
+                  subtitle: NeumorphicText(
+                      "Left To Spend: " +
+                          MathUtils.getAvailabileBalance(
+                              budget.allocation, budget.used),
+                      textStyle: BlossomNeumorphicText.body,
+                      style: BlossomNeumorphicStyles.fourGrey),
+                ),
+                style: BlossomNeumorphicStyles.negativeEightConcave,
+              )
+            ]),
+          ),
           style: BlossomNeumorphicStyles.eightConcave,
         ),
       ));
