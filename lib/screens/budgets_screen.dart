@@ -86,30 +86,33 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
             padding: const EdgeInsets.all(16.0),
             child: Column(children: [
               Neumorphic(
-                child: Row(
-                  children: [
-                    Neumorphic(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: NeumorphicIcon(iconData.icon,
-                              style: BlossomNeumorphicStyles.twentyIconGrey),
-                        ),
-                        style: BlossomNeumorphicStyles.fourIconCircle),
-                    Column(
-                      children: [
-                        NeumorphicText(ParseUtils.parseBudgetId(budget.id),
-                            textStyle: BlossomNeumorphicText.largeBodyBold,
-                            style: BlossomNeumorphicStyles.fourGrey),
-                        NeumorphicText(
-                            "Left To Spend: " +
-                                MathUtils.getAvailabileBalance(
-                                    budget.allocation, budget.used),
-                            textStyle: BlossomNeumorphicText.body,
-                            style: BlossomNeumorphicStyles.fourGrey),
-                      ],
-                    ),
-                    graph
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Neumorphic(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: NeumorphicIcon(iconData.icon,
+                                style: BlossomNeumorphicStyles.twentyIconGrey),
+                          ),
+                          style: BlossomNeumorphicStyles.fourIconCircle),
+                      Column(
+                        children: [
+                          NeumorphicText(ParseUtils.parseBudgetId(budget.id),
+                              textStyle: BlossomNeumorphicText.largeBodyBold,
+                              style: BlossomNeumorphicStyles.fourGrey),
+                          NeumorphicText(
+                              "Left To Spend: " +
+                                  MathUtils.getAvailabileBalance(
+                                      budget.allocation, budget.used),
+                              textStyle: BlossomNeumorphicText.body,
+                              style: BlossomNeumorphicStyles.fourGrey),
+                        ],
+                      ),
+                      graph
+                    ],
+                  ),
                 ),
                 style: BlossomNeumorphicStyles.negativeEightConcave,
               )
@@ -127,7 +130,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
     if (percent.isNegative) {
       percent = 0.00;
     }
-    if (allocated == 0.00 || !used.isNegative) {
+    if (allocated == 0.00 && !used.isNegative) {
       percent = 1.00;
     }
     return Flexible(
