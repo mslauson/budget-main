@@ -134,11 +134,10 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
     if (allocated == 0.00 && !used.isNegative) {
       percent = 1.00;
     }
-    return Flexible(
+    return SizedBox(
+      width: 60,
       child: NeumorphicProgress(
-          percent: percent,
-          style: ProgressStyle(accent: Colors.red, variant: Colors.green)),
-      flex: 2,
+          percent: percent, style: ProgressStyle(variant: Colors.green)),
     );
   }
 }
