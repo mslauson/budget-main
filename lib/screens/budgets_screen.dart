@@ -13,7 +13,6 @@ import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/util/date_utils.dart';
 import 'package:main/util/icon_util.dart';
-import 'package:main/util/math_utils.dart';
 import 'package:main/util/parse_utils.dart';
 import 'package:main/widgets/nav_drawer.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -97,19 +96,21 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                                 style: BlossomNeumorphicStyles.twentyIconGrey),
                           ),
                           style: BlossomNeumorphicStyles.fourIconCircle),
+                      Spacer(flex: 2),
                       Column(
                         children: [
                           NeumorphicText(ParseUtils.parseBudgetId(budget.id),
                               textStyle: BlossomNeumorphicText.largeBodyBold,
                               style: BlossomNeumorphicStyles.fourGrey),
-                          NeumorphicText(
-                              "Left To Spend: " +
-                                  MathUtils.getAvailabileBalance(
-                                      budget.allocation, budget.used),
-                              textStyle: BlossomNeumorphicText.body,
-                              style: BlossomNeumorphicStyles.fourGrey),
+                          // NeumorphicText(
+                          //     "Left To Spend: " +
+                          //         MathUtils.getAvailabileBalance(
+                          //             budget.allocation, budget.used),
+                          //     textStyle: BlossomNeumorphicText.body,
+                          //     style: BlossomNeumorphicStyles.fourGrey),
                         ],
                       ),
+                      Spacer(flex: 2),
                       graph
                     ],
                   ),
@@ -137,7 +138,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
       child: NeumorphicProgress(
           percent: percent,
           style: ProgressStyle(accent: Colors.red, variant: Colors.green)),
-      flex: 1,
+      flex: 2,
     );
   }
 }
