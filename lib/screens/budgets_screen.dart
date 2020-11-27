@@ -85,6 +85,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
     budgetResponse.budgets.forEach((budget) {
       List<Transactions> transactions = _filterTransactionsForBudget(
           response, budget.id);
+      List<Transactions> transactionsSubSet = transactions.sublist(0, 3);
       widgets.add(Padding(
         padding: const EdgeInsets.all(8.0),
         child: Neumorphic(
@@ -104,7 +105,11 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                             NeumorphicText(
                                 BudgetScreenConstants.RECENT_TRANSACTIONS,
                                 textStyle: BlossomNeumorphicText.body,
-                                style: BlossomNeumorphicStyles.fourGrey)
+                                style: BlossomNeumorphicStyles.fourGrey),
+                            Row(
+                              children: [
+                              ],
+                            )
                           ],
                         ),
                         style: BlossomNeumorphicStyles.negativeEightConcave,
@@ -191,5 +196,31 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
       TransactionsGetResponse response, String budgetId) {
     return response.transactions.where((element) =>
     element.budgetId == budgetId).toList();
+  }
+
+  List<Widget> _buidTransactionWidgets(List<Transactions> transactionList) {
+    List<Widget> transactionWidgets = new List();
+    transactionList.forEach((transaction) {
+      transactionWidgets.add(
+          Row(
+            children: [
+              NeumorphicText(transaction.merchant,
+                  textStyle: BlossomNeumorphicText.largeBodyBold,
+                  style: BlossomNeumorphicStyles.fourGrey),
+              Spacer(flex: 2),
+              Neumorphic(
+                style: BlossomNeumorphicStyles.eightConcave,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
+                  child: NeumorphicText(
+                    "\$" + _formatAmount(transaction.amount.toString()),
+                    style: BlossomNeumorphicStyles.,
+                  ),
+                ),
+              ),
+            ],
+          )
+      )
+    });
   }
 }
