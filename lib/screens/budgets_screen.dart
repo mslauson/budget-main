@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -84,38 +85,58 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(children: [
-              Neumorphic(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Neumorphic(
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: NeumorphicIcon(iconData.icon,
-                                style: BlossomNeumorphicStyles.twentyIconGrey),
-                          ),
-                          style: BlossomNeumorphicStyles.fourIconCircle),
-                      Spacer(flex: 2),
-                      Column(
+              ExpandablePanel(
+                collapsed: ExpandableButton(
+                  child: Neumorphic(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
                         children: [
-                          NeumorphicText(ParseUtils.parseBudgetId(budget.id),
-                              textStyle: BlossomNeumorphicText.largeBodyBold,
-                              style: BlossomNeumorphicStyles.fourGrey),
-                          // NeumorphicText(
-                          //     "Left To Spend: " +
-                          //         MathUtils.getAvailabileBalance(
-                          //             budget.allocation, budget.used),
-                          //     textStyle: BlossomNeumorphicText.body,
-                          //     style: BlossomNeumorphicStyles.fourGrey),
+                          Neumorphic(
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: NeumorphicIcon(iconData.icon,
+                                    style:
+                                        BlossomNeumorphicStyles.twentyIconGrey),
+                              ),
+                              style: BlossomNeumorphicStyles.fourIconCircle),
+                          Spacer(flex: 2),
+                          Column(
+                            children: [
+                              NeumorphicText(
+                                  ParseUtils.parseBudgetId(budget.id),
+                                  textStyle:
+                                      BlossomNeumorphicText.largeBodyBold,
+                                  style: BlossomNeumorphicStyles.fourGrey),
+                              // NeumorphicText(
+                              //     "Left To Spend: " +
+                              //         MathUtils.getAvailabileBalance(
+                              //             budget.allocation, budget.used),
+                              //     textStyle: BlossomNeumorphicText.body,
+                              //     style: BlossomNeumorphicStyles.fourGrey),
+                            ],
+                          ),
+                          Spacer(flex: 2),
+                          graph
                         ],
                       ),
-                      Spacer(flex: 2),
-                      graph
+                    ),
+                    style: BlossomNeumorphicStyles.negativeEightConcave,
+                  ),
+                ),
+                expanded: ExpandableButton(
+                  child: Column(
+                    children: [
+                      Padding(padding: EdgeInsets.only(top: 5, bottom: 5)),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 70),
+                        child: Neumorphic(
+                          style: BlossomNeumorphicStyles.negativeEightConcave,
+                        ),
+                      ),
                     ],
                   ),
                 ),
-                style: BlossomNeumorphicStyles.negativeEightConcave,
               )
             ]),
           ),
