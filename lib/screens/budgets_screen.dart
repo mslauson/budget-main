@@ -7,9 +7,12 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:loading/indicator/ball_pulse_indicator.dart';
 import 'package:loading/loading.dart';
 import 'package:main/client/budget_client.dart';
+import 'package:main/client/transactions_client.dart';
 import 'package:main/components/drawer_container.dart';
+import 'package:main/constants/transaction_microservice_constants.dart';
 import 'package:main/models/budget/getBudgetsResponse.dart';
 import 'package:main/models/global/activeUser.dart';
+import 'package:main/models/transactions/transactions_get_response.dart';
 import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/util/date_utils.dart';
@@ -25,6 +28,7 @@ class BudgetsScreen extends StatefulWidget {
 
 class _BudgetsScreenState extends State<BudgetsScreen> {
   final BudgetClient _budgetClient = BudgetClient();
+  final TransactionsClient _transactionsClient = TransactionsClient();
 
   @override
   Widget build(BuildContext context) {
@@ -162,5 +166,14 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
         style: BlossomNeumorphicStyles.negativeEightConcave,
       ),
     );
+  }
+
+  Future<TransactionsGetResponse> _getTransactionsForBudgets(
+      String phone) async {
+    return await _transactionsClient.getTransactionsForUser(
+        phone,
+        TransactionsMicroserviceConstants.DATE_TIME_RANGE_QUERY,
+        DateUtils.currentLastOfMonthIso(),
+        DateUtils.currentDateIso());
   }
 }
