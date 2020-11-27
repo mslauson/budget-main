@@ -9,6 +9,7 @@ import 'package:loading/loading.dart';
 import 'package:main/client/budget_client.dart';
 import 'package:main/client/transactions_client.dart';
 import 'package:main/components/drawer_container.dart';
+import 'package:main/constants/budget_screen_constants.dart';
 import 'package:main/constants/transaction_microservice_constants.dart';
 import 'package:main/models/budget/getBudgetsResponse.dart';
 import 'package:main/models/global/activeUser.dart';
@@ -64,22 +65,26 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
         ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone;
     GetBudgetsResponse budgetResponse = await _budgetClient.getBudgetsForUser(
         phone, DateUtils.currentFirstOfMonthIso());
-    return await _buidBudgets(budgetResponse);
+    return await _buidBudgets(budgetResponse, phone);
   }
 
-  Future<List<Widget>> _buidBudgets(GetBudgetsResponse budgetResponse) async {
+  Future<List<Widget>> _buidBudgets(
+      GetBudgetsResponse budgetResponse, String phone) async {
     List<Widget> _budgetWidgets = new List();
     _budgetWidgets.add(NeumorphicText('Budgets',
         textStyle: BlossomNeumorphicText.headline,
         style: BlossomNeumorphicStyles.eightGrey));
-    _budgetWidgets.addAll(await _buildWidgetForBudgets(budgetResponse));
+    _budgetWidgets.addAll(await _buildWidgetForBudgets(budgetResponse, phone));
     return _budgetWidgets;
   }
 
-  Future<List<Widget>> _buildWidgetForBudgets(
-      GetBudgetsResponse budgetResponse) async {
+  Future<List<Widget>> _buildWidgetForBudgets(GetBudgetsResponse budgetResponse,
+      String phone) async {
     List<Widget> widgets = new List();
+    TransactionsGetResponse response = await _getTransactionsForBudgets(phone);
     budgetResponse.budgets.forEach((budget) {
+      List<Transactions> transactions = _filterTransactionsForBudget(
+          response, budget.id);
       widgets.add(Padding(
         padding: const EdgeInsets.all(8.0),
         child: Neumorphic(
@@ -93,11 +98,16 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                     children: [
                       _buildCollapsedWidgets(budget),
                       Padding(padding: EdgeInsets.only(top: 5, bottom: 5)),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 70),
-                        child: Neumorphic(
-                          style: BlossomNeumorphicStyles.negativeEightConcave,
+                      Neumorphic(
+                        child: Column(
+                          children: [
+                            NeumorphicText(
+                                BudgetScreenConstants.RECENT_TRANSACTIONS,
+                                textStyle: BlossomNeumorphicText.body,
+                                style: BlossomNeumorphicStyles.fourGrey)
+                          ],
                         ),
+                        style: BlossomNeumorphicStyles.negativeEightConcave,
                       ),
                     ],
                   ),
@@ -175,5 +185,11 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
         TransactionsMicroserviceConstants.DATE_TIME_RANGE_QUERY,
         DateUtils.currentLastOfMonthIso(),
         DateUtils.currentDateIso());
+  }
+
+  List<Transactions> _filterTransactionsForBudget(
+      TransactionsGetResponse response, String budgetId) {
+    return response.transactions.where((element) =>
+    element.budgetId == budgetId).toList();
   }
 }
