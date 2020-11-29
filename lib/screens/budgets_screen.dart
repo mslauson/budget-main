@@ -106,10 +106,9 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                                 BudgetScreenConstants.RECENT_TRANSACTIONS,
                                 textStyle: BlossomNeumorphicText.body,
                                 style: BlossomNeumorphicStyles.fourGrey),
-                            Row(
-                              children: [
-                              ],
-                            )
+                            Column(
+                                children: _buildTransactionWidgets(
+                                    transactionsSubSet))
                           ],
                         ),
                         style: BlossomNeumorphicStyles.negativeEightConcave,
@@ -198,7 +197,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
     element.budgetId == budgetId).toList();
   }
 
-  List<Widget> _buidTransactionWidgets(List<Transactions> transactionList) {
+  List<Widget> _buildTransactionWidgets(List<Transactions> transactionList) {
     List<Widget> transactionWidgets = new List();
     transactionList.forEach((transaction) {
       transactionWidgets.add(
@@ -223,7 +222,8 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
               ),
             ],
           )
-      )
+      );
     });
+    return transactionWidgets;
   }
 }
