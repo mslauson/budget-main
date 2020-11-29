@@ -17,7 +17,6 @@ import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/theme/blossom_text.dart';
 import 'package:main/util/date_utils.dart';
-import 'package:main/util/icon_util.dart';
 import 'package:main/util/parse_utils.dart';
 import 'package:main/widgets/nav_drawer.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -105,8 +104,9 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
           style: BlossomNeumorphicStyles.fourGrey),
     ));
     _transactions.forEach((transaction) {
-      AccountMeta _currentMeta = _getCorrectMeta(transaction.accountId);
-      Icon iconData = _getIconForTransaction(transaction);
+      AccountMeta _currentMeta =
+          ParseUtils.getCorrectMeta(_metaResponse, transaction.accountId);
+      Icon iconData = ParseUtils.getIconForTransaction(transaction);
       _dateTransactions.add(
         Column(
           children: [
@@ -191,18 +191,6 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
 
   String _subStrMerchant(String merchant) {
     return merchant.length >= 25 ? merchant.substring(0, 25) : merchant;
-  }
-
-
-  AccountMeta _getCorrectMeta(String accountId) {
-    return _metaResponse.accountMetaList
-        .where((element) => element.accountId == accountId)
-        .toList()[0];
-  }
-
-  Icon _getIconForTransaction(Transactions transaction) {
-     return IconUtil.getIconByBudget(
-        transaction.budgetId, transaction.subBudgetId);
   }
 }
 
