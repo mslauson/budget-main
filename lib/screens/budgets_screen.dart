@@ -199,17 +199,18 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
 
   List<Widget> _buildTransactionWidgets(List<Transactions> transactionList) {
     List<Widget> transactionWidgets = new List();
+    transactionWidgets.add(Divider());
+    int i = 0;
     transactionList.forEach((transaction) {
-      transactionWidgets.add(
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                NeumorphicText(transaction.merchant,
-                    textStyle: BlossomNeumorphicText.mediumBody,
-                    style: BlossomNeumorphicStyles.fourGrey),
-                Spacer(flex: 2),
-                Neumorphic(
+      transactionWidgets.add(Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            NeumorphicText(transaction.merchant,
+                textStyle: BlossomNeumorphicText.mediumBody,
+                style: BlossomNeumorphicStyles.fourGrey),
+            Spacer(flex: 2),
+            Neumorphic(
                   style: BlossomNeumorphicStyles.eightConcave,
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
@@ -226,6 +227,12 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
             ),
           )
       );
+      if (i < transactionList.length - 1) {
+        transactionWidgets.add(
+            Divider()
+        );
+        i++;
+      }
     });
     return transactionWidgets;
   }
