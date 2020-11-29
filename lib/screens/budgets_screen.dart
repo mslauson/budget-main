@@ -102,6 +102,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                       Neumorphic(
                         child: Column(
                           children: [
+                            Padding(padding: EdgeInsets.only(top: 8)),
                             NeumorphicText(
                                 BudgetScreenConstants.RECENT_TRANSACTIONS,
                                 textStyle: BlossomNeumorphicText.body,
