@@ -205,7 +205,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
           Row(
             children: [
               NeumorphicText(transaction.merchant,
-                  textStyle: BlossomNeumorphicText.largeBodyBold,
+                  textStyle: BlossomNeumorphicText.mediumBody,
                   style: BlossomNeumorphicStyles.fourGrey),
               Spacer(flex: 2),
               Neumorphic(
@@ -213,8 +213,11 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
                   child: NeumorphicText(
-                    "\$" + _formatAmount(transaction.amount.toString()),
-                    style: BlossomNeumorphicStyles.,
+                    ParseUtils.checkIfNegative(
+                        ParseUtils.formatAmount(
+                            transaction.amount)),
+                    textStyle: BlossomNeumorphicText.mediumBody,
+                    style: BlossomNeumorphicStyles.fourGrey,
                   ),
                 ),
               ),
