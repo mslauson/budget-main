@@ -65,10 +65,10 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
         ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone;
     GetBudgetsResponse budgetResponse = await _budgetClient.getBudgetsForUser(
         phone, DateUtils.currentFirstOfMonthIso());
-    return await _buidBudgets(budgetResponse, phone);
+    return await _buildBudgets(budgetResponse, phone);
   }
 
-  Future<List<Widget>> _buidBudgets(
+  Future<List<Widget>> _buildBudgets(
       GetBudgetsResponse budgetResponse, String phone) async {
     List<Widget> _budgetWidgets = new List();
     _budgetWidgets.add(NeumorphicText('Budgets',
@@ -201,26 +201,29 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
     List<Widget> transactionWidgets = new List();
     transactionList.forEach((transaction) {
       transactionWidgets.add(
-          Row(
-            children: [
-              NeumorphicText(transaction.merchant,
-                  textStyle: BlossomNeumorphicText.mediumBody,
-                  style: BlossomNeumorphicStyles.fourGrey),
-              Spacer(flex: 2),
-              Neumorphic(
-                style: BlossomNeumorphicStyles.eightConcave,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
-                  child: NeumorphicText(
-                    ParseUtils.checkIfNegative(
-                        ParseUtils.formatAmount(
-                            transaction.amount)),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                NeumorphicText(transaction.merchant,
                     textStyle: BlossomNeumorphicText.mediumBody,
-                    style: BlossomNeumorphicStyles.fourGrey,
+                    style: BlossomNeumorphicStyles.fourGrey),
+                Spacer(flex: 2),
+                Neumorphic(
+                  style: BlossomNeumorphicStyles.eightConcave,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
+                    child: NeumorphicText(
+                      ParseUtils.checkIfNegative(
+                          ParseUtils.formatAmount(
+                              transaction.amount)),
+                      textStyle: BlossomNeumorphicText.mediumBody,
+                      style: BlossomNeumorphicStyles.fourGrey,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           )
       );
     });
