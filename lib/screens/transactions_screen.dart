@@ -160,7 +160,10 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
                           child: Text(
-                            "\$" + _formatAmount(transaction.amount.toString()),
+                            "\$" +
+                                ParseUtils.checkIfNegative(
+                                    ParseUtils.formatAmount(
+                                        transaction.amount)),
                             style: BlossomText.body,
                           ),
                         ),
@@ -191,13 +194,6 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     return merchant.length >= 25 ? merchant.substring(0, 25) : merchant;
   }
 
-  String _formatAmount(String amount) {
-    if (amount.contains("-")) {
-      amount = amount.replaceAll("-", "(");
-      return amount + ")";
-    }
-    return amount;
-  }
 
   AccountMeta _getCorrectMeta(String accountId) {
     return _metaResponse.accountMetaList

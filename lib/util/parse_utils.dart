@@ -28,14 +28,22 @@ class ParseUtils {
     return budgetSubString;
   }
 
-  static String formatDate(String date){
+  static String formatDate(String date) {
     DateFormat dateFormatIso = DateFormat("yyyy-MM-dd");
     DateFormat dateFormatAmerican = DateFormat("MM/dd/yyyy");
     DateTime timestamp = dateFormatIso.parse(date);
     return dateFormatAmerican.format(timestamp);
   }
 
-  static String formatAmount(double amount){
-    return "\$" +  amount.toStringAsFixed(2);
+  static String formatAmount(double amount) {
+    return "\$" + amount.toStringAsFixed(2);
+  }
+
+  static String checkIfNegative(String amount) {
+    if (amount.contains("-")) {
+      amount = amount.replaceAll("-", "(");
+      return amount + ")";
+    }
+    return amount;
   }
 }
