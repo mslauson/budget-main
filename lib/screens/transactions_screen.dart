@@ -160,7 +160,6 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
                           child: Text(
-                            "\$" +
                                 ParseUtils.checkIfNegative(
                                     ParseUtils.formatAmount(
                                         transaction.amount)),
