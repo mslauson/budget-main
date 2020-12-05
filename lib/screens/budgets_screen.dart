@@ -163,6 +163,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                             )
                           ],
                         ),
+                        Padding(padding: EdgeInsets.only(top: 8)),
                         Neumorphic(
                           child: Column(
                             children: [
