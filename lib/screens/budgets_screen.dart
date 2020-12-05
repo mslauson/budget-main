@@ -77,7 +77,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
   Future<List<Widget>> _buildBudgets(
       GetBudgetsResponse budgetResponse, String phone) async {
     List<Widget> _budgetWidgets = new List();
-    _budgetWidgets.add(NeumorphicText('Budgets',
+    _budgetWidgets.add(NeumorphicText(BudgetScreenConstants.TITLE,
         textStyle: BlossomNeumorphicText.headline,
         style: BlossomNeumorphicStyles.eightGrey));
     _budgetWidgets.addAll(await _buildWidgetForBudgets(budgetResponse, phone));
@@ -87,49 +87,63 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
   Future<List<Widget>> _buildWidgetForBudgets(
       GetBudgetsResponse budgetResponse, String phone) async {
     List<Widget> widgets = new List();
-    TransactionsGetResponse response = await _getTransactionsForBudgets(phone);
-    budgetResponse.budgets.forEach((budget) {
-      List<Transactions> transactions =
-          _filterTransactionsForBudget(response, budget.id);
-      List<Transactions> transactionsSubSet = transactions.sublist(0, 3);
-      widgets.add(Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Neumorphic(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(children: [
-              ExpandablePanel(
-                collapsed: _buildCollapsedWidgets(budget),
-                expanded: ExpandableButton(
-                  child: Column(
-                    children: [
-                      _buildCollapsedWidgets(budget),
-                      Padding(padding: EdgeInsets.only(top: 5, bottom: 5)),
-                      Neumorphic(
-                        child: Column(
-                          children: [
-                            Padding(padding: EdgeInsets.only(top: 8)),
-                            NeumorphicText(
-                                BudgetScreenConstants.RECENT_TRANSACTIONS,
-                                textStyle: BlossomNeumorphicText.body,
-                                style: BlossomNeumorphicStyles.fourGrey),
-                            Column(
-                                children: _buildTransactionWidgets(
-                                    transactionsSubSet))
-                          ],
+    if (budgetResponse.budgets != null && budgetResponse.budgets.isNotEmpty) {
+      TransactionsGetResponse response =
+          await _getTransactionsForBudgets(phone);
+      budgetResponse.budgets.forEach((budget) {
+        List<Transactions> transactions =
+            _filterTransactionsForBudget(response, budget.id);
+        List<Transactions> transactionsSubSet = transactions.sublist(0, 3);
+        widgets.add(Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Neumorphic(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(children: [
+                ExpandablePanel(
+                  collapsed: _buildCollapsedWidgets(budget),
+                  expanded: ExpandableButton(
+                    child: Column(
+                      children: [
+                        _buildCollapsedWidgets(budget),
+                        Padding(padding: EdgeInsets.only(top: 5, bottom: 5)),
+                        Neumorphic(
+                          child: Column(
+                            children: [
+                              Padding(padding: EdgeInsets.only(top: 8)),
+                              NeumorphicText(
+                                  BudgetScreenConstants.RECENT_TRANSACTIONS,
+                                  textStyle: BlossomNeumorphicText.body,
+                                  style: BlossomNeumorphicStyles.fourGrey),
+                              Column(
+                                  children: _buildTransactionWidgets(
+                                      transactionsSubSet))
+                            ],
+                          ),
+                          style: BlossomNeumorphicStyles.negativeEightConcave,
                         ),
-                        style: BlossomNeumorphicStyles.negativeEightConcave,
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              )
-            ]),
+                )
+              ]),
+            ),
+            style: BlossomNeumorphicStyles.eightConcave,
           ),
-          style: BlossomNeumorphicStyles.eightConcave,
-        ),
-      ));
-    });
+        ));
+      });
+      return widgets;
+    }
+    widgets.add(Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.all(16),
+          child: NeumorphicText(BudgetScreenConstants.NO_BUDGETS,
+              textStyle: BlossomNeumorphicText.body,
+              style: BlossomNeumorphicStyles.eightGrey),
+        )
+      ],
+    ));
     return widgets;
   }
 
@@ -150,7 +164,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
 
   Widget _buildCollapsedWidgets(Budgets budget) {
     final Icon iconData =
-        IconUtil.determineIcon(ParseUtils.parseBudgetId(budget.id));
+    IconUtil.determineIcon(ParseUtils.parseBudgetId(budget.id));
     final Widget graph = _buildGraphForBudget(budget.allocation, budget.used);
     return ExpandableButton(
       child: Neumorphic(
