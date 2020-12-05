@@ -16,10 +16,10 @@ class ParseUtils {
     return Text(mask, style: BlossomText.accountNumber);
   }
 
-  static Text parseAvailableBalance(double balance) {
+  static String parseAvailableBalance(double balance) {
     var formatter = new NumberFormat("#,###.0#", "en_US");
     String formattedBalance = formatter.format(balance);
-    return Text("\$" + formattedBalance, style: BlossomText.mediumBody);
+    return "\$" + formattedBalance;
   }
 
   static String parseBudgetId(String budgetId) {
