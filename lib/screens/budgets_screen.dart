@@ -23,6 +23,7 @@ import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/util/date_utils.dart';
 import 'package:main/util/icon_util.dart';
+import 'package:main/util/math_utils.dart';
 import 'package:main/util/parse_utils.dart';
 import 'package:main/widgets/nav_drawer.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -109,6 +110,59 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                       children: [
                         _buildCollapsedWidgets(budget),
                         Padding(padding: EdgeInsets.only(top: 5, bottom: 5)),
+                        Row(
+                          children: [
+                            NeumorphicText(
+                              BudgetScreenConstants.LEFT,
+                              textStyle: BlossomNeumorphicText.secondaryBody,
+                              style: BlossomNeumorphicStyles.fourGrey,
+                            ),
+                            Padding(
+                                padding: EdgeInsets.only(left: 8, right: 8)),
+                            Neumorphic(
+                              style:
+                                  BlossomNeumorphicStyles.negativeEightConcave,
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: NeumorphicText(
+                                    MathUtils.getAvailableBalance(
+                                        budget.allocation, budget.used),
+                                    textStyle: BlossomNeumorphicText.body,
+                                    style: BlossomNeumorphicStyles.fourGrey,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Spacer(
+                              flex: 1,
+                            ),
+                            NeumorphicText(
+                              BudgetScreenConstants.ALLOCATED,
+                              textStyle: BlossomNeumorphicText.secondaryBody,
+                              style: BlossomNeumorphicStyles.fourGrey,
+                            ),
+                            Padding(
+                                padding: EdgeInsets.only(left: 8, right: 8)),
+                            Neumorphic(
+                              style:
+                                  BlossomNeumorphicStyles.negativeEightConcave,
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: NeumorphicText(
+                                    ParseUtils.parseAvailableBalance(
+                                        budget.allocation),
+                                    textStyle: BlossomNeumorphicText.body,
+                                    style: BlossomNeumorphicStyles.fourGrey,
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                         Neumorphic(
                           child: Column(
                             children: [

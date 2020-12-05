@@ -7,4 +7,6 @@ class BudgetScreenConstants {
       "You Currently Have No Budgets For This Month";
   static const String NO_ASSOCIATED_TRANSACTIONS =
       "There Are No Transactions For This Budget";
+  static const String LEFT = "Left: ";
+  static const String ALLOCATED = "Allocated:";
 }
