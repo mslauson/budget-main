@@ -46,8 +46,11 @@ class AccountDetailScreen extends StatelessWidget {
                     child: ListTile(
                         title: Text(AccountsPageConstants.AVAILABLE_BALANCE,
                             style: BlossomText.body),
-                        subtitle: ParseUtils.parseAvailableBalance(
-                            _account.balances.current))),
+                        subtitle: Text(
+                          ParseUtils.parseAvailableBalance(
+                              _account.balances.current),
+                          style: BlossomText.mediumBody,
+                        ))),
               ),
               Padding(
                   padding: EdgeInsets.fromLTRB(0, 10, 0, 10),

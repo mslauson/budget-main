@@ -177,8 +177,10 @@ class _AccountsScreenState extends State<AccountsScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(account.name, style: BlossomText.mediumBody),
-                      ParseUtils.parseAvailableBalance(
-                          account.balances.current),
+                      Text(
+                          ParseUtils.parseAvailableBalance(
+                              account.balances.current),
+                          style: BlossomText.mediumBody),
                       //TODO: Make look like checking number on check
                       ParseUtils.parseAccountMask(account.mask),
                     ]),
