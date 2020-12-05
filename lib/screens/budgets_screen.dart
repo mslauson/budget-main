@@ -1,4 +1,5 @@
-import 'dart:developer';
+import 'dart:developer' as logger;
+import 'dart:math';
 
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +51,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasError) {
                     //TODO: display toast
-                    log(snapshot.error);
+                    logger.log(snapshot.error);
                   }
                   if (snapshot.hasData) {
                     return Column(children: snapshot.data);
@@ -93,7 +94,8 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
       budgetResponse.budgets.forEach((budget) {
         List<Transactions> transactions =
             _filterTransactionsForBudget(response, budget.id);
-        List<Transactions> transactionsSubSet = transactions.sublist(0, 3);
+        List<Transactions> transactionsSubSet =
+            transactions.sublist(0, min(transactions.length, 10));
         widgets.add(Padding(
           padding: const EdgeInsets.all(8.0),
           child: Neumorphic(
@@ -215,58 +217,69 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
 
   List<Transactions> _filterTransactionsForBudget(
       TransactionsGetResponse response, String budgetId) {
-    return response.transactions
-        .where((element) => element.budgetId == budgetId)
-        .toList();
+    if (response.transactions != null && response.transactions.isNotEmpty) {
+      return response.transactions
+          .where((element) => element.budgetId == budgetId)
+          .toList();
+    }
+    return List();
   }
 
   List<Widget> _buildTransactionWidgets(List<Transactions> transactionList) {
     List<Widget> transactionWidgets = new List();
     transactionWidgets.add(Divider());
-    int i = 0;
-    transactionList.forEach((transaction) {
-      AccountMeta _currentMeta =
-      ParseUtils.getCorrectMeta(_metaResponse, transaction.accountId);
-      Icon iconData = ParseUtils.getIconForTransaction(transaction);
-      transactionWidgets.add(Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      TransactionDetailScreen(
-                          transaction, _currentMeta, iconData)),
-            );
-          },
-          child: Row(
-            children: [
-              NeumorphicText(transaction.merchant,
-                  textStyle: BlossomNeumorphicText.mediumBody,
-                  style: BlossomNeumorphicStyles.fourGrey),
-              Spacer(flex: 2),
-              Neumorphic(
-                style: BlossomNeumorphicStyles.eightConcave,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
-                  child: NeumorphicText(
-                    ParseUtils.checkIfNegative(
-                        ParseUtils.formatAmount(transaction.amount)),
+    if (transactionList.isNotEmpty) {
+      int i = 0;
+      transactionList.forEach((transaction) {
+        AccountMeta _currentMeta =
+        ParseUtils.getCorrectMeta(_metaResponse, transaction.accountId);
+        Icon iconData = ParseUtils.getIconForTransaction(transaction);
+        transactionWidgets.add(Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        TransactionDetailScreen(
+                            transaction, _currentMeta, iconData)),
+              );
+            },
+            child: Row(
+              children: [
+                NeumorphicText(transaction.merchant,
                     textStyle: BlossomNeumorphicText.mediumBody,
-                    style: BlossomNeumorphicStyles.fourGrey,
+                    style: BlossomNeumorphicStyles.fourGrey),
+                Spacer(flex: 2),
+                Neumorphic(
+                  style: BlossomNeumorphicStyles.eightConcave,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
+                    child: NeumorphicText(
+                      ParseUtils.checkIfNegative(
+                          ParseUtils.formatAmount(transaction.amount)),
+                      textStyle: BlossomNeumorphicText.mediumBody,
+                      style: BlossomNeumorphicStyles.fourGrey,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ));
-      if (i < transactionList.length - 1) {
-        transactionWidgets.add(Divider());
-        i++;
-      }
-    });
+        ));
+        if (i < transactionList.length - 1) {
+          transactionWidgets.add(Divider());
+          i++;
+        }
+      });
+      return transactionWidgets;
+    }
+    transactionWidgets.add(
+        NeumorphicText(BudgetScreenConstants.NO_ASSOCIATED_TRANSACTIONS,
+            textStyle: BlossomNeumorphicText.mediumBody,
+            style: BlossomNeumorphicStyles.fourGrey)
+    );
     return transactionWidgets;
   }
 }
