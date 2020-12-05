@@ -117,9 +117,11 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                                   BudgetScreenConstants.RECENT_TRANSACTIONS,
                                   textStyle: BlossomNeumorphicText.body,
                                   style: BlossomNeumorphicStyles.fourGrey),
-                              Column(
-                                  children: _buildTransactionWidgets(
-                                      transactionsSubSet))
+                              SingleChildScrollView(
+                                child: Column(
+                                    children: _buildTransactionWidgets(
+                                        transactionsSubSet)),
+                              )
                             ],
                           ),
                           style: BlossomNeumorphicStyles.negativeEightConcave,
