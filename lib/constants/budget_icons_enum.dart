@@ -11,6 +11,7 @@ enum BudgetIconsEnum {
   Debit,
   Deposit,
   Shops,
+  Shopping,
   Transfer,
   Recreation,
   Gyms

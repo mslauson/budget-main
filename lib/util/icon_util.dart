@@ -45,6 +45,8 @@ class IconUtil {
         return BudgetIcons.PAYMENT;
       case BudgetIconsEnum.Shops:
         return BudgetIcons.SHOPPING;
+      case BudgetIconsEnum.Shopping:
+        return BudgetIcons.SHOPPING;
       case BudgetIconsEnum.Transfer:
         return BudgetIcons.TRANSFER;
       case BudgetIconsEnum.Deposit:
@@ -52,7 +54,7 @@ class IconUtil {
       case BudgetIconsEnum.Recreation:
         return BudgetIcons.ENTERTAINMENT;
       case BudgetIconsEnum.Car:
-      // TODO: Handle this case.
+        // TODO: Handle this case.
         break;
       case BudgetIconsEnum.Credit:
       // TODO: Handle this case.
