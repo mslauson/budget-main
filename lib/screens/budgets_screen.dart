@@ -176,6 +176,12 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                                 child: Column(
                                     children: _buildTransactionWidgets(
                                         transactionsSubSet)),
+                              ),
+                              NeumorphicButton(
+                                child: NeumorphicText(
+                                    BudgetScreenConstants.MORE_INFO,
+                                    textStyle: BlossomNeumorphicText.body,
+                                    style: BlossomNeumorphicStyles.fourGrey),
                               )
                             ],
                           ),
