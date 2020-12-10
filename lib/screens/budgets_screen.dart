@@ -182,6 +182,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                                     BudgetScreenConstants.MORE_INFO,
                                     textStyle: BlossomNeumorphicText.body,
                                     style: BlossomNeumorphicStyles.fourGrey),
+                                style: BlossomNeumorphicStyles.fourButton,
                               )
                             ],
                           ),
