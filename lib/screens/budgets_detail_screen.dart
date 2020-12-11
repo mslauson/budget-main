@@ -40,17 +40,19 @@ class BudgetsDetailScreen extends StatelessWidget {
                       Navigator.of(context).pop();
                     },
                   ),
-                  Padding(padding: EdgeInsets.only(right: 16, left: 16)),
+                  Spacer(flex: 1),
                   NeumorphicText(ParseUtils.parseBudgetId(_budget.id),
                       textStyle: BlossomNeumorphicText.headline,
                       style: BlossomNeumorphicStyles.eightGrey),
+                  Spacer(flex: 1),
                   Neumorphic(
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: NeumorphicIcon(_icon.icon,
                             style: BlossomNeumorphicStyles.twentyIconGrey),
                       ),
-                      style: BlossomNeumorphicStyles.fourIconCircle)
+                      style: BlossomNeumorphicStyles.fourIconCircle),
+                  Spacer(flex: 1)
                 ]),
                 Padding(padding: EdgeInsets.only(top: 10, bottom: 10)),
               ],
