@@ -188,25 +188,26 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                           ),
                           style: BlossomNeumorphicStyles.negativeEightConcave,
                         ),
-                        Padding(padding: EdgeInsets.only(top: 8)),
-                        NeumorphicButton(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: NeumorphicText(
-                                BudgetScreenConstants.MORE_INFO,
-                                textStyle: BlossomNeumorphicText.body,
-                                style: BlossomNeumorphicStyles.fourGrey),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: NeumorphicButton(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: NeumorphicText(
+                                  BudgetScreenConstants.MORE_INFO,
+                                  textStyle: BlossomNeumorphicText.body,
+                                  style: BlossomNeumorphicStyles.fourGrey),
+                            ),
+                            style: BlossomNeumorphicStyles.fourButton,
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => BudgetsDetailScreen(
+                                        budget, transactions, iconData)),
+                              );
+                            },
                           ),
-                          style: BlossomNeumorphicStyles.fourButton,
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      BudgetsDetailScreen(
-                                          budget, transactions, iconData)),
-                            );
-                          },
                         )
                       ],
                     ),
