@@ -18,6 +18,7 @@ import 'package:main/models/accounts/response/account_meta_response.dart';
 import 'package:main/models/budget/getBudgetsResponse.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/transactions/transactions_get_response.dart';
+import 'package:main/screens/budgets_detail_screen.dart';
 import 'package:main/screens/transaction_detail_screen.dart';
 import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
@@ -93,6 +94,8 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
       TransactionsGetResponse response =
           await _getTransactionsForBudgets(phone);
       budgetResponse.budgets.forEach((budget) {
+        final Icon iconData =
+            IconUtil.determineIcon(ParseUtils.parseBudgetId(budget.id));
         List<Transactions> transactions =
             _filterTransactionsForBudget(response, budget.id);
         List<Transactions> transactionsSubSet =
@@ -104,11 +107,11 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
               padding: const EdgeInsets.all(16.0),
               child: Column(children: [
                 ExpandablePanel(
-                  collapsed: _buildCollapsedWidgets(budget),
+                  collapsed: _buildCollapsedWidgets(budget, iconData),
                   expanded: ExpandableButton(
                     child: Column(
                       children: [
-                        _buildCollapsedWidgets(budget),
+                        _buildCollapsedWidgets(budget, iconData),
                         Padding(padding: EdgeInsets.only(top: 5, bottom: 5)),
                         Row(
                           children: [
@@ -121,7 +124,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                                 padding: EdgeInsets.only(left: 8, right: 8)),
                             Neumorphic(
                               style:
-                                  BlossomNeumorphicStyles.negativeEightConcave,
+                              BlossomNeumorphicStyles.negativeEightConcave,
                               child: Padding(
                                 padding: const EdgeInsets.all(16.0),
                                 child: Align(
@@ -147,7 +150,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                                 padding: EdgeInsets.only(left: 8, right: 8)),
                             Neumorphic(
                               style:
-                                  BlossomNeumorphicStyles.negativeEightConcave,
+                              BlossomNeumorphicStyles.negativeEightConcave,
                               child: Padding(
                                 padding: const EdgeInsets.all(16.0),
                                 child: Align(
@@ -187,10 +190,23 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                         ),
                         Padding(padding: EdgeInsets.only(top: 8)),
                         NeumorphicButton(
-                          child: NeumorphicText(BudgetScreenConstants.MORE_INFO,
-                              textStyle: BlossomNeumorphicText.body,
-                              style: BlossomNeumorphicStyles.fourGrey),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: NeumorphicText(
+                                BudgetScreenConstants.MORE_INFO,
+                                textStyle: BlossomNeumorphicText.body,
+                                style: BlossomNeumorphicStyles.fourGrey),
+                          ),
                           style: BlossomNeumorphicStyles.fourButton,
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      BudgetsDetailScreen(
+                                          budget, transactions, iconData)),
+                            );
+                          },
                         )
                       ],
                     ),
@@ -232,9 +248,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
     );
   }
 
-  Widget _buildCollapsedWidgets(Budgets budget) {
-    final Icon iconData =
-    IconUtil.determineIcon(ParseUtils.parseBudgetId(budget.id));
+  Widget _buildCollapsedWidgets(Budgets budget, Icon iconData) {
     final Widget graph = _buildGraphForBudget(budget.allocation, budget.used);
     return ExpandableButton(
       child: Neumorphic(

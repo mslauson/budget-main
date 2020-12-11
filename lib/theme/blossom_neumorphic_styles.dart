@@ -131,8 +131,8 @@ class BlossomNeumorphicStyles {
 
   static final fourButton = NeumorphicStyle(
       shape: NeumorphicShape.flat,
-      boxShape: NeumorphicBoxShape.rect(),
-      depth: 4,
+      boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+      depth: 30,
       lightSource: LightSource.topLeft,
       intensity: .75);
 

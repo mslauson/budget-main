@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:main/models/accounts/account_meta.dart';
 import 'package:main/models/budget/getBudgetsResponse.dart';
 import 'package:main/models/transactions/transactions_get_response.dart';
 import 'package:main/theme/blossom_neumorphic_styles.dart';
@@ -9,14 +8,12 @@ import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/theme/budget_icons.dart';
 import 'package:main/util/parse_utils.dart';
 
-class BudgetsDetailScreen {
+class BudgetsDetailScreen extends StatelessWidget {
   final Budgets _budget;
   final List<Transactions> _transactions;
-  final AccountMeta _accountMeta;
   final Icon _icon;
 
-  BudgetsDetailScreen(
-      this._budget, this._transactions, this._accountMeta, this._icon);
+  BudgetsDetailScreen(this._budget, this._transactions, this._icon);
 
   final TextEditingController _notesController = TextEditingController();
 
