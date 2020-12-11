@@ -100,122 +100,132 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
             _filterTransactionsForBudget(response, budget.id);
         List<Transactions> transactionsSubSet =
             transactions.sublist(0, min(transactions.length, 10));
-        widgets.add(Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Neumorphic(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(children: [
-                ExpandablePanel(
-                  collapsed: _buildCollapsedWidgets(budget, iconData),
-                  expanded: ExpandableButton(
-                    child: Column(
-                      children: [
-                        _buildCollapsedWidgets(budget, iconData),
-                        Padding(padding: EdgeInsets.only(top: 5, bottom: 5)),
-                        Row(
-                          children: [
-                            NeumorphicText(
-                              BudgetScreenConstants.LEFT,
-                              textStyle: BlossomNeumorphicText.secondaryBody,
-                              style: BlossomNeumorphicStyles.fourGrey,
-                            ),
-                            Padding(
-                                padding: EdgeInsets.only(left: 8, right: 8)),
-                            Neumorphic(
-                              style:
-                              BlossomNeumorphicStyles.negativeEightConcave,
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: NeumorphicText(
-                                    MathUtils.getAvailableBalance(
-                                        budget.allocation, budget.used),
-                                    textStyle: BlossomNeumorphicText.body,
-                                    style: BlossomNeumorphicStyles.fourGrey,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Spacer(
-                              flex: 1,
-                            ),
-                            NeumorphicText(
-                              BudgetScreenConstants.ALLOCATED,
-                              textStyle: BlossomNeumorphicText.secondaryBody,
-                              style: BlossomNeumorphicStyles.fourGrey,
-                            ),
-                            Padding(
-                                padding: EdgeInsets.only(left: 8, right: 8)),
-                            Neumorphic(
-                              style:
-                              BlossomNeumorphicStyles.negativeEightConcave,
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: NeumorphicText(
-                                    ParseUtils.parseAvailableBalance(
-                                        budget.allocation),
-                                    textStyle: BlossomNeumorphicText.body,
-                                    style: BlossomNeumorphicStyles.fourGrey,
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        Padding(padding: EdgeInsets.only(top: 8)),
-                        Neumorphic(
-                          child: Column(
+        widgets.add(GestureDetector(
+          onLongPress: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      BudgetsDetailScreen(budget, transactions, iconData)),
+            );
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Neumorphic(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(children: [
+                  ExpandablePanel(
+                    collapsed: _buildCollapsedWidgets(budget, iconData),
+                    expanded: ExpandableButton(
+                      child: Column(
+                        children: [
+                          _buildCollapsedWidgets(budget, iconData),
+                          Padding(padding: EdgeInsets.only(top: 5, bottom: 5)),
+                          Row(
                             children: [
-                              Padding(padding: EdgeInsets.only(top: 8)),
                               NeumorphicText(
-                                  BudgetScreenConstants.RECENT_TRANSACTIONS,
-                                  textStyle: BlossomNeumorphicText.body,
-                                  style: BlossomNeumorphicStyles.fourGrey),
-                              ConstrainedBox(
-                                constraints: BoxConstraints(
-                                    minHeight: 180, maxHeight: 180),
-                                child: SingleChildScrollView(
-                                  child: Column(
-                                      children: _buildTransactionWidgets(
-                                          transactionsSubSet)),
+                                BudgetScreenConstants.LEFT,
+                                textStyle: BlossomNeumorphicText.secondaryBody,
+                                style: BlossomNeumorphicStyles.fourGrey,
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.only(left: 8, right: 8)),
+                              Neumorphic(
+                                style: BlossomNeumorphicStyles
+                                    .negativeEightConcave,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: NeumorphicText(
+                                      MathUtils.getAvailableBalance(
+                                          budget.allocation, budget.used),
+                                      textStyle: BlossomNeumorphicText.body,
+                                      style: BlossomNeumorphicStyles.fourGrey,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Spacer(
+                                flex: 1,
+                              ),
+                              NeumorphicText(
+                                BudgetScreenConstants.ALLOCATED,
+                                textStyle: BlossomNeumorphicText.secondaryBody,
+                                style: BlossomNeumorphicStyles.fourGrey,
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.only(left: 8, right: 8)),
+                              Neumorphic(
+                                style: BlossomNeumorphicStyles
+                                    .negativeEightConcave,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: NeumorphicText(
+                                      ParseUtils.parseAvailableBalance(
+                                          budget.allocation),
+                                      textStyle: BlossomNeumorphicText.body,
+                                      style: BlossomNeumorphicStyles.fourGrey,
+                                    ),
+                                  ),
                                 ),
                               )
                             ],
                           ),
-                          style: BlossomNeumorphicStyles.negativeEightConcave,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: NeumorphicButton(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: NeumorphicText(
-                                  BudgetScreenConstants.MORE_INFO,
-                                  textStyle: BlossomNeumorphicText.body,
-                                  style: BlossomNeumorphicStyles.fourGrey),
+                          Padding(padding: EdgeInsets.only(top: 8)),
+                          Neumorphic(
+                            child: Column(
+                              children: [
+                                Padding(padding: EdgeInsets.only(top: 8)),
+                                NeumorphicText(
+                                    BudgetScreenConstants.RECENT_TRANSACTIONS,
+                                    textStyle: BlossomNeumorphicText.body,
+                                    style: BlossomNeumorphicStyles.fourGrey),
+                                ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                      minHeight: 180, maxHeight: 180),
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                        children: _buildTransactionWidgets(
+                                            transactionsSubSet)),
+                                  ),
+                                )
+                              ],
                             ),
-                            style: BlossomNeumorphicStyles.fourButton,
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => BudgetsDetailScreen(
-                                        budget, transactions, iconData)),
-                              );
-                            },
+                            style: BlossomNeumorphicStyles.negativeEightConcave,
                           ),
-                        )
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: NeumorphicButton(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: NeumorphicText(
+                                    BudgetScreenConstants.MORE_INFO,
+                                    textStyle: BlossomNeumorphicText.body,
+                                    style: BlossomNeumorphicStyles.fourGrey),
+                              ),
+                              style: BlossomNeumorphicStyles.fourButton,
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => BudgetsDetailScreen(
+                                          budget, transactions, iconData)),
+                                );
+                              },
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                )
-              ]),
+                  )
+                ]),
+              ),
+              style: BlossomNeumorphicStyles.eightConcave,
             ),
-            style: BlossomNeumorphicStyles.eightConcave,
           ),
         ));
       });
