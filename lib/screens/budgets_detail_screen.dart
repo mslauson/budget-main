@@ -126,7 +126,7 @@ class BudgetsDetailScreen extends StatelessWidget {
                                 style: BlossomNeumorphicStyles.fourGrey),
                             ConstrainedBox(
                               constraints: BoxConstraints(
-                                  minHeight: 550, maxHeight: 550),
+                                  minHeight: 275, maxHeight: 275),
                               child: SingleChildScrollView(
                                 child: Column(
                                     children: _buildTransactionWidgets(
