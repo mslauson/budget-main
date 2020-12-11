@@ -1,13 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:main/constants/budget_screen_constants.dart';
 import 'package:main/models/accounts/account_meta.dart';
 import 'package:main/models/accounts/response/account_meta_response.dart';
 import 'package:main/models/budget/getBudgetsResponse.dart';
 import 'package:main/models/transactions/transactions_get_response.dart';
+import 'package:main/screens/transaction_detail_screen.dart';
 import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/theme/budget_icons.dart';
+import 'package:main/util/math_utils.dart';
 import 'package:main/util/parse_utils.dart';
 
 class BudgetsDetailScreen extends StatelessWidget {
@@ -59,6 +62,76 @@ class BudgetsDetailScreen extends StatelessWidget {
                   Spacer(flex: 1)
                 ]),
                 Padding(padding: EdgeInsets.only(top: 10, bottom: 10)),
+                Row(
+                  children: [
+                    NeumorphicText(
+                      BudgetScreenConstants.LEFT,
+                      textStyle: BlossomNeumorphicText.secondaryBody,
+                      style: BlossomNeumorphicStyles.fourGrey,
+                    ),
+                    Padding(padding: EdgeInsets.only(left: 8, right: 8)),
+                    Neumorphic(
+                      style: BlossomNeumorphicStyles.negativeEightConcave,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: NeumorphicText(
+                            MathUtils.getAvailableBalance(
+                                _budget.allocation, _budget.used),
+                            textStyle: BlossomNeumorphicText.body,
+                            style: BlossomNeumorphicStyles.fourGrey,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Spacer(
+                      flex: 1,
+                    ),
+                    NeumorphicText(
+                      BudgetScreenConstants.ALLOCATED,
+                      textStyle: BlossomNeumorphicText.secondaryBody,
+                      style: BlossomNeumorphicStyles.fourGrey,
+                    ),
+                    Padding(padding: EdgeInsets.only(left: 8, right: 8)),
+                    Neumorphic(
+                      style: BlossomNeumorphicStyles.negativeEightConcave,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: NeumorphicText(
+                            ParseUtils.parseAvailableBalance(
+                                _budget.allocation),
+                            textStyle: BlossomNeumorphicText.body,
+                            style: BlossomNeumorphicStyles.fourGrey,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                Padding(padding: EdgeInsets.only(top: 8)),
+                Neumorphic(
+                  child: Column(
+                    children: [
+                      Padding(padding: EdgeInsets.only(top: 8)),
+                      NeumorphicText(BudgetScreenConstants.RECENT_TRANSACTIONS,
+                          textStyle: BlossomNeumorphicText.body,
+                          style: BlossomNeumorphicStyles.fourGrey),
+                      ConstrainedBox(
+                        constraints:
+                            BoxConstraints(minHeight: 180, maxHeight: 180),
+                        child: SingleChildScrollView(
+                          child: Column(
+                              children: _buildTransactionWidgets(
+                                  _transactions, context)),
+                        ),
+                      )
+                    ],
+                  ),
+                  style: BlossomNeumorphicStyles.negativeEightConcave,
+                ),
               ],
             ),
           ),
@@ -67,14 +140,15 @@ class BudgetsDetailScreen extends StatelessWidget {
     );
   }
 
-  List<Widget> _buildTransactionWidgets(List<Transactions> transactionList) {
+  List<Widget> _buildTransactionWidgets(List<Transactions> transactionList,
+      BuildContext context) {
     List<Widget> transactionWidgets = new List();
     transactionWidgets.add(Divider());
     if (transactionList.isNotEmpty) {
       int i = 0;
       transactionList.forEach((transaction) {
         AccountMeta _currentMeta =
-        ParseUtils.getCorrectMeta(_metaResponse, transaction.accountId);
+        ParseUtils.getCorrectMeta(_accountMetaResponse, transaction.accountId);
         Icon iconData = ParseUtils.getIconForTransaction(transaction);
         transactionWidgets.add(Padding(
           padding: const EdgeInsets.all(8.0),
