@@ -105,8 +105,8 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      BudgetsDetailScreen(budget, transactions, iconData)),
+                  builder: (context) => BudgetsDetailScreen(
+                      budget, transactions, iconData, _metaResponse)),
             );
           },
           child: Padding(
@@ -212,8 +212,10 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => BudgetsDetailScreen(
-                                          budget, transactions, iconData)),
+                                      builder: (context) =>
+                                          BudgetsDetailScreen(
+                                              budget, transactions, iconData,
+                                              _metaResponse)),
                                 );
                               },
                             ),
