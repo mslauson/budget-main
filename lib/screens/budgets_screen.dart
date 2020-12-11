@@ -172,10 +172,14 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                                   BudgetScreenConstants.RECENT_TRANSACTIONS,
                                   textStyle: BlossomNeumorphicText.body,
                                   style: BlossomNeumorphicStyles.fourGrey),
-                              SingleChildScrollView(
-                                child: Column(
-                                    children: _buildTransactionWidgets(
-                                        transactionsSubSet)),
+                              ConstrainedBox(
+                                constraints: BoxConstraints(
+                                    minHeight: 180, maxHeight: 180),
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                      children: _buildTransactionWidgets(
+                                          transactionsSubSet)),
+                                ),
                               )
                             ],
                           ),
