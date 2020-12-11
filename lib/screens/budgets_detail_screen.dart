@@ -62,76 +62,84 @@ class BudgetsDetailScreen extends StatelessWidget {
                   Spacer(flex: 1)
                 ]),
                 Padding(padding: EdgeInsets.only(top: 10, bottom: 10)),
-                Row(
-                  children: [
-                    NeumorphicText(
-                      BudgetScreenConstants.LEFT,
-                      textStyle: BlossomNeumorphicText.secondaryBody,
-                      style: BlossomNeumorphicStyles.fourGrey,
-                    ),
-                    Padding(padding: EdgeInsets.only(left: 8, right: 8)),
-                    Neumorphic(
-                      style: BlossomNeumorphicStyles.negativeEightConcave,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: NeumorphicText(
-                            MathUtils.getAvailableBalance(
-                                _budget.allocation, _budget.used),
-                            textStyle: BlossomNeumorphicText.body,
-                            style: BlossomNeumorphicStyles.fourGrey,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Spacer(
-                      flex: 1,
-                    ),
-                    NeumorphicText(
-                      BudgetScreenConstants.ALLOCATED,
-                      textStyle: BlossomNeumorphicText.secondaryBody,
-                      style: BlossomNeumorphicStyles.fourGrey,
-                    ),
-                    Padding(padding: EdgeInsets.only(left: 8, right: 8)),
-                    Neumorphic(
-                      style: BlossomNeumorphicStyles.negativeEightConcave,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: NeumorphicText(
-                            ParseUtils.parseAvailableBalance(
-                                _budget.allocation),
-                            textStyle: BlossomNeumorphicText.body,
-                            style: BlossomNeumorphicStyles.fourGrey,
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                Padding(padding: EdgeInsets.only(top: 8)),
-                Neumorphic(
+                Padding(
+                  padding: EdgeInsets.all(16),
                   child: Column(
                     children: [
+                      Row(
+                        children: [
+                          NeumorphicText(
+                            BudgetScreenConstants.LEFT,
+                            textStyle: BlossomNeumorphicText.secondaryBody,
+                            style: BlossomNeumorphicStyles.fourGrey,
+                          ),
+                          Padding(padding: EdgeInsets.only(left: 8, right: 8)),
+                          Neumorphic(
+                            style: BlossomNeumorphicStyles.negativeEightConcave,
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: NeumorphicText(
+                                  MathUtils.getAvailableBalance(
+                                      _budget.allocation, _budget.used),
+                                  textStyle: BlossomNeumorphicText.body,
+                                  style: BlossomNeumorphicStyles.fourGrey,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Spacer(
+                            flex: 1,
+                          ),
+                          NeumorphicText(
+                            BudgetScreenConstants.ALLOCATED,
+                            textStyle: BlossomNeumorphicText.secondaryBody,
+                            style: BlossomNeumorphicStyles.fourGrey,
+                          ),
+                          Padding(padding: EdgeInsets.only(left: 8, right: 8)),
+                          Neumorphic(
+                            style: BlossomNeumorphicStyles.negativeEightConcave,
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: NeumorphicText(
+                                  ParseUtils.parseAvailableBalance(
+                                      _budget.allocation),
+                                  textStyle: BlossomNeumorphicText.body,
+                                  style: BlossomNeumorphicStyles.fourGrey,
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                       Padding(padding: EdgeInsets.only(top: 8)),
-                      NeumorphicText(BudgetScreenConstants.RECENT_TRANSACTIONS,
-                          textStyle: BlossomNeumorphicText.body,
-                          style: BlossomNeumorphicStyles.fourGrey),
-                      ConstrainedBox(
-                        constraints:
-                            BoxConstraints(minHeight: 180, maxHeight: 180),
-                        child: SingleChildScrollView(
-                          child: Column(
-                              children: _buildTransactionWidgets(
-                                  _transactions, context)),
+                      Neumorphic(
+                        child: Column(
+                          children: [
+                            Padding(padding: EdgeInsets.only(top: 8)),
+                            NeumorphicText(
+                                BudgetScreenConstants.RECENT_TRANSACTIONS,
+                                textStyle: BlossomNeumorphicText.body,
+                                style: BlossomNeumorphicStyles.fourGrey),
+                            ConstrainedBox(
+                              constraints: BoxConstraints(
+                                  minHeight: 550, maxHeight: 550),
+                              child: SingleChildScrollView(
+                                child: Column(
+                                    children: _buildTransactionWidgets(
+                                        _transactions, context)),
+                              ),
+                            )
+                          ],
                         ),
-                      )
+                        style: BlossomNeumorphicStyles.negativeEightConcave,
+                      ),
                     ],
                   ),
-                  style: BlossomNeumorphicStyles.negativeEightConcave,
-                ),
+                )
               ],
             ),
           ),
