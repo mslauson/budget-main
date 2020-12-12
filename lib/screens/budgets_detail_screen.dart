@@ -60,7 +60,7 @@ class BudgetsDetailScreen extends StatelessWidget {
                             style: BlossomNeumorphicStyles.twentyIconGrey),
                       ),
                       style: BlossomNeumorphicStyles.fourIconCircle),
-                  Spacer(flex: 1)
+                  Padding(padding: EdgeInsets.only(right: 20)),
                 ]),
                 BlossomSpacing.STANDARD_FORM,
                 Padding(
