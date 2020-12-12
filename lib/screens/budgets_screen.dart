@@ -22,6 +22,7 @@ import 'package:main/screens/budgets_detail_screen.dart';
 import 'package:main/screens/transaction_detail_screen.dart';
 import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
+import 'package:main/theme/blossom_spacing.dart';
 import 'package:main/util/date_utils.dart';
 import 'package:main/util/icon_util.dart';
 import 'package:main/util/math_utils.dart';
@@ -121,7 +122,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                       child: Column(
                         children: [
                           _buildCollapsedWidgets(budget, iconData),
-                          Padding(padding: EdgeInsets.only(top: 5, bottom: 5)),
+                          BlossomSpacing.STANDARD_FORM,
                           Row(
                             children: [
                               NeumorphicText(
@@ -175,7 +176,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                               )
                             ],
                           ),
-                          Padding(padding: EdgeInsets.only(top: 8)),
+                          BlossomSpacing.STANDARD_FORM,
                           Neumorphic(
                             child: Column(
                               children: [

@@ -9,6 +9,7 @@ import 'package:main/models/transactions/transactions_get_response.dart';
 import 'package:main/screens/transaction_detail_screen.dart';
 import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
+import 'package:main/theme/blossom_spacing.dart';
 import 'package:main/theme/budget_icons.dart';
 import 'package:main/util/math_utils.dart';
 import 'package:main/util/parse_utils.dart';
@@ -61,7 +62,7 @@ class BudgetsDetailScreen extends StatelessWidget {
                       style: BlossomNeumorphicStyles.fourIconCircle),
                   Spacer(flex: 1)
                 ]),
-                Padding(padding: EdgeInsets.only(top: 10, bottom: 10)),
+                BlossomSpacing.STANDARD_FORM,
                 Padding(
                   padding: EdgeInsets.all(16),
                   child: Column(
@@ -115,7 +116,7 @@ class BudgetsDetailScreen extends StatelessWidget {
                           )
                         ],
                       ),
-                      Padding(padding: EdgeInsets.only(top: 8)),
+                      BlossomSpacing.STANDARD_FORM,
                       Neumorphic(
                         child: Column(
                           children: [
