@@ -173,7 +173,7 @@ class BudgetsDetailScreen extends StatelessWidget {
             },
             child: Row(
               children: [
-                NeumorphicText(transaction.merchant,
+                NeumorphicText(ParseUtils.parseMerchant(transaction.merchant),
                     textStyle: BlossomNeumorphicText.mediumBody,
                     style: BlossomNeumorphicStyles.fourGrey),
                 Spacer(flex: 2),

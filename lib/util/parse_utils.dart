@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:main/models/accounts/account_meta.dart';
@@ -20,6 +22,10 @@ class ParseUtils {
     var formatter = new NumberFormat("#,###.0#", "en_US");
     String formattedBalance = formatter.format(balance);
     return "\$" + formattedBalance;
+  }
+
+  static String parseMerchant(String merchant) {
+    return merchant.substring(0, min(20, merchant.length));
   }
 
   static String parseBudgetId(String budgetId) {
@@ -52,8 +58,7 @@ class ParseUtils {
     return amount;
   }
 
-  static AccountMeta getCorrectMeta(
-      AccountMetaResponse response, String accountId) {
+  static AccountMeta getCorrectMeta(AccountMetaResponse response, String accountId) {
     return response.accountMetaList
         .where((element) => element.accountId == accountId)
         .toList()[0];
