@@ -18,12 +18,6 @@ class ParseUtils {
     return Text(mask, style: BlossomText.accountNumber);
   }
 
-  static String parseAvailableBalance(double balance) {
-    var formatter = new NumberFormat("#,###.0#", "en_US");
-    String formattedBalance = formatter.format(balance);
-    return "\$" + formattedBalance;
-  }
-
   static String parseMerchant(String merchant) {
     return merchant.substring(0, min(20, merchant.length));
   }

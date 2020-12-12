@@ -178,8 +178,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                     children: [
                       Text(account.name, style: BlossomText.mediumBody),
                       Text(
-                          ParseUtils.parseAvailableBalance(
-                              account.balances.current),
+                          ParseUtils.formatAmount(account.balances.current),
                           style: BlossomText.mediumBody),
                       //TODO: Make look like checking number on check
                       ParseUtils.parseAccountMask(account.mask),

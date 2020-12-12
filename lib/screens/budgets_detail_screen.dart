@@ -106,8 +106,7 @@ class BudgetsDetailScreen extends StatelessWidget {
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: NeumorphicText(
-                                  ParseUtils.parseAvailableBalance(
-                                      _budget.allocation),
+                                  ParseUtils.formatAmount(_budget.allocation),
                                   textStyle: BlossomNeumorphicText.body,
                                   style: BlossomNeumorphicStyles.fourGrey,
                                 ),

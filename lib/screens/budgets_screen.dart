@@ -166,7 +166,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: NeumorphicText(
-                                      ParseUtils.parseAvailableBalance(
+                                      ParseUtils.formatAmount(
                                           budget.allocation),
                                       textStyle: BlossomNeumorphicText.body,
                                       style: BlossomNeumorphicStyles.fourGrey,

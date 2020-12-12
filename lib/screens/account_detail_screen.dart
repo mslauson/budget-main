@@ -47,8 +47,7 @@ class AccountDetailScreen extends StatelessWidget {
                         title: Text(AccountsPageConstants.AVAILABLE_BALANCE,
                             style: BlossomText.body),
                         subtitle: Text(
-                          ParseUtils.parseAvailableBalance(
-                              _account.balances.current),
+                          ParseUtils.formatAmount(_account.balances.current),
                           style: BlossomText.mediumBody,
                         ))),
               ),
