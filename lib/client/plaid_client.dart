@@ -113,11 +113,23 @@ class PlaidClient {
 
   Future<String> updateWebhook(UpdateWebhookRequestModel request) async {
     Response response = await post(
-        UriBuilder.plaidApiSandbox(PlaidConstants.URI_UPDATE_WEBHOOK),
+        UriBuilder.plaidApiSandbox(PlaidConstants.URI_REMOVE_ITEM),
         headers: GlobalConstants.BASIC_POST_HEADERS,
         body: jsonEncode(request.toJson()));
     if (response.statusCode != 200) {
       ErrorHandler.onErrorClient(response, ErrorConstants.ADDING_ACCOUNTS);
+    }
+    log(response.body);
+    return response.body;
+  }
+
+  Future<String> removeItem(PlaidGenericRequest request) async {
+    Response response = await post(
+        UriBuilder.plaidApiSandbox(PlaidConstants.URI_UPDATE_WEBHOOK),
+        headers: GlobalConstants.BASIC_POST_HEADERS,
+        body: jsonEncode(request.toJson()));
+    if (response.statusCode != 200) {
+      ErrorHandler.onErrorClient(response, ErrorConstants.REMOVING_ACCOUNTS);
     }
     log(response.body);
     return response.body;

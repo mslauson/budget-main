@@ -6,6 +6,7 @@ class PlaidConstants {
   static const String URI_UPDATE_WEBHOOK = "item/webhook/update";
   static const String URI_LINK_TOKEN = "link/token/create";
   static const String URI_GET_ITEM = "item/get";
+  static const String URI_REMOVE_ITEM = "item/remove";
   static const String URI_INSTITUTION_META = "institutions/get_by_id";
   static const String URI_GET_ACCOUNTS = "accounts/get";
   static const String URI_GET_TRANSACTIONS = "transactions/get";
