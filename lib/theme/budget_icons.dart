@@ -18,4 +18,5 @@ class BudgetIcons {
   static const ENTERTAINMENT = Icon(FontAwesomeIcons.umbrellaBeach);
   static const BACK = Icon(FontAwesomeIcons.arrowLeft);
   static const FORWARD = Icon(FontAwesomeIcons.arrowRight);
+  static const DELETE = Icon(FontAwesomeIcons.trash);
 }
