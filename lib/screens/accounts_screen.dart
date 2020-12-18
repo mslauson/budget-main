@@ -84,13 +84,13 @@ class _AccountsScreenState extends State<AccountsScreen> {
             .phone;
     this.accountsResponseModel =
     await _accountsClient.getAccountsForUser(phone);
-    return await _buildAccountsByInstitution();
+    return await _buildAccountsByInstitution(phone);
   }
 
   List<Widget> _buildAccountsByType(
       AccountsResponseModel accountsResponseModel) {}
 
-  Future<List<Widget>> _buildAccountsByInstitution() async {
+  Future<List<Widget>> _buildAccountsByInstitution(String phone) async {
     List<Widget> accountsWidgetList = new List();
     accountsWidgetList.add(Text('Accounts', style: BlossomText.headline));
     accountsResponseModel.itemList.forEach((accountsModel) async {
@@ -104,26 +104,32 @@ class _AccountsScreenState extends State<AccountsScreen> {
               items: <popup.PopupMenuEntry>[
                 popup.PopupMenuItem(
                   value: 0,
-                  child: Neumorphic(
-                    child: SizedBox(
-                      height: 60,
-                      width: 100,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Padding(padding: EdgeInsets.only(left: 8)),
-                          Neumorphic(
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: NeumorphicIcon(BudgetIcons.DELETE.icon,
-                                    style:
-                                    BlossomNeumorphicStyles.twentyIconGrey),
-                              ),
-                              style: BlossomNeumorphicStyles.fourIconCircle),
-                          NeumorphicText("Delete",
-                              textStyle: BlossomNeumorphicText.secondaryBody,
-                              style: BlossomNeumorphicStyles.eightGrey),
-                        ],
+                  child: GestureDetector(
+                    onTap: () {
+                      _cancelItem(
+                          accountsModel.id, accountsModel.accessToken, phone);
+                    },
+                    child: Neumorphic(
+                      child: SizedBox(
+                        height: 60,
+                        width: 100,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            Padding(padding: EdgeInsets.only(left: 8)),
+                            Neumorphic(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: NeumorphicIcon(BudgetIcons.DELETE.icon,
+                                      style: BlossomNeumorphicStyles
+                                          .twentyIconGrey),
+                                ),
+                                style: BlossomNeumorphicStyles.fourIconCircle),
+                            NeumorphicText("Delete",
+                                textStyle: BlossomNeumorphicText.secondaryBody,
+                                style: BlossomNeumorphicStyles.eightGrey),
+                          ],
+                        ),
                       ),
                     ),
                   ),
