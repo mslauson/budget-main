@@ -19,6 +19,7 @@ import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/theme/blossom_text.dart';
 import 'package:main/theme/budget_icons.dart';
+import 'package:main/ui/blossom_popup_menu.dart' as popup;
 import 'package:main/util/parse_utils.dart';
 import 'package:main/widgets/nav_drawer.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -87,30 +88,32 @@ class _AccountsScreenState extends State<AccountsScreen> {
       accountsWidgetList.add(
         GestureDetector(
           onLongPressStart: (LongPressStartDetails details) {
-            showMenu(
+            popup.showMenu(
               context: context,
               position: RelativeRect.fromLTRB(details.globalPosition.dx,
                   details.globalPosition.dy, 100000, 0),
-              items: <PopupMenuEntry>[
-                PopupMenuItem(
+              items: <popup.PopupMenuEntry>[
+                popup.PopupMenuItem(
                   value: 0,
-                  child: SizedBox(
-                    height: 60,
-                    width: 100,
-                    child: Row(
-                      children: <Widget>[
-                        Neumorphic(
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: NeumorphicIcon(BudgetIcons.DELETE.icon,
-                                  style:
-                                      BlossomNeumorphicStyles.twentyIconGrey),
-                            ),
-                            style: BlossomNeumorphicStyles.fourIconCircle),
-                        NeumorphicText("Delete",
-                            textStyle: BlossomNeumorphicText.secondaryBody,
-                            style: BlossomNeumorphicStyles.eightGrey),
-                      ],
+                  child: Neumorphic(
+                    child: SizedBox(
+                      height: 60,
+                      width: 100,
+                      child: Row(
+                        children: <Widget>[
+                          Neumorphic(
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: NeumorphicIcon(BudgetIcons.DELETE.icon,
+                                    style:
+                                        BlossomNeumorphicStyles.twentyIconGrey),
+                              ),
+                              style: BlossomNeumorphicStyles.fourIconCircle),
+                          NeumorphicText("Delete",
+                              textStyle: BlossomNeumorphicText.secondaryBody,
+                              style: BlossomNeumorphicStyles.eightGrey),
+                        ],
+                      ),
                     ),
                   ),
                 )
