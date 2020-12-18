@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loading/indicator/ball_pulse_indicator.dart';
 import 'package:loading/loading.dart';
@@ -14,7 +15,10 @@ import 'package:main/models/accounts/response/accounts_response.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/screens/account_detail_screen.dart';
 import 'package:main/service/plaid/plaid_service.dart';
+import 'package:main/theme/blossom_neumorphic_styles.dart';
+import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/theme/blossom_text.dart';
+import 'package:main/theme/budget_icons.dart';
 import 'package:main/util/parse_utils.dart';
 import 'package:main/widgets/nav_drawer.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -90,11 +94,24 @@ class _AccountsScreenState extends State<AccountsScreen> {
               items: <PopupMenuEntry>[
                 PopupMenuItem(
                   value: 0,
-                  child: Row(
-                    children: <Widget>[
-                      Icon(Icons.delete),
-                      Text("Delete"),
-                    ],
+                  child: SizedBox(
+                    height: 60,
+                    width: 100,
+                    child: Row(
+                      children: <Widget>[
+                        Neumorphic(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: NeumorphicIcon(BudgetIcons.DELETE.icon,
+                                  style:
+                                      BlossomNeumorphicStyles.twentyIconGrey),
+                            ),
+                            style: BlossomNeumorphicStyles.fourIconCircle),
+                        NeumorphicText("Delete",
+                            textStyle: BlossomNeumorphicText.secondaryBody,
+                            style: BlossomNeumorphicStyles.eightGrey),
+                      ],
+                    ),
                   ),
                 )
               ],
