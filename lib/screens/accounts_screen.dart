@@ -82,10 +82,11 @@ class _AccountsScreenState extends State<AccountsScreen> {
     accountsResponseModel.itemList.forEach((accountsModel) async {
       accountsWidgetList.add(
         GestureDetector(
-          onLongPress: () {
+          onLongPressStart: (LongPressStartDetails details) {
             showMenu(
               context: context,
-              position: RelativeRect.fill,
+              position: RelativeRect.fromLTRB(details.globalPosition.dx,
+                  details.globalPosition.dy, 100000, 0),
               items: <PopupMenuEntry>[
                 PopupMenuItem(
                   value: 0,
