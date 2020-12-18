@@ -81,26 +81,45 @@ class _AccountsScreenState extends State<AccountsScreen> {
     accountsWidgetList.add(Text('Accounts', style: BlossomText.headline));
     accountsResponseModel.itemList.forEach((accountsModel) async {
       accountsWidgetList.add(
-        Card(
-            child: Column(
-          children: [
-            ListTile(
-              leading: Image.memory(
-                base64Decode(accountsModel.institution.logo),
-                height: 60,
-                width: 60,
+        GestureDetector(
+          onLongPress: () {
+            showMenu(
+              context: context,
+              position: RelativeRect.fill,
+              items: <PopupMenuEntry>[
+                PopupMenuItem(
+                  value: 0,
+                  child: Row(
+                    children: <Widget>[
+                      Icon(Icons.delete),
+                      Text("Delete"),
+                    ],
+                  ),
+                )
+              ],
+            );
+          },
+          child: Card(
+              child: Column(
+            children: [
+              ListTile(
+                leading: Image.memory(
+                  base64Decode(accountsModel.institution.logo),
+                  height: 60,
+                  width: 60,
+                ),
+                title: Text(accountsModel.institution.name,
+                    style: BlossomText.largeBody),
               ),
-              title: Text(accountsModel.institution.name,
-                  style: BlossomText.largeBody),
-            ),
-            ExpansionTile(
-              title: Text(AccountsPageConstants.ACCOUNTS,
-                  style: BlossomText.mediumBody),
-              children: await _createAccountsList(
-                  accountsModel.accounts, accountsModel.institution.logo),
-            ),
-          ],
-        )),
+              ExpansionTile(
+                title: Text(AccountsPageConstants.ACCOUNTS,
+                    style: BlossomText.mediumBody),
+                children: await _createAccountsList(
+                    accountsModel.accounts, accountsModel.institution.logo),
+              ),
+            ],
+          )),
+        ),
       );
     });
     return accountsWidgetList;
