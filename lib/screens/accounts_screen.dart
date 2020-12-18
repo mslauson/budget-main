@@ -8,11 +8,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:loading/indicator/ball_pulse_indicator.dart';
 import 'package:loading/loading.dart';
 import 'package:main/client/accounts_client.dart';
+import 'package:main/client/plaid_client.dart';
 import 'package:main/components/drawer_container.dart';
 import 'package:main/constants/accounts_page_constants.dart';
+import 'package:main/constants/plaid_constants.dart';
 import 'package:main/models/accounts/account.dart';
 import 'package:main/models/accounts/response/accounts_response.dart';
 import 'package:main/models/global/activeUser.dart';
+import 'package:main/models/plaid/request/plaid_generic_request.dart';
 import 'package:main/screens/account_detail_screen.dart';
 import 'package:main/service/plaid/plaid_service.dart';
 import 'package:main/theme/blossom_neumorphic_styles.dart';
@@ -32,13 +35,16 @@ class AccountsScreen extends StatefulWidget {
 class _AccountsScreenState extends State<AccountsScreen> {
   AccountsResponseModel accountsResponseModel;
   final AccountsClient _accountsClient = AccountsClient();
+  final PlaidClient _plaidClient = PlaidClient();
 
   @override
   Widget build(BuildContext context) {
     final String phone =
-        ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone;
+        ScopedModel
+            .of<ActiveUser>(context, rebuildOnChange: true)
+            .phone;
     final PlaidService _plaidService =
-        PlaidService(onfinish: () => Navigator.pop(context));
+    PlaidService(onfinish: () => Navigator.pop(context));
     return Scaffold(
       extendBody: true,
       floatingActionButton: FloatingActionButton(
@@ -72,9 +78,11 @@ class _AccountsScreenState extends State<AccountsScreen> {
 
   Future<List<Widget>> _loadAccounts() async {
     final String phone =
-        ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone;
+        ScopedModel
+            .of<ActiveUser>(context, rebuildOnChange: true)
+            .phone;
     this.accountsResponseModel =
-        await _accountsClient.getAccountsForUser(phone);
+    await _accountsClient.getAccountsForUser(phone);
     return await _buildAccountsByInstitution();
   }
 
@@ -108,7 +116,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                                 padding: const EdgeInsets.all(16.0),
                                 child: NeumorphicIcon(BudgetIcons.DELETE.icon,
                                     style:
-                                        BlossomNeumorphicStyles.twentyIconGrey),
+                                    BlossomNeumorphicStyles.twentyIconGrey),
                               ),
                               style: BlossomNeumorphicStyles.fourIconCircle),
                           NeumorphicText("Delete",
@@ -124,42 +132,43 @@ class _AccountsScreenState extends State<AccountsScreen> {
           },
           child: Card(
               child: Column(
-            children: [
-              ListTile(
-                leading: Image.memory(
-                  base64Decode(accountsModel.institution.logo),
-                  height: 60,
-                  width: 60,
-                ),
-                title: Text(accountsModel.institution.name,
-                    style: BlossomText.largeBody),
-              ),
-              ExpansionTile(
-                title: Text(AccountsPageConstants.ACCOUNTS,
-                    style: BlossomText.mediumBody),
-                children: await _createAccountsList(
-                    accountsModel.accounts, accountsModel.institution.logo),
-              ),
-            ],
-          )),
+                children: [
+                  ListTile(
+                    leading: Image.memory(
+                      base64Decode(accountsModel.institution.logo),
+                      height: 60,
+                      width: 60,
+                    ),
+                    title: Text(accountsModel.institution.name,
+                        style: BlossomText.largeBody),
+                  ),
+                  ExpansionTile(
+                    title: Text(AccountsPageConstants.ACCOUNTS,
+                        style: BlossomText.mediumBody),
+                    children: await _createAccountsList(
+                        accountsModel.accounts, accountsModel.institution.logo),
+                  ),
+                ],
+              )),
         ),
       );
     });
     return accountsWidgetList;
   }
 
-  Future<List<Widget>> _createAccountsList(
-      List<Account> accounts, String logo) async {
+  Future<List<Widget>> _createAccountsList(List<Account> accounts,
+      String logo) async {
     List<Widget> _accountSubList = new List();
     //TODO: figure out better way then using null in terinary
     List<Account> _depositoryAccounts = accounts
-        .map((account) => account.type == AccountsPageConstants.DEPOSITORY_TYPE
-            ? account
-            : null)
+        .map((account) =>
+    account.type == AccountsPageConstants.DEPOSITORY_TYPE
+        ? account
+        : null)
         .toList();
     List<Account> _creditAccounts = accounts
         .map((account) =>
-            account.type == AccountsPageConstants.CREDIT_TYPE ? account : null)
+    account.type == AccountsPageConstants.CREDIT_TYPE ? account : null)
         .toList();
     List<Account> _loanAccounts = accounts
         .map((account) =>
@@ -233,5 +242,15 @@ class _AccountsScreenState extends State<AccountsScreen> {
     });
 
     return _accountTypeList;
+  }
+
+  void _cancelItem(String itemId, String accessToken) {
+    _plaidClient.removeItem(
+        PlaidGenericRequest(
+            clientId: PlaidConstants.CLIENT_ID_SANDBOX,
+            secret: PlaidConstants.CLIENT_SECRET_SANDBOX,
+            accessToken: accessToken
+        )
+    ).whenComplete(() => null)
   }
 }
