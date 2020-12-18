@@ -9,6 +9,7 @@ import 'package:loading/indicator/ball_pulse_indicator.dart';
 import 'package:loading/loading.dart';
 import 'package:main/client/accounts_client.dart';
 import 'package:main/client/plaid_client.dart';
+import 'package:main/client/transactions_client.dart';
 import 'package:main/components/drawer_container.dart';
 import 'package:main/constants/accounts_page_constants.dart';
 import 'package:main/constants/plaid_constants.dart';
@@ -37,15 +38,14 @@ class _AccountsScreenState extends State<AccountsScreen> {
   AccountsResponseModel accountsResponseModel;
   final AccountsClient _accountsClient = AccountsClient();
   final PlaidClient _plaidClient = PlaidClient();
+  final TransactionsClient _transactionsClient = TransactionsClient();
 
   @override
   Widget build(BuildContext context) {
     final String phone =
-        ScopedModel
-            .of<ActiveUser>(context, rebuildOnChange: true)
-            .phone;
+        ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone;
     final PlaidService _plaidService =
-    PlaidService(onfinish: () => Navigator.pop(context));
+        PlaidService(onfinish: () => Navigator.pop(context));
     return Scaffold(
       extendBody: true,
       floatingActionButton: FloatingActionButton(
@@ -252,14 +252,15 @@ class _AccountsScreenState extends State<AccountsScreen> {
             secret: PlaidConstants.CLIENT_SECRET_SANDBOX,
             accessToken: accessToken
         )
-    ).whenComplete(() =>
+    ).whenComplete(() async =>
     {
-      _accountsClient.deleteAccount(
+      await _accountsClient.deleteAccount(
           DeleteAccountRequestModel(
               phone: phone,
               accountId: itemId
           )
-      )
-    })
+      ),
+      await _transactionsClient.deleteTransactions(phone, itemId)
+    });
   }
 }
