@@ -100,7 +100,9 @@ class _AccountsScreenState extends State<AccountsScreen> {
                       height: 60,
                       width: 100,
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
+                          Padding(padding: EdgeInsets.only(left: 8)),
                           Neumorphic(
                               child: Padding(
                                 padding: const EdgeInsets.all(16.0),
