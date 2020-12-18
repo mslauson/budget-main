@@ -50,14 +50,23 @@ class TransactionsClient {
   Future<GenericSuccessResponseModel> updateTransaction(
       TransactionUpdatesRequestModel transactionUpdatesRequestModel) async {
     Response response = await put(
-        UriBuilder.blossomDev(
-            TransactionsMicroserviceConstants.BASE_URI,
-            1),
+        UriBuilder.blossomDev(TransactionsMicroserviceConstants.BASE_URI, 1),
         headers: GlobalConstants.BASIC_POST_HEADERS,
         body: jsonEncode(transactionUpdatesRequestModel.toJson()));
     if (response.statusCode != 200 && response.statusCode != 404) {
-      ErrorHandler.onErrorClient(
-          response, ErrorConstants.TRANSACTIONS_UPDATE);
+      ErrorHandler.onErrorClient(response, ErrorConstants.TRANSACTIONS_UPDATE);
+    }
+    return GenericSuccessResponseModel.fromJson(jsonDecode(response.body));
+  }
+
+  Future<GenericSuccessResponseModel> deleteTransactions(
+      String phone, String itemId) async {
+    Response response = await delete(
+        UriBuilder.blossomDevWithTwoPath(
+            TransactionsMicroserviceConstants.BASE_URI, 1, phone, itemId),
+        headers: GlobalConstants.BASIC_POST_HEADERS);
+    if (response.statusCode != 200 && response.statusCode != 404) {
+      ErrorHandler.onErrorClient(response, ErrorConstants.TRANSACTIONS_REMOVAL);
     }
     return GenericSuccessResponseModel.fromJson(jsonDecode(response.body));
   }

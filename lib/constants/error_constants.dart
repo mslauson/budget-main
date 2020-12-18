@@ -14,6 +14,8 @@ class ErrorConstants {
   //Transactions Client
   static const String TRANSACTIONS_RETRIEVAL = "Transactions Retrieval";
   static const String TRANSACTIONS_UPDATE = "Transaction Update";
+  static const String TRANSACTIONS_REMOVAL =
+      "Removing transactions from Blossom";
 
   //Customer Client
   static const String REGISTRATION = "Registration";
