@@ -13,6 +13,7 @@ import 'package:main/components/drawer_container.dart';
 import 'package:main/constants/accounts_page_constants.dart';
 import 'package:main/constants/plaid_constants.dart';
 import 'package:main/models/accounts/account.dart';
+import 'package:main/models/accounts/delete_account_request_model.dart';
 import 'package:main/models/accounts/response/accounts_response.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/plaid/request/plaid_generic_request.dart';
@@ -244,13 +245,21 @@ class _AccountsScreenState extends State<AccountsScreen> {
     return _accountTypeList;
   }
 
-  void _cancelItem(String itemId, String accessToken) {
+  void _cancelItem(String itemId, String accessToken, String phone) {
     _plaidClient.removeItem(
         PlaidGenericRequest(
             clientId: PlaidConstants.CLIENT_ID_SANDBOX,
             secret: PlaidConstants.CLIENT_SECRET_SANDBOX,
             accessToken: accessToken
         )
-    ).whenComplete(() => null)
+    ).whenComplete(() =>
+    {
+      _accountsClient.deleteAccount(
+          DeleteAccountRequestModel(
+              phone: phone,
+              accountId: itemId
+          )
+      )
+    })
   }
 }
