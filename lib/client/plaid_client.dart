@@ -125,7 +125,7 @@ class PlaidClient {
 
   Future<String> removeItem(PlaidGenericRequest request) async {
     Response response = await post(
-        UriBuilder.plaidApiSandbox(PlaidConstants.URI_UPDATE_WEBHOOK),
+        UriBuilder.plaidApiSandbox(PlaidConstants.URI_REMOVE_ITEM),
         headers: GlobalConstants.BASIC_POST_HEADERS,
         body: jsonEncode(request.toJson()));
     if (response.statusCode != 200) {
