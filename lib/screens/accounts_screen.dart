@@ -118,26 +118,31 @@ class _AccountsScreenState extends State<AccountsScreen> {
     List<Widget> accountsWidgetList = new List();
     accountsWidgetList.add(Text('Accounts', style: BlossomText.headline));
     accountsResponseModel.itemList.forEach((accountsModel) async {
-      accountsWidgetList.add(Card(
-          child: Column(
-        children: [
-          ListTile(
-            leading: Image.memory(
-              base64Decode(accountsModel.institution.logo),
-              height: 60,
-              width: 60,
+      accountsWidgetList.add(GestureDetector(
+        onLongPress: () {
+          _panelController.open();
+        },
+        child: Card(
+            child: Column(
+          children: [
+            ListTile(
+              leading: Image.memory(
+                base64Decode(accountsModel.institution.logo),
+                height: 60,
+                width: 60,
+              ),
+              title: Text(accountsModel.institution.name,
+                  style: BlossomText.largeBody),
             ),
-            title: Text(accountsModel.institution.name,
-                style: BlossomText.largeBody),
-          ),
-          ExpansionTile(
-            title: Text(AccountsPageConstants.ACCOUNTS,
-                style: BlossomText.mediumBody),
-            children: await _createAccountsList(
-                accountsModel.accounts, accountsModel.institution.logo),
-          ),
-        ],
-      )));
+            ExpansionTile(
+              title: Text(AccountsPageConstants.ACCOUNTS,
+                  style: BlossomText.mediumBody),
+              children: await _createAccountsList(
+                  accountsModel.accounts, accountsModel.institution.logo),
+            ),
+          ],
+        )),
+      ));
     });
     return accountsWidgetList;
   }
@@ -195,36 +200,31 @@ class _AccountsScreenState extends State<AccountsScreen> {
     List<Widget> _accountTypeList = new List();
     accounts.forEach((account) {
       if (account != null) {
-        _accountTypeList.add(GestureDetector(
-          onLongPress: () {
-            _panelController.open();
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-                child: InkWell(
-                  onTap: () =>
-                  {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                          new AccountDetailScreen(account, logo)),
-                    )
-                  },
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(account.name, style: BlossomText.mediumBody),
-                        Text(
-                            ParseUtils.formatAmount(account.balances.current),
-                            style: BlossomText.mediumBody),
-                        //TODO: Make look like checking number on check
-                        ParseUtils.parseAccountMask(account.mask),
-                      ]),
-                ),
+        _accountTypeList.add(Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+              child: InkWell(
+                onTap: () =>
+                {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                        new AccountDetailScreen(account, logo)),
+                  )
+                },
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text(account.name, style: BlossomText.mediumBody),
+                      Text(
+                          ParseUtils.formatAmount(account.balances.current),
+                          style: BlossomText.mediumBody),
+                      //TODO: Make look like checking number on check
+                      ParseUtils.parseAccountMask(account.mask),
+                    ]),
               ),
             ),
           ),
