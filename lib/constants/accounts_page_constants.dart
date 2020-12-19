@@ -15,4 +15,7 @@ class AccountsPageConstants {
   static const String MORTGAGE_SUB_TYPE = "mortgage";
 
   static const String AVAILABLE_BALANCE = "Available Balance";
+
+  static const String REMOVE_INSTITUTION =
+      "Remove this institution from Blossom?";
 }

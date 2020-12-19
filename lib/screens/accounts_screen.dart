@@ -61,7 +61,6 @@ class _AccountsScreenState extends State<AccountsScreen> {
           _panelController.close();
         },
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             Padding(padding: EdgeInsets.only(left: 8)),
             Neumorphic(
@@ -71,9 +70,15 @@ class _AccountsScreenState extends State<AccountsScreen> {
                       style: BlossomNeumorphicStyles.twentyIconGrey),
                 ),
                 style: BlossomNeumorphicStyles.fourIconCircle),
-            NeumorphicText("Delete $_itemName from Blossom?",
+            Spacer(
+              flex: 1,
+            ),
+            NeumorphicText(AccountsPageConstants.REMOVE_INSTITUTION,
                 textStyle: BlossomNeumorphicText.body,
                 style: BlossomNeumorphicStyles.eightGrey),
+            Spacer(
+              flex: 1,
+            )
           ],
         ),
       ),
