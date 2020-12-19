@@ -60,26 +60,28 @@ class _AccountsScreenState extends State<AccountsScreen> {
           _cancelItem();
           _panelController.close();
         },
-        child: Row(
-          children: <Widget>[
-            Padding(padding: EdgeInsets.only(left: 8)),
-            Neumorphic(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: NeumorphicIcon(BudgetIcons.DELETE.icon,
-                      style: BlossomNeumorphicStyles.twentyIconGrey),
-                ),
-                style: BlossomNeumorphicStyles.fourIconCircle),
-            Spacer(
-              flex: 1,
-            ),
-            NeumorphicText(AccountsPageConstants.REMOVE_INSTITUTION,
-                textStyle: BlossomNeumorphicText.body,
-                style: BlossomNeumorphicStyles.eightGrey),
-            Spacer(
-              flex: 1,
-            )
-          ],
+        child: Neumorphic(
+          child: Row(
+            children: <Widget>[
+              Padding(padding: EdgeInsets.only(left: 8)),
+              Neumorphic(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: NeumorphicIcon(BudgetIcons.DELETE.icon,
+                        style: BlossomNeumorphicStyles.twentyIconGrey),
+                  ),
+                  style: BlossomNeumorphicStyles.fourIconCircle),
+              Spacer(
+                flex: 1,
+              ),
+              NeumorphicText(AccountsPageConstants.REMOVE_INSTITUTION,
+                  textStyle: BlossomNeumorphicText.body,
+                  style: BlossomNeumorphicStyles.eightGrey),
+              Spacer(
+                flex: 1,
+              )
+            ],
+          ),
         ),
       ),
       body: Scaffold(
@@ -101,7 +103,13 @@ class _AccountsScreenState extends State<AccountsScreen> {
                     log(snapshot.error);
                   }
                   if (snapshot.hasData) {
-                    return Column(children: snapshot.data);
+                    return GestureDetector(
+                        onTap: () {
+                          if (_panelController.isPanelOpen) {
+                            _panelController.close();
+                          }
+                        },
+                        child: Column(children: snapshot.data));
                   } else {
                     return Loading(indicator: BallPulseIndicator());
                   }
