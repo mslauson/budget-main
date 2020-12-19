@@ -60,21 +60,27 @@ class _AccountsScreenState extends State<AccountsScreen> {
       body: SlidingUpPanel(
         minHeight: 0,
         controller: _panelController,
-        panel: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Padding(padding: EdgeInsets.only(left: 8)),
-            Neumorphic(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: NeumorphicIcon(BudgetIcons.DELETE.icon,
-                      style: BlossomNeumorphicStyles.twentyIconGrey),
-                ),
-                style: BlossomNeumorphicStyles.fourIconCircle),
-            NeumorphicText("Delete",
-                textStyle: BlossomNeumorphicText.secondaryBody,
-                style: BlossomNeumorphicStyles.eightGrey),
-          ],
+        panel: GestureDetector(
+          onTap: () {
+            _cancelItem();
+            _panelController.close();
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Padding(padding: EdgeInsets.only(left: 8)),
+              Neumorphic(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: NeumorphicIcon(BudgetIcons.DELETE.icon,
+                        style: BlossomNeumorphicStyles.twentyIconGrey),
+                  ),
+                  style: BlossomNeumorphicStyles.fourIconCircle),
+              NeumorphicText("Delete",
+                  textStyle: BlossomNeumorphicText.secondaryBody,
+                  style: BlossomNeumorphicStyles.eightGrey),
+            ],
+          ),
         ),
         body: Stack(
           children: [
@@ -120,6 +126,9 @@ class _AccountsScreenState extends State<AccountsScreen> {
     accountsResponseModel.itemList.forEach((accountsModel) async {
       accountsWidgetList.add(GestureDetector(
         onLongPress: () {
+          _phone = phone;
+          _itemId = accountsModel.id;
+          _accessToken = accountsModel.accessToken;
           _panelController.open();
         },
         child: Card(
