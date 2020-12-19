@@ -70,7 +70,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                 style: BlossomNeumorphicStyles.eightGrey),
           ],
         ),
-        collapsed: Stack(
+        body: Stack(
           children: [
             NavDrawer(),
             DrawerContainer(children: [
