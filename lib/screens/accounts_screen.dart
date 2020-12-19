@@ -20,14 +20,11 @@ import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/plaid/request/plaid_generic_request.dart';
 import 'package:main/screens/account_detail_screen.dart';
 import 'package:main/service/plaid/plaid_service.dart';
-import 'package:main/theme/blossom_neumorphic_styles.dart';
-import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/theme/blossom_text.dart';
-import 'package:main/theme/budget_icons.dart';
-import 'package:main/ui/blossom_popup_menu.dart' as popup;
 import 'package:main/util/parse_utils.dart';
 import 'package:main/widgets/nav_drawer.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class AccountsScreen extends StatefulWidget {
   @override
@@ -53,26 +50,28 @@ class _AccountsScreenState extends State<AccountsScreen> {
         backgroundColor: Colors.white,
         onPressed: () => _plaidService.openLinkNewAccount(phone),
       ),
-      body: Stack(
-        children: [
-          NavDrawer(),
-          DrawerContainer(children: [
-            FutureBuilder(
-              future: _loadAccounts(),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.hasError) {
-                  //TODO: display toast
-                  log(snapshot.error);
-                }
-                if (snapshot.hasData) {
-                  return Column(children: snapshot.data);
-                } else {
-                  return Loading(indicator: BallPulseIndicator());
-                }
-              },
-            ),
-          ]),
-        ],
+      body: SlidingUpPanel(
+        collapsed: Stack(
+          children: [
+            NavDrawer(),
+            DrawerContainer(children: [
+              FutureBuilder(
+                future: _loadAccounts(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasError) {
+                    //TODO: display toast
+                    log(snapshot.error);
+                  }
+                  if (snapshot.hasData) {
+                    return Column(children: snapshot.data);
+                  } else {
+                    return Loading(indicator: BallPulseIndicator());
+                  }
+                },
+              ),
+            ]),
+          ],
+        ),
       ),
     );
   }
@@ -94,71 +93,26 @@ class _AccountsScreenState extends State<AccountsScreen> {
     List<Widget> accountsWidgetList = new List();
     accountsWidgetList.add(Text('Accounts', style: BlossomText.headline));
     accountsResponseModel.itemList.forEach((accountsModel) async {
-      accountsWidgetList.add(
-        GestureDetector(
-          onLongPressStart: (LongPressStartDetails details) {
-            popup.showMenu(
-              context: context,
-              position: RelativeRect.fromLTRB(details.globalPosition.dx,
-                  details.globalPosition.dy, 100000, 0),
-              items: <popup.PopupMenuEntry>[
-                popup.PopupMenuItem(
-                  value: 0,
-                  child: GestureDetector(
-                    onTap: () {
-                      _cancelItem(
-                          accountsModel.id, accountsModel.accessToken, phone);
-                    },
-                    child: Neumorphic(
-                      child: SizedBox(
-                        height: 60,
-                        width: 100,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            Padding(padding: EdgeInsets.only(left: 8)),
-                            Neumorphic(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: NeumorphicIcon(BudgetIcons.DELETE.icon,
-                                      style: BlossomNeumorphicStyles
-                                          .twentyIconGrey),
-                                ),
-                                style: BlossomNeumorphicStyles.fourIconCircle),
-                            NeumorphicText("Delete",
-                                textStyle: BlossomNeumorphicText.secondaryBody,
-                                style: BlossomNeumorphicStyles.eightGrey),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            );
-          },
-          child: Card(
-              child: Column(
-                children: [
-                  ListTile(
-                    leading: Image.memory(
-                      base64Decode(accountsModel.institution.logo),
-                      height: 60,
-                      width: 60,
-                    ),
-                    title: Text(accountsModel.institution.name,
-                        style: BlossomText.largeBody),
-                  ),
-                  ExpansionTile(
-                    title: Text(AccountsPageConstants.ACCOUNTS,
-                        style: BlossomText.mediumBody),
-                    children: await _createAccountsList(
-                        accountsModel.accounts, accountsModel.institution.logo),
-                  ),
-                ],
-              )),
-        ),
-      );
+      accountsWidgetList.add(Card(
+          child: Column(
+        children: [
+          ListTile(
+            leading: Image.memory(
+              base64Decode(accountsModel.institution.logo),
+              height: 60,
+              width: 60,
+            ),
+            title: Text(accountsModel.institution.name,
+                style: BlossomText.largeBody),
+          ),
+          ExpansionTile(
+            title: Text(AccountsPageConstants.ACCOUNTS,
+                style: BlossomText.mediumBody),
+            children: await _createAccountsList(
+                accountsModel.accounts, accountsModel.institution.logo),
+          ),
+        ],
+      )));
     });
     return accountsWidgetList;
   }
