@@ -20,7 +20,10 @@ import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/plaid/request/plaid_generic_request.dart';
 import 'package:main/screens/account_detail_screen.dart';
 import 'package:main/service/plaid/plaid_service.dart';
+import 'package:main/theme/blossom_neumorphic_styles.dart';
+import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/theme/blossom_text.dart';
+import 'package:main/theme/budget_icons.dart';
 import 'package:main/util/parse_utils.dart';
 import 'package:main/widgets/nav_drawer.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -51,6 +54,22 @@ class _AccountsScreenState extends State<AccountsScreen> {
         onPressed: () => _plaidService.openLinkNewAccount(phone),
       ),
       body: SlidingUpPanel(
+        panel: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            Padding(padding: EdgeInsets.only(left: 8)),
+            Neumorphic(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: NeumorphicIcon(BudgetIcons.DELETE.icon,
+                      style: BlossomNeumorphicStyles.twentyIconGrey),
+                ),
+                style: BlossomNeumorphicStyles.fourIconCircle),
+            NeumorphicText("Delete",
+                textStyle: BlossomNeumorphicText.secondaryBody,
+                style: BlossomNeumorphicStyles.eightGrey),
+          ],
+        ),
         collapsed: Stack(
           children: [
             NavDrawer(),
