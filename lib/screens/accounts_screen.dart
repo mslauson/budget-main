@@ -39,6 +39,10 @@ class _AccountsScreenState extends State<AccountsScreen> {
   final AccountsClient _accountsClient = AccountsClient();
   final PlaidClient _plaidClient = PlaidClient();
   final TransactionsClient _transactionsClient = TransactionsClient();
+  final PanelController _panelController = PanelController();
+  String _phone;
+  String _itemId;
+  String _accessToken;
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +58,8 @@ class _AccountsScreenState extends State<AccountsScreen> {
         onPressed: () => _plaidService.openLinkNewAccount(phone),
       ),
       body: SlidingUpPanel(
+        minHeight: 0,
+        controller: _panelController,
         panel: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
@@ -189,31 +195,36 @@ class _AccountsScreenState extends State<AccountsScreen> {
     List<Widget> _accountTypeList = new List();
     accounts.forEach((account) {
       if (account != null) {
-        _accountTypeList.add(Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-              child: InkWell(
-                onTap: () =>
-                {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                        new AccountDetailScreen(account, logo)),
-                  )
-                },
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(account.name, style: BlossomText.mediumBody),
-                      Text(
-                          ParseUtils.formatAmount(account.balances.current),
-                          style: BlossomText.mediumBody),
-                      //TODO: Make look like checking number on check
-                      ParseUtils.parseAccountMask(account.mask),
-                    ]),
+        _accountTypeList.add(GestureDetector(
+          onLongPress: () {
+            _panelController.open();
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                child: InkWell(
+                  onTap: () =>
+                  {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                          new AccountDetailScreen(account, logo)),
+                    )
+                  },
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(account.name, style: BlossomText.mediumBody),
+                        Text(
+                            ParseUtils.formatAmount(account.balances.current),
+                            style: BlossomText.mediumBody),
+                        //TODO: Make look like checking number on check
+                        ParseUtils.parseAccountMask(account.mask),
+                      ]),
+                ),
               ),
             ),
           ),
@@ -224,22 +235,22 @@ class _AccountsScreenState extends State<AccountsScreen> {
     return _accountTypeList;
   }
 
-  void _cancelItem(String itemId, String accessToken, String phone) {
+  void _cancelItem() {
     _plaidClient.removeItem(
         PlaidGenericRequest(
             clientId: PlaidConstants.CLIENT_ID_SANDBOX,
             secret: PlaidConstants.CLIENT_SECRET_SANDBOX,
-            accessToken: accessToken
+            accessToken: _accessToken
         )
     ).whenComplete(() async =>
     {
       await _accountsClient.deleteAccount(
           DeleteAccountRequestModel(
-              phone: phone,
-              accountId: itemId
+              phone: _phone,
+              accountId: _itemId
           )
       ),
-      await _transactionsClient.deleteTransactions(phone, itemId)
+      await _transactionsClient.deleteTransactions(_phone, _itemId)
     });
   }
 }
