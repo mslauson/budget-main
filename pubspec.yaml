@@ -47,6 +47,7 @@ dependencies:
   loading: ^1.0.2
   flutter_neumorphic: ^3.0.2
   enum_to_string: ^1.0.13
+  sliding_up_panel: ^1.0.2
   intl: ">=0.14.0"
 
 #dependency_overrides:
