@@ -43,6 +43,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
   String _phone;
   String _itemId;
   String _accessToken;
+  String _itemName;
 
   @override
   Widget build(BuildContext context) {
@@ -50,37 +51,38 @@ class _AccountsScreenState extends State<AccountsScreen> {
         ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone;
     final PlaidService _plaidService =
         PlaidService(onfinish: () => Navigator.pop(context));
-    return Scaffold(
-      extendBody: true,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(FontAwesomeIcons.plus),
-        backgroundColor: Colors.white,
-        onPressed: () => _plaidService.openLinkNewAccount(phone),
+    return SlidingUpPanel(
+      minHeight: 0,
+      maxHeight: 80,
+      controller: _panelController,
+      panel: GestureDetector(
+        onTap: () {
+          _cancelItem();
+          _panelController.close();
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            Padding(padding: EdgeInsets.only(left: 8)),
+            Neumorphic(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: NeumorphicIcon(BudgetIcons.DELETE.icon,
+                      style: BlossomNeumorphicStyles.twentyIconGrey),
+                ),
+                style: BlossomNeumorphicStyles.fourIconCircle),
+            NeumorphicText("Delete $_itemName from Blossom?",
+                textStyle: BlossomNeumorphicText.body,
+                style: BlossomNeumorphicStyles.eightGrey),
+          ],
+        ),
       ),
-      body: SlidingUpPanel(
-        minHeight: 0,
-        controller: _panelController,
-        panel: GestureDetector(
-          onTap: () {
-            _cancelItem();
-            _panelController.close();
-          },
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Padding(padding: EdgeInsets.only(left: 8)),
-              Neumorphic(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: NeumorphicIcon(BudgetIcons.DELETE.icon,
-                        style: BlossomNeumorphicStyles.twentyIconGrey),
-                  ),
-                  style: BlossomNeumorphicStyles.fourIconCircle),
-              NeumorphicText("Delete",
-                  textStyle: BlossomNeumorphicText.secondaryBody,
-                  style: BlossomNeumorphicStyles.eightGrey),
-            ],
-          ),
+      body: Scaffold(
+        extendBody: true,
+        floatingActionButton: FloatingActionButton(
+          child: Icon(FontAwesomeIcons.plus),
+          backgroundColor: Colors.white,
+          onPressed: () => _plaidService.openLinkNewAccount(phone),
         ),
         body: Stack(
           children: [
@@ -126,6 +128,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
     accountsResponseModel.itemList.forEach((accountsModel) async {
       accountsWidgetList.add(GestureDetector(
         onLongPress: () {
+          _itemName = accountsModel.institution.name;
           _phone = phone;
           _itemId = accountsModel.id;
           _accessToken = accountsModel.accessToken;
