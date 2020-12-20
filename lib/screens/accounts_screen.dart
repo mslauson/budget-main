@@ -259,20 +259,28 @@ class _AccountsScreenState extends State<AccountsScreen> {
           _accessToken = accountsModel.accessToken;
           _panelController.open();
         },
-        child: Card(
-            child: Column(
-              children: [
-                ListTile(
-                  leading: Image.memory(
-                    base64Decode(accountsModel.institution.logo),
-                    height: 60,
-                    width: 60,
-                  ),
-                  title: Text(accountsModel.institution.name,
-                      style: BlossomText.largeBody),
-                ),
-              ],
-            )),
+        child: Neumorphic(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Neumorphic(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Image.memory(
+                          base64Decode(accountsModel.institution.logo),
+                          height: 60,
+                          width: 60,
+                        ),
+                      ),
+                      style: BlossomNeumorphicStyles.fourIconCircle),
+                  NeumorphicText(accountsModel.institution.name,
+                      textStyle: BlossomNeumorphicText.largeBodyBold,
+                      style: BlossomNeumorphicStyles.fourGrey)
+                ],
+              ),
+            ),
+            style: BlossomNeumorphicStyles.negativeEightConcave),
       ),
     );
   }
