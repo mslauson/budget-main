@@ -142,9 +142,14 @@ class _AccountsScreenState extends State<AccountsScreen> {
           accountsModel.accounts, accountsModel.institution.logo);
       Widget collapsed = _buildCollapsedWidgets(accountsModel, phone);
       accountsList.insert(0, collapsed);
-      accountsWidgetList.add(ExpandablePanel(
-        collapsed: collapsed,
-        expanded: Column(children: accountsList),
+      accountsWidgetList.add(Neumorphic(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ExpandablePanel(
+            collapsed: collapsed,
+            expanded: Column(children: accountsList),
+          ),
+        ),
       ));
     });
     return accountsWidgetList;
@@ -274,9 +279,11 @@ class _AccountsScreenState extends State<AccountsScreen> {
                         ),
                       ),
                       style: BlossomNeumorphicStyles.fourIconCircle),
+                  Spacer(flex: 1),
                   NeumorphicText(accountsModel.institution.name,
                       textStyle: BlossomNeumorphicText.largeBodyBold,
-                      style: BlossomNeumorphicStyles.fourGrey)
+                      style: BlossomNeumorphicStyles.fourGrey),
+                  Spacer(flex: 1)
                 ],
               ),
             ),
