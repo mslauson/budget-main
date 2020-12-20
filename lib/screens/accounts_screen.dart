@@ -14,6 +14,7 @@ import 'package:main/components/drawer_container.dart';
 import 'package:main/constants/accounts_page_constants.dart';
 import 'package:main/constants/plaid_constants.dart';
 import 'package:main/models/accounts/account.dart';
+import 'package:main/models/accounts/accounts_full_model.dart';
 import 'package:main/models/accounts/delete_account_request_model.dart';
 import 'package:main/models/accounts/response/accounts_response.dart';
 import 'package:main/models/global/activeUser.dart';
@@ -43,7 +44,6 @@ class _AccountsScreenState extends State<AccountsScreen> {
   String _phone;
   String _itemId;
   String _accessToken;
-  String _itemName;
 
   @override
   Widget build(BuildContext context) {
@@ -124,11 +124,9 @@ class _AccountsScreenState extends State<AccountsScreen> {
 
   Future<List<Widget>> _loadAccounts() async {
     final String phone =
-        ScopedModel
-            .of<ActiveUser>(context, rebuildOnChange: true)
-            .phone;
+        ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone;
     this.accountsResponseModel =
-    await _accountsClient.getAccountsForUser(phone);
+        await _accountsClient.getAccountsForUser(phone);
     return await _buildAccountsByInstitution(phone);
   }
 
@@ -139,35 +137,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
     List<Widget> accountsWidgetList = new List();
     accountsWidgetList.add(Text('Accounts', style: BlossomText.headline));
     accountsResponseModel.itemList.forEach((accountsModel) async {
-      accountsWidgetList.add(GestureDetector(
-        onLongPress: () {
-          _itemName = accountsModel.institution.name;
-          _phone = phone;
-          _itemId = accountsModel.id;
-          _accessToken = accountsModel.accessToken;
-          _panelController.open();
-        },
-        child: Card(
-            child: Column(
-          children: [
-            ListTile(
-              leading: Image.memory(
-                base64Decode(accountsModel.institution.logo),
-                height: 60,
-                width: 60,
-              ),
-              title: Text(accountsModel.institution.name,
-                  style: BlossomText.largeBody),
-            ),
-            ExpansionTile(
-              title: Text(AccountsPageConstants.ACCOUNTS,
-                  style: BlossomText.mediumBody),
-              children: await _createAccountsList(
-                  accountsModel.accounts, accountsModel.institution.logo),
-            ),
-          ],
-        )),
-      ));
+      accountsWidgetList.add();
     });
     return accountsWidgetList;
   }
@@ -244,8 +214,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(account.name, style: BlossomText.mediumBody),
-                      Text(
-                          ParseUtils.formatAmount(account.balances.current),
+                      Text(ParseUtils.formatAmount(account.balances.current),
                           style: BlossomText.mediumBody),
                       //TODO: Make look like checking number on check
                       ParseUtils.parseAccountMask(account.mask),
@@ -261,21 +230,41 @@ class _AccountsScreenState extends State<AccountsScreen> {
   }
 
   void _cancelItem() {
-    _plaidClient.removeItem(
-        PlaidGenericRequest(
-            clientId: PlaidConstants.CLIENT_ID_SANDBOX,
-            secret: PlaidConstants.CLIENT_SECRET_SANDBOX,
-            accessToken: _accessToken
-        )
-    ).whenComplete(() async =>
+    _plaidClient
+        .removeItem(PlaidGenericRequest(
+        clientId: PlaidConstants.CLIENT_ID_SANDBOX,
+        secret: PlaidConstants.CLIENT_SECRET_SANDBOX,
+        accessToken: _accessToken))
+        .whenComplete(() async =>
     {
       await _accountsClient.deleteAccount(
-          DeleteAccountRequestModel(
-              phone: _phone,
-              accountId: _itemId
-          )
-      ),
+          DeleteAccountRequestModel(phone: _phone, accountId: _itemId)),
       await _transactionsClient.deleteTransactions(_phone, _itemId)
     });
+  }
+
+  Widget _buildCollapsedWidgets(AccountsFullModel accountsModel, String phone) {
+    return GestureDetector(
+      onLongPress: () {
+        _phone = phone;
+        _itemId = accountsModel.id;
+        _accessToken = accountsModel.accessToken;
+        _panelController.open();
+      },
+      child: Card(
+          child: Column(
+            children: [
+              ListTile(
+                leading: Image.memory(
+                  base64Decode(accountsModel.institution.logo),
+                  height: 60,
+                  width: 60,
+                ),
+                title: Text(accountsModel.institution.name,
+                    style: BlossomText.largeBody),
+              ),
+            ],
+          )),
+    );
   }
 }
