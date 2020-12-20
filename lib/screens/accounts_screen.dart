@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -137,24 +138,30 @@ class _AccountsScreenState extends State<AccountsScreen> {
     List<Widget> accountsWidgetList = new List();
     accountsWidgetList.add(Text('Accounts', style: BlossomText.headline));
     accountsResponseModel.itemList.forEach((accountsModel) async {
-      accountsWidgetList.add();
+      List<Widget> accountsList = await _createAccountsList(
+          accountsModel.accounts, accountsModel.institution.logo);
+      Widget collapsed = _buildCollapsedWidgets(accountsModel, phone);
+      accountsList.insert(0, collapsed);
+      accountsWidgetList.add(ExpandablePanel(
+        collapsed: collapsed,
+        expanded: Column(children: accountsList),
+      ));
     });
     return accountsWidgetList;
   }
 
-  Future<List<Widget>> _createAccountsList(List<Account> accounts,
-      String logo) async {
+  Future<List<Widget>> _createAccountsList(
+      List<Account> accounts, String logo) async {
     List<Widget> _accountSubList = new List();
     //TODO: figure out better way then using null in terinary
     List<Account> _depositoryAccounts = accounts
-        .map((account) =>
-    account.type == AccountsPageConstants.DEPOSITORY_TYPE
-        ? account
-        : null)
+        .map((account) => account.type == AccountsPageConstants.DEPOSITORY_TYPE
+            ? account
+            : null)
         .toList();
     List<Account> _creditAccounts = accounts
         .map((account) =>
-    account.type == AccountsPageConstants.CREDIT_TYPE ? account : null)
+            account.type == AccountsPageConstants.CREDIT_TYPE ? account : null)
         .toList();
     List<Account> _loanAccounts = accounts
         .map((account) =>
@@ -244,27 +251,29 @@ class _AccountsScreenState extends State<AccountsScreen> {
   }
 
   Widget _buildCollapsedWidgets(AccountsFullModel accountsModel, String phone) {
-    return GestureDetector(
-      onLongPress: () {
-        _phone = phone;
-        _itemId = accountsModel.id;
-        _accessToken = accountsModel.accessToken;
-        _panelController.open();
-      },
-      child: Card(
-          child: Column(
-            children: [
-              ListTile(
-                leading: Image.memory(
-                  base64Decode(accountsModel.institution.logo),
-                  height: 60,
-                  width: 60,
+    return ExpandableButton(
+      child: GestureDetector(
+        onLongPress: () {
+          _phone = phone;
+          _itemId = accountsModel.id;
+          _accessToken = accountsModel.accessToken;
+          _panelController.open();
+        },
+        child: Card(
+            child: Column(
+              children: [
+                ListTile(
+                  leading: Image.memory(
+                    base64Decode(accountsModel.institution.logo),
+                    height: 60,
+                    width: 60,
+                  ),
+                  title: Text(accountsModel.institution.name,
+                      style: BlossomText.largeBody),
                 ),
-                title: Text(accountsModel.institution.name,
-                    style: BlossomText.largeBody),
-              ),
-            ],
-          )),
+              ],
+            )),
+      ),
     );
   }
 }
