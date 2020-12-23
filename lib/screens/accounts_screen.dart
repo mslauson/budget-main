@@ -163,7 +163,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
       List<Account> accounts, String logo) async {
     List<Widget> _accountSubList = new List();
     List<Widget> _returnList = new List();
-    _accountSubList.add(BlossomSpacing.STANDARD_FORM);
+    _returnList.add(BlossomSpacing.STANDARD_FORM);
     //TODO: figure out better way then using null in terinary
     List<Account> _depositoryAccounts = accounts
         .map((account) => account.type == AccountsPageConstants.DEPOSITORY_TYPE
@@ -188,20 +188,24 @@ class _AccountsScreenState extends State<AccountsScreen> {
     _accountSubList.add(Text(
         AccountsPageConstants.DEPOSITORY_TYPE.toUpperCase(),
         style: BlossomText.body));
+    _accountSubList.add(Divider());
     _accountSubList
         .addAll(await _buildAccountTypeList(_depositoryAccounts, logo));
 
     _accountSubList.add(Text(AccountsPageConstants.CREDIT_TYPE.toUpperCase(),
         style: BlossomText.body));
+    _accountSubList.add(Divider());
     _accountSubList.addAll(await _buildAccountTypeList(_creditAccounts, logo));
 
     _accountSubList.add(Text(AccountsPageConstants.LOAN_TYPE.toUpperCase(),
         style: BlossomText.body));
+    _accountSubList.add(Divider());
     _accountSubList.addAll(await _buildAccountTypeList(_loanAccounts, logo));
 
     _accountSubList.add(Text(
         AccountsPageConstants.INVESTMENT_TYPE.toUpperCase(),
         style: BlossomText.body));
+    _accountSubList.add(Divider());
     _accountSubList
         .addAll(await _buildAccountTypeList(_investmentAccounts, logo));
 
@@ -231,36 +235,38 @@ class _AccountsScreenState extends State<AccountsScreen> {
   Future<List<Widget>> _buildAccountTypeList(List<Account> accounts,
       String logo) async {
     List<Widget> _accountTypeList = new List();
+    int i = 0;
     accounts.forEach((account) {
       if (account != null) {
-        _accountTypeList.add(Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-              child: InkWell(
-                onTap: () =>
-                {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                        new AccountDetailScreen(account, logo)),
-                  )
-                },
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(account.name, style: BlossomText.mediumBody),
-                      Text(ParseUtils.formatAmount(account.balances.current),
-                          style: BlossomText.mediumBody),
-                      //TODO: Make look like checking number on check
-                      ParseUtils.parseAccountMask(account.mask),
-                    ]),
-              ),
+        _accountTypeList.add(Card(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+            child: InkWell(
+              onTap: () =>
+              {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                      new AccountDetailScreen(account, logo)),
+                )
+              },
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(account.name, style: BlossomText.mediumBody),
+                    Text(ParseUtils.formatAmount(account.balances.current),
+                        style: BlossomText.mediumBody),
+                    //TODO: Make look like checking number on check
+                    ParseUtils.parseAccountMask(account.mask),
+                  ]),
             ),
           ),
         ));
+        if (i < accounts.length - 1) {
+          _accountTypeList.add(Divider());
+          i++;
+        }
       }
     });
 
