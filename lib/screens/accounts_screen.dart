@@ -24,6 +24,7 @@ import 'package:main/screens/account_detail_screen.dart';
 import 'package:main/service/plaid/plaid_service.dart';
 import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
+import 'package:main/theme/blossom_spacing.dart';
 import 'package:main/theme/blossom_text.dart';
 import 'package:main/theme/budget_icons.dart';
 import 'package:main/util/parse_utils.dart';
@@ -161,6 +162,8 @@ class _AccountsScreenState extends State<AccountsScreen> {
   Future<List<Widget>> _createAccountsList(
       List<Account> accounts, String logo) async {
     List<Widget> _accountSubList = new List();
+    List<Widget> _returnList = new List();
+    _accountSubList.add(BlossomSpacing.STANDARD_FORM);
     //TODO: figure out better way then using null in terinary
     List<Account> _depositoryAccounts = accounts
         .map((account) => account.type == AccountsPageConstants.DEPOSITORY_TYPE
@@ -202,7 +205,27 @@ class _AccountsScreenState extends State<AccountsScreen> {
     _accountSubList
         .addAll(await _buildAccountTypeList(_investmentAccounts, logo));
 
-    return _accountSubList;
+    _returnList.add(
+      Neumorphic(
+        child: Column(
+          children: [
+            Padding(padding: EdgeInsets.only(top: 8)),
+            ConstrainedBox(
+                constraints: BoxConstraints(
+                    minHeight: 180, maxHeight: 180),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: _accountSubList,
+                  ),
+                )
+            )
+          ],
+        ),
+        style: BlossomNeumorphicStyles.negativeEightConcave,
+      ),
+    );
+
+    return _returnList;
   }
 
   Future<List<Widget>> _buildAccountTypeList(List<Account> accounts,
