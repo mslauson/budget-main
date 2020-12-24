@@ -236,14 +236,14 @@ class _AccountsScreenState extends State<AccountsScreen> {
       String logo) async {
     List<Widget> _accountTypeList = new List();
     int i = 0;
+    int size = accounts.where((element) => element != null).length;
     accounts.forEach((account) {
       if (account != null) {
         _accountTypeList.add(Card(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
             child: InkWell(
-              onTap: () =>
-              {
+              onTap: () => {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -263,12 +263,14 @@ class _AccountsScreenState extends State<AccountsScreen> {
             ),
           ),
         ));
-        if (i < accounts.length - 1) {
+        if (i < size - 1) {
           _accountTypeList.add(Divider());
           i++;
         }
       }
     });
+
+    _accountTypeList.add(Padding(padding: EdgeInsets.only(bottom: 8)));
 
     return _accountTypeList;
   }
