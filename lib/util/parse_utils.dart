@@ -1,21 +1,25 @@
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:intl/intl.dart';
 import 'package:main/models/accounts/account_meta.dart';
 import 'package:main/models/accounts/response/account_meta_response.dart';
 import 'package:main/models/transactions/transactions_get_response.dart';
-import 'package:main/theme/blossom_text.dart';
+import 'package:main/theme/blossom_neumorphic_styles.dart';
+import 'package:main/theme/blossom_neumorphic_text.dart';
 
 import 'icon_util.dart';
 
 class ParseUtils {
   ParseUtils._();
 
-  static Text parseAccountMask(String mask) {
+  static NeumorphicText parseAccountMask(String mask) {
     int length = mask.length;
     mask.replaceRange(0, length - 4, "X");
-    return Text(mask, style: BlossomText.accountNumber);
+    return NeumorphicText(mask,
+        textStyle: BlossomNeumorphicText.accountNumber,
+        style: BlossomNeumorphicStyles.fourGrey);
   }
 
   static String parseMerchant(String merchant) {

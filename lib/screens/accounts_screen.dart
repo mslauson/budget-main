@@ -237,29 +237,27 @@ class _AccountsScreenState extends State<AccountsScreen> {
     int size = accounts.where((element) => element != null).length;
     accounts.forEach((account) {
       if (account != null) {
-        _accountTypeList.add(Card(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-            child: InkWell(
-              onTap: () => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                      new AccountDetailScreen(account, logo)),
-                )
-              },
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text(account.name, style: BlossomText.mediumBody),
-                    Text(ParseUtils.formatAmount(account.balances.current),
-                        style: BlossomText.mediumBody),
-                    //TODO: Make look like checking number on check
-                    ParseUtils.parseAccountMask(account.mask),
-                  ]),
-            ),
-          ),
+        _accountTypeList.add(InkWell(
+          onTap: () => {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => new AccountDetailScreen(account, logo)),
+            )
+          },
+          child: Row(children: [
+            Spacer(flex: 1),
+            NeumorphicText(account.name,
+                textStyle: BlossomNeumorphicText.mediumBody,
+                style: BlossomNeumorphicStyles.fourGrey),
+            Spacer(flex: 1),
+            ParseUtils.parseAccountMask(account.mask),
+            Spacer(flex: 1),
+            NeumorphicText(ParseUtils.formatAmount(account.balances.current),
+                textStyle: BlossomNeumorphicText.mediumBody,
+                style: BlossomNeumorphicStyles.fourGrey),
+            Spacer(flex: 1),
+          ]),
         ));
         if (i < size - 1) {
           _accountTypeList.add(Divider());
