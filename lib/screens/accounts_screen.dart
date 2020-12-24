@@ -215,14 +215,12 @@ class _AccountsScreenState extends State<AccountsScreen> {
           children: [
             Padding(padding: EdgeInsets.only(top: 8)),
             ConstrainedBox(
-                constraints: BoxConstraints(
-                    minHeight: 180, maxHeight: 180),
+                constraints: BoxConstraints(minHeight: 300, maxHeight: 300),
                 child: SingleChildScrollView(
                   child: Column(
                     children: _accountSubList,
                   ),
-                )
-            )
+                ))
           ],
         ),
         style: BlossomNeumorphicStyles.negativeEightConcave,
@@ -305,11 +303,11 @@ class _AccountsScreenState extends State<AccountsScreen> {
                 children: [
                   Neumorphic(
                       child: Padding(
-                        padding: const EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(8),
                         child: Image.memory(
                           base64Decode(accountsModel.institution.logo),
-                          height: 60,
-                          width: 60,
+                          height: 40,
+                          width: 40,
                         ),
                       ),
                       style: BlossomNeumorphicStyles.fourIconCircle),
