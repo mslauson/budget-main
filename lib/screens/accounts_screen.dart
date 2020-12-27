@@ -248,7 +248,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
           child: Row(children: [
             Spacer(flex: 1),
             NeumorphicText(account.name,
-                textStyle: BlossomNeumorphicText.mediumBody,
+                textStyle: BlossomNeumorphicText.body,
                 style: BlossomNeumorphicStyles.fourGrey),
             Spacer(flex: 1),
             ParseUtils.parseAccountMask(account.mask),
@@ -260,7 +260,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                 child: NeumorphicText(
                   ParseUtils.checkIfNegative(
                       ParseUtils.formatAmount(account.balances.current)),
-                  textStyle: BlossomNeumorphicText.mediumBody,
+                  textStyle: BlossomNeumorphicText.body,
                   style: BlossomNeumorphicStyles.fourGrey,
                 ),
               ),
