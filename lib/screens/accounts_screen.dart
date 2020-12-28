@@ -296,39 +296,65 @@ class _AccountsScreenState extends State<AccountsScreen> {
   }
 
   Widget _buildCollapsedWidgets(AccountsFullModel accountsModel, String phone) {
-    return ExpandableButton(
-      child: GestureDetector(
-        onLongPress: () {
-          _phone = phone;
-          _itemId = accountsModel.id;
-          _accessToken = accountsModel.accessToken;
-          _panelController.open();
-        },
-        child: Neumorphic(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Neumorphic(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Image.memory(
-                          base64Decode(accountsModel.institution.logo),
-                          height: 40,
-                          width: 40,
+    if (!accountsModel.needsUpdating) {
+      return ExpandableButton(
+        child: GestureDetector(
+          onLongPress: () {
+            _phone = phone;
+            _itemId = accountsModel.id;
+            _accessToken = accountsModel.accessToken;
+            _panelController.open();
+          },
+          child: Neumorphic(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Neumorphic(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Image.memory(
+                            base64Decode(accountsModel.institution.logo),
+                            height: 40,
+                            width: 40,
+                          ),
                         ),
-                      ),
-                      style: BlossomNeumorphicStyles.fourIconCircleWhite),
-                  Spacer(flex: 1),
-                  NeumorphicText(accountsModel.institution.name,
-                      textStyle: BlossomNeumorphicText.largeBodyBold,
-                      style: BlossomNeumorphicStyles.fourGrey),
-                  Spacer(flex: 1)
-                ],
+                        style: BlossomNeumorphicStyles.fourIconCircleWhite),
+                    Spacer(flex: 1),
+                    NeumorphicText(accountsModel.institution.name,
+                        textStyle: BlossomNeumorphicText.largeBodyBold,
+                        style: BlossomNeumorphicStyles.fourGrey),
+                    Spacer(flex: 1)
+                  ],
+                ),
               ),
+              style: BlossomNeumorphicStyles.negativeEightConcaveWhite),
+        ),
+      );
+    } else {
+      return Neumorphic(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Neumorphic(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: NeumorphicIcon(BudgetIcons.ATTENTION.icon,
+                          style: BlossomNeumorphicStyles.twentyIconGrey),
+                    ),
+                    style: BlossomNeumorphicStyles.fourIconCircleWhite),
+                Spacer(flex: 1),
+                NeumorphicText(
+                    accountsModel.institution.name +
+                        AccountsPageConstants.NEEDS_ATTENTION,
+                    textStyle: BlossomNeumorphicText.body,
+                    style: BlossomNeumorphicStyles.fourGrey),
+                Spacer(flex: 1)
+              ],
             ),
-            style: BlossomNeumorphicStyles.negativeEightConcaveWhite),
-      ),
-    );
+          ),
+          style: BlossomNeumorphicStyles.negativeEightConcaveWhite);
+    }
   }
 }

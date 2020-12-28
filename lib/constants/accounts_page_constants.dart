@@ -16,6 +16,11 @@ class AccountsPageConstants {
 
   static const String AVAILABLE_BALANCE = "Available Balance";
 
+  static const String NEEDS_ATTENTION = " Needs Attention";
+
   static const String REMOVE_INSTITUTION =
       "Remove this institution from Blossom?";
+
+  static const String RELINK_INSTITUTION =
+      "Re-link this institution with Blossom?";
 }
