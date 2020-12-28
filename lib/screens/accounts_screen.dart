@@ -42,7 +42,8 @@ class _AccountsScreenState extends State<AccountsScreen> {
   final AccountsClient _accountsClient = AccountsClient();
   final PlaidClient _plaidClient = PlaidClient();
   final TransactionsClient _transactionsClient = TransactionsClient();
-  final PanelController _panelController = PanelController();
+  final PanelController _deletePanelController = PanelController();
+  final PanelController _relinkPanelController = PanelController();
   String _phone;
   String _itemId;
   String _accessToken;
@@ -53,75 +54,110 @@ class _AccountsScreenState extends State<AccountsScreen> {
         ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone;
     final PlaidService _plaidService =
         PlaidService(onfinish: () => Navigator.pop(context));
+    //cancelPanel
     return SlidingUpPanel(
-      minHeight: 0,
-      maxHeight: 80,
-      controller: _panelController,
-      panel: GestureDetector(
-        onTap: () {
-          _cancelItem();
-          _panelController.close();
-        },
-        child: Neumorphic(
-          child: Row(
-            children: <Widget>[
-              Padding(padding: EdgeInsets.only(left: 8)),
-              Neumorphic(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: NeumorphicIcon(BudgetIcons.DELETE.icon,
-                        style: BlossomNeumorphicStyles.twentyIconGrey),
-                  ),
-                  style: BlossomNeumorphicStyles.fourIconCircleWhite),
-              Spacer(
-                flex: 1,
-              ),
-              NeumorphicText(AccountsPageConstants.REMOVE_INSTITUTION,
-                  textStyle: BlossomNeumorphicText.body,
-                  style: BlossomNeumorphicStyles.eightGrey),
-              Spacer(
-                flex: 1,
-              )
-            ],
+        minHeight: 0,
+        maxHeight: 80,
+        controller: _deletePanelController,
+        panel: GestureDetector(
+          onTap: () {
+            _cancelItem();
+            _deletePanelController.close();
+          },
+          child: Neumorphic(
+            child: Row(
+              children: <Widget>[
+                Padding(padding: EdgeInsets.only(left: 8)),
+                Neumorphic(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: NeumorphicIcon(BudgetIcons.DELETE.icon,
+                          style: BlossomNeumorphicStyles.twentyIconGrey),
+                    ),
+                    style: BlossomNeumorphicStyles.fourIconCircleWhite),
+                Spacer(
+                  flex: 1,
+                ),
+                NeumorphicText(AccountsPageConstants.REMOVE_INSTITUTION,
+                    textStyle: BlossomNeumorphicText.body,
+                    style: BlossomNeumorphicStyles.eightGrey),
+                Spacer(
+                  flex: 1,
+                )
+              ],
+            ),
           ),
         ),
-      ),
-      body: Scaffold(
-        extendBody: true,
-        floatingActionButton: FloatingActionButton(
-          child: Icon(FontAwesomeIcons.plus),
-          backgroundColor: Colors.white,
-          onPressed: () => _plaidService.openLinkNewAccount(phone),
-        ),
-        body: Stack(
-          children: [
-            NavDrawer(),
-            DrawerContainer(children: [
-              FutureBuilder(
-                future: _loadAccounts(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasError) {
-                    //TODO: display toast
-                    log(snapshot.error);
-                  }
-                  if (snapshot.hasData) {
-                    return GestureDetector(
-                        onTap: () {
-                          if (_panelController.isPanelOpen) {
-                            _panelController.close();
-                          }
-                        },
-                        child: Column(children: snapshot.data));
-                  } else {
-                    return Loading(indicator: BallPulseIndicator());
-                  }
-                },
+        //relink panel
+        body: SlidingUpPanel(
+          minHeight: 0,
+          maxHeight: 80,
+          controller: _deletePanelController,
+          panel: GestureDetector(
+            onTap: () {
+              _cancelItem();
+              _deletePanelController.close();
+            },
+            child: Neumorphic(
+              child: Row(
+                children: <Widget>[
+                  Padding(padding: EdgeInsets.only(left: 8)),
+                  Neumorphic(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: NeumorphicIcon(BudgetIcons.DELETE.icon,
+                            style: BlossomNeumorphicStyles.twentyIconGrey),
+                      ),
+                      style: BlossomNeumorphicStyles.fourIconCircleWhite),
+                  Spacer(
+                    flex: 1,
+                  ),
+                  NeumorphicText(AccountsPageConstants.REMOVE_INSTITUTION,
+                      textStyle: BlossomNeumorphicText.body,
+                      style: BlossomNeumorphicStyles.eightGrey),
+                  Spacer(
+                    flex: 1,
+                  )
+                ],
               ),
-            ]),
-          ],
-        ),
-      ),
-    );
+            ),
+          ),
+          body: Scaffold(
+            extendBody: true,
+            floatingActionButton: FloatingActionButton(
+              child: Icon(FontAwesomeIcons.plus),
+              backgroundColor: Colors.white,
+              onPressed: () => _plaidService.openLinkNewAccount(phone),
+            ),
+            body: Stack(
+              children: [
+                NavDrawer(),
+                DrawerContainer(children: [
+                  FutureBuilder(
+                    future: _loadAccounts(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasError) {
+                        //TODO: display toast
+                        log(snapshot.error);
+                      }
+                      if (snapshot.hasData) {
+                        return GestureDetector(
+                            onTap: () {
+                              if (_deletePanelController.isPanelOpen) {
+                                _deletePanelController.close();
+                              }
+                            },
+                            child: Column(children: snapshot.data));
+                      } else {
+                        return Loading(indicator: BallPulseIndicator());
+                      }
+                    },
+                  ),
+                ]),
+              ],
+            ),
+          ),
+        ));
   }
 
   Future<List<Widget>> _loadAccounts() async {
@@ -177,13 +213,12 @@ class _AccountsScreenState extends State<AccountsScreen> {
         .toList();
     List<Account> _loanAccounts = accounts
         .map((account) =>
-    account.type == AccountsPageConstants.LOAN_TYPE ? account : null)
+            account.type == AccountsPageConstants.LOAN_TYPE ? account : null)
         .toList();
     List<Account> _investmentAccounts = accounts
-        .map((account) =>
-    account.type == AccountsPageConstants.INVESTMENT_TYPE
-        ? account
-        : null)
+        .map((account) => account.type == AccountsPageConstants.INVESTMENT_TYPE
+            ? account
+            : null)
         .toList();
 
     _accountSubList.add(Text(
@@ -231,8 +266,8 @@ class _AccountsScreenState extends State<AccountsScreen> {
     return _returnList;
   }
 
-  Future<List<Widget>> _buildAccountTypeList(List<Account> accounts,
-      String logo) async {
+  Future<List<Widget>> _buildAccountTypeList(
+      List<Account> accounts, String logo) async {
     List<Widget> _accountTypeList = new List();
     int i = 0;
     int size = accounts.where((element) => element != null).length;
@@ -284,15 +319,14 @@ class _AccountsScreenState extends State<AccountsScreen> {
   void _cancelItem() {
     _plaidClient
         .removeItem(PlaidGenericRequest(
-        clientId: PlaidConstants.CLIENT_ID_SANDBOX,
-        secret: PlaidConstants.CLIENT_SECRET_SANDBOX,
-        accessToken: _accessToken))
-        .whenComplete(() async =>
-    {
-      await _accountsClient.deleteAccount(
-          DeleteAccountRequestModel(phone: _phone, accountId: _itemId)),
-      await _transactionsClient.deleteTransactions(_phone, _itemId)
-    });
+            clientId: PlaidConstants.CLIENT_ID_SANDBOX,
+            secret: PlaidConstants.CLIENT_SECRET_SANDBOX,
+            accessToken: _accessToken))
+        .whenComplete(() async => {
+              await _accountsClient.deleteAccount(
+                  DeleteAccountRequestModel(phone: _phone, accountId: _itemId)),
+              await _transactionsClient.deleteTransactions(_phone, _itemId)
+            });
   }
 
   Widget _buildCollapsedWidgets(AccountsFullModel accountsModel, String phone) {
@@ -303,7 +337,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
             _phone = phone;
             _itemId = accountsModel.id;
             _accessToken = accountsModel.accessToken;
-            _panelController.open();
+            _deletePanelController.open();
           },
           child: Neumorphic(
               child: Padding(
