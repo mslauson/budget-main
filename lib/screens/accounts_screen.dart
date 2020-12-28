@@ -342,6 +342,13 @@ class _AccountsScreenState extends State<AccountsScreen> {
             _accessToken = accountsModel.accessToken;
             _deletePanelController.open();
           },
+          onTap: () {
+            if (_deletePanelController.isPanelOpen) {
+              _deletePanelController.close();
+            } else if (_relinkPanelController.isPanelOpen) {
+              _relinkPanelController.close();
+            }
+          },
           child: Neumorphic(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -371,7 +378,13 @@ class _AccountsScreenState extends State<AccountsScreen> {
     } else {
       return GestureDetector(
         onTap: () {
-          _relinkPanelController.open();
+          if (_deletePanelController.isPanelOpen) {
+            _deletePanelController.close();
+          } else if (_relinkPanelController.isPanelOpen) {
+            _relinkPanelController.close();
+          } else {
+            _relinkPanelController.open();
+          }
         },
         child: Neumorphic(
             child: Padding(
