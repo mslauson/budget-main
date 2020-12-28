@@ -105,14 +105,14 @@ class _AccountsScreenState extends State<AccountsScreen> {
                   Neumorphic(
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
-                        child: NeumorphicIcon(BudgetIcons.DELETE.icon,
+                        child: NeumorphicIcon(BudgetIcons.TRANSFER.icon,
                             style: BlossomNeumorphicStyles.twentyIconGrey),
                       ),
                       style: BlossomNeumorphicStyles.fourIconCircleWhite),
                   Spacer(
                     flex: 1,
                   ),
-                  NeumorphicText(AccountsPageConstants.REMOVE_INSTITUTION,
+                  NeumorphicText(AccountsPageConstants.RELINK_INSTITUTION,
                       textStyle: BlossomNeumorphicText.body,
                       style: BlossomNeumorphicStyles.eightGrey),
                   Spacer(
