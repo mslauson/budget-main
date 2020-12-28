@@ -1,9 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 import 'constants/global_constants.dart';
 import 'constants/routes.dart';
@@ -30,13 +31,15 @@ class MyApp extends StatelessWidget {
     ]);
     return ScopedModel<ActiveUser>(
       model: new ActiveUser(),
-      child: MaterialApp(
-        title: GlobalConstants.appName,
-        home: Splash(),
-        onGenerateRoute: (settings) => FluroRouter.appRouter
-            .matchRoute(context, settings.name, routeSettings: settings)
-            .route,
-        theme: _buildThemeData(),
+      child: NeumorphicTheme(
+        theme: _buildLightThemeData(),
+        child: MaterialApp(
+          title: GlobalConstants.appName,
+          home: Splash(),
+          onGenerateRoute: (settings) => FluroRouter.appRouter
+              .matchRoute(context, settings.name, routeSettings: settings)
+              .route,
+        ),
       ),
     );
   }
@@ -55,94 +58,93 @@ ThemeData _buildThemeData() => ThemeData(
       ),
     );
 
-FluroRouter _buildRouter() =>
-    FluroRouter.appRouter..define(
-      Routes.home,
+NeumorphicThemeData _buildLightThemeData() => NeumorphicThemeData(
+      baseColor: Colors.white,
+      textTheme: TextTheme(
+        button: TextStyle(
+          color: Colors.white,
+        ),
+      ),
+    );
+
+FluroRouter _buildRouter() => FluroRouter.appRouter
+  ..define(
+    Routes.home,
+    transitionType: TransitionType.fadeIn,
+    handler: Handler(
+      handlerFunc: (context, params) => Splash(),
+    ),
+  )
+  ..define(
+    Routes.formOtp,
       transitionType: TransitionType.fadeIn,
       handler: Handler(
         handlerFunc: (context, params) => Splash(),
       ),
     )..define(
-      Routes.formOtp,
+      Routes.formUserPhone,
       transitionType: TransitionType.fadeIn,
-    handler: Handler(
-      handlerFunc: (context, params) => Splash(),
-    ),
-  )
-  ..define(
-    Routes.formUserPhone,
-    transitionType: TransitionType.fadeIn,
-    handler: Handler(
-      handlerFunc: (context, params) => Splash(),
-    ),
-  )
-  ..define(
-    Routes.formUserRegistration,
-    transitionType: TransitionType.fadeIn,
-    handler: Handler(
-      handlerFunc: (context, params) => Splash(),
-    ),
-  )
-  ..define(
-    Routes.formUserProfile,
-    transitionType: TransitionType.fadeIn,
-    handler: Handler(
-      handlerFunc: (context, params) => Splash(),
-    ),
-  )
-  ..define(
-    Routes.blossomDash,
-    transitionType: TransitionType.fadeIn,
-    handler: Handler(
-      handlerFunc: (context, params) => DashScreen(),
-    ),
-  )
-  ..define(
-    Routes.blossomBudgets,
-    transitionType: TransitionType.cupertino,
-    handler: Handler(
-      handlerFunc: (context, params) => BudgetsScreen(),
-    ),
-  )
-  ..define(
-    Routes.blossomBudgetById,
-    transitionType: TransitionType.fadeIn,
-    handler: Handler(
-      handlerFunc: (context, params) => Splash(),
-    ),
-  )
-  ..define(
-    Routes.blossomAccounts,
-    transitionType: TransitionType.cupertino,
-    handler: Handler(
-      handlerFunc: (context, params) => AccountsScreen(),
-    ),
-  )
-  ..define(
-    Routes.blossomAccountById,
-    transitionType: TransitionType.fadeIn,
-    handler: Handler(
-      handlerFunc: (context, params) => Splash(),
-    ),
-  )
-  ..define(
-    Routes.blossomTransactions,
-    transitionType: TransitionType.cupertino,
-    handler: Handler(
-      handlerFunc: (context, params) => TransactionsScreen(),
-    ),
-  )
-  ..define(
-    Routes.blossomTransactionById,
-    transitionType: TransitionType.fadeIn,
-    handler: Handler(
-      handlerFunc: (context, params) => Splash(),
-    ),
-  )
-  ..define(
-    Routes.blossomProfile,
-    transitionType: TransitionType.cupertino,
-    handler: Handler(
-      handlerFunc: (context, params) => ProfileScreen(),
-    ),
-  );
+      handler: Handler(
+        handlerFunc: (context, params) => Splash(),
+      ),
+    )..define(
+      Routes.formUserRegistration,
+      transitionType: TransitionType.fadeIn,
+      handler: Handler(
+        handlerFunc: (context, params) => Splash(),
+      ),
+    )..define(
+      Routes.formUserProfile,
+      transitionType: TransitionType.fadeIn,
+      handler: Handler(
+        handlerFunc: (context, params) => Splash(),
+      ),
+    )..define(
+      Routes.blossomDash,
+      transitionType: TransitionType.fadeIn,
+      handler: Handler(
+        handlerFunc: (context, params) => DashScreen(),
+      ),
+    )..define(
+      Routes.blossomBudgets,
+      transitionType: TransitionType.cupertino,
+      handler: Handler(
+        handlerFunc: (context, params) => BudgetsScreen(),
+      ),
+    )..define(
+      Routes.blossomBudgetById,
+      transitionType: TransitionType.fadeIn,
+      handler: Handler(
+        handlerFunc: (context, params) => Splash(),
+      ),
+    )..define(
+      Routes.blossomAccounts,
+      transitionType: TransitionType.cupertino,
+      handler: Handler(
+        handlerFunc: (context, params) => AccountsScreen(),
+      ),
+    )..define(
+      Routes.blossomAccountById,
+      transitionType: TransitionType.fadeIn,
+      handler: Handler(
+        handlerFunc: (context, params) => Splash(),
+      ),
+    )..define(
+      Routes.blossomTransactions,
+      transitionType: TransitionType.cupertino,
+      handler: Handler(
+        handlerFunc: (context, params) => TransactionsScreen(),
+      ),
+    )..define(
+      Routes.blossomTransactionById,
+      transitionType: TransitionType.fadeIn,
+      handler: Handler(
+        handlerFunc: (context, params) => Splash(),
+      ),
+    )..define(
+      Routes.blossomProfile,
+      transitionType: TransitionType.cupertino,
+      handler: Handler(
+        handlerFunc: (context, params) => ProfileScreen(),
+      ),
+    );
