@@ -94,42 +94,90 @@ class BlossomNeumorphicStyles {
       lightSource: LightSource.topRight,
       intensity: .75);
 
-  static final negativeEightConcave = NeumorphicStyle(
+  static final negativeEightConcaveWhite = NeumorphicStyle(
+      shape: NeumorphicShape.concave,
+      boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(8)),
+      color: Colors.white,
+      depth: -8,
+      lightSource: LightSource.topRight,
+      intensity: .75);
+
+  static final negativeEightConcaveDefault = NeumorphicStyle(
       shape: NeumorphicShape.concave,
       boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(8)),
       depth: -8,
       lightSource: LightSource.topRight,
       intensity: .75);
 
-  static final eightConcave = NeumorphicStyle(
+  static final eightConcaveWhite = NeumorphicStyle(
+      shape: NeumorphicShape.concave,
+      boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+      color: Colors.white,
+      depth: 8,
+      lightSource: LightSource.topRight,
+      intensity: .75);
+
+  static final eightConcaveDefault = NeumorphicStyle(
       shape: NeumorphicShape.concave,
       boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
       depth: 8,
       lightSource: LightSource.topRight,
       intensity: .75);
 
-  static final eightConvex = NeumorphicStyle(
+  static final eightConvexWhite = NeumorphicStyle(
+      shape: NeumorphicShape.convex,
+      boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+      color: Colors.white,
+      depth: 8,
+      lightSource: LightSource.topRight,
+      intensity: .75);
+
+  static final eightConvexDefault = NeumorphicStyle(
       shape: NeumorphicShape.convex,
       boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
       depth: 8,
       lightSource: LightSource.topRight,
       intensity: .75);
 
-  static final eightIconCircle = NeumorphicStyle(
+  static final eightIconCircleWhite = NeumorphicStyle(
+      shape: NeumorphicShape.flat,
+      boxShape: NeumorphicBoxShape.circle(),
+      color: Colors.white,
+      depth: 8,
+      lightSource: LightSource.topLeft,
+      intensity: .75);
+
+  static final eightIconCircleDefault = NeumorphicStyle(
       shape: NeumorphicShape.flat,
       boxShape: NeumorphicBoxShape.circle(),
       depth: 8,
       lightSource: LightSource.topLeft,
       intensity: .75);
 
-  static final fourIconCircle = NeumorphicStyle(
+  static final fourIconCircleWhite = NeumorphicStyle(
+      shape: NeumorphicShape.flat,
+      boxShape: NeumorphicBoxShape.circle(),
+      color: Colors.white,
+      depth: 4,
+      lightSource: LightSource.topLeft,
+      intensity: .75);
+
+  static final fourIconCircleDefault = NeumorphicStyle(
       shape: NeumorphicShape.flat,
       boxShape: NeumorphicBoxShape.circle(),
       depth: 4,
       lightSource: LightSource.topLeft,
       intensity: .75);
 
-  static final fourButton = NeumorphicStyle(
+  static final fourButtonWhite = NeumorphicStyle(
+      shape: NeumorphicShape.flat,
+      boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
+      color: Colors.white,
+      depth: 4,
+      lightSource: LightSource.topLeft,
+      intensity: .75);
+
+  static final fourButtonDefault = NeumorphicStyle(
       shape: NeumorphicShape.flat,
       boxShape: NeumorphicBoxShape.roundRect(BorderRadius.circular(12)),
       depth: 4,

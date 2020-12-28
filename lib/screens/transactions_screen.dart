@@ -88,7 +88,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
         padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
         child: Neumorphic(
           child: Column(children: _dateWidgets),
-          style: BlossomNeumorphicStyles.eightConcave,
+          style: BlossomNeumorphicStyles.eightConcaveWhite,
         ),
       ));
     });
@@ -113,7 +113,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
               child: Neumorphic(
-                style: BlossomNeumorphicStyles.negativeEightConcave,
+                style: BlossomNeumorphicStyles.negativeEightConcaveWhite,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -124,9 +124,9 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                               padding: const EdgeInsets.all(16.0),
                               child: NeumorphicIcon(iconData.icon,
                                   style:
-                                  BlossomNeumorphicStyles.twentyIconGrey),
+                                      BlossomNeumorphicStyles.twentyIconGrey),
                             ),
-                            style: BlossomNeumorphicStyles.fourIconCircle),
+                            style: BlossomNeumorphicStyles.fourIconCircleWhite),
                         title: Text(
                           _subStrMerchant(transaction.merchant),
                           style: BlossomText.body,
@@ -156,13 +156,12 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
                       child: Neumorphic(
-                        style: BlossomNeumorphicStyles.eightConcave,
+                        style: BlossomNeumorphicStyles.eightConcaveWhite,
                         child: Padding(
                           padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
                           child: Text(
-                                ParseUtils.checkIfNegative(
-                                    ParseUtils.formatAmount(
-                                        transaction.amount)),
+                            ParseUtils.checkIfNegative(
+                                ParseUtils.formatAmount(transaction.amount)),
                             style: BlossomText.body,
                           ),
                         ),

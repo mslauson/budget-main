@@ -43,7 +43,7 @@ class BudgetsDetailScreen extends StatelessWidget {
                           child: NeumorphicIcon(BudgetIcons.BACK.icon,
                               style: BlossomNeumorphicStyles.twentyIconGrey),
                         ),
-                        style: BlossomNeumorphicStyles.fourIconCircle),
+                        style: BlossomNeumorphicStyles.fourIconCircleWhite),
                     onTap: () {
                       Navigator.of(context).pop();
                     },
@@ -59,7 +59,7 @@ class BudgetsDetailScreen extends StatelessWidget {
                         child: NeumorphicIcon(_icon.icon,
                             style: BlossomNeumorphicStyles.twentyIconGrey),
                       ),
-                      style: BlossomNeumorphicStyles.fourIconCircle),
+                      style: BlossomNeumorphicStyles.fourIconCircleWhite),
                   Padding(padding: EdgeInsets.only(right: 20)),
                 ]),
                 BlossomSpacing.STANDARD_FORM,
@@ -76,7 +76,8 @@ class BudgetsDetailScreen extends StatelessWidget {
                           ),
                           Padding(padding: EdgeInsets.only(left: 8, right: 8)),
                           Neumorphic(
-                            style: BlossomNeumorphicStyles.negativeEightConcave,
+                            style: BlossomNeumorphicStyles
+                                .negativeEightConcaveWhite,
                             child: Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: Align(
@@ -100,7 +101,8 @@ class BudgetsDetailScreen extends StatelessWidget {
                           ),
                           Padding(padding: EdgeInsets.only(left: 8, right: 8)),
                           Neumorphic(
-                            style: BlossomNeumorphicStyles.negativeEightConcave,
+                            style: BlossomNeumorphicStyles
+                                .negativeEightConcaveWhite,
                             child: Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: Align(
@@ -135,7 +137,8 @@ class BudgetsDetailScreen extends StatelessWidget {
                             )
                           ],
                         ),
-                        style: BlossomNeumorphicStyles.negativeEightConcave,
+                        style:
+                            BlossomNeumorphicStyles.negativeEightConcaveWhite,
                       ),
                     ],
                   ),
@@ -177,7 +180,7 @@ class BudgetsDetailScreen extends StatelessWidget {
                     style: BlossomNeumorphicStyles.fourGrey),
                 Spacer(flex: 2),
                 Neumorphic(
-                  style: BlossomNeumorphicStyles.eightConcave,
+                  style: BlossomNeumorphicStyles.eightConcaveWhite,
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
                     child: NeumorphicText(

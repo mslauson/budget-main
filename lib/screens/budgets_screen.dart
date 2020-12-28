@@ -134,7 +134,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                                   padding: EdgeInsets.only(left: 8, right: 8)),
                               Neumorphic(
                                 style: BlossomNeumorphicStyles
-                                    .negativeEightConcave,
+                                    .negativeEightConcaveWhite,
                                 child: Padding(
                                   padding: const EdgeInsets.all(16.0),
                                   child: Align(
@@ -160,7 +160,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                                   padding: EdgeInsets.only(left: 8, right: 8)),
                               Neumorphic(
                                 style: BlossomNeumorphicStyles
-                                    .negativeEightConcave,
+                                    .negativeEightConcaveWhite,
                                 child: Padding(
                                   padding: const EdgeInsets.all(16.0),
                                   child: Align(
@@ -196,7 +196,8 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                                 )
                               ],
                             ),
-                            style: BlossomNeumorphicStyles.negativeEightConcave,
+                            style: BlossomNeumorphicStyles
+                                .negativeEightConcaveWhite,
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -208,15 +209,16 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                                     textStyle: BlossomNeumorphicText.body,
                                     style: BlossomNeumorphicStyles.fourGrey),
                               ),
-                              style: BlossomNeumorphicStyles.fourButton,
+                              style: BlossomNeumorphicStyles.fourButtonWhite,
                               onPressed: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          BudgetsDetailScreen(
-                                              budget, transactions, iconData,
-                                              _metaResponse)),
+                                      builder: (context) => BudgetsDetailScreen(
+                                          budget,
+                                          transactions,
+                                          iconData,
+                                          _metaResponse)),
                                 );
                               },
                             ),
@@ -227,7 +229,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                   )
                 ]),
               ),
-              style: BlossomNeumorphicStyles.eightConcave,
+              style: BlossomNeumorphicStyles.eightConcaveWhite,
             ),
           ),
         ));
@@ -276,7 +278,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                     child: NeumorphicIcon(iconData.icon,
                         style: BlossomNeumorphicStyles.twentyIconGrey),
                   ),
-                  style: BlossomNeumorphicStyles.fourIconCircle),
+                  style: BlossomNeumorphicStyles.fourIconCircleWhite),
               Spacer(flex: 2),
               Column(
                 children: [
@@ -296,7 +298,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
             ],
           ),
         ),
-        style: BlossomNeumorphicStyles.negativeEightConcave,
+        style: BlossomNeumorphicStyles.negativeEightConcaveWhite,
       ),
     );
   }
@@ -349,7 +351,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
                     style: BlossomNeumorphicStyles.fourGrey),
                 Spacer(flex: 2),
                 Neumorphic(
-                  style: BlossomNeumorphicStyles.eightConcave,
+                  style: BlossomNeumorphicStyles.eightConcaveWhite,
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
                     child: NeumorphicText(

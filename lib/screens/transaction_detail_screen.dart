@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -41,17 +40,17 @@ class TransactionDetailScreen extends StatelessWidget {
                       Padding(padding: EdgeInsets.only(left: 24)),
                       GestureDetector(
                         child: Neumorphic(
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: NeumorphicIcon(BudgetIcons.BACK.icon,
-                                  style: BlossomNeumorphicStyles.twentyIconGrey),
-                            ),
-                            style: BlossomNeumorphicStyles.fourIconCircle),
-                        onTap: (){
-                          _determineIfTransactionUpdated(_initialNote);
-                          Navigator.of(context).pop();
-                          },
-                      ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: NeumorphicIcon(BudgetIcons.BACK.icon,
+                              style: BlossomNeumorphicStyles.twentyIconGrey),
+                        ),
+                        style: BlossomNeumorphicStyles.fourIconCircleWhite),
+                    onTap: () {
+                      _determineIfTransactionUpdated(_initialNote);
+                      Navigator.of(context).pop();
+                    },
+                  ),
                       Padding(padding: EdgeInsets.only(right: 16, left: 16)),
                      NeumorphicText(
                         ParseUtils.parseBudgetId(_transaction.budgetId),
@@ -73,12 +72,18 @@ class TransactionDetailScreen extends StatelessWidget {
                                   child: Padding(
                                     padding: const EdgeInsets.all(16.0),
                                     child: NeumorphicIcon(_icon.icon,
-                                        style: BlossomNeumorphicStyles.twentyIconGrey),
+                                        style: BlossomNeumorphicStyles
+                                            .twentyIconGrey),
                                   ),
-                                  style: BlossomNeumorphicStyles.fourIconCircle),
-                              Padding(padding: EdgeInsets.only(right: 40, left: 40)),
-                              NeumorphicText(ParseUtils.formatDate(_transaction.date),
-                                  textStyle: BlossomNeumorphicText.largeBodyBold,
+                                  style: BlossomNeumorphicStyles
+                                      .fourIconCircleWhite),
+                              Padding(
+                                  padding:
+                                      EdgeInsets.only(right: 40, left: 40)),
+                              NeumorphicText(
+                                  ParseUtils.formatDate(_transaction.date),
+                                  textStyle:
+                                      BlossomNeumorphicText.largeBodyBold,
                                   style: BlossomNeumorphicStyles.fourGrey),
                             ],
                           ),
@@ -96,7 +101,8 @@ class TransactionDetailScreen extends StatelessWidget {
                               Padding(padding: EdgeInsets.only(left: 2, right: 16)),
                               Expanded(
                                 child: Neumorphic(
-                                  style: BlossomNeumorphicStyles.negativeEightConcave,
+                                  style: BlossomNeumorphicStyles
+                                      .negativeEightConcaveWhite,
                                   child: Padding(
                                     padding: const EdgeInsets.all(16.0),
                                     child: Align(
@@ -125,13 +131,15 @@ class TransactionDetailScreen extends StatelessWidget {
                               ),
                               Padding(padding: EdgeInsets.only(left: 16, right: 16)),
                               Neumorphic(
-                                style: BlossomNeumorphicStyles.negativeEightConcave,
+                                style: BlossomNeumorphicStyles
+                                    .negativeEightConcaveWhite,
                                 child: Padding(
                                   padding: const EdgeInsets.all(16.0),
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: NeumorphicText(
-                                      ParseUtils.formatAmount(_transaction.amount),
+                                      ParseUtils.formatAmount(
+                                          _transaction.amount),
                                       textStyle: BlossomNeumorphicText.body,
                                       style: BlossomNeumorphicStyles.fourGrey,
                                     ),
@@ -154,17 +162,23 @@ class TransactionDetailScreen extends StatelessWidget {
                               Padding(padding: EdgeInsets.only(left: 16, right: 15)),
                               Expanded(
                                 child: Neumorphic(
-                                  style: BlossomNeumorphicStyles.negativeEightConcave,
+                                  style: BlossomNeumorphicStyles
+                                      .negativeEightConcaveWhite,
                                   child: Padding(
                                     padding: const EdgeInsets.all(16.0),
                                     child: Align(
                                       alignment: Alignment.centerLeft,
                                       child: Row(
                                         children: [
-                                          NeumorphicText(_accountMeta.accountName,
-                                              textStyle: BlossomNeumorphicText.body,
-                                              style: BlossomNeumorphicStyles.fourGrey),
-                                          Padding(padding: EdgeInsets.fromLTRB(5, 0, 5, 0)),
+                                          NeumorphicText(
+                                              _accountMeta.accountName,
+                                              textStyle:
+                                                  BlossomNeumorphicText.body,
+                                              style: BlossomNeumorphicStyles
+                                                  .fourGrey),
+                                          Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  5, 0, 5, 0)),
                                           NeumorphicText(_accountMeta.accountNumber,
                                               textStyle: BlossomNeumorphicText.accountNumber,
                                               style: BlossomNeumorphicStyles.fourGrey)
@@ -190,14 +204,18 @@ class TransactionDetailScreen extends StatelessWidget {
                               Padding(padding: EdgeInsets.only(left: 18, right: 18)),
                               Expanded(
                                 child: Neumorphic(
-                                  style: BlossomNeumorphicStyles.negativeEightConcave,
+                                  style: BlossomNeumorphicStyles
+                                      .negativeEightConcaveWhite,
                                   child: Padding(
                                     padding: const EdgeInsets.all(16.0),
                                     child: Align(
                                       alignment: Alignment.centerLeft,
-                                      child: NeumorphicText(ParseUtils.parseBudgetId(_transaction.budgetId),
+                                      child: NeumorphicText(
+                                          ParseUtils.parseBudgetId(
+                                              _transaction.budgetId),
                                           textStyle: BlossomNeumorphicText.body,
-                                          style: BlossomNeumorphicStyles.fourGrey),
+                                          style:
+                                              BlossomNeumorphicStyles.fourGrey),
                                     ),
                                   ),
                                 ),
@@ -247,18 +265,19 @@ class TransactionDetailScreen extends StatelessWidget {
                               ),
                               Padding(padding: EdgeInsets.only(left: 2, right: 2)),
                               Neumorphic(
-                                style: BlossomNeumorphicStyles.negativeEightConcave,
+                                style: BlossomNeumorphicStyles
+                                    .negativeEightConcaveWhite,
                                 child: Padding(
                                   padding: const EdgeInsets.all(16.0),
                                   child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: TextField(
-                                      autofocus: false,
-                                      controller: _notesController,
-                                      decoration: new InputDecoration(
-                                          border: InputBorder.none,
-                                          focusedBorder: InputBorder.none,
-                                          enabledBorder: InputBorder.none,
+                                      alignment: Alignment.centerLeft,
+                                      child: TextField(
+                                          autofocus: false,
+                                          controller: _notesController,
+                                          decoration: new InputDecoration(
+                                            border: InputBorder.none,
+                                            focusedBorder: InputBorder.none,
+                                            enabledBorder: InputBorder.none,
                                           errorBorder: InputBorder.none,
                                           disabledBorder: InputBorder.none,
                                           ),

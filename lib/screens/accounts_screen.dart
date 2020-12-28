@@ -72,7 +72,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                     child: NeumorphicIcon(BudgetIcons.DELETE.icon,
                         style: BlossomNeumorphicStyles.twentyIconGrey),
                   ),
-                  style: BlossomNeumorphicStyles.fourIconCircle),
+                  style: BlossomNeumorphicStyles.fourIconCircleWhite),
               Spacer(
                 flex: 1,
               ),
@@ -223,7 +223,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                 ))
           ],
         ),
-        style: BlossomNeumorphicStyles.negativeEightConcave,
+        style: BlossomNeumorphicStyles.negativeEightConcaveWhite,
       ),
     );
 
@@ -254,7 +254,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
             ParseUtils.parseAccountMask(account.mask),
             Spacer(flex: 1),
             Neumorphic(
-              style: BlossomNeumorphicStyles.eightConcave,
+              style: BlossomNeumorphicStyles.eightConcaveWhite,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
                 child: NeumorphicText(
@@ -317,7 +317,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                           width: 40,
                         ),
                       ),
-                      style: BlossomNeumorphicStyles.fourIconCircle),
+                      style: BlossomNeumorphicStyles.fourIconCircleWhite),
                   Spacer(flex: 1),
                   NeumorphicText(accountsModel.institution.name,
                       textStyle: BlossomNeumorphicText.largeBodyBold,
@@ -326,7 +326,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
                 ],
               ),
             ),
-            style: BlossomNeumorphicStyles.negativeEightConcave),
+            style: BlossomNeumorphicStyles.negativeEightConcaveWhite),
       ),
     );
   }
