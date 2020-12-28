@@ -99,8 +99,13 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
             IconUtil.determineIcon(ParseUtils.parseBudgetId(budget.id));
         List<Transactions> transactions =
             _filterTransactionsForBudget(response, budget.id);
-        List<Transactions> transactionsSubSet =
-            transactions.sublist(0, min(transactions.length, 10));
+        List<Transactions> transactionsSubSet;
+        if (transactions.isNotEmpty) {
+          transactionsSubSet =
+              transactions.sublist(0, min(transactions.length, 10));
+        } else {
+          transactionsSubSet = List();
+        }
         widgets.add(GestureDetector(
           onLongPress: () {
             Navigator.push(
