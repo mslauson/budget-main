@@ -92,7 +92,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
         body: SlidingUpPanel(
           minHeight: 0,
           maxHeight: 80,
-          controller: _deletePanelController,
+          controller: _relinkPanelController,
           panel: GestureDetector(
             onTap: () {
               _cancelItem();
@@ -145,6 +145,9 @@ class _AccountsScreenState extends State<AccountsScreen> {
                             onTap: () {
                               if (_deletePanelController.isPanelOpen) {
                                 _deletePanelController.close();
+                              }
+                              if (_relinkPanelController.isPanelOpen) {
+                                _relinkPanelController.close();
                               }
                             },
                             child: Column(children: snapshot.data));
@@ -366,29 +369,34 @@ class _AccountsScreenState extends State<AccountsScreen> {
         ),
       );
     } else {
-      return Neumorphic(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Neumorphic(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: NeumorphicIcon(BudgetIcons.ATTENTION.icon,
-                          style: BlossomNeumorphicStyles.twentyIconGrey),
-                    ),
-                    style: BlossomNeumorphicStyles.fourIconCircleWhite),
-                Spacer(flex: 1),
-                NeumorphicText(
-                    accountsModel.institution.name +
-                        AccountsPageConstants.NEEDS_ATTENTION,
-                    textStyle: BlossomNeumorphicText.body,
-                    style: BlossomNeumorphicStyles.fourGrey),
-                Spacer(flex: 1)
-              ],
+      return GestureDetector(
+        onTap: () {
+          _relinkPanelController.open();
+        },
+        child: Neumorphic(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Neumorphic(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: NeumorphicIcon(BudgetIcons.ATTENTION.icon,
+                            style: BlossomNeumorphicStyles.twentyIconGrey),
+                      ),
+                      style: BlossomNeumorphicStyles.fourIconCircleWhite),
+                  Spacer(flex: 1),
+                  NeumorphicText(
+                      accountsModel.institution.name +
+                          AccountsPageConstants.NEEDS_ATTENTION,
+                      textStyle: BlossomNeumorphicText.body,
+                      style: BlossomNeumorphicStyles.fourGrey),
+                  Spacer(flex: 1)
+                ],
+              ),
             ),
-          ),
-          style: BlossomNeumorphicStyles.negativeEightConcaveWhite);
+            style: BlossomNeumorphicStyles.negativeEightConcaveWhite),
+      );
     }
   }
 }
