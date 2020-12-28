@@ -233,8 +233,17 @@ class TransactionDetailScreen extends StatelessWidget {
                                 textStyle: BlossomNeumorphicText.secondaryBody,
                                 style: BlossomNeumorphicStyles.fourGrey,
                               ),
-                              Padding(padding: EdgeInsets.only(left: 4, right: 4)),
-                              NeumorphicCheckbox(value:  _determineBools(_transaction.reimbursement), onChanged: (value) {  },),
+                              Padding(
+                                  padding: EdgeInsets.only(left: 4, right: 4)),
+                              NeumorphicCheckbox(
+                                value:
+                                    _determineBools(_transaction.reimbursement),
+                                onChanged: (value) {},
+                                style: NeumorphicCheckboxStyle(
+                                    border:
+                                        NeumorphicBorder(color: Colors.white),
+                                    disabledColor: Colors.white),
+                              ),
                             ],
                           ),
                         ),
@@ -281,9 +290,7 @@ class TransactionDetailScreen extends StatelessWidget {
                                           errorBorder: InputBorder.none,
                                           disabledBorder: InputBorder.none,
                                           ),
-                                      maxLines: null
-                                    )
-                                  ),
+                                          maxLines: null)),
                                 ),
                               ),
                             ],
@@ -291,11 +298,13 @@ class TransactionDetailScreen extends StatelessWidget {
                         ),
                       ],
                     ),
+                    style: BlossomNeumorphicStyles.standardBack,
                   ),
                 )
               ],
             ),
           ),
+          style: BlossomNeumorphicStyles.standardBack,
         ),
       ),
     );
