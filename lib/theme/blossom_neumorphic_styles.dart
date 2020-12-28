@@ -189,4 +189,6 @@ class BlossomNeumorphicStyles {
       lightSource: LightSource.topLeft,
       intensity: .75,
       color: Colors.grey);
+
+  static final standardBack = NeumorphicStyle(color: Colors.white);
 }

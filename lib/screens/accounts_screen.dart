@@ -153,6 +153,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
               expanded: Column(children: accountsList),
             ),
           ),
+          style: BlossomNeumorphicStyles.standardBack,
         ),
       ));
     });
