@@ -49,6 +49,23 @@ class PlaidService {
         .catchError((error) => ErrorHandler.showError(error));
   }
 
+  void openLinkFixAccount(String phone, String accessToken) async {
+    LinkConfiguration config;
+    PlaidLink plaidLink;
+    _phone = phone;
+    _retrieveLinkTokenFixAccount(phone, accessToken)
+        .then((linkToken) => {
+              config = LinkConfiguration(linkToken: linkToken),
+              plaidLink = PlaidLink(
+                  configuration: config,
+                  onSuccess: _onSuccessLinkCallback,
+                  onEvent: _onEventLinkCallBack,
+                  onExit: _onExitLinkCallBack),
+              plaidLink.open()
+            })
+        .catchError((error) => ErrorHandler.showError(error));
+  }
+
   Future<String> _retrieveLinkTokenNewAccount(String phone) async {
     LinkTokenResponse response =
         await _plaidClient.getLinkToken(_buildLinkRequestNewAccount(phone));
@@ -66,8 +83,28 @@ class PlaidService {
         countryCodes: PlaidConstants.COUNTRY_CODES);
   }
 
-  void _onSuccessLinkCallback(String publicToken,
-      LinkSuccessMetadata metadata) async {
+  Future<String> _retrieveLinkTokenFixAccount(
+      String phone, String accessToken) async {
+    LinkTokenResponse response = await _plaidClient
+        .getLinkToken(_buildLinkRequestFixAccount(phone, accessToken));
+    return response.linkToken;
+  }
+
+  LinkTokenRequest _buildLinkRequestFixAccount(
+      String phone, String accessToken) {
+    return LinkTokenRequest(
+        clientId: PlaidConstants.CLIENT_ID_SANDBOX,
+        secret: PlaidConstants.CLIENT_SECRET_SANDBOX,
+        clientName: PlaidConstants.CLIENT_NAME,
+        language: PlaidConstants.LANGUAGE,
+        user: PlaidUser(clientUserId: phone),
+        products: PlaidConstants.TRANSACTION_PRODUCT,
+        countryCodes: PlaidConstants.COUNTRY_CODES,
+        accessToken: accessToken);
+  }
+
+  void _onSuccessLinkCallback(
+      String publicToken, LinkSuccessMetadata metadata) async {
     log("onSuccess: $publicToken, metadata: ${metadata.description()}");
     PlaidAccountsResponse accountsResponse;
     PlaidItemResponseModel itemResponseModel;
