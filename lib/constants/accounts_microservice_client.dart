@@ -7,4 +7,5 @@ class AccountsMicroserviceConstants {
   static const ENDPOINT_ACCESS_TOKENS = "/accessTokens";
   static const ENDPOINT_META = "meta";
   static const ENDPOINT_DELETE = "flag/delete";
+  static const ENDPOINT_TOKEN = "token";
 }

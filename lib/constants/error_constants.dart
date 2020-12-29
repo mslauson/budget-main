@@ -6,6 +6,7 @@ class ErrorConstants {
   //Accounts Client
   static const String ACCOUNTS_RETRIEVAL = "Accounts retrieval";
   static const String ADDING_ACCOUNTS = "Linking account with Blossom";
+  static const String RE_ADDING_ACCOUNTS = "Re-Linking account with Blossom";
   static const String REMOVING_ACCOUNTS = "Removing account from Blossom";
 
   //Budget Client
