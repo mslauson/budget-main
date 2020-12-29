@@ -95,7 +95,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
           controller: _relinkPanelController,
           panel: GestureDetector(
             onTap: () {
-              _plaidService.openLinkFixAccount(phone, _accessToken);
+              _plaidService.openLinkFixAccount(phone, _accessToken, _itemId);
               _relinkPanelController.close();
             },
             child: Neumorphic(
@@ -385,6 +385,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
         },
         onTap: () {
           _accessToken = accountsModel.accessToken;
+          _itemId = accountsModel.id;
           if (_deletePanelController.isPanelOpen) {
             _deletePanelController.close();
           } else if (_relinkPanelController.isPanelOpen) {
