@@ -7,6 +7,7 @@ import 'package:main/error/error_handler.dart';
 import 'package:main/models/accounts/account.dart';
 import 'package:main/models/accounts/accounts_full_model.dart';
 import 'package:main/models/accounts/institution.dart';
+import 'package:main/models/accounts/update_accounts_request_model.dart';
 import 'package:main/models/plaid/plaid_user.dart';
 import 'package:main/models/plaid/request/UpdateWebhookRequestModel.dart';
 import 'package:main/models/plaid/request/link_token_request.dart';
@@ -26,6 +27,7 @@ class PlaidService {
   String _institutionId;
   String _institutionName;
   String _phone;
+  String _accountId;
   final PlaidClient _plaidClient = PlaidClient();
   final AccountsService _accountsService = AccountsService();
   final Function() onfinish;
@@ -41,7 +43,7 @@ class PlaidService {
               config = LinkConfiguration(linkToken: linkToken),
               plaidLink = PlaidLink(
                   configuration: config,
-                  onSuccess: _onSuccessLinkCallback,
+                  onSuccess: _onSuccessNewLinkCallback,
                   onEvent: _onEventLinkCallBack,
                   onExit: _onExitLinkCallBack),
               plaidLink.open()
@@ -49,16 +51,18 @@ class PlaidService {
         .catchError((error) => ErrorHandler.showError(error));
   }
 
-  void openLinkFixAccount(String phone, String accessToken) async {
+  void openLinkFixAccount(
+      String phone, String accessToken, String accountId) async {
     LinkConfiguration config;
     PlaidLink plaidLink;
     _phone = phone;
+    _accountId = accountId;
     _retrieveLinkTokenFixAccount(phone, accessToken)
         .then((linkToken) => {
               config = LinkConfiguration(linkToken: linkToken),
               plaidLink = PlaidLink(
                   configuration: config,
-                  onSuccess: _onSuccessLinkCallback,
+                  onSuccess: _onSuccessFixLinkCallback,
                   onEvent: _onEventLinkCallBack,
                   onExit: _onExitLinkCallBack),
               plaidLink.open()
@@ -102,7 +106,7 @@ class PlaidService {
         accessToken: accessToken);
   }
 
-  void _onSuccessLinkCallback(
+  void _onSuccessNewLinkCallback(
       String publicToken, LinkSuccessMetadata metadata) async {
     log("onSuccess: $publicToken, metadata: ${metadata.description()}");
     PlaidAccountsResponse accountsResponse;
@@ -125,6 +129,17 @@ class PlaidService {
               await _plaidClient.updateWebhook(
                   _buildUpdateWebhooksModel(tokenResponse.accessToken))
             });
+  }
+
+  void _onSuccessFixLinkCallback(
+      String publicToken, LinkSuccessMetadata metadata) async {
+    log("onSuccess: $publicToken, metadata: ${metadata.description()}");
+    _plaidClient
+        .getAccessToken(_buildTokenExchangeRequest(publicToken))
+        .then((tokenResponse) {
+      _accountsService.updateAccessTokenForUser(
+          _buildUpdateAccountsRequestModel(tokenResponse.accessToken));
+    });
   }
 
   void _onEventLinkCallBack(String event, LinkEventMetadata metadata) {
@@ -189,5 +204,11 @@ class PlaidService {
         secret: PlaidConstants.CLIENT_SECRET_SANDBOX,
         accessToken: accessToken,
         webhook: UriBuilder.blossomDev(PlaidConstants.SERVICE, 1));
+  }
+
+  UpdateAccountRequestModel _buildUpdateAccountsRequestModel(
+      String accessToken) {
+    return UpdateAccountRequestModel(
+        id: _accountId, phone: _phone, accessToken: accessToken);
   }
 }
