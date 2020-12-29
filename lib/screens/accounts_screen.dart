@@ -377,6 +377,12 @@ class _AccountsScreenState extends State<AccountsScreen> {
       );
     } else {
       return GestureDetector(
+        onLongPress: () {
+          _phone = phone;
+          _itemId = accountsModel.id;
+          _accessToken = accountsModel.accessToken;
+          _deletePanelController.open();
+        },
         onTap: () {
           if (_deletePanelController.isPanelOpen) {
             _deletePanelController.close();
