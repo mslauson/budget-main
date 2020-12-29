@@ -334,24 +334,24 @@ class _AccountsScreenState extends State<AccountsScreen> {
 
   Widget _buildCollapsedWidgets(AccountsFullModel accountsModel, String phone) {
     if (!accountsModel.needsUpdating) {
-      return ExpandableButton(
-        child: GestureDetector(
-          onLongPress: () {
-            _phone = phone;
-            _itemId = accountsModel.id;
-            _accessToken = accountsModel.accessToken;
-            _deletePanelController.open();
-          },
-          onTap: () {
-            if (_deletePanelController.isPanelOpen) {
-              _deletePanelController.close();
-            } else if (_relinkPanelController.isPanelOpen) {
-              _relinkPanelController.close();
-            }
-          },
-          child: Neumorphic(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
+      return GestureDetector(
+        onLongPress: () {
+          _phone = phone;
+          _itemId = accountsModel.id;
+          _accessToken = accountsModel.accessToken;
+          _deletePanelController.open();
+        },
+        onTap: () {
+          if (_deletePanelController.isPanelOpen) {
+            _deletePanelController.close();
+          } else if (_relinkPanelController.isPanelOpen) {
+            _relinkPanelController.close();
+          }
+        },
+        child: Neumorphic(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ExpandableButton(
                 child: Row(
                   children: [
                     Neumorphic(
@@ -372,8 +372,8 @@ class _AccountsScreenState extends State<AccountsScreen> {
                   ],
                 ),
               ),
-              style: BlossomNeumorphicStyles.negativeEightConcaveWhite),
-        ),
+            ),
+            style: BlossomNeumorphicStyles.negativeEightConcaveWhite),
       );
     } else {
       return GestureDetector(
