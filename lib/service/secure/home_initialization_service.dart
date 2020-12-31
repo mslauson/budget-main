@@ -1,26 +1,18 @@
 import 'package:flutter/cupertino.dart';
-import 'package:main/models/accounts/response/accounts_response.dart';
+import 'package:main/models/accounts/accounts_sccoped_model.dart';
 import 'package:main/service/accounts/accounts_service.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class HomeInitializationService {
   final AccountsService _accountsService = AccountsService();
-  final Function(AccountsResponseModel accountsFullModel) getAccounts;
-  final Function() getTransactions;
-  final Function() getBudgets;
-  final Function() getExpenses;
-  final Function() getCustomer;
 
-  HomeInitializationService(
-      {this.getTransactions,
-      this.getBudgets,
-      this.getExpenses,
-      this.getCustomer,
-      this.getAccounts});
+  HomeInitializationService();
 
   Future<void> loadData(String phone, BuildContext context) async {
-    getAccounts(await getAccountsByPhone(phone));
+    await getAccountsByPhone(phone, context);
   }
 
-  Future<AccountsResponseModel> getAccountsByPhone(String phone) async =>
-      await _accountsService.getAccountsForUser(phone);
+  Future<void> getAccountsByPhone(String phone, BuildContext context) async =>
+      ScopedModel.of<AccountsScopedModel>(context, rebuildOnChange: true)
+          .responseModel = await _accountsService.getAccountsForUser(phone);
 }
