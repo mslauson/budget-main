@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:main/models/accounts/accounts_sccoped_model.dart';
-import 'package:main/models/budget/budgets_scoped_model.dart';
-import 'package:main/models/transactions/transactions_scoped_model.dart';
+import 'package:main/models/global/activeUser.dart';
 import 'package:main/service/accounts/accounts_service.dart';
 import 'package:main/service/budgets/budgets_service.dart';
 import 'package:main/service/transactions/transactions_service.dart';
@@ -21,16 +19,15 @@ class HomeInitializationService {
   }
 
   Future<void> _getAccountsByPhone(String phone, BuildContext context) async =>
-      ScopedModel.of<AccountsScopedModel>(context, rebuildOnChange: true)
-          .responseModel = await _accountsService.getAccountsForUser(phone);
+      ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).accounts =
+          await _accountsService.getAccountsForUser(phone);
 
   Future<void> _getTransactionsByPhone(
           String phone, BuildContext context) async =>
-      ScopedModel.of<TransactionsScopedModel>(context, rebuildOnChange: true)
-              .responseModel =
+      ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).transactions =
           await _transactionsService.getTransactionsByPhone(phone);
 
   Future<void> _getBudgetsByPhone(String phone, BuildContext context) async =>
-      ScopedModel.of<BudgetsScopedModel>(context, rebuildOnChange: true)
-          .responseModel = await _budgetsService.getBudgetsForUser(phone);
+      ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).budgets =
+          await _budgetsService.getBudgetsForUser(phone);
 }
