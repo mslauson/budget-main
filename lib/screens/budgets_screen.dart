@@ -7,7 +7,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:loading/indicator/ball_pulse_indicator.dart';
 import 'package:loading/loading.dart';
-import 'package:main/client/accounts_client.dart';
 import 'package:main/components/drawer_container.dart';
 import 'package:main/constants/budget_screen_constants.dart';
 import 'package:main/models/accounts/account_meta.dart';
@@ -32,7 +31,6 @@ class BudgetsScreen extends StatefulWidget {
 }
 
 class _BudgetsScreenState extends State<BudgetsScreen> {
-  final AccountsClient _accountsClient = AccountsClient();
   AccountMetaResponse _metaResponse;
 
   @override
@@ -304,7 +302,8 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
 
   Future<TransactionsGetResponse> _getTransactionsForBudgets(
       String phone) async {
-    _metaResponse = await _accountsClient.getAccountMetaDataForUser(phone);
+    _metaResponse =
+        ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).meta;
     return ScopedModel.of<ActiveUser>(context, rebuildOnChange: true)
         .transactions;
   }

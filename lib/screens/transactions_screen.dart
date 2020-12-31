@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:loading/indicator/ball_pulse_indicator.dart';
 import 'package:loading/loading.dart';
-import 'package:main/client/accounts_client.dart';
 import 'package:main/components/drawer_container.dart';
 import 'package:main/models/accounts/account_meta.dart';
 import 'package:main/models/accounts/response/account_meta_response.dart';
@@ -24,7 +23,6 @@ class TransactionsScreen extends StatefulWidget {
 }
 
 class _TransactionsScreenState extends State<TransactionsScreen> {
-  final AccountsClient _accountsClient = AccountsClient();
   AccountMetaResponse _metaResponse;
 
   @override
@@ -60,6 +58,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     final TransactionsGetResponse _getResponse =
         ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).transactions;
     _metaResponse =
+        ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).meta;
     return await _buildTransactions(
         _getResponse, await _buildDateList(_getResponse));
   }
