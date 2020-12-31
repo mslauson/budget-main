@@ -14,6 +14,7 @@ class HomeInitializationService {
 
   Future<void> loadData(String phone, BuildContext context) async {
     await _getAccountsByPhone(phone, context);
+    await _getMetaByPhone(phone, context);
     await _getTransactionsByPhone(phone, context);
     await _getBudgetsByPhone(phone, context);
   }
@@ -21,6 +22,10 @@ class HomeInitializationService {
   Future<void> _getAccountsByPhone(String phone, BuildContext context) async =>
       ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).accounts =
           await _accountsService.getAccountsForUser(phone);
+
+  Future<void> _getMetaByPhone(String phone, BuildContext context) async =>
+      ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).meta =
+          await _accountsService.getMetaForUser(phone);
 
   Future<void> _getTransactionsByPhone(
           String phone, BuildContext context) async =>

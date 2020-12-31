@@ -59,7 +59,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
         ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone;
     final TransactionsGetResponse _getResponse =
         ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).transactions;
-    _metaResponse = await _accountsClient.getAccountMetaDataForUser(phone);
+    _metaResponse =
     return await _buildTransactions(
         _getResponse, await _buildDateList(_getResponse));
   }
