@@ -16,7 +16,6 @@ import 'package:main/constants/accounts_page_constants.dart';
 import 'package:main/constants/plaid_constants.dart';
 import 'package:main/models/accounts/account.dart';
 import 'package:main/models/accounts/accounts_full_model.dart';
-import 'package:main/models/accounts/accounts_sccoped_model.dart';
 import 'package:main/models/accounts/delete_account_request_model.dart';
 import 'package:main/models/accounts/response/accounts_response.dart';
 import 'package:main/models/global/activeUser.dart';
@@ -168,8 +167,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
     final String phone =
         ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone;
     this.accountsResponseModel =
-        ScopedModel.of<AccountsScopedModel>(context, rebuildOnChange: true)
-            .responseModel;
+        ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).accounts;
     return await _buildAccountsByInstitution(phone);
   }
 

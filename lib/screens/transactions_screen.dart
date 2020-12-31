@@ -10,7 +10,6 @@ import 'package:main/models/accounts/account_meta.dart';
 import 'package:main/models/accounts/response/account_meta_response.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/transactions/transactions_get_response.dart';
-import 'package:main/models/transactions/transactions_scoped_model.dart';
 import 'package:main/screens/transaction_detail_screen.dart';
 import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
@@ -59,8 +58,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     final String phone =
         ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone;
     final TransactionsGetResponse _getResponse =
-        ScopedModel.of<TransactionsScopedModel>(context, rebuildOnChange: true)
-            .responseModel;
+        ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).transactions;
     _metaResponse = await _accountsClient.getAccountMetaDataForUser(phone);
     return await _buildTransactions(
         _getResponse, await _buildDateList(_getResponse));

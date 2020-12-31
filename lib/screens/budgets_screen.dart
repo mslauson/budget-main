@@ -12,11 +12,9 @@ import 'package:main/components/drawer_container.dart';
 import 'package:main/constants/budget_screen_constants.dart';
 import 'package:main/models/accounts/account_meta.dart';
 import 'package:main/models/accounts/response/account_meta_response.dart';
-import 'package:main/models/budget/budgets_scoped_model.dart';
 import 'package:main/models/budget/getBudgetsResponse.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/transactions/transactions_get_response.dart';
-import 'package:main/models/transactions/transactions_scoped_model.dart';
 import 'package:main/screens/budgets_detail_screen.dart';
 import 'package:main/screens/transaction_detail_screen.dart';
 import 'package:main/theme/blossom_neumorphic_styles.dart';
@@ -70,8 +68,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
     final String phone =
         ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone;
     GetBudgetsResponse budgetResponse =
-        ScopedModel.of<BudgetsScopedModel>(context, rebuildOnChange: true)
-            .responseModel;
+        ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).budgets;
     return await _buildBudgets(budgetResponse, phone);
   }
 
@@ -308,9 +305,8 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
   Future<TransactionsGetResponse> _getTransactionsForBudgets(
       String phone) async {
     _metaResponse = await _accountsClient.getAccountMetaDataForUser(phone);
-    return ScopedModel.of<TransactionsScopedModel>(context,
-            rebuildOnChange: true)
-        .responseModel;
+    return ScopedModel.of<ActiveUser>(context, rebuildOnChange: true)
+        .transactions;
   }
 
   List<Transactions> _filterTransactionsForBudget(
