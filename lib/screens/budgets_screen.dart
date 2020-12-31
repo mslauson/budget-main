@@ -8,22 +8,20 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:loading/indicator/ball_pulse_indicator.dart';
 import 'package:loading/loading.dart';
 import 'package:main/client/accounts_client.dart';
-import 'package:main/client/budget_client.dart';
-import 'package:main/client/transactions_client.dart';
 import 'package:main/components/drawer_container.dart';
 import 'package:main/constants/budget_screen_constants.dart';
-import 'package:main/constants/transaction_microservice_constants.dart';
 import 'package:main/models/accounts/account_meta.dart';
 import 'package:main/models/accounts/response/account_meta_response.dart';
+import 'package:main/models/budget/budgets_scoped_model.dart';
 import 'package:main/models/budget/getBudgetsResponse.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/transactions/transactions_get_response.dart';
+import 'package:main/models/transactions/transactions_scoped_model.dart';
 import 'package:main/screens/budgets_detail_screen.dart';
 import 'package:main/screens/transaction_detail_screen.dart';
 import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/theme/blossom_spacing.dart';
-import 'package:main/util/date_utils.dart';
 import 'package:main/util/icon_util.dart';
 import 'package:main/util/math_utils.dart';
 import 'package:main/util/parse_utils.dart';
@@ -36,8 +34,6 @@ class BudgetsScreen extends StatefulWidget {
 }
 
 class _BudgetsScreenState extends State<BudgetsScreen> {
-  final BudgetClient _budgetClient = BudgetClient();
-  final TransactionsClient _transactionsClient = TransactionsClient();
   final AccountsClient _accountsClient = AccountsClient();
   AccountMetaResponse _metaResponse;
 
@@ -73,8 +69,9 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
   Future<List<Widget>> _loadBudgets() async {
     final String phone =
         ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone;
-    GetBudgetsResponse budgetResponse = await _budgetClient.getBudgetsForUser(
-        phone, DateUtils.currentFirstOfMonthIso());
+    GetBudgetsResponse budgetResponse =
+        ScopedModel.of<BudgetsScopedModel>(context, rebuildOnChange: true)
+            .responseModel;
     return await _buildBudgets(budgetResponse, phone);
   }
 
@@ -311,11 +308,9 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
   Future<TransactionsGetResponse> _getTransactionsForBudgets(
       String phone) async {
     _metaResponse = await _accountsClient.getAccountMetaDataForUser(phone);
-    return await _transactionsClient.getTransactionsForUser(
-        phone,
-        TransactionsMicroserviceConstants.DATE_TIME_RANGE_QUERY,
-        DateUtils.currentLastOfMonthIso(),
-        DateUtils.currentDateIso());
+    return ScopedModel.of<TransactionsScopedModel>(context,
+            rebuildOnChange: true)
+        .responseModel;
   }
 
   List<Transactions> _filterTransactionsForBudget(

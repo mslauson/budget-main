@@ -5,18 +5,16 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:loading/indicator/ball_pulse_indicator.dart';
 import 'package:loading/loading.dart';
 import 'package:main/client/accounts_client.dart';
-import 'package:main/client/transactions_client.dart';
 import 'package:main/components/drawer_container.dart';
-import 'package:main/constants/transaction_microservice_constants.dart';
 import 'package:main/models/accounts/account_meta.dart';
 import 'package:main/models/accounts/response/account_meta_response.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/transactions/transactions_get_response.dart';
+import 'package:main/models/transactions/transactions_scoped_model.dart';
 import 'package:main/screens/transaction_detail_screen.dart';
 import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/theme/blossom_text.dart';
-import 'package:main/util/date_utils.dart';
 import 'package:main/util/parse_utils.dart';
 import 'package:main/widgets/nav_drawer.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -27,7 +25,6 @@ class TransactionsScreen extends StatefulWidget {
 }
 
 class _TransactionsScreenState extends State<TransactionsScreen> {
-  final TransactionsClient _transactionsClient = TransactionsClient();
   final AccountsClient _accountsClient = AccountsClient();
   AccountMetaResponse _metaResponse;
 
@@ -62,20 +59,17 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     final String phone =
         ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone;
     final TransactionsGetResponse _getResponse =
-    await _transactionsClient.getTransactionsForUser(
-        phone,
-        TransactionsMicroserviceConstants.DATE_TIME_RANGE_QUERY,
-        DateUtils.currentLastOfMonthIso(),
-        DateUtils.currentDateIso());
+        ScopedModel.of<TransactionsScopedModel>(context, rebuildOnChange: true)
+            .responseModel;
     _metaResponse = await _accountsClient.getAccountMetaDataForUser(phone);
     return await _buildTransactions(
         _getResponse, await _buildDateList(_getResponse));
   }
 
-  Future<List<Widget>> _buildTransactions(TransactionsGetResponse getResponse, List<DateTime> dateList) async {
+  Future<List<Widget>> _buildTransactions(
+      TransactionsGetResponse getResponse, List<DateTime> dateList) async {
     List<Widget> _transactionWidgets = new List();
-    _transactionWidgets.add(NeumorphicText(
-      'Transactions',
+    _transactionWidgets.add(NeumorphicText('Transactions',
         textStyle: BlossomNeumorphicText.headline,
         style: BlossomNeumorphicStyles.eightGrey));
     dateList.forEach((date) async {
@@ -83,7 +77,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
           .where((transaction) => DateTime.parse(transaction.date) == date)
           .toList();
       List<Widget> _dateWidgets =
-      await _buildTransactionsForADate(_transactionList);
+          await _buildTransactionsForADate(_transactionList);
       _transactionWidgets.add(Padding(
         padding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
         child: Neumorphic(
@@ -95,7 +89,8 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     return _transactionWidgets;
   }
 
-  Future<List<Widget>> _buildTransactionsForADate(List<Transactions> _transactions) async {
+  Future<List<Widget>> _buildTransactionsForADate(
+      List<Transactions> _transactions) async {
     List<Widget> _dateTransactions = new List();
     _dateTransactions.add(Padding(
       padding: const EdgeInsets.all(8),
@@ -181,9 +176,10 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     return _dateTransactions;
   }
 
-  Future<List<DateTime>> _buildDateList(TransactionsGetResponse response) async {
+  Future<List<DateTime>> _buildDateList(
+      TransactionsGetResponse response) async {
     List<DateTime> _dateList =
-    response.transactions.map((e) => DateTime.parse(e.date)).toList();
+        response.transactions.map((e) => DateTime.parse(e.date)).toList();
     _dateList.sort((a, b) => b.compareTo(a));
     return _dateList.toSet().toList();
   }
@@ -192,4 +188,3 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     return merchant.length >= 25 ? merchant.substring(0, 25) : merchant;
   }
 }
-
