@@ -12,6 +12,7 @@ import 'package:main/models/iam/signUpForm.dart';
 import 'package:main/screens/collect_otp.dart';
 import 'package:main/screens/collect_user_info.dart';
 import 'package:main/service/auth/registration_service.dart';
+import 'package:main/service/secure/home_initialization_service.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import 'google_auth_service.dart';
@@ -20,6 +21,8 @@ class AuthenticationService {
   String _verificationId;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final RegistrationService _registrationService = new RegistrationService();
+  final HomeInitializationService _initializationService =
+      new HomeInitializationService();
   GoogleAuthService _googleAuthService = GoogleAuthService();
   User _currentUser;
   SignUpForm _signUpForm;
@@ -168,15 +171,12 @@ class AuthenticationService {
     );
   }
 
-  void _buildScopedModel(String phone, String lastSignIn,
-      BuildContext context) {
-    ScopedModel
-        .of<ActiveUser>(context, rebuildOnChange: true)
-        .phone = phone;
-    ScopedModel
-        .of<ActiveUser>(context, rebuildOnChange: true)
-        .lastLogin =
+  Future<void> _buildScopedModel(
+      String phone, String lastSignIn, BuildContext context) async {
+    ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).phone = phone;
+    ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).lastLogin =
         lastSignIn;
+    await _initializationService.loadData(phone, context);
   }
 
   void _deleteUserFromFirebase() {
