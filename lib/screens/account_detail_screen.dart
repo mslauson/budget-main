@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:main/components/drawer_container.dart';
 import 'package:main/constants/accounts_page_constants.dart';
+import 'package:main/constants/budget_screen_constants.dart';
 import 'package:main/constants/transaction_page_constants.dart';
 import 'package:main/models/accounts/account.dart';
 import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
+import 'package:main/theme/blossom_spacing.dart';
 import 'package:main/util/parse_utils.dart';
 import 'package:main/widgets/nav_drawer.dart';
 
@@ -54,16 +56,27 @@ class AccountDetailScreen extends StatelessWidget {
                             textStyle: BlossomNeumorphicText.body,
                             style: BlossomNeumorphicStyles.fourGrey))),
               ),
-              Padding(
-                  padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                  child: Card(
-                    margin: EdgeInsets.all(20),
-                    child: ListTile(
-                        title: NeumorphicText(
-                            TransactionsPageConstants.TRANSACTIONS,
-                            textStyle: BlossomNeumorphicText.body,
-                            style: BlossomNeumorphicStyles.fourGrey)),
-                  ))
+              BlossomSpacing.STANDARD_FORM,
+              Neumorphic(
+                child: Column(
+                  children: [
+                    Padding(padding: EdgeInsets.only(top: 8)),
+                    NeumorphicText(BudgetScreenConstants.RECENT_TRANSACTIONS,
+                        textStyle: BlossomNeumorphicText.body,
+                        style: BlossomNeumorphicStyles.fourGrey),
+                    ConstrainedBox(
+                      constraints:
+                          BoxConstraints(minHeight: 275, maxHeight: 275),
+                      child: SingleChildScrollView(
+                        child: Column(
+                            children: _buildTransactionWidgets(
+                                _transactions, context)),
+                      ),
+                    )
+                  ],
+                ),
+                style: BlossomNeumorphicStyles.negativeEightConcaveWhite,
+              ),
             ],
           ),
         ])
