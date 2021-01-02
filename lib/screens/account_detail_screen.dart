@@ -55,15 +55,30 @@ class AccountDetailScreen extends StatelessWidget {
                     ParseUtils.parseAccountMask(_account.mask),
                   ],
                 ),
-                ListTile(
-                    title: NeumorphicText(
-                        AccountsPageConstants.AVAILABLE_BALANCE,
+                Row(
+                  children: [
+                    Padding(padding: EdgeInsets.only(left: 8)),
+                    NeumorphicText(AccountsPageConstants.AVAILABLE_BALANCE,
                         textStyle: BlossomNeumorphicText.body,
                         style: BlossomNeumorphicStyles.fourGrey),
-                    subtitle: NeumorphicText(
-                        ParseUtils.formatAmount(_account.balances.current),
-                        textStyle: BlossomNeumorphicText.body,
-                        style: BlossomNeumorphicStyles.fourGrey)),
+                    Spacer(flex: 1),
+                    Neumorphic(
+                      style: BlossomNeumorphicStyles.negativeEightConcaveWhite,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: NeumorphicText(
+                            ParseUtils.formatAmount(_account.balances.current),
+                            textStyle: BlossomNeumorphicText.body,
+                            style: BlossomNeumorphicStyles.fourGrey,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Spacer(flex: 4),
+                  ],
+                ),
                 BlossomSpacing.STANDARD_FORM,
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0, right: 8.0),
