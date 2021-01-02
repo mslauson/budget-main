@@ -44,12 +44,9 @@ class _AccountsScreenState extends State<AccountsScreen> {
   final TransactionsClient _transactionsClient = TransactionsClient();
   final PanelController _deletePanelController = PanelController();
   final PanelController _relinkPanelController = PanelController();
-  final PanelController _accountDetailPanelController = PanelController();
   String _phone;
   String _itemId;
   String _accessToken;
-  String _logo;
-  Account _account;
 
   @override
   Widget build(BuildContext context) {
@@ -115,60 +112,55 @@ class _AccountsScreenState extends State<AccountsScreen> {
                   Spacer(
                     flex: 1,
                   ),
-                    NeumorphicText(AccountsPageConstants.RELINK_INSTITUTION,
-                        textStyle: BlossomNeumorphicText.body,
-                        style: BlossomNeumorphicStyles.eightGrey),
-                    Spacer(
-                      flex: 1,
-                    )
-                  ],
-                ),
+                  NeumorphicText(AccountsPageConstants.RELINK_INSTITUTION,
+                      textStyle: BlossomNeumorphicText.body,
+                      style: BlossomNeumorphicStyles.eightGrey),
+                  Spacer(
+                    flex: 1,
+                  )
+                ],
               ),
             ),
-            body: SlidingUpPanel(
-              minHeight: 0,
-              maxHeight: 300,
-              panel: AccountDetailScreen(_account, _logo).build(context),
-              controller: _accountDetailPanelController,
-              body: Scaffold(
-                extendBody: true,
-                floatingActionButton: FloatingActionButton(
-                  child: Icon(FontAwesomeIcons.plus),
-                  backgroundColor: Colors.white,
-                  onPressed: () => _plaidService.openLinkNewAccount(phone),
-                ),
-                body: Stack(
-                  children: [
-                    NavDrawer(),
-                    DrawerContainer(children: [
-                      FutureBuilder(
-                        future: _loadAccounts(),
-                        builder: (BuildContext context, AsyncSnapshot snapshot) {
-                          if (snapshot.hasError) {
-                            //TODO: display toast
-                            log(snapshot.error);
-                          }
-                          if (snapshot.hasData) {
-                            return GestureDetector(
-                                onTap: () {
-                                  if (_deletePanelController.isPanelOpen) {
-                                    _deletePanelController.close();
-                                  }
-                                  if (_relinkPanelController.isPanelOpen) {
-                                    _relinkPanelController.close();
-                                  }
-                                },
-                                child: Column(children: snapshot.data));
-                          } else {
-                            return Loading(indicator: BallPulseIndicator());
-                          }
-                        },
-                      ),
-                    ]),
-                  ],
-                ),
-              ),
-            )));
+          ),
+          body: Scaffold(
+            extendBody: true,
+            floatingActionButton: FloatingActionButton(
+              child: Icon(FontAwesomeIcons.plus),
+              backgroundColor: Colors.white,
+              onPressed: () => _plaidService.openLinkNewAccount(phone),
+            ),
+            body: Stack(
+              children: [
+                NavDrawer(),
+                DrawerContainer(children: [
+                  FutureBuilder(
+                    future: _loadAccounts(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasError) {
+                        //TODO: display toast
+                        log(snapshot.error);
+                      }
+                      if (snapshot.hasData) {
+                        return GestureDetector(
+                            onTap: () {
+                              if (_deletePanelController.isPanelOpen) {
+                                _deletePanelController.close();
+                              }
+                              if (_relinkPanelController.isPanelOpen) {
+                                _relinkPanelController.close();
+                              }
+                            },
+                            child: Column(children: snapshot.data));
+                      } else {
+                        return Loading(indicator: BallPulseIndicator());
+                      }
+                    },
+                  ),
+                ]),
+              ],
+            ),
+          ),
+        ));
   }
 
   Future<List<Widget>> _loadAccounts() async {
@@ -286,11 +278,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
       if (account != null) {
         _accountTypeList.add(
           InkWell(
-            onTap: () => {
-              _account = account,
-              _logo = logo,
-              _accountDetailPanelController.open()
-            },
+            onTap: () => {_accountDetailPanelController.open()},
             child: Row(children: [
               Spacer(flex: 1),
               NeumorphicText(account.name,
