@@ -60,11 +60,16 @@ class AccountDetailScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Image.memory(
-                    base64Decode(_logo),
-                    height: 60,
-                    width: 60,
-                  ),
+                  Neumorphic(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Image.memory(
+                          base64Decode(_logo),
+                          height: 40,
+                          width: 40,
+                        ),
+                      ),
+                      style: BlossomNeumorphicStyles.fourIconCircleWhite),
                   NeumorphicText(_account.name,
                       textStyle: BlossomNeumorphicText.title,
                       style: BlossomNeumorphicStyles.fourGrey),
