@@ -278,7 +278,14 @@ class _AccountsScreenState extends State<AccountsScreen> {
       if (account != null) {
         _accountTypeList.add(
           InkWell(
-            onTap: () => {_accountDetailPanelController.open()},
+            onTap: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        new AccountDetailScreen(account, logo)),
+              )
+            },
             child: Row(children: [
               Spacer(flex: 1),
               NeumorphicText(account.name,
