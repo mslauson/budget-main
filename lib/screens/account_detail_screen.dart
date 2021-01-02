@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:main/components/drawer_container.dart';
 import 'package:main/constants/accounts_page_constants.dart';
 import 'package:main/constants/budget_screen_constants.dart';
 import 'package:main/models/accounts/account.dart';
@@ -16,7 +15,6 @@ import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/theme/blossom_spacing.dart';
 import 'package:main/util/parse_utils.dart';
-import 'package:main/widgets/nav_drawer.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class AccountDetailScreen extends StatelessWidget {
@@ -35,20 +33,17 @@ class AccountDetailScreen extends StatelessWidget {
           .where((transaction) => transaction.accountId == _account.accountId);
     }
     return Scaffold(
-      body: Stack(children: [
-        NavDrawer(),
-        DrawerContainer(children: [
-          Neumorphic(
-            child: Column(
+      body: Neumorphic(
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Image.memory(
-                      base64Decode(_logo),
-                      height: 60,
-                      width: 60,
-                    ),
+                Image.memory(
+                  base64Decode(_logo),
+                  height: 60,
+                  width: 60,
+                ),
                     NeumorphicText(_account.name,
                         textStyle: BlossomNeumorphicText.title,
                         style: BlossomNeumorphicStyles.fourGrey),
@@ -97,18 +92,16 @@ class AccountDetailScreen extends StatelessWidget {
                             child: Column(
                                 children: _buildTransactionWidgets(
                                     transactions, context)),
-                          ),
-                        )
-                      ],
-                    ),
-                    style: BlossomNeumorphicStyles.negativeEightConcaveWhite,
-                  ),
+                      ),
+                    )
+                  ],
                 ),
-              ],
+                style: BlossomNeumorphicStyles.negativeEightConcaveWhite,
+              ),
             ),
-          ),
-        ])
-      ]),
+          ],
+        ),
+      ),
     );
   }
 
