@@ -39,17 +39,23 @@ class AccountDetailScreen extends StatelessWidget {
         child: Neumorphic(
           child: Column(
             children: [
-              GestureDetector(
-                child: Neumorphic(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: NeumorphicIcon(BudgetIcons.BACK.icon,
-                          style: BlossomNeumorphicStyles.twentyIconGrey),
-                    ),
-                    style: BlossomNeumorphicStyles.fourIconCircleWhite),
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
+              Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    child: Neumorphic(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: NeumorphicIcon(BudgetIcons.BACK.icon,
+                              style: BlossomNeumorphicStyles.twentyIconGrey),
+                        ),
+                        style: BlossomNeumorphicStyles.fourIconCircleWhite),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
