@@ -8,6 +8,8 @@ import 'package:main/constants/accounts_page_constants.dart';
 import 'package:main/constants/budget_screen_constants.dart';
 import 'package:main/constants/transaction_page_constants.dart';
 import 'package:main/models/accounts/account.dart';
+import 'package:main/models/transactions/transactions_get_response.dart';
+import 'package:main/screens/transaction_detail_screen.dart';
 import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/theme/blossom_spacing.dart';
@@ -82,5 +84,62 @@ class AccountDetailScreen extends StatelessWidget {
         ])
       ]),
     );
+  }
+
+  List<Widget> _buildTransactionWidgets(
+      List<Transactions> transactionList, BuildContext context) {
+    List<Widget> transactionWidgets = new List();
+    transactionWidgets.add(Divider());
+    if (transactionList.isNotEmpty) {
+      int i = 0;
+      transactionList.forEach((transaction) {
+        AccountMeta _currentMeta = ParseUtils.getCorrectMeta(
+            _accountMetaResponse, transaction.accountId);
+        Icon iconData = ParseUtils.getIconForTransaction(transaction);
+        transactionWidgets.add(Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => TransactionDetailScreen(
+                        transaction, _currentMeta, iconData)),
+              );
+            },
+            child: Row(
+              children: [
+                NeumorphicText(ParseUtils.parseMerchant(transaction.merchant),
+                    textStyle: BlossomNeumorphicText.mediumBody,
+                    style: BlossomNeumorphicStyles.fourGrey),
+                Spacer(flex: 2),
+                Neumorphic(
+                  style: BlossomNeumorphicStyles.eightConcaveWhite,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
+                    child: NeumorphicText(
+                      ParseUtils.checkIfNegative(
+                          ParseUtils.formatAmount(transaction.amount)),
+                      textStyle: BlossomNeumorphicText.mediumBody,
+                      style: BlossomNeumorphicStyles.fourGrey,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ));
+        if (i < transactionList.length - 1) {
+          transactionWidgets.add(Divider());
+          i++;
+        }
+      });
+      return transactionWidgets;
+    }
+    transactionWidgets.add(NeumorphicText(
+        BudgetScreenConstants.NO_ASSOCIATED_TRANSACTIONS,
+        textStyle: BlossomNeumorphicText.mediumBody,
+        style: BlossomNeumorphicStyles.fourGrey));
+    return transactionWidgets;
   }
 }
