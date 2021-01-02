@@ -23,4 +23,7 @@ class AccountsPageConstants {
 
   static const String RELINK_INSTITUTION =
       "Re-link this institution with Blossom?";
+
+  static const String NO_ASSOCIATED_TRANSACTIONS =
+      "There Are No Transactions For This Account";
 }

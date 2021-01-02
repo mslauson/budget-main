@@ -149,7 +149,7 @@ class AccountDetailScreen extends StatelessWidget {
       return transactionWidgets;
     }
     transactionWidgets.add(NeumorphicText(
-        BudgetScreenConstants.NO_ASSOCIATED_TRANSACTIONS,
+        AccountsPageConstants.NO_ASSOCIATED_TRANSACTIONS,
         textStyle: BlossomNeumorphicText.mediumBody,
         style: BlossomNeumorphicStyles.fourGrey));
     return transactionWidgets;
