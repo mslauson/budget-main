@@ -276,36 +276,42 @@ class _AccountsScreenState extends State<AccountsScreen> {
     int size = accounts.where((element) => element != null).length;
     accounts.forEach((account) {
       if (account != null) {
-        _accountTypeList.add(InkWell(
-          onTap: () => {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => new AccountDetailScreen(account, logo)),
-            )
-          },
-          child: Row(children: [
-            Spacer(flex: 1),
-            NeumorphicText(account.name,
-                textStyle: BlossomNeumorphicText.body,
-                style: BlossomNeumorphicStyles.fourGrey),
-            Spacer(flex: 1),
-            ParseUtils.parseAccountMask(account.mask),
-            Spacer(flex: 1),
-            Neumorphic(
-              style: BlossomNeumorphicStyles.eightConcaveWhite,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
-                child: NeumorphicText(
-                  ParseUtils.checkIfNegative(
-                      ParseUtils.formatAmount(account.balances.current)),
+        _accountTypeList.add(SlidingUpPanel(
+          minHeight: 0,
+          maxHeight: 300,
+          panel: AccountDetailScreen(account, logo),
+          body: InkWell(
+            onTap: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        new AccountDetailScreen(account, logo)),
+              )
+            },
+            child: Row(children: [
+              Spacer(flex: 1),
+              NeumorphicText(account.name,
                   textStyle: BlossomNeumorphicText.body,
-                  style: BlossomNeumorphicStyles.fourGrey,
+                  style: BlossomNeumorphicStyles.fourGrey),
+              Spacer(flex: 1),
+              ParseUtils.parseAccountMask(account.mask),
+              Spacer(flex: 1),
+              Neumorphic(
+                style: BlossomNeumorphicStyles.eightConcaveWhite,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(4, 2, 4, 2),
+                  child: NeumorphicText(
+                    ParseUtils.checkIfNegative(
+                        ParseUtils.formatAmount(account.balances.current)),
+                    textStyle: BlossomNeumorphicText.body,
+                    style: BlossomNeumorphicStyles.fourGrey,
+                  ),
                 ),
               ),
-            ),
-            Spacer(flex: 1),
-          ]),
+              Spacer(flex: 1),
+            ]),
+          ),
         ));
         if (i < size - 1) {
           _accountTypeList.add(Divider());
