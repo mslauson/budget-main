@@ -14,6 +14,7 @@ import 'package:main/screens/transaction_detail_screen.dart';
 import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/theme/blossom_spacing.dart';
+import 'package:main/theme/budget_icons.dart';
 import 'package:main/util/parse_utils.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -38,6 +39,18 @@ class AccountDetailScreen extends StatelessWidget {
         child: Neumorphic(
           child: Column(
             children: [
+              GestureDetector(
+                child: Neumorphic(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: NeumorphicIcon(BudgetIcons.BACK.icon,
+                          style: BlossomNeumorphicStyles.twentyIconGrey),
+                    ),
+                    style: BlossomNeumorphicStyles.fourIconCircleWhite),
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
