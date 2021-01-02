@@ -33,73 +33,75 @@ class AccountDetailScreen extends StatelessWidget {
           .where((transaction) => transaction.accountId == _account.accountId);
     }
     return Scaffold(
-      body: Neumorphic(
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Image.memory(
-                  base64Decode(_logo),
-                  height: 60,
-                  width: 60,
-                ),
-                    NeumorphicText(_account.name,
-                        textStyle: BlossomNeumorphicText.title,
-                        style: BlossomNeumorphicStyles.fourGrey),
-                    ParseUtils.parseAccountMask(_account.mask),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Padding(padding: EdgeInsets.only(left: 8)),
-                    NeumorphicText(AccountsPageConstants.AVAILABLE_BALANCE,
-                        textStyle: BlossomNeumorphicText.body,
-                        style: BlossomNeumorphicStyles.fourGrey),
-                    Spacer(flex: 1),
-                    Neumorphic(
-                      style: BlossomNeumorphicStyles.negativeEightConcaveWhite,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: NeumorphicText(
-                            ParseUtils.formatAmount(_account.balances.current),
-                            textStyle: BlossomNeumorphicText.body,
-                            style: BlossomNeumorphicStyles.fourGrey,
-                          ),
+      body: Padding(
+        padding: EdgeInsets.only(top: 80, bottom: 50),
+        child: Neumorphic(
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Image.memory(
+                    base64Decode(_logo),
+                    height: 60,
+                    width: 60,
+                  ),
+                  NeumorphicText(_account.name,
+                      textStyle: BlossomNeumorphicText.title,
+                      style: BlossomNeumorphicStyles.fourGrey),
+                  ParseUtils.parseAccountMask(_account.mask),
+                ],
+              ),
+              Row(
+                children: [
+                  Padding(padding: EdgeInsets.only(left: 8)),
+                  NeumorphicText(AccountsPageConstants.AVAILABLE_BALANCE,
+                      textStyle: BlossomNeumorphicText.body,
+                      style: BlossomNeumorphicStyles.fourGrey),
+                  Spacer(flex: 1),
+                  Neumorphic(
+                    style: BlossomNeumorphicStyles.negativeEightConcaveWhite,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: NeumorphicText(
+                          ParseUtils.formatAmount(_account.balances.current),
+                          textStyle: BlossomNeumorphicText.body,
+                          style: BlossomNeumorphicStyles.fourGrey,
                         ),
                       ),
                     ),
-                    Spacer(flex: 4),
-                  ],
-                ),
-                BlossomSpacing.STANDARD_FORM,
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                  child: Neumorphic(
-                    child: Column(
-                      children: [
-                        Padding(padding: EdgeInsets.only(top: 8)),
-                        NeumorphicText(
-                            BudgetScreenConstants.RECENT_TRANSACTIONS,
-                            textStyle: BlossomNeumorphicText.body,
-                            style: BlossomNeumorphicStyles.fourGrey),
-                        ConstrainedBox(
-                          constraints:
-                              BoxConstraints(minHeight: 275, maxHeight: 275),
-                          child: SingleChildScrollView(
-                            child: Column(
-                                children: _buildTransactionWidgets(
-                                    transactions, context)),
-                      ),
-                    )
-                  ],
-                ),
-                style: BlossomNeumorphicStyles.negativeEightConcaveWhite,
+                  ),
+                  Spacer(flex: 4),
+                ],
               ),
-            ),
-          ],
+              BlossomSpacing.STANDARD_FORM,
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                child: Neumorphic(
+                  child: Column(
+                    children: [
+                      Padding(padding: EdgeInsets.only(top: 8)),
+                      NeumorphicText(BudgetScreenConstants.RECENT_TRANSACTIONS,
+                          textStyle: BlossomNeumorphicText.body,
+                          style: BlossomNeumorphicStyles.fourGrey),
+                      ConstrainedBox(
+                        constraints:
+                            BoxConstraints(minHeight: 275, maxHeight: 275),
+                        child: SingleChildScrollView(
+                          child: Column(
+                              children: _buildTransactionWidgets(
+                                  transactions, context)),
+                        ),
+                      )
+                    ],
+                  ),
+                  style: BlossomNeumorphicStyles.negativeEightConcaveWhite,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
