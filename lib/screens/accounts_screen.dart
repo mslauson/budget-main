@@ -44,6 +44,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
   final TransactionsClient _transactionsClient = TransactionsClient();
   final PanelController _deletePanelController = PanelController();
   final PanelController _relinkPanelController = PanelController();
+  final PanelController _accountDetailPanelController = PanelController();
   String _phone;
   String _itemId;
   String _accessToken;
@@ -112,28 +113,33 @@ class _AccountsScreenState extends State<AccountsScreen> {
                   Spacer(
                     flex: 1,
                   ),
-                  NeumorphicText(AccountsPageConstants.RELINK_INSTITUTION,
-                      textStyle: BlossomNeumorphicText.body,
-                      style: BlossomNeumorphicStyles.eightGrey),
-                  Spacer(
-                    flex: 1,
-                  )
-                ],
+                    NeumorphicText(AccountsPageConstants.RELINK_INSTITUTION,
+                        textStyle: BlossomNeumorphicText.body,
+                        style: BlossomNeumorphicStyles.eightGrey),
+                    Spacer(
+                      flex: 1,
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-          body: Scaffold(
-            extendBody: true,
-            floatingActionButton: FloatingActionButton(
-              child: Icon(FontAwesomeIcons.plus),
-              backgroundColor: Colors.white,
-              onPressed: () => _plaidService.openLinkNewAccount(phone),
-            ),
-            body: Stack(
-              children: [
-                NavDrawer(),
-                DrawerContainer(children: [
-                  FutureBuilder(
+            body: SlidingUpPanel(
+              minHeight: 0,
+              maxHeight: 300,
+              panel: AccountDetailScreen(account, logo),
+              controller: _accountDetailPanelController,
+              body: Scaffold(
+                extendBody: true,
+                floatingActionButton: FloatingActionButton(
+                  child: Icon(FontAwesomeIcons.plus),
+                  backgroundColor: Colors.white,
+                  onPressed: () => _plaidService.openLinkNewAccount(phone),
+                ),
+                body: Stack(
+                  children: [
+                    NavDrawer(),
+                    DrawerContainer(children: [
+                      FutureBuilder(
                     future: _loadAccounts(),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                       if (snapshot.hasError) {
@@ -160,7 +166,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
               ],
             ),
           ),
-        ));
+            )));
   }
 
   Future<List<Widget>> _loadAccounts() async {
@@ -276,19 +282,9 @@ class _AccountsScreenState extends State<AccountsScreen> {
     int size = accounts.where((element) => element != null).length;
     accounts.forEach((account) {
       if (account != null) {
-        _accountTypeList.add(SlidingUpPanel(
-          minHeight: 0,
-          maxHeight: 300,
-          panel: AccountDetailScreen(account, logo),
-          body: InkWell(
-            onTap: () => {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        new AccountDetailScreen(account, logo)),
-              )
-            },
+        _accountTypeList.add(
+          InkWell(
+            onTap: () => {_accountDetailPanelController.open()},
             child: Row(children: [
               Spacer(flex: 1),
               NeumorphicText(account.name,
@@ -312,7 +308,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
               Spacer(flex: 1),
             ]),
           ),
-        ));
+        );
         if (i < size - 1) {
           _accountTypeList.add(Divider());
           i++;
