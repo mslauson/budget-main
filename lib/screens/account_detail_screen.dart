@@ -29,8 +29,11 @@ class AccountDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     TransactionsGetResponse transactionsResponse =
         ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).transactions;
-    List<Transactions> transactions = transactionsResponse.transactions
-        .where((transaction) => transaction.accountId == _account.accountId);
+    List<Transactions> transactions = List();
+    if (transactionsResponse.transactions != null) {
+      transactions = transactionsResponse.transactions
+          .where((transaction) => transaction.accountId == _account.accountId);
+    }
     return Scaffold(
       body: Stack(children: [
         NavDrawer(),
