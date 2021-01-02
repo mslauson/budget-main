@@ -48,6 +48,8 @@ class _AccountsScreenState extends State<AccountsScreen> {
   String _phone;
   String _itemId;
   String _accessToken;
+  String _logo;
+  Account _account;
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +128,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
             body: SlidingUpPanel(
               minHeight: 0,
               maxHeight: 300,
-              panel: AccountDetailScreen(account, logo),
+              panel: AccountDetailScreen(_account, _logo).build(context),
               controller: _accountDetailPanelController,
               body: Scaffold(
                 extendBody: true,
@@ -284,7 +286,11 @@ class _AccountsScreenState extends State<AccountsScreen> {
       if (account != null) {
         _accountTypeList.add(
           InkWell(
-            onTap: () => {_accountDetailPanelController.open()},
+            onTap: () => {
+              _account = account,
+              _logo = logo,
+              _accountDetailPanelController.open()
+            },
             child: Row(children: [
               Spacer(flex: 1),
               NeumorphicText(account.name,
