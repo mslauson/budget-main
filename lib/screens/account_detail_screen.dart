@@ -69,25 +69,28 @@ class AccountDetailScreen extends StatelessWidget {
                             style: BlossomNeumorphicStyles.fourGrey))),
               ),
               BlossomSpacing.STANDARD_FORM,
-              Neumorphic(
-                child: Column(
-                  children: [
-                    Padding(padding: EdgeInsets.only(top: 8)),
-                    NeumorphicText(BudgetScreenConstants.RECENT_TRANSACTIONS,
-                        textStyle: BlossomNeumorphicText.body,
-                        style: BlossomNeumorphicStyles.fourGrey),
-                    ConstrainedBox(
-                      constraints:
-                      BoxConstraints(minHeight: 275, maxHeight: 275),
-                      child: SingleChildScrollView(
-                        child: Column(
-                            children: _buildTransactionWidgets(
-                                transactions, context)),
-                      ),
-                    )
-                  ],
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                child: Neumorphic(
+                  child: Column(
+                    children: [
+                      Padding(padding: EdgeInsets.only(top: 8)),
+                      NeumorphicText(BudgetScreenConstants.RECENT_TRANSACTIONS,
+                          textStyle: BlossomNeumorphicText.body,
+                          style: BlossomNeumorphicStyles.fourGrey),
+                      ConstrainedBox(
+                        constraints:
+                            BoxConstraints(minHeight: 275, maxHeight: 275),
+                        child: SingleChildScrollView(
+                          child: Column(
+                              children: _buildTransactionWidgets(
+                                  transactions, context)),
+                        ),
+                      )
+                    ],
+                  ),
+                  style: BlossomNeumorphicStyles.negativeEightConcaveWhite,
                 ),
-                style: BlossomNeumorphicStyles.negativeEightConcaveWhite,
               ),
             ],
           ),
