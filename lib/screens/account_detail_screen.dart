@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:main/components/drawer_container.dart';
 import 'package:main/constants/accounts_page_constants.dart';
 import 'package:main/constants/transaction_page_constants.dart';
 import 'package:main/models/accounts/account.dart';
-import 'package:main/theme/blossom_text.dart';
+import 'package:main/theme/blossom_neumorphic_styles.dart';
+import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/util/parse_utils.dart';
 import 'package:main/widgets/nav_drawer.dart';
 
@@ -32,10 +34,9 @@ class AccountDetailScreen extends StatelessWidget {
                     height: 60,
                     width: 60,
                   ),
-                  Text(
-                    _account.name,
-                    style: BlossomText.title,
-                  ),
+                  NeumorphicText(_account.name,
+                      textStyle: BlossomNeumorphicText.title,
+                      style: BlossomNeumorphicStyles.fourGrey),
                   ParseUtils.parseAccountMask(_account.mask),
                 ],
               ),
@@ -44,20 +45,24 @@ class AccountDetailScreen extends StatelessWidget {
                 child: Card(
                     margin: EdgeInsets.all(20),
                     child: ListTile(
-                        title: Text(AccountsPageConstants.AVAILABLE_BALANCE,
-                            style: BlossomText.body),
-                        subtitle: Text(
-                          ParseUtils.formatAmount(_account.balances.current),
-                          style: BlossomText.mediumBody,
-                        ))),
+                        title: NeumorphicText(
+                            AccountsPageConstants.AVAILABLE_BALANCE,
+                            textStyle: BlossomNeumorphicText.body,
+                            style: BlossomNeumorphicStyles.fourGrey),
+                        subtitle: NeumorphicText(
+                            ParseUtils.formatAmount(_account.balances.current),
+                            textStyle: BlossomNeumorphicText.body,
+                            style: BlossomNeumorphicStyles.fourGrey))),
               ),
               Padding(
                   padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                   child: Card(
                     margin: EdgeInsets.all(20),
                     child: ListTile(
-                        title: Text(TransactionsPageConstants.TRANSACTIONS,
-                            style: BlossomText.body)),
+                        title: NeumorphicText(
+                            TransactionsPageConstants.TRANSACTIONS,
+                            textStyle: BlossomNeumorphicText.body,
+                            style: BlossomNeumorphicStyles.fourGrey)),
                   ))
             ],
           ),
