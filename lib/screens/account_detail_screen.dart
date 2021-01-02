@@ -6,8 +6,9 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:main/components/drawer_container.dart';
 import 'package:main/constants/accounts_page_constants.dart';
 import 'package:main/constants/budget_screen_constants.dart';
-import 'package:main/constants/transaction_page_constants.dart';
 import 'package:main/models/accounts/account.dart';
+import 'package:main/models/accounts/account_meta.dart';
+import 'package:main/models/accounts/response/account_meta_response.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/transactions/transactions_get_response.dart';
 import 'package:main/screens/transaction_detail_screen.dart';
@@ -99,8 +100,10 @@ class AccountDetailScreen extends StatelessWidget {
     if (transactionList.isNotEmpty) {
       int i = 0;
       transactionList.forEach((transaction) {
-        AccountMeta _currentMeta = ParseUtils.getCorrectMeta(
-            _accountMetaResponse, transaction.accountId);
+        AccountMetaResponse metaResponse =
+            ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).meta;
+        AccountMeta _currentMeta =
+            ParseUtils.getCorrectMeta(metaResponse, transaction.accountId);
         Icon iconData = ParseUtils.getIconForTransaction(transaction);
         transactionWidgets.add(Padding(
           padding: const EdgeInsets.all(8.0),
