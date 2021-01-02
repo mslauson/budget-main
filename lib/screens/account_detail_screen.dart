@@ -8,6 +8,7 @@ import 'package:main/constants/accounts_page_constants.dart';
 import 'package:main/constants/budget_screen_constants.dart';
 import 'package:main/constants/transaction_page_constants.dart';
 import 'package:main/models/accounts/account.dart';
+import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/transactions/transactions_get_response.dart';
 import 'package:main/screens/transaction_detail_screen.dart';
 import 'package:main/theme/blossom_neumorphic_styles.dart';
@@ -15,6 +16,7 @@ import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/theme/blossom_spacing.dart';
 import 'package:main/util/parse_utils.dart';
 import 'package:main/widgets/nav_drawer.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class AccountDetailScreen extends StatelessWidget {
   final Account _account;
@@ -24,6 +26,10 @@ class AccountDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TransactionsGetResponse transactionsResponse =
+        ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).transactions;
+    List<Transactions> transactions = transactionsResponse.transactions
+        .where((transaction) => transaction.accountId == _account.accountId);
     return Scaffold(
       body: Stack(children: [
         NavDrawer(),
@@ -68,11 +74,11 @@ class AccountDetailScreen extends StatelessWidget {
                         style: BlossomNeumorphicStyles.fourGrey),
                     ConstrainedBox(
                       constraints:
-                          BoxConstraints(minHeight: 275, maxHeight: 275),
+                      BoxConstraints(minHeight: 275, maxHeight: 275),
                       child: SingleChildScrollView(
                         child: Column(
                             children: _buildTransactionWidgets(
-                                _transactions, context)),
+                                transactions, context)),
                       ),
                     )
                   ],
