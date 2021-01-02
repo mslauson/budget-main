@@ -14,13 +14,13 @@ import 'package:main/client/transactions_client.dart';
 import 'package:main/components/drawer_container.dart';
 import 'package:main/constants/accounts_page_constants.dart';
 import 'package:main/constants/plaid_constants.dart';
-import 'package:main/constants/transaction_page_constants.dart';
 import 'package:main/models/accounts/account.dart';
 import 'package:main/models/accounts/accounts_full_model.dart';
 import 'package:main/models/accounts/delete_account_request_model.dart';
 import 'package:main/models/accounts/response/accounts_response.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/plaid/request/plaid_generic_request.dart';
+import 'package:main/screens/account_detail_screen.dart';
 import 'package:main/service/plaid/plaid_service.dart';
 import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
@@ -125,6 +125,11 @@ class _AccountsScreenState extends State<AccountsScreen> {
                 ),
               ),
             ),
+            body: SlidingUpPanel(
+              minHeight: 0,
+              maxHeight: 300,
+              panel: AccountDetailScreen(_account, _logo).build(context),
+              controller: _accountDetailPanelController,
               body: Scaffold(
                 extendBody: true,
                 floatingActionButton: FloatingActionButton(
@@ -137,33 +142,33 @@ class _AccountsScreenState extends State<AccountsScreen> {
                     NavDrawer(),
                     DrawerContainer(children: [
                       FutureBuilder(
-                    future: _loadAccounts(),
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      if (snapshot.hasError) {
-                        //TODO: display toast
-                        log(snapshot.error);
-                      }
-                      if (snapshot.hasData) {
-                        return GestureDetector(
-                            onTap: () {
-                              if (_deletePanelController.isPanelOpen) {
-                                _deletePanelController.close();
-                              }
-                              if (_relinkPanelController.isPanelOpen) {
-                                _relinkPanelController.close();
-                              }
-                            },
-                            child: Column(children: snapshot.data));
-                      } else {
-                        return Loading(indicator: BallPulseIndicator());
-                      }
-                    },
-                  ),
-                ]),
-              ],
-            ),
-          ),
-        ));
+                        future: _loadAccounts(),
+                        builder: (BuildContext context, AsyncSnapshot snapshot) {
+                          if (snapshot.hasError) {
+                            //TODO: display toast
+                            log(snapshot.error);
+                          }
+                          if (snapshot.hasData) {
+                            return GestureDetector(
+                                onTap: () {
+                                  if (_deletePanelController.isPanelOpen) {
+                                    _deletePanelController.close();
+                                  }
+                                  if (_relinkPanelController.isPanelOpen) {
+                                    _relinkPanelController.close();
+                                  }
+                                },
+                                child: Column(children: snapshot.data));
+                          } else {
+                            return Loading(indicator: BallPulseIndicator());
+                          }
+                        },
+                      ),
+                    ]),
+                  ],
+                ),
+              ),
+            )));
   }
 
   Future<List<Widget>> _loadAccounts() async {
@@ -181,7 +186,6 @@ class _AccountsScreenState extends State<AccountsScreen> {
     List<Widget> accountsWidgetList = new List();
     accountsWidgetList.add(Text('Accounts', style: BlossomText.headline));
     accountsResponseModel.itemList.forEach((accountsModel) async {
-      log(accountsModel.institution.name);
       List<Widget> accountsList = await _createAccountsList(
           accountsModel.accounts, accountsModel.institution.logo);
       Widget collapsed = _buildCollapsedWidgets(accountsModel, phone);
@@ -279,7 +283,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
     int i = 0;
     int size = accounts.where((element) => element != null).length;
     accounts.forEach((account) {
-      if (account != null && logo != null) {
+      if (account != null) {
         _accountTypeList.add(
           InkWell(
             onTap: () => {
@@ -308,12 +312,6 @@ class _AccountsScreenState extends State<AccountsScreen> {
                 ),
               ),
               Spacer(flex: 1),
-              SlidingUpPanel(
-                minHeight: 0,
-                maxHeight: 300,
-                panel: _buildAccountDetailPanel(account, logo),
-                controller: _accountDetailPanelController,
-              )
             ]),
           ),
         );
@@ -344,7 +342,6 @@ class _AccountsScreenState extends State<AccountsScreen> {
 
   Widget _buildCollapsedWidgets(AccountsFullModel accountsModel, String phone) {
     if (!accountsModel.needsUpdating) {
-      log(accountsModel.institution.name);
       return GestureDetector(
         onLongPress: () {
           _phone = phone;
@@ -430,47 +427,5 @@ class _AccountsScreenState extends State<AccountsScreen> {
             style: BlossomNeumorphicStyles.negativeEightConcaveWhite),
       );
     }
-  }
-
-  Widget _buildAccountDetailPanel(Account account, String logo) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Image.memory(
-              base64Decode(logo),
-              height: 60,
-              width: 60,
-            ),
-            Text(
-              account.name,
-              style: BlossomText.title,
-            ),
-            ParseUtils.parseAccountMask(account.mask),
-          ],
-        ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-          child: Card(
-              margin: EdgeInsets.all(20),
-              child: ListTile(
-                  title: Text(AccountsPageConstants.AVAILABLE_BALANCE,
-                      style: BlossomText.body),
-                  subtitle: Text(
-                    ParseUtils.formatAmount(account.balances.current),
-                    style: BlossomText.mediumBody,
-                  ))),
-        ),
-        Padding(
-            padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-            child: Card(
-              margin: EdgeInsets.all(20),
-              child: ListTile(
-                  title: Text(TransactionsPageConstants.TRANSACTIONS,
-                      style: BlossomText.body)),
-            ))
-      ],
-    );
   }
 }
