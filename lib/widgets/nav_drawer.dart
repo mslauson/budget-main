@@ -1,6 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:main/components/drawer_item.dart';
 import 'package:main/constants/routes.dart';
@@ -27,8 +28,7 @@ class _NavDrawerState extends State<NavDrawer> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Container(
-        color: Colors.white,
+      child: Neumorphic(
         padding: EdgeInsets.only(top: 80, bottom: 50),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
