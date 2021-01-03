@@ -153,7 +153,11 @@ class _AccountsScreenState extends State<AccountsScreen> {
                                 _relinkPanelController.close();
                               }
                             },
-                            child: Column(children: snapshot.data));
+                            child: RefreshIndicator(
+                                onRefresh: () {
+                                  return reloadAccountsScreen(phone);
+                                },
+                                child: Column(children: snapshot.data)));
                       } else {
                         return Loading(indicator: BallPulseIndicator());
                       }
