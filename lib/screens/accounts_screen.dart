@@ -22,6 +22,7 @@ import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/plaid/request/plaid_generic_request.dart';
 import 'package:main/screens/account_detail_screen.dart';
 import 'package:main/service/plaid/plaid_service.dart';
+import 'package:main/service/secure/home_initialization_service.dart';
 import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/theme/blossom_spacing.dart';
@@ -44,6 +45,8 @@ class _AccountsScreenState extends State<AccountsScreen> {
   final TransactionsClient _transactionsClient = TransactionsClient();
   final PanelController _deletePanelController = PanelController();
   final PanelController _relinkPanelController = PanelController();
+  final HomeInitializationService _initializationService =
+      HomeInitializationService();
   String _phone;
   String _itemId;
   String _accessToken;
@@ -328,10 +331,12 @@ class _AccountsScreenState extends State<AccountsScreen> {
             clientId: PlaidConstants.CLIENT_ID_SANDBOX,
             secret: PlaidConstants.CLIENT_SECRET_SANDBOX,
             accessToken: _accessToken))
-        .whenComplete(() async => {
+        .whenComplete(() async =>
+    {
               await _accountsClient.deleteAccount(
                   DeleteAccountRequestModel(phone: _phone, accountId: _itemId)),
-              await _transactionsClient.deleteTransactions(_phone, _itemId)
+              await _transactionsClient.deleteTransactions(_phone, _itemId),
+              reloadAccountsScreen(_phone)
             });
   }
 
@@ -418,5 +423,10 @@ class _AccountsScreenState extends State<AccountsScreen> {
         ),
       );
     }
+  }
+
+  void reloadAccountsScreen(String phone) {
+    _initializationService.loadData(phone, context);
+    setState(() {});
   }
 }
