@@ -425,8 +425,8 @@ class _AccountsScreenState extends State<AccountsScreen> {
     }
   }
 
-  void reloadAccountsScreen(String phone) {
-    _initializationService.loadData(phone, context);
+  Future<void> reloadAccountsScreen(String phone) async {
+    await _initializationService.loadData(phone, context);
     setState(() {});
   }
 }
