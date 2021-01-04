@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:loading/indicator/ball_pulse_indicator.dart';
-import 'package:loading/loading.dart';
 import 'package:main/client/accounts_client.dart';
 import 'package:main/client/plaid_client.dart';
 import 'package:main/client/transactions_client.dart';
@@ -157,9 +155,11 @@ class _AccountsScreenState extends State<AccountsScreen> {
                                 onRefresh: () {
                                   return reloadAccountsScreen(phone);
                                 },
-                                child: Column(children: snapshot.data)));
+                                child: SingleChildScrollView(
+                                  child: Column(children: snapshot.data),
+                                )));
                       } else {
-                        return Loading(indicator: BallPulseIndicator());
+                        return Center(child: CircularProgressIndicator());
                       }
                     },
                   ),
@@ -335,8 +335,7 @@ class _AccountsScreenState extends State<AccountsScreen> {
             clientId: PlaidConstants.CLIENT_ID_SANDBOX,
             secret: PlaidConstants.CLIENT_SECRET_SANDBOX,
             accessToken: _accessToken))
-        .whenComplete(() async =>
-    {
+        .whenComplete(() async => {
               await _accountsClient.deleteAccount(
                   DeleteAccountRequestModel(phone: _phone, accountId: _itemId)),
               await _transactionsClient.deleteTransactions(_phone, _itemId),

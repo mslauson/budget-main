@@ -48,7 +48,7 @@ class _DrawerContainerState extends State<DrawerContainer> {
             BoxShadow(blurRadius: 100, spreadRadius: 25, color: Colors.black12, offset: Offset(-25, 0))
           ]
         ),
-        child: ListView(
+        child: Column(
           children: [
             SizedBox(height: 50),
             Container(
