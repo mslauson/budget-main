@@ -51,7 +51,7 @@ class PlaidService {
         .catchError((error) => ErrorHandler.showError(error));
   }
 
-  void openLinkFixAccount(
+  Future<void> openLinkFixAccount(
       String phone, String accessToken, String accountId) async {
     LinkConfiguration config;
     PlaidLink plaidLink;

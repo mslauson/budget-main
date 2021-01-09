@@ -95,9 +95,11 @@ class _AccountsScreenState extends State<AccountsScreen> {
           maxHeight: 80,
           controller: _relinkPanelController,
           panel: GestureDetector(
-            onTap: () {
-              _plaidService.openLinkFixAccount(phone, _accessToken, _itemId);
+            onTap: () async {
+              await _plaidService.openLinkFixAccount(
+                  phone, _accessToken, _itemId);
               _relinkPanelController.close();
+              reloadAccountsScreen(phone);
             },
             child: Neumorphic(
               child: Row(
