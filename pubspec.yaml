@@ -36,7 +36,6 @@ dependencies:
   adobe_xd: ^1.0.0
   firebase: ^7.3.0
   firebase_auth: ^0.18.3
-  firebase_admin: ^0.1.2+1
   google_sign_in: ^4.4.4
   apple_sign_in: ^0.1.0
   provider: ^4.0.1
@@ -49,6 +48,7 @@ dependencies:
   enum_to_string: ^1.0.13
   sliding_up_panel: ^1.0.2
   pointycastle: ^2.0.0
+  encrypt: ^4.1.0
   intl: ">=0.14.0"
 
 #dependency_overrides:
