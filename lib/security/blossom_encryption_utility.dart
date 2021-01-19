@@ -4,7 +4,7 @@ class BlossomEncryptionUtility {
   final String keyMain = "CharlieCatKey!@#";
   final String initVector = "CharlieCatIV!@#%";
 
-  Encrypted encrypt(String plainText) {
+  String encrypt(String plainText) {
     final key = Key.fromUtf8(keyMain);
     final iv = IV.fromUtf8(initVector);
     final encrypter = Encrypter(AES(key, mode: AESMode.cbc));
@@ -14,10 +14,11 @@ class BlossomEncryptionUtility {
     final encrypted = encrypter.encrypt(plainText, iv: iv);
     print("Encrypted: " + encrypted.bytes.toString());
     print("Base64: " + encrypted.base64);
-    return encrypted;
+    return encrypted.base64;
   }
 
-  String decrypt(Encrypted encrypted) {
+  String decrypt(String encryptedString) {
+    Encrypted encrypted = Encrypted.fromBase64(encryptedString);
     final key = Key.fromUtf8(keyMain);
     final iv = IV.fromUtf8(initVector);
     final encrypter = Encrypter(AES(key, mode: AESMode.cbc));
