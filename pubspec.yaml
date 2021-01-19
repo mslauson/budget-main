@@ -47,8 +47,8 @@ dependencies:
   flutter_neumorphic: ^3.0.3
   enum_to_string: ^1.0.13
   sliding_up_panel: ^1.0.2
-  pointycastle: ^2.0.0
-  encrypt: ^4.1.0
+  cryptography: ^1.4.1
+  path_provider:
   intl: ">=0.14.0"
 
 #dependency_overrides:
@@ -76,8 +76,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  #  assets:
-  #    - assets/logo.png
+  assets:
+    - assets/certs/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
