@@ -7,7 +7,7 @@ class BlossomEncryptionUtility {
   Encrypted encrypt(String plainText) {
     final key = Key.fromUtf8(keyMain);
     final iv = IV.fromUtf8(initVector);
-    final encrypter = Encrypter(AES(key));
+    final encrypter = Encrypter(AES(key, mode: AESMode.cbc));
     print("Dart Output…!!!");
     print("IV: " + iv.bytes.toString());
     print("Key: " + key.bytes.toString());
@@ -20,7 +20,7 @@ class BlossomEncryptionUtility {
   String decrypt(Encrypted encrypted) {
     final key = Key.fromUtf8(keyMain);
     final iv = IV.fromUtf8(initVector);
-    final encrypter = Encrypter(AES(key));
+    final encrypter = Encrypter(AES(key, mode: AESMode.cbc));
     final decrypted = encrypter.decrypt(encrypted, iv: iv);
     print("Decrypted: " + decrypted);
     return decrypted;
