@@ -11,7 +11,7 @@ import 'package:main/util/model_encryption_utility.dart';
 
 class CustomerClient {
   final _modelEncryption = ModelEncryptionUtility();
-  final encryptionUtility = BlossomEncryptionUtility();
+  final _encryptionUtility = BlossomEncryptionUtility();
 
   Future<String> addCustomer(SignUpForm signUpForm) async {
     signUpForm = _modelEncryption.encryptSignUpForm(signUpForm);
@@ -28,7 +28,7 @@ class CustomerClient {
   }
 
   Future<bool> checkPhone(String phone) async {
-    phone = encryptionUtility.encrypt(phone);
+    phone = _encryptionUtility.encrypt(phone);
     String path = CustomerMicroserviceConstants.ENDPOINT_V1_CUSTOMERS +
         CustomerMicroserviceConstants.ENDPOINT_SUFFIX_VALIDATE +
         CustomerMicroserviceConstants.ENDPOINT_SUFFIX_PHONE +
