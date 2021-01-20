@@ -25,6 +25,8 @@ class BudgetClient {
     if (response.statusCode != 200 && response.statusCode != 404) {
       ErrorHandler.onErrorClient(response, ErrorConstants.BUDGET_RETRIEVAL);
     }
-    return GetBudgetsResponse.fromJson(jsonDecode(response.body));
+    GetBudgetsResponse getBudgetsResponse =
+        GetBudgetsResponse.fromJson(jsonDecode(response.body));
+    return _modelEncryption.decryptGetBudgetsResponse(getBudgetsResponse);
   }
 }

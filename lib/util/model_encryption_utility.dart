@@ -3,31 +3,31 @@ import 'package:main/models/iam/signUpForm.dart';
 import 'package:main/security/blossom_encryption_utility.dart';
 
 class ModelEncryptionUtility {
-  final BlossomEncryptionUtility beu = BlossomEncryptionUtility();
+  final BlossomEncryptionUtility _beu = BlossomEncryptionUtility();
 
   SignUpForm encryptSignUpForm(SignUpForm signUpForm) {
     return SignUpForm(
-        firstName: beu.encrypt(signUpForm.firstName),
+        firstName: _beu.encrypt(signUpForm.firstName),
         middleName: signUpForm.middleName == null
             ? ""
-            : beu.encrypt(signUpForm.middleName),
-        lastName: beu.encrypt(signUpForm.lastName),
-        emailAddress: beu.encrypt(signUpForm.emailAddress),
-        phone: beu.encrypt(signUpForm.phone));
+            : _beu.encrypt(signUpForm.middleName),
+        lastName: _beu.encrypt(signUpForm.lastName),
+        emailAddress: _beu.encrypt(signUpForm.emailAddress),
+        phone: _beu.encrypt(signUpForm.phone));
   }
 
   GetBudgetsResponse decryptGetBudgetsResponse(GetBudgetsResponse response) {
     List<Budgets> _decryptedBudgets = List();
     response.budgets.forEach((budget) {
       _decryptedBudgets.add(Budgets(
-        id: beu.decrypt(budget.id),
-        category: beu.decrypt(budget.category),
+        id: _beu.decrypt(budget.id),
+        category: _beu.decrypt(budget.category),
         allocation: budget.allocation,
-        dateCreated: beu.decrypt(budget.dateCreated),
-        email: beu.decrypt(budget.email),
+        dateCreated: _beu.decrypt(budget.dateCreated),
+        email: _beu.decrypt(budget.email),
         linkedTransactions: _decryptLinkedTransactions(budget),
         monthYear: budget.monthYear,
-        name: beu.decrypt(budget.name),
+        name: _beu.decrypt(budget.name),
         used: budget.used,
         visible: budget.visible,
         subCategory: _decryptSubCategory(budget),
@@ -40,7 +40,7 @@ class ModelEncryptionUtility {
     List<LinkedTransactions> _decryptedLinkedTransactions = List();
     budget.linkedTransactions.forEach((linkedTrans) {
       _decryptedLinkedTransactions.add(LinkedTransactions(
-          transactionId: beu.decrypt(linkedTrans.transactionId),
+          transactionId: _beu.decrypt(linkedTrans.transactionId),
           amount: linkedTrans.amount));
     });
     return _decryptedLinkedTransactions;
@@ -51,7 +51,7 @@ class ModelEncryptionUtility {
     List<LinkedTransactions> _decryptedLinkedTransactions = List();
     subCategory.linkedTransactions.forEach((linkedTrans) {
       _decryptedLinkedTransactions.add(LinkedTransactions(
-          transactionId: beu.decrypt(linkedTrans.transactionId),
+          transactionId: _beu.decrypt(linkedTrans.transactionId),
           amount: linkedTrans.amount));
     });
     return _decryptedLinkedTransactions;
@@ -61,11 +61,11 @@ class ModelEncryptionUtility {
     List<SubCategory> _decryptedSubCategory = List();
     budget.subCategory.forEach((subCat) {
       _decryptedSubCategory.add(SubCategory(
-          id: beu.decrypt(subCat.id),
+          id: _beu.decrypt(subCat.id),
           visible: subCat.visible,
           used: subCat.used,
-          name: beu.decrypt(subCat.name),
-          category: beu.decrypt(subCat.category),
+          name: _beu.decrypt(subCat.name),
+          category: _beu.decrypt(subCat.category),
           allocation: subCat.allocation,
           linkedTransactions: _decryptSubLinkedTransactions(subCat)));
     });
