@@ -97,6 +97,20 @@ class ModelEncryptionUtility {
         phone: _beu.encrypt(fullModel.phone));
   }
 
+  AccountsFullModel decryptAccountsFullModel(AccountsFullModel fullModel) {
+    return AccountsFullModel(
+        accessToken: _beu.decrypt(fullModel.accessToken),
+        needsUpdating: fullModel.needsUpdating,
+        linkSessionId: _beu.decrypt(fullModel.linkSessionId),
+        lastUpdated: fullModel.lastUpdated,
+        institution: _decryptInstitution(fullModel.institution),
+        flaggedForDeletion: fullModel.flaggedForDeletion,
+        deletionTimeStamp: fullModel.deletionTimeStamp,
+        accounts: _decryptAccounts(fullModel.accounts),
+        id: _beu.decrypt(fullModel.id),
+        phone: _beu.decrypt(fullModel.phone));
+  }
+
   List<LinkedTransactions> _decryptLinkedTransactions(Budgets budget) {
     List<LinkedTransactions> _decryptedLinkedTransactions = List();
     budget.linkedTransactions.forEach((linkedTrans) {
