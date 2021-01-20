@@ -22,9 +22,9 @@ class AccountsClient {
   final _encryptionUtility = BlossomEncryptionUtility();
 
   Future<AccountsResponseModel> getAccountsForUser(String phone) async {
-    phone = _encryptionUtility.encrypt(phone);
+    String encryptedPhone = _encryptionUtility.encrypt(phone);
     Response response = await get(UriBuilder.blossomDevWithPath(
-        AccountsMicroserviceConstants.SERVICE, 1, phone));
+        AccountsMicroserviceConstants.SERVICE, 1, encryptedPhone));
     if (response.statusCode != 200 && response.statusCode != 404) {
       ErrorHandler.onErrorClient(response, ErrorConstants.ACCOUNTS_RETRIEVAL);
     }
@@ -34,11 +34,11 @@ class AccountsClient {
   }
 
   Future<AccessTokensResponse> getAccessTokensForUser(String phone) async {
-    phone = _encryptionUtility.encrypt(phone);
+    String encryptedPhone = _encryptionUtility.encrypt(phone);
     Response response = await get(
         AccountsMicroserviceConstants.BASE_URL_ACCOUNTS +
             AccountsMicroserviceConstants.ENDPOINT_V1_ACCOUNTS +
-            phone +
+            encryptedPhone +
             AccountsMicroserviceConstants.ENDPOINT_ACCESS_TOKENS);
     if (response.statusCode == 404) {
       return null;
@@ -51,9 +51,9 @@ class AccountsClient {
   }
 
   Future<AccountMetaResponse> getAccountMetaDataForUser(String phone) async {
-    phone = _encryptionUtility.encrypt(phone);
+    String encryptedPhone = _encryptionUtility.encrypt(phone);
     Response response = await get(UriBuilder.blossomDevWithPath(
-            AccountsMicroserviceConstants.SERVICE, 1, phone) +
+            AccountsMicroserviceConstants.SERVICE, 1, encryptedPhone) +
         AccountsMicroserviceConstants.ENDPOINT_META);
     if (response.statusCode != 200) {
       ErrorHandler.onErrorClient(response, "AccessToken Retrieval");
@@ -64,11 +64,12 @@ class AccountsClient {
   }
 
   Future<AccountsFullModel> addAccount(AccountsFullModel request) async {
-    request = _modelEncryption.encryptAccountsFullModel(request);
+    AccountsFullModel encryptedRequest =
+        _modelEncryption.encryptAccountsFullModel(request);
     Response response = await post(
         UriBuilder.blossomDev(AccountsMicroserviceConstants.SERVICE, 1),
         headers: GlobalConstants.BASIC_POST_HEADERS,
-        body: jsonEncode(request.toJson()));
+        body: jsonEncode(encryptedRequest.toJson()));
     if (response.statusCode != 200) {
       ErrorHandler.onErrorClient(response, ErrorConstants.ADDING_ACCOUNTS);
     }
@@ -78,12 +79,13 @@ class AccountsClient {
   }
 
   Future<GenericSuccessResponseModel> deleteAccount(DeleteAccountRequestModel request) async {
-    request = _modelEncryption.encryptDeleteAccountModel(request);
+    DeleteAccountRequestModel encryptedRequest =
+        _modelEncryption.encryptDeleteAccountModel(request);
     Response response = await put(
         UriBuilder.blossomDevWithUri(AccountsMicroserviceConstants.SERVICE, 1,
             AccountsMicroserviceConstants.ENDPOINT_DELETE),
         headers: GlobalConstants.BASIC_POST_HEADERS,
-        body: jsonEncode(request.toJson()));
+        body: jsonEncode(encryptedRequest.toJson()));
     if (response.statusCode != 200) {
       ErrorHandler.onErrorClient(response, ErrorConstants.REMOVING_ACCOUNTS);
     }
@@ -94,16 +96,18 @@ class AccountsClient {
   }
 
   Future<GenericSuccessResponseModel> updateToken(UpdateAccountRequestModel request) async {
+    UpdateAccountRequestModel encryptedModel =
+        _modelEncryption.encryptUpdateAccountModel(request);
     Response response = await put(
         UriBuilder.blossomDevWithUri(AccountsMicroserviceConstants.SERVICE, 1,
             AccountsMicroserviceConstants.ENDPOINT_TOKEN),
         headers: GlobalConstants.BASIC_POST_HEADERS,
-        body: jsonEncode(request.toJson()));
+        body: jsonEncode(encryptedModel.toJson()));
     if (response.statusCode != 200) {
       ErrorHandler.onErrorClient(response, ErrorConstants.RE_ADDING_ACCOUNTS);
     }
     GenericSuccessResponseModel deleteResponse =
-    GenericSuccessResponseModel.fromJson(jsonDecode(response.body));
+        GenericSuccessResponseModel.fromJson(jsonDecode(response.body));
     log(deleteResponse.toString());
     return deleteResponse;
   }

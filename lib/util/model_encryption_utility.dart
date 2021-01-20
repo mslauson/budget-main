@@ -6,6 +6,7 @@ import 'package:main/models/accounts/delete_account_request_model.dart';
 import 'package:main/models/accounts/institution.dart';
 import 'package:main/models/accounts/response/account_meta_response.dart';
 import 'package:main/models/accounts/response/accounts_response.dart';
+import 'package:main/models/accounts/update_accounts_request_model.dart';
 import 'package:main/models/budget/getBudgetsResponse.dart';
 import 'package:main/models/iam/signUpForm.dart';
 import 'package:main/security/blossom_encryption_utility.dart';
@@ -117,6 +118,15 @@ class ModelEncryptionUtility {
     return DeleteAccountRequestModel(
         phone: _beu.encrypt(deleteAccountRequestModel.phone),
         accountId: _beu.encrypt(deleteAccountRequestModel.accountId));
+  }
+
+  UpdateAccountRequestModel encryptUpdateAccountModel(
+      UpdateAccountRequestModel updateAccountRequestModel) {
+    return UpdateAccountRequestModel(
+      phone: _beu.encrypt(updateAccountRequestModel.phone),
+      id: _beu.encrypt(updateAccountRequestModel.id),
+      accessToken: _beu.encrypt(updateAccountRequestModel.accessToken),
+    );
   }
 
   List<LinkedTransactions> _decryptLinkedTransactions(Budgets budget) {

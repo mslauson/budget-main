@@ -15,11 +15,11 @@ class BudgetClient {
 
   Future<GetBudgetsResponse> getBudgetsForUser(
       String phone, String month) async {
-    phone = _encryptionUtility.encrypt(phone);
+    String encryptedPhone = _encryptionUtility.encrypt(phone);
     Response response = await get(UriBuilder.blossomDevWithTwoPathAndUri(
         BudgetClientConstants.URI_BUDGETS,
         1,
-        phone,
+        encryptedPhone,
         month,
         BudgetClientConstants.URI_MONTH));
     if (response.statusCode != 200 && response.statusCode != 404) {
