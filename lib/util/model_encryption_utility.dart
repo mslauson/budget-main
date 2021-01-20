@@ -1,3 +1,4 @@
+import 'package:main/models/accounts/AccessTokensResponse.dart';
 import 'package:main/models/accounts/account.dart';
 import 'package:main/models/accounts/accounts_full_model.dart';
 import 'package:main/models/accounts/institution.dart';
@@ -40,8 +41,7 @@ class ModelEncryptionUtility {
     return GetBudgetsResponse(budgets: _decryptedBudgets);
   }
 
-  AccountsResponseModel decryptAccountsResponseModel(
-      AccountsResponseModel accountsResponseModel) {
+  AccountsResponseModel decryptAccountsResponseModel(AccountsResponseModel accountsResponseModel) {
     List<AccountsFullModel> decryptedAccounts = List();
     accountsResponseModel.itemList.forEach((item) {
       decryptedAccounts.add(AccountsFullModel(
@@ -57,6 +57,16 @@ class ModelEncryptionUtility {
           needsUpdating: item.needsUpdating));
     });
     return AccountsResponseModel(itemList: decryptedAccounts);
+  }
+
+  AccessTokensResponse decryptAccessTokensResponse(
+      AccessTokensResponse accessTokensResponse) {
+    List<AccessTokens> accessTokenList = List();
+    accessTokensResponse.accessTokens.forEach((token) {
+      accessTokenList
+          .add(AccessTokens(accessToken: _beu.decrypt(token.accessToken)));
+    });
+    return AccessTokensResponse(accessTokens: accessTokenList);
   }
 
   List<LinkedTransactions> _decryptLinkedTransactions(Budgets budget) {

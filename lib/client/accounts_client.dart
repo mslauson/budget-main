@@ -45,7 +45,9 @@ class AccountsClient {
     } else if (response.statusCode != 200) {
       ErrorHandler.onErrorClient(response, "AccessToken Retrieval");
     }
-    return AccessTokensResponse.fromJson(jsonDecode(response.body));
+    AccessTokensResponse accessTokensResponse =
+        AccessTokensResponse.fromJson(jsonDecode(response.body));
+    return _modelEncryption.decryptAccessTokensResponse(accessTokensResponse);
   }
 
   Future<AccountMetaResponse> getAccountMetaDataForUser(String phone) async {
