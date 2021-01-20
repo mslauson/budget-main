@@ -64,6 +64,7 @@ class AccountsClient {
   }
 
   Future<AccountsFullModel> addAccount(AccountsFullModel request) async {
+    request = _modelEncryption.encryptAccountsFullModel(request);
     Response response = await post(
         UriBuilder.blossomDev(AccountsMicroserviceConstants.SERVICE, 1),
         headers: GlobalConstants.BASIC_POST_HEADERS,
@@ -72,9 +73,8 @@ class AccountsClient {
       ErrorHandler.onErrorClient(response, ErrorConstants.ADDING_ACCOUNTS);
     }
     AccountsFullModel accountsResponse =
-    AccountsFullModel.fromJson(jsonDecode(response.body));
-    log(accountsResponse.toString());
-    return accountsResponse;
+        AccountsFullModel.fromJson(jsonDecode(response.body));
+    return _modelEncryption.decryptAccountsFullModel(accountsResponse);
   }
 
   Future<GenericSuccessResponseModel> deleteAccount(DeleteAccountRequestModel request) async {
