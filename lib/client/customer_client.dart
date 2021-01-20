@@ -6,10 +6,12 @@ import 'package:main/constants/error_constants.dart';
 import 'package:main/constants/iam_constants.dart';
 import 'package:main/error/error_handler.dart';
 import 'package:main/models/iam/signUpForm.dart';
+import 'package:main/security/blossom_encryption_utility.dart';
 import 'package:main/util/model_encryption_utility.dart';
 
 class CustomerClient {
   final _modelEncryption = ModelEncryptionUtility();
+  final encryptionUtility = BlossomEncryptionUtility();
 
   Future<String> addCustomer(SignUpForm signUpForm) async {
     signUpForm = _modelEncryption.encryptSignUpForm(signUpForm);
@@ -26,6 +28,7 @@ class CustomerClient {
   }
 
   Future<bool> checkPhone(String phone) async {
+    phone = encryptionUtility.encrypt(phone);
     String path = CustomerMicroserviceConstants.ENDPOINT_V1_CUSTOMERS +
         CustomerMicroserviceConstants.ENDPOINT_SUFFIX_VALIDATE +
         CustomerMicroserviceConstants.ENDPOINT_SUFFIX_PHONE +
