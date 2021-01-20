@@ -83,6 +83,20 @@ class ModelEncryptionUtility {
     return AccountMetaResponse(accountMetaList: metaList);
   }
 
+  AccountsFullModel encryptAccountsFullModel(AccountsFullModel fullModel) {
+    return AccountsFullModel(
+        accessToken: _beu.encrypt(fullModel.accessToken),
+        needsUpdating: fullModel.needsUpdating,
+        linkSessionId: _beu.encrypt(fullModel.linkSessionId),
+        lastUpdated: fullModel.lastUpdated,
+        institution: _encryptInstitution(fullModel.institution),
+        flaggedForDeletion: fullModel.flaggedForDeletion,
+        deletionTimeStamp: fullModel.deletionTimeStamp,
+        accounts: _encryptAccounts(fullModel.accounts),
+        id: _beu.encrypt(fullModel.id),
+        phone: _beu.encrypt(fullModel.phone));
+  }
+
   List<LinkedTransactions> _decryptLinkedTransactions(Budgets budget) {
     List<LinkedTransactions> _decryptedLinkedTransactions = List();
     budget.linkedTransactions.forEach((linkedTrans) {
@@ -134,6 +148,22 @@ class ModelEncryptionUtility {
     return accountList;
   }
 
+  List<Account> _encryptAccounts(List<Account> accounts) {
+    List<Account> accountList = List();
+    accounts.forEach((account) {
+      accountList.add(Account(
+          id: _beu.encrypt(account.id),
+          name: _beu.encrypt(account.name),
+          accountId: _beu.encrypt(account.accountId),
+          balances: account.balances,
+          mask: _beu.encrypt(account.mask),
+          subtype: _beu.encrypt(account.subtype),
+          type: _beu.encrypt(account.type),
+          verificationStatus: _beu.encrypt(account.verificationStatus)));
+    });
+    return accountList;
+  }
+
   Institution _decryptInstitution(Institution institution) {
     return Institution(
         type: _beu.decrypt(institution.type),
@@ -143,5 +173,16 @@ class ModelEncryptionUtility {
         logo: _beu.decrypt(institution.logo),
         primaryColor: _beu.decrypt(institution.primaryColor),
         url: _beu.decrypt(institution.url));
+  }
+
+  Institution _encryptInstitution(Institution institution) {
+    return Institution(
+        type: _beu.encrypt(institution.type),
+        name: _beu.encrypt(institution.name),
+        institutionId: _beu.encrypt(institution.institutionId),
+        label: _beu.encrypt(institution.label),
+        logo: _beu.encrypt(institution.logo),
+        primaryColor: _beu.encrypt(institution.primaryColor),
+        url: _beu.encrypt(institution.url));
   }
 }
