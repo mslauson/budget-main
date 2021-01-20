@@ -28,7 +28,9 @@ class AccountsClient {
     if (response.statusCode != 200 && response.statusCode != 404) {
       ErrorHandler.onErrorClient(response, ErrorConstants.ACCOUNTS_RETRIEVAL);
     }
-    return AccountsResponseModel.fromJson(jsonDecode(response.body));
+    AccountsResponseModel accountsResponseModel =
+        AccountsResponseModel.fromJson(jsonDecode(response.body));
+    return _modelEncryption.decryptAccountsResponseModel(accountsResponseModel);
   }
 
   Future<AccessTokensResponse> getAccessTokensForUser(String phone) async {
