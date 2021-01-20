@@ -1,7 +1,9 @@
 import 'package:main/models/accounts/AccessTokensResponse.dart';
 import 'package:main/models/accounts/account.dart';
+import 'package:main/models/accounts/account_meta.dart';
 import 'package:main/models/accounts/accounts_full_model.dart';
 import 'package:main/models/accounts/institution.dart';
+import 'package:main/models/accounts/response/account_meta_response.dart';
 import 'package:main/models/accounts/response/accounts_response.dart';
 import 'package:main/models/budget/getBudgetsResponse.dart';
 import 'package:main/models/iam/signUpForm.dart';
@@ -67,6 +69,18 @@ class ModelEncryptionUtility {
           .add(AccessTokens(accessToken: _beu.decrypt(token.accessToken)));
     });
     return AccessTokensResponse(accessTokens: accessTokenList);
+  }
+
+  AccountMetaResponse decryptAccountMetaResponse(
+      AccountMetaResponse accountMetaResponse) {
+    List<AccountMeta> metaList = List();
+    accountMetaResponse.accountMetaList.forEach((meta) {
+      metaList.add(AccountMeta(
+          accountId: _beu.decrypt(meta.accountId),
+          accountName: _beu.decrypt(meta.accountName),
+          accountNumber: _beu.decrypt(meta.accountNumber)));
+    });
+    return AccountMetaResponse(accountMetaList: metaList);
   }
 
   List<LinkedTransactions> _decryptLinkedTransactions(Budgets budget) {

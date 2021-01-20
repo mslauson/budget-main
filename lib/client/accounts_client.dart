@@ -58,8 +58,9 @@ class AccountsClient {
     if (response.statusCode != 200) {
       ErrorHandler.onErrorClient(response, "AccessToken Retrieval");
     }
-    log(response.body);
-    return AccountMetaResponse.fromJson(jsonDecode(response.body));
+    AccountMetaResponse accountMetaResponse =
+        AccountMetaResponse.fromJson(jsonDecode(response.body));
+    return _modelEncryption.decryptAccountMetaResponse(accountMetaResponse);
   }
 
   Future<AccountsFullModel> addAccount(AccountsFullModel request) async {
