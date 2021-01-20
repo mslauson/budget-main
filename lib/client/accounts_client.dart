@@ -78,6 +78,7 @@ class AccountsClient {
   }
 
   Future<GenericSuccessResponseModel> deleteAccount(DeleteAccountRequestModel request) async {
+    request = _modelEncryption.encryptDeleteAccountModel(request);
     Response response = await put(
         UriBuilder.blossomDevWithUri(AccountsMicroserviceConstants.SERVICE, 1,
             AccountsMicroserviceConstants.ENDPOINT_DELETE),
@@ -87,7 +88,7 @@ class AccountsClient {
       ErrorHandler.onErrorClient(response, ErrorConstants.REMOVING_ACCOUNTS);
     }
     GenericSuccessResponseModel deleteResponse =
-    GenericSuccessResponseModel.fromJson(jsonDecode(response.body));
+        GenericSuccessResponseModel.fromJson(jsonDecode(response.body));
     log(deleteResponse.toString());
     return deleteResponse;
   }

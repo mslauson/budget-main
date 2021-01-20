@@ -2,6 +2,7 @@ import 'package:main/models/accounts/AccessTokensResponse.dart';
 import 'package:main/models/accounts/account.dart';
 import 'package:main/models/accounts/account_meta.dart';
 import 'package:main/models/accounts/accounts_full_model.dart';
+import 'package:main/models/accounts/delete_account_request_model.dart';
 import 'package:main/models/accounts/institution.dart';
 import 'package:main/models/accounts/response/account_meta_response.dart';
 import 'package:main/models/accounts/response/accounts_response.dart';
@@ -109,6 +110,13 @@ class ModelEncryptionUtility {
         accounts: _decryptAccounts(fullModel.accounts),
         id: _beu.decrypt(fullModel.id),
         phone: _beu.decrypt(fullModel.phone));
+  }
+
+  DeleteAccountRequestModel encryptDeleteAccountModel(
+      DeleteAccountRequestModel deleteAccountRequestModel) {
+    return DeleteAccountRequestModel(
+        phone: _beu.encrypt(deleteAccountRequestModel.phone),
+        accountId: _beu.encrypt(deleteAccountRequestModel.accountId));
   }
 
   List<LinkedTransactions> _decryptLinkedTransactions(Budgets budget) {
