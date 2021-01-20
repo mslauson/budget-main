@@ -5,14 +5,20 @@ import 'package:main/constants/customerMicroserviceConstants.dart';
 import 'package:main/constants/error_constants.dart';
 import 'package:main/constants/iam_constants.dart';
 import 'package:main/error/error_handler.dart';
+import 'package:main/models/iam/signUpForm.dart';
+import 'package:main/util/model_encryption_utility.dart';
 
 class CustomerClient {
-  Future<String> addCustomer(String payload) async {
+  final _modelEncryption = ModelEncryptionUtility();
+
+  Future<String> addCustomer(SignUpForm signUpForm) async {
+    signUpForm = _modelEncryption.encryptSignUpForm(signUpForm);
     var uri = Uri.http(CustomerMicroserviceConstants.BASE_URL_CUSTOMERS,
         CustomerMicroserviceConstants.ENDPOINT_V1_CUSTOMERS);
     Map<String, String> headers = {"Content-type": "application/json"};
 
-    var response = await post(uri, headers: headers, body: payload);
+    var response =
+        await post(uri, headers: headers, body: jsonEncode(signUpForm));
     if (response.statusCode != 200) {
       ErrorHandler.onErrorClient(response, ErrorConstants.REGISTRATION);
     }

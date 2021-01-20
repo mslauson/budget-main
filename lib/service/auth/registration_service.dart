@@ -24,8 +24,7 @@ class RegistrationService {
 
   Future<void> addCustomer(SignUpForm signUpForm) async {
     CustomerClient customerClient = new CustomerClient();
-    String customerResponse =
-        await customerClient.addCustomer(jsonEncode(signUpForm.toJson()));
+    String customerResponse = await customerClient.addCustomer(jsonEncode());
     log(customerResponse.toString());
   }
 
