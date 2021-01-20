@@ -13,10 +13,16 @@ import 'package:main/models/accounts/response/account_meta_response.dart';
 import 'package:main/models/accounts/response/accounts_response.dart';
 import 'package:main/models/accounts/update_accounts_request_model.dart';
 import 'package:main/models/plaid/genericStatusResponseModel.dart';
+import 'package:main/security/blossom_encryption_utility.dart';
+import 'package:main/util/model_encryption_utility.dart';
 import 'package:main/util/uri_builder.dart';
 
 class AccountsClient {
+  final _modelEncryption = ModelEncryptionUtility();
+  final _encryptionUtility = BlossomEncryptionUtility();
+
   Future<AccountsResponseModel> getAccountsForUser(String phone) async {
+    phone = _encryptionUtility.encrypt(phone);
     Response response = await get(UriBuilder.blossomDevWithPath(
         AccountsMicroserviceConstants.SERVICE, 1, phone));
     if (response.statusCode != 200 && response.statusCode != 404) {
@@ -26,6 +32,7 @@ class AccountsClient {
   }
 
   Future<AccessTokensResponse> getAccessTokensForUser(String phone) async {
+    phone = _encryptionUtility.encrypt(phone);
     Response response = await get(
         AccountsMicroserviceConstants.BASE_URL_ACCOUNTS +
             AccountsMicroserviceConstants.ENDPOINT_V1_ACCOUNTS +
@@ -40,6 +47,7 @@ class AccountsClient {
   }
 
   Future<AccountMetaResponse> getAccountMetaDataForUser(String phone) async {
+    phone = _encryptionUtility.encrypt(phone);
     Response response = await get(UriBuilder.blossomDevWithPath(
             AccountsMicroserviceConstants.SERVICE, 1, phone) +
         AccountsMicroserviceConstants.ENDPOINT_META);
@@ -59,13 +67,12 @@ class AccountsClient {
       ErrorHandler.onErrorClient(response, ErrorConstants.ADDING_ACCOUNTS);
     }
     AccountsFullModel accountsResponse =
-        AccountsFullModel.fromJson(jsonDecode(response.body));
+    AccountsFullModel.fromJson(jsonDecode(response.body));
     log(accountsResponse.toString());
     return accountsResponse;
   }
 
-  Future<GenericSuccessResponseModel> deleteAccount(
-      DeleteAccountRequestModel request) async {
+  Future<GenericSuccessResponseModel> deleteAccount(DeleteAccountRequestModel request) async {
     Response response = await put(
         UriBuilder.blossomDevWithUri(AccountsMicroserviceConstants.SERVICE, 1,
             AccountsMicroserviceConstants.ENDPOINT_DELETE),
@@ -75,13 +82,12 @@ class AccountsClient {
       ErrorHandler.onErrorClient(response, ErrorConstants.REMOVING_ACCOUNTS);
     }
     GenericSuccessResponseModel deleteResponse =
-        GenericSuccessResponseModel.fromJson(jsonDecode(response.body));
+    GenericSuccessResponseModel.fromJson(jsonDecode(response.body));
     log(deleteResponse.toString());
     return deleteResponse;
   }
 
-  Future<GenericSuccessResponseModel> updateToken(
-      UpdateAccountRequestModel request) async {
+  Future<GenericSuccessResponseModel> updateToken(UpdateAccountRequestModel request) async {
     Response response = await put(
         UriBuilder.blossomDevWithUri(AccountsMicroserviceConstants.SERVICE, 1,
             AccountsMicroserviceConstants.ENDPOINT_TOKEN),
@@ -91,7 +97,7 @@ class AccountsClient {
       ErrorHandler.onErrorClient(response, ErrorConstants.RE_ADDING_ACCOUNTS);
     }
     GenericSuccessResponseModel deleteResponse =
-        GenericSuccessResponseModel.fromJson(jsonDecode(response.body));
+    GenericSuccessResponseModel.fromJson(jsonDecode(response.body));
     log(deleteResponse.toString());
     return deleteResponse;
   }
