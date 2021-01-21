@@ -25,7 +25,7 @@ class Transactions {
   String transactionId;
   String pendingTransactionId;
   String transacionType;
-  String userName;
+  String phone;
   String accountId;
   double amount;
   String date;
@@ -51,18 +51,18 @@ class Transactions {
       {this.transactionId,
       this.pendingTransactionId,
       this.transacionType,
-      this.userName,
-        this.accountId,
-        this.amount,
-        this.date,
-        this.authorizationDate,
-    this.merchant,
-    this.isPending,
-    this.isoCurrencyCode,
-    this.categories,
-    this.categoryId,
-    this.location,
-    this.paymentMeta,
+      this.phone,
+      this.accountId,
+      this.amount,
+      this.date,
+      this.authorizationDate,
+      this.merchant,
+      this.isPending,
+      this.isoCurrencyCode,
+      this.categories,
+      this.categoryId,
+      this.location,
+      this.paymentMeta,
     this.reimbursement,
     this.tags,
     this.budgetId,
@@ -77,7 +77,7 @@ class Transactions {
     transactionId = json['transactionId'];
     pendingTransactionId = json['pendingTransactionId'];
     transacionType = json['transacionType'];
-    userName = json['userName'];
+    phone = json['phone'];
     accountId = json['accountId'];
     amount = json['amount'];
     date = json['date'];
@@ -111,7 +111,7 @@ class Transactions {
     data['transactionId'] = this.transactionId;
     data['pendingTransactionId'] = this.pendingTransactionId;
     data['transacionType'] = this.transacionType;
-    data['userName'] = this.userName;
+    data['phone'] = this.phone;
     data['accountId'] = this.accountId;
     data['amount'] = this.amount;
     data['date'] = this.date;
