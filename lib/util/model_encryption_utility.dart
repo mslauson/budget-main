@@ -9,6 +9,7 @@ import 'package:main/models/accounts/response/accounts_response.dart';
 import 'package:main/models/accounts/update_accounts_request_model.dart';
 import 'package:main/models/budget/getBudgetsResponse.dart';
 import 'package:main/models/iam/signUpForm.dart';
+import 'package:main/models/transactions/transactions_get_response.dart';
 import 'package:main/security/blossom_encryption_utility.dart';
 
 class ModelEncryptionUtility {
@@ -45,7 +46,8 @@ class ModelEncryptionUtility {
     return GetBudgetsResponse(budgets: _decryptedBudgets);
   }
 
-  AccountsResponseModel decryptAccountsResponseModel(AccountsResponseModel accountsResponseModel) {
+  AccountsResponseModel decryptAccountsResponseModel(
+      AccountsResponseModel accountsResponseModel) {
     List<AccountsFullModel> decryptedAccounts = List();
     accountsResponseModel.itemList.forEach((item) {
       decryptedAccounts.add(AccountsFullModel(
@@ -129,6 +131,12 @@ class ModelEncryptionUtility {
     );
   }
 
+  TransactionsGetResponse decryptTransactionsGetResponse(
+      TransactionsGetResponse getResponse) {
+    getResponse
+    .
+  }
+
   List<LinkedTransactions> _decryptLinkedTransactions(Budgets budget) {
     List<LinkedTransactions> _decryptedLinkedTransactions = List();
     budget.linkedTransactions.forEach((linkedTrans) {
@@ -139,7 +147,8 @@ class ModelEncryptionUtility {
     return _decryptedLinkedTransactions;
   }
 
-  List<LinkedTransactions> _decryptSubLinkedTransactions(SubCategory subCategory) {
+  List<LinkedTransactions> _decryptSubLinkedTransactions(
+      SubCategory subCategory) {
     List<LinkedTransactions> _decryptedLinkedTransactions = List();
     subCategory.linkedTransactions.forEach((linkedTrans) {
       _decryptedLinkedTransactions.add(LinkedTransactions(
@@ -216,5 +225,85 @@ class ModelEncryptionUtility {
         logo: _beu.encrypt(institution.logo),
         primaryColor: _beu.encrypt(institution.primaryColor),
         url: _beu.encrypt(institution.url));
+  }
+
+  List<Transactions> _decryptTransactions(List<Transactions> transactions) {
+    List<Transactions> decryptedTransactions = List();
+    transactions.forEach((transaction) {
+      decryptedTransactions.add(
+          Transactions(
+              phone: _beu.decrypt(transaction.phone),
+              accountId: _beu.decrypt(transaction.accountId),
+              deletionTimeStamp: transaction.deletionTimeStamp,
+              flaggedForDeletion: transaction.flaggedForDeletion,
+              lastUpdated: transaction.lastUpdated,
+              amount: transaction.amount,
+              transactionId: _beu.decrypt(transaction.transactionId),
+              authorizationDate: transaction.authorizationDate,
+              budgetId: _beu.decrypt(transaction.budgetId),
+              categories: _decryptListOfStrings(transaction.categories),
+              categoryId: _beu.decrypt(transaction.categoryId),
+              creationTimeStamp: transaction.creationTimeStamp,
+              date: transaction.date,
+              isoCurrencyCode: transaction.isoCurrencyCode,
+              isPending: transaction.isPending,
+              location: _decryptLocation(transaction.location),
+              merchant: _beu.decrypt(transaction.merchant),
+              notes: _beu.decrypt(transaction.notes),
+              paymentMeta: _decryptPaymentMeta(transaction.paymentMeta),
+              pendingTransactionId: _beu.decrypt(
+                  transaction.pendingTransactionId),
+              reimbursement: _decryptReimbursement(transaction.reimbursement),
+              subBudgetId: _beu.decrypt(transaction.subBudgetId),
+              tags: _beu.decrypt(transaction.tags),
+              transacionType: _beu.decrypt(transaction.transacionType)
+          )
+      );
+    });
+  }
+
+  List<String> _decryptListOfStrings(List<String> categories) {
+    List<String> decryptedCategories = List();
+    categories.forEach((element) {
+      decryptedCategories.add(
+        _beu.decrypt(element),
+      );
+    });
+    return decryptedCategories;
+  }
+
+  Location _decryptLocation(Location location) {
+    return Location(
+        address: _beu.decrypt(location.address),
+        city: _beu.decrypt(location.city),
+        country: _beu.decrypt(location.country),
+        lat: location.lat,
+        lon: location.lon,
+        postalCode: _beu.decrypt(location.postalCode),
+        region: _beu.decrypt(location.region),
+        storeNumber: _beu.decrypt(location.storeNumber)
+    );
+  }
+
+  PaymentMeta _decryptPaymentMeta(PaymentMeta paymentMeta) {
+    return PaymentMeta(
+        byOrderOf: _beu.decrypt(paymentMeta.byOrderOf),
+        payee: _beu.decrypt(paymentMeta.payee),
+        payer: _beu.decrypt(paymentMeta.payer),
+        paymentMethod: _beu.decrypt(paymentMeta.paymentMethod),
+        paymentProcessor: _beu.decrypt(paymentMeta.paymentProcessor),
+        ppdId: _beu.decrypt(paymentMeta.ppdId),
+        reason: _beu.decrypt(paymentMeta.reason),
+        referenceNumber: _beu.decrypt(paymentMeta.referenceNumber)
+    );
+  }
+
+  Reimbursement _decryptReimbursement(Reimbursement reimbursement) {
+    return Reimbursement(
+        amount: reimbursement.amount,
+        linkedTransactions: _decryptListOfStrings(
+            reimbursement.linkedTransactions),
+        reimbursed: reimbursement.reimbursed
+    );
   }
 }
