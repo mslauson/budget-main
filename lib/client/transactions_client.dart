@@ -34,7 +34,11 @@ class TransactionsClient {
       ErrorHandler.onErrorClient(
           response, ErrorConstants.TRANSACTIONS_RETRIEVAL);
     }
-    return TransactionsGetResponse.fromJson(jsonDecode(response.body));
+
+    TransactionsGetResponse transactionsGetResponse =
+        TransactionsGetResponse.fromJson(jsonDecode(response.body));
+    return _modelEncryption
+        .decryptTransactionsGetResponse(transactionsGetResponse);
   }
 
   //currently not being used
@@ -56,6 +60,8 @@ class TransactionsClient {
 
   Future<GenericSuccessResponseModel> updateTransaction(
       TransactionUpdatesRequestModel transactionUpdatesRequestModel) async {
+    TransactionUpdatesRequestModel encryptedModel = _modelEncryption
+        .encryptTransactionUpdatesRequestModel(transactionUpdatesRequestModel);
     Response response = await put(
         UriBuilder.blossomDev(TransactionsMicroserviceConstants.BASE_URI, 1),
         headers: GlobalConstants.BASIC_POST_HEADERS,
