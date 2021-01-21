@@ -9,15 +9,21 @@ import 'package:main/models/plaid/genericStatusResponseModel.dart';
 import 'package:main/models/transactions/request/transaction_updates_request_model.dart';
 import 'package:main/models/transactions/request/transactions_batch_request.dart';
 import 'package:main/models/transactions/transactions_get_response.dart';
+import 'package:main/security/blossom_encryption_utility.dart';
+import 'package:main/util/model_encryption_utility.dart';
 import 'package:main/util/uri_builder.dart';
 
 class TransactionsClient {
+  final _modelEncryption = ModelEncryptionUtility();
+  final _encryptionUtility = BlossomEncryptionUtility();
+
   Future<TransactionsGetResponse> getTransactionsForUser(String phone,
       String transactionQuery, String dateStart, String dateFinish) async {
+    String encryptedPhone = _encryptionUtility.encrypt(phone);
     Response response = await get(
         UriBuilder.blossomDev(TransactionsMicroserviceConstants.BASE_URI, 1) +
             "?phone=" +
-            phone +
+            encryptedPhone +
             "&transactionQuery=" +
             transactionQuery +
             "&dateStart=" +
@@ -60,11 +66,15 @@ class TransactionsClient {
     return GenericSuccessResponseModel.fromJson(jsonDecode(response.body));
   }
 
-  Future<GenericSuccessResponseModel> deleteTransactions(
-      String phone, String itemId) async {
+  Future<GenericSuccessResponseModel> deleteTransactions(String phone, String itemId) async {
+    String encryptedPhone = _encryptionUtility.encrypt(phone);
+    String encryptedItemId = _encryptionUtility.encrypt(itemId);
     Response response = await delete(
         UriBuilder.blossomDevWithTwoPath(
-            TransactionsMicroserviceConstants.BASE_URI, 1, phone, itemId),
+            TransactionsMicroserviceConstants.BASE_URI,
+            1,
+            encryptedPhone,
+            encryptedItemId),
         headers: GlobalConstants.BASIC_POST_HEADERS);
     if (response.statusCode != 200 && response.statusCode != 404) {
       ErrorHandler.onErrorClient(response, ErrorConstants.TRANSACTIONS_REMOVAL);
