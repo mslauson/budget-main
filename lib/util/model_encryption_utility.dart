@@ -135,8 +135,15 @@ class ModelEncryptionUtility {
 
   TransactionsGetResponse decryptTransactionsGetResponse(
       TransactionsGetResponse getResponse) {
-    getResponse
-    .
+    return TransactionsGetResponse(
+        transactions: _decryptTransactions(getResponse.transactions));
+  }
+
+  TransactionUpdatesRequestModel encryptTransactionUpdatesRequestModel(
+      TransactionUpdatesRequestModel updatesRequestModel) {
+    return TransactionUpdatesRequestModel(
+        transactionUpdates:
+            _encryptTransactionUpdates(updatesRequestModel.transactionUpdates));
   }
 
   List<LinkedTransactions> _decryptLinkedTransactions(Budgets budget) {
@@ -262,14 +269,6 @@ class ModelEncryptionUtility {
           )
       );
     });
-  }
-
-  TransactionUpdatesRequestModel encryptTransactionUpdatesRequestModel(
-      TransactionUpdatesRequestModel updatesRequestModel) {
-    return TransactionUpdatesRequestModel(
-        transactionUpdates: _encryptTransactionUpdates(
-            updatesRequestModel.transactionUpdates)
-    );
   }
 
   List<String> _decryptListOfStrings(List<String> categories) {
