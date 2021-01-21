@@ -8,6 +8,7 @@ import 'package:main/util/date_utils.dart';
 class TransactionsService {
   final TransactionsClient _transactionsClient = TransactionsClient();
 
+  //currently not being used
   Future<void> addTransactions(
       PlaidTransactionsResponse transactionsResponse, String phone) async {
     TransactionsBatchRequest request =

@@ -9,6 +9,8 @@ import 'package:main/models/accounts/response/accounts_response.dart';
 import 'package:main/models/accounts/update_accounts_request_model.dart';
 import 'package:main/models/budget/getBudgetsResponse.dart';
 import 'package:main/models/iam/signUpForm.dart';
+import 'package:main/models/transactions/request/transaction_updates.dart';
+import 'package:main/models/transactions/request/transaction_updates_request_model.dart';
 import 'package:main/models/transactions/transactions_get_response.dart';
 import 'package:main/security/blossom_encryption_utility.dart';
 
@@ -262,6 +264,14 @@ class ModelEncryptionUtility {
     });
   }
 
+  TransactionUpdatesRequestModel encryptTransactionUpdatesRequestModel(
+      TransactionUpdatesRequestModel updatesRequestModel) {
+    return TransactionUpdatesRequestModel(
+        transactionUpdates: _encryptTransactionUpdates(
+            updatesRequestModel.transactionUpdates)
+    );
+  }
+
   List<String> _decryptListOfStrings(List<String> categories) {
     List<String> decryptedCategories = List();
     categories.forEach((element) {
@@ -305,5 +315,20 @@ class ModelEncryptionUtility {
             reimbursement.linkedTransactions),
         reimbursed: reimbursement.reimbursed
     );
+  }
+
+  List<TransactionUpdates> _encryptTransactionUpdates(
+      List<TransactionUpdates> transactionUpdates) {
+    List<TransactionUpdates> encryptedTransactions = List();
+    transactionUpdates.forEach((element) {
+      encryptedTransactions.add(
+          TransactionUpdates(
+              tags: _beu.encrypt(element.tags),
+              notes: _beu.encrypt(element.notes),
+              transactionId: _beu.encrypt(element.transactionId),
+              budget: _beu.encrypt(element.budget)
+          )
+      );
+    });
   }
 }

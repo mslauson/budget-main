@@ -31,6 +31,7 @@ class TransactionsClient {
     return TransactionsGetResponse.fromJson(jsonDecode(response.body));
   }
 
+  //currently not being used
   Future<GenericSuccessResponseModel> postTransactionBatch(
       TransactionsBatchRequest batchRequest) async {
     Response response = await post(
