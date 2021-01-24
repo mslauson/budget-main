@@ -18,6 +18,11 @@ class UriBuilder {
     return 'http://dev.blossombudgeting.io/$service/api/v$version/$pathParam/$uri';
   }
 
+  static blossomDevWithUriAndPathAtEnd(
+      String service, int version, String pathParam, String uri) {
+    return 'http://dev.blossombudgeting.io/$service/api/v$version/$uri/$pathParam';
+  }
+
   static blossomDevWithTwoPath(
       String service, int version, String pathParam1, String pathParam2) {
     return 'http://dev.blossombudgeting.io/$service/api/v$version/$pathParam1/$pathParam2';

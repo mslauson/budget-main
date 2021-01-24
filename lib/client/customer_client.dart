@@ -32,11 +32,12 @@ class CustomerClient {
 
   Future<bool> checkPhone(String phone) async {
     phone = _encryptionUtility.encrypt(phone);
-    String path = CustomerMicroserviceConstants.ENDPOINT_V1_CUSTOMERS +
-        CustomerMicroserviceConstants.ENDPOINT_SUFFIX_VALIDATE +
-        CustomerMicroserviceConstants.ENDPOINT_SUFFIX_PHONE +
-        phone;
-    var uri = Uri.http(CustomerMicroserviceConstants.BASE_URL_CUSTOMERS, path);
+    var uri = UriBuilder.blossomDevWithUriAndPathAtEnd(
+        CustomerMicroserviceConstants.ENDPOINT_V1_CUSTOMERS,
+        1,
+        phone,
+        CustomerMicroserviceConstants.ENDPOINT_SUFFIX_VALIDATE_PHONE);
+    log(uri);
     Map<String, String> headers = {"Content-type": "application/json"};
 
     var response = await get(
