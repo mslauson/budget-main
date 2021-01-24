@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:http/http.dart';
 import 'package:main/constants/customerMicroserviceConstants.dart';
@@ -8,6 +9,7 @@ import 'package:main/error/error_handler.dart';
 import 'package:main/models/iam/signUpForm.dart';
 import 'package:main/security/blossom_encryption_utility.dart';
 import 'package:main/util/model_encryption_utility.dart';
+import 'package:main/util/uri_builder.dart';
 
 class CustomerClient {
   final _modelEncryption = ModelEncryptionUtility();
@@ -15,8 +17,9 @@ class CustomerClient {
 
   Future<String> addCustomer(SignUpForm signUpForm) async {
     signUpForm = _modelEncryption.encryptSignUpForm(signUpForm);
-    var uri = Uri.http(CustomerMicroserviceConstants.BASE_URL_CUSTOMERS,
-        CustomerMicroserviceConstants.ENDPOINT_V1_CUSTOMERS);
+    var uri = UriBuilder.blossomDev(
+        CustomerMicroserviceConstants.ENDPOINT_V1_CUSTOMERS, 1);
+    log(uri);
     Map<String, String> headers = {"Content-type": "application/json"};
 
     var response =
