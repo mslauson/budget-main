@@ -77,7 +77,7 @@ class _CollectUserInfoScreenState extends State<CollectUserInfoScreen> {
                 Row(
                   children: [
                     NeumorphicText("Date Of Birth:",
-                        textStyle: BlossomNeumorphicText.b,
+                        textStyle: BlossomNeumorphicText.bodyBold,
                         style: BlossomNeumorphicStyles.eightGrey),
                     Padding(padding: EdgeInsets.only(right: 5, left: 5)),
                     GestureDetector(
