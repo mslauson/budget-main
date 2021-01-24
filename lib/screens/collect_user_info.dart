@@ -12,6 +12,7 @@ class CollectUserInfoScreen extends StatelessWidget {
   final String phone;
   final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _dobController = TextEditingController();
   final Function(SignUpForm signUpForm) onSubmit;
 
   CollectUserInfoScreen({this.phone, @required this.onSubmit});
@@ -56,6 +57,23 @@ class CollectUserInfoScreen extends StatelessWidget {
                   validator: (val) => _validateEmail(val),
                   keyboardType: TextInputType.emailAddress,
                   style: BlossomText.body),
+              const SizedBox(height: 25),
+              GestureDetector(
+                onTap: () => {_showDatePicker(context)},
+                child: TextFormField(
+                    decoration: new InputDecoration(
+                      labelText: IAMConstants.EMAIL_DECORATION,
+                      fillColor: Colors.white,
+                      border: new OutlineInputBorder(
+                        borderRadius: new BorderRadius.circular(25.0),
+                        borderSide: new BorderSide(),
+                      ),
+                    ),
+                    controller: _dobController,
+                    validator: (val) => _validateEmail(val),
+                    keyboardType: TextInputType.emailAddress,
+                    style: BlossomText.body),
+              ),
               const SizedBox(height: 25),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -120,5 +138,16 @@ class CollectUserInfoScreen extends StatelessWidget {
     signUpForm.firstName = names[0];
     signUpForm.lastName = names[1];
     return signUpForm;
+  }
+
+  Future<void> _showDatePicker(BuildContext context) async {
+    DateTime now = DateTime.now();
+    DateTime selectedDate = DateTime(now.year - 16, now.month, now.day);
+    final DateTime picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate, // Refer step 1
+      firstDate: DateTime(1920),
+      lastDate: selectedDate,
+    );
   }
 }
