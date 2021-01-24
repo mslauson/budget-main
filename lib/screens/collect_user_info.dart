@@ -71,7 +71,7 @@ class CollectUserInfoScreen extends StatelessWidget {
                     GestureDetector(
                       onTap: () => {_showDatePicker(context)},
                       child: Neumorphic(
-                        child: NeumorphicText("",
+                        child: NeumorphicText("asdfasdf",
                             textStyle: BlossomNeumorphicText.body,
                             style: BlossomNeumorphicStyles.eightGrey),
                       ),
@@ -149,10 +149,12 @@ class CollectUserInfoScreen extends StatelessWidget {
     DateTime now = DateTime.now();
     DateTime selectedDate = DateTime(now.year - 16, now.month, now.day);
     final DateTime picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate, // Refer step 1
-      firstDate: DateTime(1920),
-      lastDate: selectedDate,
-    );
+        context: context,
+        initialDate: selectedDate,
+        // Refer step 1
+        firstDate: DateTime(1920),
+        lastDate: selectedDate,
+        initialEntryMode: DatePickerEntryMode.input,
+        errorInvalidText: "Users Must be at least 16 years old to use BLSM.");
   }
 }
