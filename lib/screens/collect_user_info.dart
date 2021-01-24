@@ -1,11 +1,14 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:main/components/icon_action_button.dart';
 import 'package:main/constants/iam_constants.dart';
 import 'package:main/models/iam/signUpForm.dart';
 import 'package:main/screens/splash.dart';
+import 'package:main/theme/blossom_neumorphic_styles.dart';
+import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/theme/blossom_text.dart';
 
 class CollectUserInfoScreen extends StatelessWidget {
@@ -23,44 +26,29 @@ class CollectUserInfoScreen extends StatelessWidget {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const SizedBox(height: 50),
-              Text(IAMConstants.FINAL_COLLECTION_HEADER,
-                  style: BlossomText.title),
-              const SizedBox(height: 25),
-              TextFormField(
-                  decoration: new InputDecoration(
-                    labelText: IAMConstants.FULL_NAME_DECORATION,
-                    fillColor: Colors.white,
-                    border: new OutlineInputBorder(
-                      borderRadius: new BorderRadius.circular(25.0),
-                      borderSide: new BorderSide(),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const SizedBox(height: 50),
+                Text(IAMConstants.FINAL_COLLECTION_HEADER,
+                    style: BlossomText.title),
+                const SizedBox(height: 25),
+                TextFormField(
+                    decoration: new InputDecoration(
+                      labelText: IAMConstants.FULL_NAME_DECORATION,
+                      fillColor: Colors.white,
+                      border: new OutlineInputBorder(
+                        borderRadius: new BorderRadius.circular(25.0),
+                        borderSide: new BorderSide(),
+                      ),
                     ),
-                  ),
-                  controller: _fullNameController,
-                  validator: (val) => _validateName(val),
-                  keyboardType: TextInputType.text,
-                  style: BlossomText.body),
-              const SizedBox(height: 25),
-              TextFormField(
-                  decoration: new InputDecoration(
-                    labelText: IAMConstants.EMAIL_DECORATION,
-                    fillColor: Colors.white,
-                    border: new OutlineInputBorder(
-                      borderRadius: new BorderRadius.circular(25.0),
-                      borderSide: new BorderSide(),
-                    ),
-                  ),
-                  controller: _emailController,
-                  validator: (val) => _validateEmail(val),
-                  keyboardType: TextInputType.emailAddress,
-                  style: BlossomText.body),
-              const SizedBox(height: 25),
-              GestureDetector(
-                onTap: () => {_showDatePicker(context)},
-                child: TextFormField(
+                    controller: _fullNameController,
+                    validator: (val) => _validateName(val),
+                    keyboardType: TextInputType.text,
+                    style: BlossomText.body),
+                const SizedBox(height: 25),
+                TextFormField(
                     decoration: new InputDecoration(
                       labelText: IAMConstants.EMAIL_DECORATION,
                       fillColor: Colors.white,
@@ -69,17 +57,34 @@ class CollectUserInfoScreen extends StatelessWidget {
                         borderSide: new BorderSide(),
                       ),
                     ),
-                    controller: _dobController,
+                    controller: _emailController,
                     validator: (val) => _validateEmail(val),
                     keyboardType: TextInputType.emailAddress,
                     style: BlossomText.body),
-              ),
-              const SizedBox(height: 25),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: _buildButtons(context),
-              )
-            ],
+                const SizedBox(height: 25),
+                Row(
+                  children: [
+                    NeumorphicText("Date Of Birth",
+                        textStyle: BlossomNeumorphicText.body,
+                        style: BlossomNeumorphicStyles.eightGrey),
+                    Spacer(flex: 1),
+                    GestureDetector(
+                      onTap: () => {_showDatePicker(context)},
+                      child: Neumorphic(
+                        child: NeumorphicText("",
+                            textStyle: BlossomNeumorphicText.body,
+                            style: BlossomNeumorphicStyles.eightGrey),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 25),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: _buildButtons(context),
+                )
+              ],
+            ),
           ),
         ),
       ),
