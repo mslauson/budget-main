@@ -11,14 +11,25 @@ import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/theme/blossom_text.dart';
 
-class CollectUserInfoScreen extends StatelessWidget {
+class CollectUserInfoScreen extends StatefulWidget {
   final String phone;
-  final TextEditingController _fullNameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _dobController = TextEditingController();
   final Function(SignUpForm signUpForm) onSubmit;
 
   CollectUserInfoScreen({this.phone, @required this.onSubmit});
+
+  @override
+  _CollectUserInfoScreenState createState() =>
+      _CollectUserInfoScreenState(phone: phone, onSubmit: onSubmit);
+}
+
+class _CollectUserInfoScreenState extends State<CollectUserInfoScreen> {
+  final String phone;
+  final TextEditingController _fullNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final Function(SignUpForm signUpForm) onSubmit;
+  String _dob = "          ";
+
+  _CollectUserInfoScreenState({this.phone, @required this.onSubmit});
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +82,7 @@ class CollectUserInfoScreen extends StatelessWidget {
                     GestureDetector(
                       onTap: () => {_showDatePicker(context)},
                       child: Neumorphic(
-                        child: NeumorphicText("asdfasdf",
+                        child: NeumorphicText(_dob,
                             textStyle: BlossomNeumorphicText.body,
                             style: BlossomNeumorphicStyles.eightGrey),
                       ),
@@ -100,9 +111,9 @@ class CollectUserInfoScreen extends StatelessWidget {
       IconActionButton(
           iconData: FontAwesomeIcons.arrowLeft,
           onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Splash()),
-              )),
+            context,
+            MaterialPageRoute(builder: (context) => Splash()),
+          )),
       Padding(
         padding: EdgeInsets.fromLTRB(45, 0, 45, 0),
       ),
@@ -151,10 +162,12 @@ class CollectUserInfoScreen extends StatelessWidget {
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
-        // Refer step 1
         firstDate: DateTime(1920),
         lastDate: selectedDate,
         initialEntryMode: DatePickerEntryMode.input,
         errorInvalidText: "Users Must be at least 16 years old to use BLSM.");
+    setState(() {
+      _dob = picked.toString();
+    });
   }
 }
