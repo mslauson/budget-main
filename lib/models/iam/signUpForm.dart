@@ -4,6 +4,8 @@ class SignUpForm {
   String lastName;
   String phone;
   String emailAddress;
+  String dob;
+
   SignUpForm(
       {this.firstName = '',
       this.middleName = '',
@@ -16,6 +18,7 @@ class SignUpForm {
         "middleName": middleName,
         "lastName": lastName,
         "phone": phone,
-        "emailAddress": emailAddress
+        "emailAddress": emailAddress,
+        "dob": dob
       };
 }
