@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:main/components/icon_action_button.dart';
 import 'package:main/constants/iam_constants.dart';
 import 'package:main/models/iam/signUpForm.dart';
@@ -166,8 +167,9 @@ class _CollectUserInfoScreenState extends State<CollectUserInfoScreen> {
         lastDate: selectedDate,
         initialEntryMode: DatePickerEntryMode.input,
         errorInvalidText: "Users Must be at least 16 years old to use BLSM.");
+    final DateFormat formatter = DateFormat('MM/dd/yyyy');
     setState(() {
-      _dob = picked.toString();
+      _dob = formatter.format(picked);
     });
   }
 }
