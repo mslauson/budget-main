@@ -157,6 +157,7 @@ class _CollectUserInfoScreenState extends State<CollectUserInfoScreen> {
     signUpForm.emailAddress = _emailController.text.trim();
     signUpForm.firstName = names[0];
     signUpForm.lastName = names[1];
+    signUpForm.dob = _dob;
     return signUpForm;
   }
 
