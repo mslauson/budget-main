@@ -55,7 +55,7 @@ class AccountsClient {
     Response response = await get(UriBuilder.blossomDevWithPath(
             AccountsMicroserviceConstants.SERVICE, 1, encryptedPhone) +
         AccountsMicroserviceConstants.ENDPOINT_META);
-    if (response.statusCode != 200) {
+    if (response.statusCode != 200 && response.statusCode != 404) {
       ErrorHandler.onErrorClient(response, "AccessToken Retrieval");
     }
     AccountMetaResponse accountMetaResponse =

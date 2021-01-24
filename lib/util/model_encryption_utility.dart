@@ -18,11 +18,12 @@ class ModelEncryptionUtility {
   final BlossomEncryptionUtility _beu = BlossomEncryptionUtility();
 
   SignUpForm encryptSignUpForm(SignUpForm signUpForm) {
+    if (signUpForm.middleName != null) {
+      signUpForm.middleName = _beu.encrypt(signUpForm.middleName);
+    }
     return SignUpForm(
         firstName: _beu.encrypt(signUpForm.firstName),
-        middleName: signUpForm.middleName == null
-            ? ""
-            : _beu.encrypt(signUpForm.middleName),
+        middleName: signUpForm.middleName,
         lastName: _beu.encrypt(signUpForm.lastName),
         emailAddress: _beu.encrypt(signUpForm.emailAddress),
         phone: _beu.encrypt(signUpForm.phone));
