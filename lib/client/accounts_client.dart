@@ -23,6 +23,7 @@ class AccountsClient {
 
   Future<AccountsResponseModel> getAccountsForUser(String phone) async {
     String encryptedPhone = _encryptionUtility.encrypt(phone);
+    encryptedPhone = Uri.encodeComponent(encryptedPhone);
     Response response = await get(UriBuilder.blossomDevWithPath(
         AccountsMicroserviceConstants.SERVICE, 1, encryptedPhone));
     if (response.statusCode != 200 && response.statusCode != 404) {
@@ -35,6 +36,7 @@ class AccountsClient {
 
   Future<AccessTokensResponse> getAccessTokensForUser(String phone) async {
     String encryptedPhone = _encryptionUtility.encrypt(phone);
+    encryptedPhone = Uri.encodeComponent(encryptedPhone);
     Response response = await get(
         AccountsMicroserviceConstants.BASE_URL_ACCOUNTS +
             AccountsMicroserviceConstants.ENDPOINT_V1_ACCOUNTS +
@@ -52,6 +54,7 @@ class AccountsClient {
 
   Future<AccountMetaResponse> getAccountMetaDataForUser(String phone) async {
     String encryptedPhone = _encryptionUtility.encrypt(phone);
+    encryptedPhone = Uri.encodeComponent(encryptedPhone);
     Response response = await get(UriBuilder.blossomDevWithPath(
             AccountsMicroserviceConstants.SERVICE, 1, encryptedPhone) +
         AccountsMicroserviceConstants.ENDPOINT_META);

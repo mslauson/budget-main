@@ -31,11 +31,12 @@ class CustomerClient {
   }
 
   Future<bool> checkPhone(String phone) async {
-    phone = _encryptionUtility.encrypt(phone);
+    String encryptedPhone = _encryptionUtility.encrypt(phone);
+    encryptedPhone = Uri.encodeComponent(encryptedPhone);
     var uri = UriBuilder.blossomDevWithUriAndPathAtEnd(
         CustomerMicroserviceConstants.ENDPOINT_V1_CUSTOMERS,
         1,
-        phone,
+        encryptedPhone,
         CustomerMicroserviceConstants.ENDPOINT_SUFFIX_VALIDATE_PHONE);
     log(uri);
     Map<String, String> headers = {"Content-type": "application/json"};

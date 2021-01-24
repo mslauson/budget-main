@@ -20,6 +20,7 @@ class TransactionsClient {
   Future<TransactionsGetResponse> getTransactionsForUser(String phone,
       String transactionQuery, String dateStart, String dateFinish) async {
     String encryptedPhone = _encryptionUtility.encrypt(phone);
+    encryptedPhone = Uri.encodeComponent(encryptedPhone);
     Response response = await get(
         UriBuilder.blossomDev(TransactionsMicroserviceConstants.BASE_URI, 1) +
             "?phone=" +
@@ -74,7 +75,9 @@ class TransactionsClient {
 
   Future<GenericSuccessResponseModel> deleteTransactions(String phone, String itemId) async {
     String encryptedPhone = _encryptionUtility.encrypt(phone);
+    encryptedPhone = Uri.encodeComponent(encryptedPhone);
     String encryptedItemId = _encryptionUtility.encrypt(itemId);
+    encryptedItemId = Uri.encodeComponent(encryptedItemId);
     Response response = await delete(
         UriBuilder.blossomDevWithTwoPath(
             TransactionsMicroserviceConstants.BASE_URI,
