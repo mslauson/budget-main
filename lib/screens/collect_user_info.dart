@@ -76,16 +76,19 @@ class _CollectUserInfoScreenState extends State<CollectUserInfoScreen> {
                 const SizedBox(height: 25),
                 Row(
                   children: [
-                    NeumorphicText("Date Of Birth",
-                        textStyle: BlossomNeumorphicText.body,
+                    NeumorphicText("Date Of Birth:",
+                        textStyle: BlossomNeumorphicText.b,
                         style: BlossomNeumorphicStyles.eightGrey),
-                    Spacer(flex: 1),
+                    Padding(padding: EdgeInsets.only(right: 5, left: 5)),
                     GestureDetector(
                       onTap: () => {_showDatePicker(context)},
                       child: Neumorphic(
-                        child: NeumorphicText(_dob,
-                            textStyle: BlossomNeumorphicText.body,
-                            style: BlossomNeumorphicStyles.eightGrey),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: NeumorphicText(_dob,
+                              textStyle: BlossomNeumorphicText.body,
+                              style: BlossomNeumorphicStyles.eightGrey),
+                        ),
                       ),
                     ),
                   ],
