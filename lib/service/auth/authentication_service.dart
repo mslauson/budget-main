@@ -29,7 +29,7 @@ class AuthenticationService {
   String _otpPhone;
 
   void authenticateUserPhone(String phone, BuildContext context) {
-    _otpPhone = "1" + phone;
+    _otpPhone = phone;
     _authenticateOtp(phone, context);
   }
 
