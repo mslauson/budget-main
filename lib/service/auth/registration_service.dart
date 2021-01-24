@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,7 +23,7 @@ class RegistrationService {
 
   Future<void> addCustomer(SignUpForm signUpForm) async {
     CustomerClient customerClient = new CustomerClient();
-    String customerResponse = await customerClient.addCustomer(jsonEncode());
+    String customerResponse = await customerClient.addCustomer(signUpForm);
     log(customerResponse.toString());
   }
 
