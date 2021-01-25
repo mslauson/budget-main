@@ -11,7 +11,8 @@ class SignUpForm {
       this.middleName = '',
       this.lastName = '',
       this.phone = '',
-      this.emailAddress = ''});
+      this.emailAddress = '',
+      this.dob = ''});
 
   Map<String, dynamic> toJson() => {
         "firstName": firstName,

@@ -22,8 +22,8 @@ class CustomerClient {
     log(uri);
     Map<String, String> headers = {"Content-type": "application/json"};
 
-    var response =
-        await post(uri, headers: headers, body: jsonEncode(signUpForm));
+    String body = jsonEncode(signUpForm);
+    var response = await post(uri, headers: headers, body: body);
     if (response.statusCode != 200) {
       ErrorHandler.onErrorClient(response, ErrorConstants.REGISTRATION);
     }

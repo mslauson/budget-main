@@ -26,7 +26,8 @@ class ModelEncryptionUtility {
         middleName: signUpForm.middleName,
         lastName: _beu.encrypt(signUpForm.lastName),
         emailAddress: _beu.encrypt(signUpForm.emailAddress),
-        phone: _beu.encrypt(signUpForm.phone));
+        phone: _beu.encrypt(signUpForm.phone),
+        dob: signUpForm.dob);
   }
 
   GetBudgetsResponse decryptGetBudgetsResponse(GetBudgetsResponse response) {
