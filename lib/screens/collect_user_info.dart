@@ -154,7 +154,7 @@ class _CollectUserInfoScreenState extends State<CollectUserInfoScreen> {
   SignUpForm _buildSignUpForm() {
     List<String> names = _fullNameController.text.trim().split(" ");
     SignUpForm signUpForm = new SignUpForm();
-    signUpForm.phone = phone;
+    signUpForm.phone = "1" + phone;
     signUpForm.emailAddress = _emailController.text.trim();
     signUpForm.firstName = names[0];
     signUpForm.lastName = names[1];
