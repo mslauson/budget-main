@@ -29,6 +29,7 @@ class _CollectUserInfoScreenState extends State<CollectUserInfoScreen> {
   final TextEditingController _emailController = TextEditingController();
   final Function(SignUpForm signUpForm) onSubmit;
   String _dob = "          ";
+  String _isoDob = "";
 
   _CollectUserInfoScreenState({this.phone, @required this.onSubmit});
 
@@ -157,7 +158,7 @@ class _CollectUserInfoScreenState extends State<CollectUserInfoScreen> {
     signUpForm.emailAddress = _emailController.text.trim();
     signUpForm.firstName = names[0];
     signUpForm.lastName = names[1];
-    signUpForm.dob = _dob;
+    signUpForm.dob = _isoDob;
     return signUpForm;
   }
 
@@ -171,9 +172,11 @@ class _CollectUserInfoScreenState extends State<CollectUserInfoScreen> {
         lastDate: selectedDate,
         initialEntryMode: DatePickerEntryMode.input,
         errorInvalidText: "Users Must be at least 16 years old to use BLSM.");
-    final DateFormat formatter = DateFormat('MM/dd/yyyy');
+    final DateFormat usFormatter = DateFormat('MM/dd/yyyy');
+    final DateFormat isoFormatter = DateFormat('yyyy-MM-dd');
+    _isoDob = isoFormatter.format(picked);
     setState(() {
-      _dob = formatter.format(picked);
+      _dob = usFormatter.format(picked);
     });
   }
 }
