@@ -17,12 +17,10 @@ class BudgetClient {
       String phone, String month) async {
     String encryptedPhone = _encryptionUtility.encrypt(phone);
     encryptedPhone = Uri.encodeComponent(encryptedPhone);
-    Response response = await get(UriBuilder.blossomDevWithTwoPathAndUri(
-        BudgetClientConstants.URI_BUDGETS,
-        1,
-        encryptedPhone,
-        month,
-        BudgetClientConstants.URI_MONTH));
+    String url = UriBuilder.blossomDevWithUri(BudgetClientConstants.URI_BUDGETS,
+        1, BudgetClientConstants.URI_GET_BUDGETS_MONTH);
+    url = url + "?phone=" + encryptedPhone + "?monthYear=" + month;
+    Response response = await get(url);
     if (response.statusCode != 200 && response.statusCode != 404) {
       ErrorHandler.onErrorClient(response, ErrorConstants.BUDGET_RETRIEVAL);
     }
