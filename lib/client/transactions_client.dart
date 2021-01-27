@@ -78,13 +78,14 @@ class TransactionsClient {
     encryptedPhone = Uri.encodeComponent(encryptedPhone);
     String encryptedItemId = _encryptionUtility.encrypt(itemId);
     encryptedItemId = Uri.encodeComponent(encryptedItemId);
-    Response response = await delete(
-        UriBuilder.blossomDevWithTwoPath(
-            TransactionsMicroserviceConstants.BASE_URI,
-            1,
-            encryptedPhone,
-            encryptedItemId),
-        headers: GlobalConstants.BASIC_POST_HEADERS);
+    String url = UriBuilder.blossomDevWithUri(
+        TransactionsMicroserviceConstants.BASE_URI,
+        1,
+        TransactionsMicroserviceConstants.DELETE_URI);
+
+    url = url + "?phone=" + encryptedPhone + "?itemId=" + encryptedItemId;
+    Response response =
+        await delete(url, headers: GlobalConstants.BASIC_POST_HEADERS);
     if (response.statusCode != 200 && response.statusCode != 404) {
       ErrorHandler.onErrorClient(response, ErrorConstants.TRANSACTIONS_REMOVAL);
     }
