@@ -24,8 +24,9 @@ class AccountsClient {
   Future<AccountsResponseModel> getAccountsForUser(String phone) async {
     String encryptedPhone = _encryptionUtility.encrypt(phone);
     encryptedPhone = Uri.encodeComponent(encryptedPhone);
-    String url = UriBuilder.blossomDevWithPath(
-        AccountsMicroserviceConstants.SERVICE, 1, encryptedPhone);
+    String url =
+        UriBuilder.blossomDev(AccountsMicroserviceConstants.SERVICE, 1);
+    url = url + "?phone=" + encryptedPhone;
     Response response = await get(url);
     if (response.statusCode != 200 && response.statusCode != 404) {
       ErrorHandler.onErrorClient(response, ErrorConstants.ACCOUNTS_RETRIEVAL);
@@ -38,11 +39,12 @@ class AccountsClient {
   Future<AccessTokensResponse> getAccessTokensForUser(String phone) async {
     String encryptedPhone = _encryptionUtility.encrypt(phone);
     encryptedPhone = Uri.encodeComponent(encryptedPhone);
-    Response response = await get(
-        AccountsMicroserviceConstants.BASE_URL_ACCOUNTS +
-            AccountsMicroserviceConstants.ENDPOINT_V1_ACCOUNTS +
-            encryptedPhone +
-            AccountsMicroserviceConstants.ENDPOINT_ACCESS_TOKENS);
+    String url = UriBuilder.blossomDevWithUri(
+        AccountsMicroserviceConstants.SERVICE,
+        1,
+        AccountsMicroserviceConstants.ENDPOINT_ACCESS_TOKENS);
+    url = url + "?phone=" + encryptedPhone;
+    Response response = await get(url);
     if (response.statusCode == 404) {
       return null;
     } else if (response.statusCode != 200) {
@@ -56,9 +58,12 @@ class AccountsClient {
   Future<AccountMetaResponse> getAccountMetaDataForUser(String phone) async {
     String encryptedPhone = _encryptionUtility.encrypt(phone);
     encryptedPhone = Uri.encodeComponent(encryptedPhone);
-    Response response = await get(UriBuilder.blossomDevWithPath(
-            AccountsMicroserviceConstants.SERVICE, 1, encryptedPhone) +
+    String url = UriBuilder.blossomDevWithUri(
+        AccountsMicroserviceConstants.SERVICE,
+        1,
         AccountsMicroserviceConstants.ENDPOINT_META);
+    url = url + "?phone=" + encryptedPhone;
+    Response response = await get(url);
     if (response.statusCode != 200 && response.statusCode != 404) {
       ErrorHandler.onErrorClient(response, "AccessToken Retrieval");
     }
