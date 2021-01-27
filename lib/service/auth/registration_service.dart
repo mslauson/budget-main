@@ -29,6 +29,7 @@ class RegistrationService {
 
   Future<bool> checkIfUserExists(String phone) async {
     final CustomerClient _customerClient = CustomerClient();
+    phone = "1" + phone;
     return await _customerClient.checkPhone(phone);
   }
 
