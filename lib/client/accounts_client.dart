@@ -24,8 +24,9 @@ class AccountsClient {
   Future<AccountsResponseModel> getAccountsForUser(String phone) async {
     String encryptedPhone = _encryptionUtility.encrypt(phone);
     encryptedPhone = Uri.encodeComponent(encryptedPhone);
-    Response response = await get(UriBuilder.blossomDevWithPath(
-        AccountsMicroserviceConstants.SERVICE, 1, encryptedPhone));
+    String url = UriBuilder.blossomDevWithPath(
+        AccountsMicroserviceConstants.SERVICE, 1, encryptedPhone);
+    Response response = await get(url);
     if (response.statusCode != 200 && response.statusCode != 404) {
       ErrorHandler.onErrorClient(response, ErrorConstants.ACCOUNTS_RETRIEVAL);
     }

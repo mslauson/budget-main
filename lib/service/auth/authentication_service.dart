@@ -107,6 +107,7 @@ class AuthenticationService {
 
   void _checkIfUserExists(UserCredential result, String phone,
       BuildContext context) {
+    phone = "1" + phone;
     _registrationService.checkIfUserExists(phone).then((userExists) async {
       if (!userExists) {
         if (_signUpForm != null) {
