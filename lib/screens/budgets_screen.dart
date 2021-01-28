@@ -83,7 +83,9 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
   Future<List<Widget>> _buildWidgetForBudgets(
       GetBudgetsResponse budgetResponse, String phone) async {
     List<Widget> widgets = new List();
-    if (budgetResponse.budgets != null && budgetResponse.budgets.isNotEmpty) {
+    if (budgetResponse != null &&
+        budgetResponse.budgets != null &&
+        budgetResponse.budgets.isNotEmpty) {
       TransactionsGetResponse response =
           await _getTransactionsForBudgets(phone);
       budgetResponse.budgets.forEach((budget) {
