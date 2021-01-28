@@ -8,4 +8,5 @@ class AccountsMicroserviceConstants {
   static const ENDPOINT_META = "phone/meta";
   static const ENDPOINT_DELETE = "flag/delete";
   static const ENDPOINT_TOKEN = "token";
+  static const ENDPOINT_PHONE = "phone";
 }
