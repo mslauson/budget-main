@@ -60,7 +60,15 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
         ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).transactions;
     _metaResponse =
         ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).meta;
-
+    if (_getResponse.transactions == null ||
+        _getResponse.transactions.isEmpty) {
+      List<Widget> _transactionWidgets = new List();
+      _transactionWidgets.add(NeumorphicText(
+          TransactionsPageConstants.NO_TRANSACTIONS,
+          textStyle: BlossomNeumorphicText.largeBody,
+          style: BlossomNeumorphicStyles.fourGrey));
+      return _transactionWidgets;
+    }
     return await _buildTransactions(
         _getResponse, await _buildDateList(_getResponse));
   }
@@ -68,13 +76,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
   Future<List<Widget>> _buildTransactions(
       TransactionsGetResponse getResponse, List<DateTime> dateList) async {
     List<Widget> _transactionWidgets = new List();
-    if (getResponse.transactions == null || getResponse.transactions.isEmpty) {
-      _transactionWidgets.add(NeumorphicText(
-          TransactionsPageConstants.NO_TRANSACTIONS,
-          textStyle: BlossomNeumorphicText.largeBody,
-          style: BlossomNeumorphicStyles.fourGrey));
-      return _transactionWidgets;
-    }
+
     _transactionWidgets.add(NeumorphicText('Transactions',
         textStyle: BlossomNeumorphicText.headline,
         style: BlossomNeumorphicStyles.eightGrey));
