@@ -8,4 +8,5 @@ class TransactionsPageConstants{
   static const REIMBURSED = "Reimbursed:";
   static const SPLIT = "Split:";
   static const NOTES = "Notes:";
+  static const NO_TRANSACTIONS = "You Currently Have No Transactions";
 }

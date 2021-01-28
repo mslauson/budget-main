@@ -5,6 +5,7 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:loading/indicator/ball_pulse_indicator.dart';
 import 'package:loading/loading.dart';
 import 'package:main/components/drawer_container.dart';
+import 'package:main/constants/transaction_page_constants.dart';
 import 'package:main/models/accounts/account_meta.dart';
 import 'package:main/models/accounts/response/account_meta_response.dart';
 import 'package:main/models/global/activeUser.dart';
@@ -59,6 +60,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
         ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).transactions;
     _metaResponse =
         ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).meta;
+
     return await _buildTransactions(
         _getResponse, await _buildDateList(_getResponse));
   }
@@ -66,6 +68,13 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
   Future<List<Widget>> _buildTransactions(
       TransactionsGetResponse getResponse, List<DateTime> dateList) async {
     List<Widget> _transactionWidgets = new List();
+    if (getResponse.transactions == null || getResponse.transactions.isEmpty) {
+      _transactionWidgets.add(NeumorphicText(
+          TransactionsPageConstants.NO_TRANSACTIONS,
+          textStyle: BlossomNeumorphicText.largeBody,
+          style: BlossomNeumorphicStyles.fourGrey));
+      return _transactionWidgets;
+    }
     _transactionWidgets.add(NeumorphicText('Transactions',
         textStyle: BlossomNeumorphicText.headline,
         style: BlossomNeumorphicStyles.eightGrey));
