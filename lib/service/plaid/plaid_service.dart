@@ -78,8 +78,8 @@ class PlaidService {
 
   LinkTokenRequest _buildLinkRequestNewAccount(String phone) {
     return LinkTokenRequest(
-        clientId: PlaidConstants.CLIENT_ID_SANDBOX,
-        secret: PlaidConstants.CLIENT_SECRET_SANDBOX,
+        clientId: PlaidConstants.CLIENT_ID_DEV,
+        secret: PlaidConstants.CLIENT_SECRET_DEV,
         clientName: PlaidConstants.CLIENT_NAME,
         language: PlaidConstants.LANGUAGE,
         user: PlaidUser(clientUserId: phone),
@@ -97,8 +97,8 @@ class PlaidService {
   LinkTokenRequest _buildLinkRequestFixAccount(
       String phone, String accessToken) {
     return LinkTokenRequest(
-        clientId: PlaidConstants.CLIENT_ID_SANDBOX,
-        secret: PlaidConstants.CLIENT_SECRET_SANDBOX,
+        clientId: PlaidConstants.CLIENT_ID_DEV,
+        secret: PlaidConstants.CLIENT_SECRET_DEV,
         clientName: PlaidConstants.CLIENT_NAME,
         language: PlaidConstants.LANGUAGE,
         user: PlaidUser(clientUserId: phone),
@@ -155,22 +155,22 @@ class PlaidService {
   PlaidInstitutionMetaRequest _buildMetaRequest() {
     return PlaidInstitutionMetaRequest(
         institutionId: _institutionId,
-        clientId: PlaidConstants.CLIENT_ID_SANDBOX,
-        secret: PlaidConstants.CLIENT_SECRET_SANDBOX,
+        clientId: PlaidConstants.CLIENT_ID_DEV,
+        secret: PlaidConstants.CLIENT_SECRET_DEV,
         options: Options(includeOptionalMetadata: true));
   }
 
   PlaidTokenExchangeRequest _buildTokenExchangeRequest(String publicToken) {
     return PlaidTokenExchangeRequest(
-        clientId: PlaidConstants.CLIENT_ID_SANDBOX,
-        secret: PlaidConstants.CLIENT_SECRET_SANDBOX,
+        clientId: PlaidConstants.CLIENT_ID_DEV,
+        secret: PlaidConstants.CLIENT_SECRET_DEV,
         publicToken: publicToken);
   }
 
   PlaidGenericRequest _buildGenericRequest(String accessToken) {
     return PlaidGenericRequest(
-        clientId: PlaidConstants.CLIENT_ID_SANDBOX,
-        secret: PlaidConstants.CLIENT_SECRET_SANDBOX,
+        clientId: PlaidConstants.CLIENT_ID_DEV,
+        secret: PlaidConstants.CLIENT_SECRET_DEV,
         accessToken: accessToken);
   }
 
@@ -197,11 +197,10 @@ class PlaidService {
         primaryColor: metaResponse.institution.primaryColor,
         url: metaResponse.institution.url);
   }
-
   UpdateWebhookRequestModel _buildUpdateWebhooksModel(String accessToken) {
     return UpdateWebhookRequestModel(
-        clientId: PlaidConstants.CLIENT_ID_SANDBOX,
-        secret: PlaidConstants.CLIENT_SECRET_SANDBOX,
+        clientId: PlaidConstants.CLIENT_ID_DEV,
+        secret: PlaidConstants.CLIENT_SECRET_DEV,
         accessToken: accessToken,
         webhook: UriBuilder.blossomDev(PlaidConstants.SERVICE, 1));
   }

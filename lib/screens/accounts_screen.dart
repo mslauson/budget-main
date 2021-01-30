@@ -334,8 +334,8 @@ class _AccountsScreenState extends State<AccountsScreen> {
   void _cancelItem() {
     _plaidClient
         .removeItem(PlaidGenericRequest(
-            clientId: PlaidConstants.CLIENT_ID_SANDBOX,
-            secret: PlaidConstants.CLIENT_SECRET_SANDBOX,
+            clientId: PlaidConstants.CLIENT_ID_DEV,
+            secret: PlaidConstants.CLIENT_SECRET_DEV,
             accessToken: _accessToken))
         .whenComplete(() async => {
               await _accountsClient.deleteAccount(
