@@ -186,6 +186,13 @@ class _AccountsScreenState extends State<AccountsScreen> {
   Future<List<Widget>> _buildAccountsByInstitution(String phone) async {
     List<Widget> accountsWidgetList = new List();
     accountsWidgetList.add(Text('Accounts', style: BlossomText.headline));
+    if (accountsResponseModel == null ||
+        accountsResponseModel.itemList.isEmpty) {
+      accountsWidgetList.add(NeumorphicText(AccountsPageConstants.NO_ACCOUNTS,
+          textStyle: BlossomNeumorphicText.largeBody,
+          style: BlossomNeumorphicStyles.fourGrey));
+      return accountsWidgetList;
+    }
     accountsResponseModel.itemList.forEach((accountsModel) async {
       List<Widget> accountsList = await _createAccountsList(
           accountsModel.accounts, accountsModel.institution.logo);

@@ -26,4 +26,7 @@ class AccountsPageConstants {
 
   static const String NO_ASSOCIATED_TRANSACTIONS =
       "There Are No Transactions For This Account";
+
+  static const String NO_ACCOUNTS =
+      "You currently have no accounts. \n \n  You can add one by pressing the plus sign on this screen";
 }
