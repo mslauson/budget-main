@@ -26,7 +26,7 @@ class PlaidConstants {
   //dev credentials
   static const String CLIENT_ID_DEV = "5e3e3876ba7c950013d677b8";
   static const String PUBLIC_KEY_DEV = "8b40e105420880d019d286cc4553e1";
-  static const String CLIENT_SECRET_DEV = "e3203264e267e1ec00cd35185bee10";
+  static const String CLIENT_SECRET_DEV = "7fb36145f0c4ac0ff3cd4e70c18c49";
 
   //client name
   static const String CLIENT_NAME = "Blossom";

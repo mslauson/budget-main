@@ -48,7 +48,7 @@ class PlaidService {
                   onExit: _onExitLinkCallBack),
               plaidLink.open()
             })
-        .catchError((error) => ErrorHandler.showError(error));
+        .catchError((error) => ErrorHandler.showError(error.toString()));
   }
 
   Future<void> openLinkFixAccount(
