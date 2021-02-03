@@ -266,38 +266,35 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
   Widget _buildCollapsedWidgets(Budgets budget, Icon iconData) {
     final Widget graph = _buildGraphForBudget(budget.allocation, budget.used);
     return ExpandableButton(
-      child: Neumorphic(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Neumorphic(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: NeumorphicIcon(iconData.icon,
-                        style: BlossomNeumorphicStyles.twentyIconGrey),
-                  ),
-                  style: BlossomNeumorphicStyles.fourIconCircleWhite),
-              Spacer(flex: 2),
-              Column(
-                children: [
-                  NeumorphicText(ParseUtils.parseBudgetId(budget.id),
-                      textStyle: BlossomNeumorphicText.bodyBold,
-                      style: BlossomNeumorphicStyles.fourGrey),
-                  // NeumorphicText(
-                  //     "Left To Spend: " +
-                  //         MathUtils.getAvailabileBalance(
-                  //             budget.allocation, budget.used),
-                  //     textStyle: BlossomNeumorphicText.body,
-                  //     style: BlossomNeumorphicStyles.fourGrey),
-                ],
-              ),
-              Spacer(flex: 2),
-              graph
-            ],
-          ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            Neumorphic(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: NeumorphicIcon(iconData.icon,
+                      style: BlossomNeumorphicStyles.twentyIconGrey),
+                ),
+                style: BlossomNeumorphicStyles.fourIconCircleWhite),
+            Spacer(flex: 2),
+            Column(
+              children: [
+                NeumorphicText(ParseUtils.parseBudgetId(budget.id),
+                    textStyle: BlossomNeumorphicText.bodyBold,
+                    style: BlossomNeumorphicStyles.fourGrey),
+                // NeumorphicText(
+                //     "Left To Spend: " +
+                //         MathUtils.getAvailabileBalance(
+                //             budget.allocation, budget.used),
+                //     textStyle: BlossomNeumorphicText.body,
+                //     style: BlossomNeumorphicStyles.fourGrey),
+              ],
+            ),
+            Spacer(flex: 2),
+            graph
+          ],
         ),
-        style: BlossomNeumorphicStyles.negativeEightConcaveWhite,
       ),
     );
   }
