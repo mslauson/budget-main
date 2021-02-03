@@ -28,11 +28,8 @@ class ParseUtils {
 
   static String parseBudgetId(String budgetId) {
     String budgetSubString = budgetId.split(new RegExp(r"[0-9]"))[0];
-    if (budgetSubString.indexOf(" ") >= 0) {
-      budgetSubString = budgetSubString.split(" ")[0];
-    }
     if (budgetSubString.indexOf("and") >= 0) {
-      budgetSubString = budgetSubString.replaceAll("and", " & ");
+      budgetSubString = budgetSubString.replaceAll("and", "&");
     }
     return budgetSubString;
   }
