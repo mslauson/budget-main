@@ -282,7 +282,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
               Column(
                 children: [
                   NeumorphicText(ParseUtils.parseBudgetId(budget.id),
-                      textStyle: BlossomNeumorphicText.largeBodyBold,
+                      textStyle: BlossomNeumorphicText.bodyBold,
                       style: BlossomNeumorphicStyles.fourGrey),
                   // NeumorphicText(
                   //     "Left To Spend: " +
