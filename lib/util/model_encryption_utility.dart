@@ -358,12 +358,13 @@ class ModelEncryptionUtility {
   }
 
   Reimbursement _decryptReimbursement(Reimbursement reimbursement) {
-    return Reimbursement(
-        amount: reimbursement.amount,
-        linkedTransactions: _decryptListOfStrings(
-            reimbursement.linkedTransactions),
-        reimbursed: reimbursement.reimbursed
-    );
+    if (reimbursement != null) {
+      return Reimbursement(
+          amount: reimbursement.amount,
+          linkedTransactions:
+              _decryptListOfStrings(reimbursement.linkedTransactions),
+          reimbursed: reimbursement.reimbursed);
+    }
   }
 
   List<TransactionUpdates> _encryptTransactionUpdates(

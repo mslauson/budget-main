@@ -21,7 +21,7 @@ class BlossomEncryptionUtility {
   }
 
   String decrypt(String encryptedString) {
-    if (encryptedString != null) {
+    if (encryptedString != null && encryptedString.isNotEmpty) {
       Encrypted encrypted = Encrypted.fromBase64(encryptedString);
       final key = Key.fromUtf8(keyMain);
       final iv = IV.fromUtf8(initVector);
