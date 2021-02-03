@@ -50,18 +50,22 @@ class IconUtil {
       case BudgetIconsEnum.Transfer:
         return BudgetIcons.TRANSFER;
       case BudgetIconsEnum.Deposit:
-        return BudgetIcons.DEPOSIT;
+        return BudgetIcons.FINANCIAL;
       case BudgetIconsEnum.Recreation:
         return BudgetIcons.ENTERTAINMENT;
       case BudgetIconsEnum.Car:
         // TODO: Handle this case.
         break;
       case BudgetIconsEnum.Credit:
-      // TODO: Handle this case.
+        // TODO: Handle this case.
         break;
       case BudgetIconsEnum.Debit:
-      // TODO: Handle this case.
+        // TODO: Handle this case.
         break;
+      case BudgetIconsEnum.Community:
+        return BudgetIcons.COMMUNITY;
+      case BudgetIconsEnum.Financial:
+        return BudgetIcons.FINANCIAL;
     }
     return null;
   }

@@ -10,7 +10,7 @@ class BudgetIcons {
   static const SHOPPING = Icon(FontAwesomeIcons.shoppingBag);
   static const SPORTS = Icon(FontAwesomeIcons.basketballBall);
   static const GYM = Icon(FontAwesomeIcons.dumbbell);
-  static const DEPOSIT = Icon(FontAwesomeIcons.dollarSign);
+  static const FINANCIAL = Icon(FontAwesomeIcons.dollarSign);
   static const WITHDRAW = Icon(FontAwesomeIcons.university);
   static const TRANSFER = Icon(FontAwesomeIcons.exchangeAlt);
   static const PAYMENT = Icon(FontAwesomeIcons.moneyCheck);
@@ -20,4 +20,5 @@ class BudgetIcons {
   static const FORWARD = Icon(FontAwesomeIcons.arrowRight);
   static const DELETE = Icon(FontAwesomeIcons.trash);
   static const ATTENTION = Icon(FontAwesomeIcons.exclamation);
+  static const COMMUNITY = Icon(FontAwesomeIcons.handHoldingWater);
 }
