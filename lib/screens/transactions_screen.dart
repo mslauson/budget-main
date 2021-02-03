@@ -114,9 +114,8 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
         Column(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(10, 2, 10, 2),
+              padding: const EdgeInsets.fromLTRB(10, 4, 10, 4),
               child: Neumorphic(
-                style: BlossomNeumorphicStyles.negativeEightConcaveWhite,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -179,7 +178,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
       );
     });
     _dateTransactions.add(Padding(
-      padding: EdgeInsets.fromLTRB(0, 0, 0, 5),
+      padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
     ));
     return _dateTransactions;
   }
