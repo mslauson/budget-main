@@ -40,7 +40,7 @@ class ModelEncryptionUtility {
           id: _beu.decrypt(budget.id),
           category: _beu.decrypt(budget.category),
           allocation: budget.allocation,
-          dateCreated: _beu.decrypt(budget.dateCreated),
+          dateCreated: budget.dateCreated,
           email: _beu.decrypt(budget.email),
           linkedTransactions: _decryptLinkedTransactions(budget),
           monthYear: budget.monthYear,

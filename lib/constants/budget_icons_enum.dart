@@ -14,5 +14,6 @@ enum BudgetIconsEnum {
   Shopping,
   Transfer,
   Recreation,
-  Gyms
+  Gyms,
+  Government
 }
