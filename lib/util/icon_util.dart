@@ -64,6 +64,8 @@ class IconUtil {
         break;
       case BudgetIconsEnum.Community:
         return BudgetIcons.COMMUNITY;
+      case BudgetIconsEnum.Government:
+        return BudgetIcons.COMMUNITY;
       case BudgetIconsEnum.Financial:
         return BudgetIcons.FINANCIAL;
     }

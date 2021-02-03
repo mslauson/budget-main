@@ -16,5 +16,6 @@ enum BudgetIconsEnum {
   Recreation,
   Gyms,
   Community,
-  Financial
+  Financial,
+  Government
 }
