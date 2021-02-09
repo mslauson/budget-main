@@ -31,7 +31,8 @@ class AccountDetailScreen extends StatelessWidget {
     List<Transactions> transactions = List();
     if (transactionsResponse.transactions != null) {
       transactions = transactionsResponse.transactions
-          .where((transaction) => transaction.accountId == _account.accountId);
+          .where((transaction) => transaction.accountId == _account.id)
+          .toList();
     }
     return Scaffold(
       body: Padding(
