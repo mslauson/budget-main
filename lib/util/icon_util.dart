@@ -2,72 +2,54 @@ import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:main/constants/budget_icons_enum.dart';
 import 'package:main/theme/budget_icons.dart';
-import 'package:main/util/parse_utils.dart';
 
 class IconUtil {
   IconUtil._();
 
-  static Icon getIconByBudget(String budget, String subBudget) {
-    String budgetId;
-    if ((budget.contains("Payment") || budget.contains("Transfer")) &&
-        (subBudget == null || !subBudget.contains("Deposit"))) {
-      budgetId = budget;
-    } else {
-      budgetId = subBudget != null ? subBudget : budgetId;
-    }
-    String budgetSubString = ParseUtils.parseBudgetId(budgetId);
-    Icon icon = determineIcon(budgetSubString);
+  static Icon getIconByBudget(String category) {
+    String budgetCategory;
+    budgetCategory = category.replaceAll(" & ", "And");
+    budgetCategory = budgetCategory.replaceAll(" ", "");
+    Icon icon = determineIcon(budgetCategory);
     return icon;
   }
 
-  static Icon determineIcon(String budgetSubString) {
-    if (budgetSubString.indexOf(" ") >= 0) {
-      budgetSubString = budgetSubString.split(" ")[0];
-    }
+  static Icon determineIcon(String budgetCategory) {
     BudgetIconsEnum currentEnum =
-        EnumToString.fromString(BudgetIconsEnum.values, budgetSubString);
+        EnumToString.fromString(BudgetIconsEnum.values, budgetCategory);
     switch (currentEnum) {
-      case BudgetIconsEnum.Food:
-        return BudgetIcons.FOOD;
-      case BudgetIconsEnum.Travel:
-        return BudgetIcons.TRAVEL;
-      case BudgetIconsEnum.Airlines:
-        return BudgetIcons.TRAVEL;
-      case BudgetIconsEnum.Taxi:
-        return BudgetIcons.TRANSPORTATION;
-      case BudgetIconsEnum.Restaurants:
-        return BudgetIcons.FOOD;
-      case BudgetIconsEnum.Sporting:
-        return BudgetIcons.SPORTS;
-      case BudgetIconsEnum.Gyms:
-        return BudgetIcons.GYM;
-      case BudgetIconsEnum.Payment:
-        return BudgetIcons.PAYMENT;
-      case BudgetIconsEnum.Shops:
-        return BudgetIcons.SHOPPING;
+      case BudgetIconsEnum.Cash:
+        return BudgetIcons.CASH;
+      case BudgetIconsEnum.BillsAndUtilities:
+        return BudgetIcons.BILLS;
+      case BudgetIconsEnum.BusinessExpenses:
+        return BudgetIcons.BUSINESS;
+      case BudgetIconsEnum.Education:
+        return BudgetIcons.EDUCATION;
+      case BudgetIconsEnum.Entertainment:
+        return BudgetIcons.ENTERTAINMENT;
+      case BudgetIconsEnum.BankFees:
+        return BudgetIcons.FEE;
+      case BudgetIconsEnum.Gifts:
+        return BudgetIcons.GIFT;
+      case BudgetIconsEnum.Groceries:
+        return BudgetIcons.GROCERIES;
+      case BudgetIconsEnum.Home:
+        return BudgetIcons.HOME;
+      case BudgetIconsEnum.Income:
+        return BudgetIcons.INCOME;
+      case BudgetIconsEnum.Investments:
+        return BudgetIcons.INVEST;
+      case BudgetIconsEnum.Loans:
+        return BudgetIcons.LOANS;
+      case BudgetIconsEnum.MedicalExpenses:
+        return BudgetIcons.MEDICAL;
+      case BudgetIconsEnum.Other:
+        return BudgetIcons.OTHER;
+      case BudgetIconsEnum.Pets:
+        return BudgetIcons.PETS;
       case BudgetIconsEnum.Shopping:
         return BudgetIcons.SHOPPING;
-      case BudgetIconsEnum.Transfer:
-        return BudgetIcons.TRANSFER;
-      case BudgetIconsEnum.Deposit:
-        return BudgetIcons.FINANCIAL;
-      case BudgetIconsEnum.Recreation:
-        return BudgetIcons.ENTERTAINMENT;
-      case BudgetIconsEnum.Car:
-        // TODO: Handle this case.
-        break;
-      case BudgetIconsEnum.Credit:
-        // TODO: Handle this case.
-        break;
-      case BudgetIconsEnum.Debit:
-        // TODO: Handle this case.
-        break;
-      case BudgetIconsEnum.Community:
-        return BudgetIcons.COMMUNITY;
-      case BudgetIconsEnum.Government:
-        return BudgetIcons.COMMUNITY;
-      case BudgetIconsEnum.Financial:
-        return BudgetIcons.FINANCIAL;
     }
     return null;
   }
