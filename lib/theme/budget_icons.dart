@@ -4,15 +4,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class BudgetIcons {
   BudgetIcons._();
 
-  static const RESTAURANT = Icon(FontAwesomeIcons.utensils);
-  static const TRANSPORTATION = Icon(FontAwesomeIcons.car);
-  static const VACATION = Icon(FontAwesomeIcons.plane);
-  static const SHOPPING = Icon(FontAwesomeIcons.shoppingBag);
   static const SPORTS = Icon(FontAwesomeIcons.basketballBall);
   static const GYM = Icon(FontAwesomeIcons.dumbbell);
   static const CASH = Icon(FontAwesomeIcons.moneyBillWave);
   static const INCOME = Icon(FontAwesomeIcons.dollarSign);
-  static const TRANSFER = Icon(FontAwesomeIcons.exchangeAlt);
   static const FEE = Icon(FontAwesomeIcons.moneyCheck);
   static const HEALTH = Icon(FontAwesomeIcons.starOfLife);
   static const ENTERTAINMENT = Icon(FontAwesomeIcons.umbrellaBeach);
@@ -32,4 +27,12 @@ class BudgetIcons {
   static const MEDICAL = Icon(FontAwesomeIcons.clinicMedical);
   static const OTHER = Icon(FontAwesomeIcons.question);
   static const PETS = Icon(FontAwesomeIcons.paw);
+  static const RESTAURANT = Icon(FontAwesomeIcons.utensils);
+  static const SHOPPING = Icon(FontAwesomeIcons.shoppingBag);
+  static const SPA = Icon(FontAwesomeIcons.spa);
+  static const SUBSCRIPTION = Icon(FontAwesomeIcons.redo);
+  static const TAXES = Icon(FontAwesomeIcons.handHoldingUsd);
+  static const TRANSFER = Icon(FontAwesomeIcons.exchangeAlt);
+  static const TRANSPORTATION = Icon(FontAwesomeIcons.car);
+  static const VACATION = Icon(FontAwesomeIcons.plane);
 }

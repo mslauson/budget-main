@@ -48,8 +48,22 @@ class IconUtil {
         return BudgetIcons.OTHER;
       case BudgetIconsEnum.Pets:
         return BudgetIcons.PETS;
+      case BudgetIconsEnum.RestaurantsAndBars:
+        return BudgetIcons.RESTAURANT;
+      case BudgetIconsEnum.SelfCare:
+        return BudgetIcons.SPA;
       case BudgetIconsEnum.Shopping:
         return BudgetIcons.SHOPPING;
+      case BudgetIconsEnum.Subscription:
+        return BudgetIcons.SUBSCRIPTION;
+      case BudgetIconsEnum.Taxes:
+        return BudgetIcons.TAXES;
+      case BudgetIconsEnum.Transfers:
+        return BudgetIcons.TRANSFER;
+      case BudgetIconsEnum.Transportation:
+        return BudgetIcons.TRANSPORTATION;
+      case BudgetIconsEnum.Vacation:
+        return BudgetIcons.VACATION;
     }
     return null;
   }
