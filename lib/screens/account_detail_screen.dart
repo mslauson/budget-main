@@ -143,7 +143,7 @@ class AccountDetailScreen extends StatelessWidget {
             ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).meta;
         AccountMeta _currentMeta =
             ParseUtils.getCorrectMeta(metaResponse, transaction.accountId);
-        Icon iconData = ParseUtils.getIconForTransaction(transaction);
+        Icon iconData = ParseUtils.getIcon(transaction.budgetId);
         transactionWidgets.add(Padding(
           padding: const EdgeInsets.all(8.0),
           child: GestureDetector(

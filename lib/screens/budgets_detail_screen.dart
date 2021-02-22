@@ -158,9 +158,9 @@ class BudgetsDetailScreen extends StatelessWidget {
     if (transactionList.isNotEmpty) {
       int i = 0;
       transactionList.forEach((transaction) {
-        AccountMeta _currentMeta =
-        ParseUtils.getCorrectMeta(_accountMetaResponse, transaction.accountId);
-        Icon iconData = ParseUtils.getIconForTransaction(transaction);
+        AccountMeta _currentMeta = ParseUtils.getCorrectMeta(
+            _accountMetaResponse, transaction.accountId);
+        Icon iconData = ParseUtils.getIcon(transaction.budgetId);
         transactionWidgets.add(Padding(
           padding: const EdgeInsets.all(8.0),
           child: GestureDetector(
@@ -168,9 +168,8 @@ class BudgetsDetailScreen extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>
-                        TransactionDetailScreen(
-                            transaction, _currentMeta, iconData)),
+                    builder: (context) => TransactionDetailScreen(
+                        transaction, _currentMeta, iconData)),
               );
             },
             child: Row(

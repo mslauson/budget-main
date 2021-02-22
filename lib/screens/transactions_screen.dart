@@ -109,7 +109,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> {
     _transactions.forEach((transaction) {
       AccountMeta _currentMeta =
           ParseUtils.getCorrectMeta(_metaResponse, transaction.accountId);
-      Icon iconData = ParseUtils.getIconForTransaction(transaction);
+      Icon iconData = ParseUtils.getIcon(transaction.budgetId);
       _dateTransactions.add(
         Column(
           children: [
