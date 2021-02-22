@@ -19,7 +19,6 @@ import 'package:main/screens/transaction_detail_screen.dart';
 import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/theme/blossom_spacing.dart';
-import 'package:main/util/icon_util.dart';
 import 'package:main/util/math_utils.dart';
 import 'package:main/util/parse_utils.dart';
 import 'package:main/widgets/nav_drawer.dart';
@@ -89,8 +88,7 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
       TransactionsGetResponse response =
           await _getTransactionsForBudgets(phone);
       budgetResponse.budgets.forEach((budget) {
-        final Icon iconData =
-            IconUtil.determineIcon(ParseUtils.parseBudgetId(budget.id));
+        final Icon iconData = ParseUtils.getIcon(budget.id);
         List<Transactions> transactions =
             _filterTransactionsForBudget(response, budget.id);
         List<Transactions> transactionsSubSet;
@@ -324,8 +322,8 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
       int i = 0;
       transactionList.forEach((transaction) {
         AccountMeta _currentMeta =
-        ParseUtils.getCorrectMeta(_metaResponse, transaction.accountId);
-        Icon iconData = ParseUtils.getIconForTransaction(transaction);
+            ParseUtils.getCorrectMeta(_metaResponse, transaction.accountId);
+        Icon iconData = ParseUtils.getIcon(transaction.budgetId);
         transactionWidgets.add(Padding(
           padding: const EdgeInsets.all(8.0),
           child: GestureDetector(
@@ -333,9 +331,8 @@ class _BudgetsScreenState extends State<BudgetsScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>
-                        TransactionDetailScreen(
-                            transaction, _currentMeta, iconData)),
+                    builder: (context) => TransactionDetailScreen(
+                        transaction, _currentMeta, iconData)),
               );
             },
             child: Row(

@@ -5,7 +5,6 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:intl/intl.dart';
 import 'package:main/models/accounts/account_meta.dart';
 import 'package:main/models/accounts/response/account_meta_response.dart';
-import 'package:main/models/transactions/transactions_get_response.dart';
 import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
 
@@ -60,7 +59,8 @@ class ParseUtils {
         .toList()[0];
   }
 
-  static Icon getIconForTransaction(Transactions transaction) {
-    return IconUtil.getIconByBudget(transaction.budgetId);
+  static Icon getIcon(String id) {
+    String budgetId = id.split(new RegExp(r"[0-9]"))[0];
+    return IconUtil.getIconByBudget(budgetId);
   }
 }
