@@ -53,14 +53,14 @@ class ParseUtils {
     return amount;
   }
 
-  static AccountMeta getCorrectMeta(AccountMetaResponse response, String accountId) {
+  static AccountMeta getCorrectMeta(
+      AccountMetaResponse response, String accountId) {
     return response.accountMetaList
         .where((element) => element.accountId == accountId)
         .toList()[0];
   }
 
   static Icon getIconForTransaction(Transactions transaction) {
-    return IconUtil.getIconByBudget(
-        transaction.budgetId, transaction.subBudgetId);
+    return IconUtil.getIconByBudget(transaction.budgetId);
   }
 }
