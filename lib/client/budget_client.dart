@@ -5,6 +5,7 @@ import 'package:main/constants/budget_client_constants.dart';
 import 'package:main/constants/error_constants.dart';
 import 'package:main/error/error_handler.dart';
 import 'package:main/models/budget/getBudgetsResponse.dart';
+import 'package:main/models/budget/response/initialize_customer_categories_response.dart';
 import 'package:main/security/blossom_encryption_utility.dart';
 import 'package:main/util/model_encryption_utility.dart';
 import 'package:main/util/uri_builder.dart';
@@ -27,5 +28,22 @@ class BudgetClient {
     GetBudgetsResponse getBudgetsResponse =
         GetBudgetsResponse.fromJson(jsonDecode(response.body));
     return _modelEncryption.decryptGetBudgetsResponse(getBudgetsResponse);
+  }
+
+  Future<InitializeCustomerCategoriesResponse> initializeCategoriesForUser(
+      String phone) async {
+    String encryptedPhone = _encryptionUtility.encrypt(phone);
+    encryptedPhone = Uri.encodeComponent(encryptedPhone);
+    String url = UriBuilder.blossomDevWithUri(BudgetClientConstants.URI_BUDGETS,
+        1, BudgetClientConstants.URI_PUT_INITIALIZE_CATEGORIES);
+    url = url + "?phone=" + encryptedPhone;
+    Response response = await put(url);
+    if (response.statusCode != 200 && response.statusCode != 404) {
+      ErrorHandler.onErrorClient(response, ErrorConstants.BUDGET_RETRIEVAL);
+    }
+    InitializeCustomerCategoriesResponse getBudgetsResponse =
+        InitializeCustomerCategoriesResponse.fromJson(
+            jsonDecode(response.body));
+    return getBudgetsResponse;
   }
 }
