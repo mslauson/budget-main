@@ -12,6 +12,7 @@ import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/iam/signUpForm.dart';
 import 'package:main/screens/collect_otp.dart';
 import 'package:main/screens/collect_user_info.dart';
+import 'package:main/security/blossom_encryption_utility.dart';
 import 'package:main/service/auth/registration_service.dart';
 import 'package:main/service/secure/home_initialization_service.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -25,7 +26,9 @@ class AuthenticationService {
   final HomeInitializationService _initializationService =
       new HomeInitializationService();
   final BudgetClient _budgetClient = BudgetClient();
-  GoogleAuthService _googleAuthService = GoogleAuthService();
+  final GoogleAuthService _googleAuthService = GoogleAuthService();
+  final BlossomEncryptionUtility _encryptionUtility =
+      BlossomEncryptionUtility();
   User _currentUser;
   SignUpForm _signUpForm;
   String _otpPhone;
@@ -109,6 +112,7 @@ class AuthenticationService {
 
   void _checkIfUserExists(UserCredential result, String phone,
       BuildContext context) {
+    phone = _encryptionUtility.encrypt(phone);
     _registrationService.checkIfUserExists(phone).then((userExists) async {
       if (!userExists) {
         _budgetClient.initializeCategoriesForUser(phone);
