@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:main/client/budget_client.dart';
 import 'package:main/constants/error_constants.dart';
 import 'package:main/constants/iam_constants.dart';
 import 'package:main/constants/routes.dart';
@@ -23,6 +24,7 @@ class AuthenticationService {
   final RegistrationService _registrationService = new RegistrationService();
   final HomeInitializationService _initializationService =
       new HomeInitializationService();
+  final BudgetClient _budgetClient = BudgetClient();
   GoogleAuthService _googleAuthService = GoogleAuthService();
   User _currentUser;
   SignUpForm _signUpForm;
@@ -109,6 +111,7 @@ class AuthenticationService {
       BuildContext context) {
     _registrationService.checkIfUserExists(phone).then((userExists) async {
       if (!userExists) {
+        _budgetClient.initializeCategoriesForUser(phone);
         if (_signUpForm != null) {
           _buildScopedModel(phone,
               result.user.metadata.lastSignInTime.toIso8601String(), context);
