@@ -6,6 +6,7 @@ import 'package:main/client/transactions_client.dart';
 import 'package:main/constants/transaction_page_constants.dart';
 import 'package:main/models/accounts/account_meta.dart';
 import 'package:main/models/budget/getBudgetsResponse.dart';
+import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/transactions/request/transaction_updates.dart';
 import 'package:main/models/transactions/request/transaction_updates_request_model.dart';
 import 'package:main/models/transactions/transactions_get_response.dart';
@@ -13,9 +14,8 @@ import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/theme/budget_icons.dart';
 import 'package:main/util/parse_utils.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:main/models/global/activeUser.dart';
 import 'package:scoped_model/scoped_model.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class TransactionDetailScreen extends StatelessWidget {
   final Transactions _transaction;
@@ -37,7 +37,13 @@ class TransactionDetailScreen extends StatelessWidget {
       maxHeight: 80,
       controller: _changeBudgetController,
       panel: GestureDetector(
-        child:,
+        child: Neumorphic(
+          child: SingleChildScrollView(
+            child: Column(
+              children: _buildBudgetOptions(context),
+            ),
+          ),
+        ),
       ),
       body: Scaffold(
         body: SingleChildScrollView(
@@ -371,7 +377,8 @@ class TransactionDetailScreen extends StatelessWidget {
   }
 
   Future<void> _updateTransaction(String notes) async {
-    TransactionUpdates update = TransactionUpdates(notes: notes,
+    TransactionUpdates update = TransactionUpdates(
+        notes: notes,
         transactionId: _transaction.transactionId,
         budget: _transaction.budgetId);
     await _transactionsClient.updateTransaction(
@@ -381,36 +388,30 @@ class TransactionDetailScreen extends StatelessWidget {
   List<Widget> _buildBudgetOptions(BuildContext context) {
     List<Widget> returnWidgets = new List();
     GetBudgetsResponse budgetResponse =
-        ScopedModel
-            .of<ActiveUser>(context, rebuildOnChange: true)
-            .budgets;
+        ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).budgets;
     List<String> budgetIds = budgetResponse.budgets.map((e) => e.id).toList();
     budgetIds.forEach((budgetId) {
-      returnWidgets.add(
-          Row(
-            children: <Widget>[
-              Padding(padding: EdgeInsets.only(left: 8)),
-              Neumorphic(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: NeumorphicIcon(ParseUtils
-                        .getIcon(budgetId)
-                        .icon,
-                        style: BlossomNeumorphicStyles.twentyIconGrey),
-                  ),
-                  style: BlossomNeumorphicStyles.fourIconCircleWhite),
-              Spacer(
-                flex: 1,
+      returnWidgets.add(Row(
+        children: <Widget>[
+          Padding(padding: EdgeInsets.only(left: 8)),
+          Neumorphic(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: NeumorphicIcon(ParseUtils.getIcon(budgetId).icon,
+                    style: BlossomNeumorphicStyles.twentyIconGrey),
               ),
-              NeumorphicText(ParseUtils.parseBudgetId(budgetId),
-                  textStyle: BlossomNeumorphicText.body,
-                  style: BlossomNeumorphicStyles.eightGrey),
-              Spacer(
-                flex: 1,
-              )
-            ],
+              style: BlossomNeumorphicStyles.fourIconCircleWhite),
+          Spacer(
+            flex: 1,
+          ),
+          NeumorphicText(ParseUtils.parseBudgetId(budgetId),
+              textStyle: BlossomNeumorphicText.body,
+              style: BlossomNeumorphicStyles.eightGrey),
+          Spacer(
+            flex: 1,
           )
-      );
+        ],
+      ));
     });
   }
 }
