@@ -36,12 +36,10 @@ class TransactionDetailScreen extends StatelessWidget {
       minHeight: 0,
       maxHeight: 80,
       controller: _changeBudgetController,
-      panel: GestureDetector(
-        child: Neumorphic(
-          child: SingleChildScrollView(
-            child: Column(
-              children: _buildBudgetOptions(context),
-            ),
+      panel: Neumorphic(
+        child: SingleChildScrollView(
+          child: Column(
+            children: _buildBudgetOptions(context),
           ),
         ),
       ),
@@ -391,26 +389,28 @@ class TransactionDetailScreen extends StatelessWidget {
         ScopedModel.of<ActiveUser>(context, rebuildOnChange: true).budgets;
     List<String> budgetIds = budgetResponse.budgets.map((e) => e.id).toList();
     budgetIds.forEach((budgetId) {
-      returnWidgets.add(Row(
-        children: <Widget>[
-          Padding(padding: EdgeInsets.only(left: 8)),
-          Neumorphic(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: NeumorphicIcon(ParseUtils.getIcon(budgetId).icon,
-                    style: BlossomNeumorphicStyles.twentyIconGrey),
-              ),
-              style: BlossomNeumorphicStyles.fourIconCircleWhite),
-          Spacer(
-            flex: 1,
-          ),
-          NeumorphicText(ParseUtils.parseBudgetId(budgetId),
-              textStyle: BlossomNeumorphicText.body,
-              style: BlossomNeumorphicStyles.eightGrey),
-          Spacer(
-            flex: 1,
-          )
-        ],
+      returnWidgets.add(GestureDetector(
+        child: Row(
+          children: <Widget>[
+            Padding(padding: EdgeInsets.only(left: 8)),
+            Neumorphic(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: NeumorphicIcon(ParseUtils.getIcon(budgetId).icon,
+                      style: BlossomNeumorphicStyles.twentyIconGrey),
+                ),
+                style: BlossomNeumorphicStyles.fourIconCircleWhite),
+            Spacer(
+              flex: 1,
+            ),
+            NeumorphicText(ParseUtils.parseBudgetId(budgetId),
+                textStyle: BlossomNeumorphicText.body,
+                style: BlossomNeumorphicStyles.eightGrey),
+            Spacer(
+              flex: 1,
+            )
+          ],
+        ),
       ));
     });
   }
