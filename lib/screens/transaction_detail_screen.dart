@@ -238,20 +238,25 @@ class TransactionDetailScreen extends StatelessWidget {
                                     padding:
                                         EdgeInsets.only(left: 18, right: 18)),
                                 Expanded(
-                                  child: Neumorphic(
-                                    style: BlossomNeumorphicStyles
-                                        .negativeEightConcaveWhite,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(16.0),
-                                      child: Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: NeumorphicText(
-                                            ParseUtils.parseBudgetId(
-                                                _transaction.budgetId),
-                                            textStyle:
-                                                BlossomNeumorphicText.body,
-                                            style: BlossomNeumorphicStyles
-                                                .fourGrey),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      _changeBudgetController.open();
+                                    },
+                                    child: Neumorphic(
+                                      style: BlossomNeumorphicStyles
+                                          .negativeEightConcaveWhite,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(16.0),
+                                        child: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: NeumorphicText(
+                                              ParseUtils.parseBudgetId(
+                                                  _transaction.budgetId),
+                                              textStyle:
+                                                  BlossomNeumorphicText.body,
+                                              style: BlossomNeumorphicStyles
+                                                  .fourGrey),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -413,5 +418,6 @@ class TransactionDetailScreen extends StatelessWidget {
         ),
       ));
     });
+    return returnWidgets;
   }
 }
