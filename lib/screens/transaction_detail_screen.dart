@@ -34,13 +34,30 @@ class TransactionDetailScreen extends StatelessWidget {
     final String _initialNote = _transaction.notes;
     return SlidingUpPanel(
       minHeight: 0,
-      maxHeight: 200,
+      maxHeight: 250,
       controller: _changeBudgetController,
       panel: Neumorphic(
-        child: SingleChildScrollView(
-          child: Column(
-            children: _buildBudgetOptions(context),
-          ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: NeumorphicText(TransactionsPageConstants.CHANGE_CATEGORY,
+                  textStyle: BlossomNeumorphicText.secondaryBody,
+                  style: BlossomNeumorphicStyles.eightGrey),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Divider(),
+            ),
+            ConstrainedBox(
+              constraints: BoxConstraints(minHeight: 180, maxHeight: 180),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: _buildBudgetOptions(context),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
       body: Scaffold(
