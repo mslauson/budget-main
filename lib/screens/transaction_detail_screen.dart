@@ -34,7 +34,7 @@ class TransactionDetailScreen extends StatelessWidget {
     final String _initialNote = _transaction.notes;
     return SlidingUpPanel(
       minHeight: 0,
-      maxHeight: 80,
+      maxHeight: 200,
       controller: _changeBudgetController,
       panel: Neumorphic(
         child: SingleChildScrollView(
@@ -395,26 +395,28 @@ class TransactionDetailScreen extends StatelessWidget {
     List<String> budgetIds = budgetResponse.budgets.map((e) => e.id).toList();
     budgetIds.forEach((budgetId) {
       returnWidgets.add(GestureDetector(
-        child: Row(
-          children: <Widget>[
-            Padding(padding: EdgeInsets.only(left: 8)),
-            Neumorphic(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: NeumorphicIcon(ParseUtils.getIcon(budgetId).icon,
-                      style: BlossomNeumorphicStyles.twentyIconGrey),
-                ),
-                style: BlossomNeumorphicStyles.fourIconCircleWhite),
-            Spacer(
-              flex: 1,
-            ),
-            NeumorphicText(ParseUtils.parseBudgetId(budgetId),
-                textStyle: BlossomNeumorphicText.body,
-                style: BlossomNeumorphicStyles.eightGrey),
-            Spacer(
-              flex: 1,
-            )
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: <Widget>[
+              Neumorphic(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: NeumorphicIcon(ParseUtils.getIcon(budgetId).icon,
+                        style: BlossomNeumorphicStyles.twentyIconGrey),
+                  ),
+                  style: BlossomNeumorphicStyles.fourIconCircleWhite),
+              Spacer(
+                flex: 1,
+              ),
+              NeumorphicText(ParseUtils.parseBudgetId(budgetId),
+                  textStyle: BlossomNeumorphicText.body,
+                  style: BlossomNeumorphicStyles.eightGrey),
+              Spacer(
+                flex: 1,
+              )
+            ],
+          ),
         ),
       ));
     });
