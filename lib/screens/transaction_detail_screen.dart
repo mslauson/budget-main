@@ -402,7 +402,7 @@ class TransactionDetailScreen extends StatelessWidget {
               Spacer(
                 flex: 1,
               ),
-              NeumorphicText(AccountsPageConstants.REMOVE_INSTITUTION,
+              NeumorphicText(ParseUtils.parseBudgetId(budgetId),
                   textStyle: BlossomNeumorphicText.body,
                   style: BlossomNeumorphicStyles.eightGrey),
               Spacer(
@@ -410,7 +410,7 @@ class TransactionDetailScreen extends StatelessWidget {
               )
             ],
           )
-      )
-    })
+      );
+    });
   }
 }
