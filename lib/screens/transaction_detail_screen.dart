@@ -5,6 +5,7 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:main/client/transactions_client.dart';
 import 'package:main/constants/transaction_page_constants.dart';
 import 'package:main/models/accounts/account_meta.dart';
+import 'package:main/models/budget/getBudgetsResponse.dart';
 import 'package:main/models/transactions/request/transaction_updates.dart';
 import 'package:main/models/transactions/request/transaction_updates_request_model.dart';
 import 'package:main/models/transactions/transactions_get_response.dart';
@@ -13,16 +14,19 @@ import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/theme/budget_icons.dart';
 import 'package:main/util/parse_utils.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:main/models/global/activeUser.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class TransactionDetailScreen extends StatelessWidget {
   final Transactions _transaction;
   final AccountMeta _accountMeta;
   final Icon _icon;
 
-  TransactionDetailScreen(this._transaction,this._accountMeta, this._icon);
+  TransactionDetailScreen(this._transaction, this._accountMeta, this._icon);
 
   final TextEditingController _notesController = TextEditingController();
   final TransactionsClient _transactionsClient = TransactionsClient();
+  final PanelController _changeBudgetController = PanelController();
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +35,10 @@ class TransactionDetailScreen extends StatelessWidget {
     return SlidingUpPanel(
       minHeight: 0,
       maxHeight: 80,
+      controller: _changeBudgetController,
+      panel: GestureDetector(
+        child:,
+      ),
       body: Scaffold(
         body: SingleChildScrollView(
           child: Neumorphic(
@@ -353,15 +361,56 @@ class TransactionDetailScreen extends StatelessWidget {
     return boolObject != null;
   }
   
-  void _determineIfTransactionUpdated(String existingNote){
-    bool needsUpdating = (existingNote == null && _notesController.text != "") || (existingNote != null && _notesController.text == "");
-    if(needsUpdating){
+  void _determineIfTransactionUpdated(String existingNote) {
+    bool needsUpdating = (existingNote == null &&
+        _notesController.text != "") ||
+        (existingNote != null && _notesController.text == "");
+    if (needsUpdating) {
       _updateTransaction(_notesController.text);
     }
   }
-  
+
   Future<void> _updateTransaction(String notes) async {
-    TransactionUpdates update = TransactionUpdates(notes: notes, transactionId: _transaction.transactionId, budget: _transaction.budgetId);
-    await _transactionsClient.updateTransaction(TransactionUpdatesRequestModel(transactionUpdates: [update]));
+    TransactionUpdates update = TransactionUpdates(notes: notes,
+        transactionId: _transaction.transactionId,
+        budget: _transaction.budgetId);
+    await _transactionsClient.updateTransaction(
+        TransactionUpdatesRequestModel(transactionUpdates: [update]));
+  }
+
+  List<Widget> _buildBudgetOptions(BuildContext context) {
+    List<Widget> returnWidgets = new List();
+    GetBudgetsResponse budgetResponse =
+        ScopedModel
+            .of<ActiveUser>(context, rebuildOnChange: true)
+            .budgets;
+    List<String> budgetIds = budgetResponse.budgets.map((e) => e.id).toList();
+    budgetIds.forEach((budgetId) {
+      returnWidgets.add(
+          Row(
+            children: <Widget>[
+              Padding(padding: EdgeInsets.only(left: 8)),
+              Neumorphic(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: NeumorphicIcon(ParseUtils
+                        .getIcon(budgetId)
+                        .icon,
+                        style: BlossomNeumorphicStyles.twentyIconGrey),
+                  ),
+                  style: BlossomNeumorphicStyles.fourIconCircleWhite),
+              Spacer(
+                flex: 1,
+              ),
+              NeumorphicText(AccountsPageConstants.REMOVE_INSTITUTION,
+                  textStyle: BlossomNeumorphicText.body,
+                  style: BlossomNeumorphicStyles.eightGrey),
+              Spacer(
+                flex: 1,
+              )
+            ],
+          )
+      )
+    })
   }
 }
