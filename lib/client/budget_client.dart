@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:main/constants/budget_client_constants.dart';
 import 'package:main/constants/error_constants.dart';
+import 'package:main/constants/global_constants.dart';
 import 'package:main/error/error_handler.dart';
 import 'package:main/models/budget/getBudgetsResponse.dart';
 import 'package:main/models/budget/request/change_budget_request_model.dart';
@@ -55,9 +56,10 @@ class BudgetClient {
     encryptedPhone = Uri.encodeComponent(encryptedPhone);
     String url = UriBuilder.blossomDevWithUri(BudgetClientConstants.URI_BUDGETS,
         1, BudgetClientConstants.URI_PUT_CHANGE_CATEGORIES);
-    url = url + "?phone=" + encryptedPhone;
-    Response response = await put(url);
-    if (response.statusCode != 200 && response.statusCode != 404) {
+    Response response = await put(url,
+        headers: GlobalConstants.BASIC_POST_HEADERS,
+        body: jsonEncode(requestModel.toJson()));
+    if (response.statusCode != 200) {
       ErrorHandler.onErrorClient(response, ErrorConstants.BUDGET_RETRIEVAL);
     }
     GenericSuccessResponseModel changeBudgetResponse =
