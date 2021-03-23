@@ -2,17 +2,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:main/client/budget_client.dart';
 import 'package:main/client/transactions_client.dart';
 import 'package:main/constants/transaction_page_constants.dart';
 import 'package:main/models/accounts/account_meta.dart';
 import 'package:main/models/budget/getBudgetsResponse.dart';
+import 'package:main/models/budget/request/change_budget_request_model.dart';
 import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/transactions/request/transaction_updates.dart';
 import 'package:main/models/transactions/request/transaction_updates_request_model.dart';
 import 'package:main/models/transactions/transactions_get_response.dart';
+import 'package:main/security/blossom_encryption_utility.dart';
 import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/theme/budget_icons.dart';
+import 'package:main/util/model_encryption_utility.dart';
 import 'package:main/util/parse_utils.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -26,7 +30,9 @@ class TransactionDetailScreen extends StatelessWidget {
 
   final TextEditingController _notesController = TextEditingController();
   final TransactionsClient _transactionsClient = TransactionsClient();
+  final BudgetClient _budgetClient = BudgetClient();
   final PanelController _changeBudgetController = PanelController();
+  final ModelEncryptionUtility _modelEncryptionUtility = ModelEncryptionUtility();
 
   @override
   Widget build(BuildContext context) {
@@ -412,6 +418,12 @@ class TransactionDetailScreen extends StatelessWidget {
     List<String> budgetIds = budgetResponse.budgets.map((e) => e.id).toList();
     budgetIds.forEach((budgetId) {
       returnWidgets.add(GestureDetector(
+        onTap: () {
+          ChangeBudgetRequestModel changeBudgetRequestModel = _buildChangeBudgetRequest(
+              context, _transaction.budgetId, budgetId, _transaction
+              .transactionId);
+          _budgetClient.changeBudgetForTransaction(changeBudgetRequestModel)
+        },
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
@@ -419,7 +431,9 @@ class TransactionDetailScreen extends StatelessWidget {
               Neumorphic(
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: NeumorphicIcon(ParseUtils.getIcon(budgetId).icon,
+                    child: NeumorphicIcon(ParseUtils
+                        .getIcon(budgetId)
+                        .icon,
                         style: BlossomNeumorphicStyles.twentyIconGrey),
                   ),
                   style: BlossomNeumorphicStyles.fourIconCircleWhite),
@@ -438,5 +452,20 @@ class TransactionDetailScreen extends StatelessWidget {
       ));
     });
     return returnWidgets;
+  }
+
+  ChangeBudgetRequestModel _buildChangeBudgetRequest(BuildContext context,
+      String currentBudget, String newBudget, String transactionId) {
+    String phone =
+        ScopedModel
+            .of<ActiveUser>(context, rebuildOnChange: true)
+            .phone;
+    ChangeBudgetRequestModel requestModel = ChangeBudgetRequestModel(
+        phone: phone,
+        transactionId: transactionId,
+        currentBudgetId: currentBudget,
+        newBudgetId: newBudget
+    );
+    return _modelEncryptionUtility.encryptChangeBudgetRequest(requestModel);
   }
 }

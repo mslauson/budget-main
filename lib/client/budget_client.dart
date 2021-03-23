@@ -51,9 +51,7 @@ class BudgetClient {
   }
 
   Future<GenericSuccessResponseModel> changeBudgetForTransaction(
-      String phone, ChangeBudgetRequestModel requestModel) async {
-    String encryptedPhone = _encryptionUtility.encrypt(phone);
-    encryptedPhone = Uri.encodeComponent(encryptedPhone);
+      ChangeBudgetRequestModel requestModel) async {
     String url = UriBuilder.blossomDevWithUri(BudgetClientConstants.URI_BUDGETS,
         1, BudgetClientConstants.URI_PUT_CHANGE_CATEGORIES);
     Response response = await put(url,
