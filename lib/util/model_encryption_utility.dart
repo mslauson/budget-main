@@ -8,6 +8,7 @@ import 'package:main/models/accounts/response/account_meta_response.dart';
 import 'package:main/models/accounts/response/accounts_response.dart';
 import 'package:main/models/accounts/update_accounts_request_model.dart';
 import 'package:main/models/budget/getBudgetsResponse.dart';
+import 'package:main/models/budget/request/change_budget_request_model.dart';
 import 'package:main/models/iam/signUpForm.dart';
 import 'package:main/models/transactions/request/transaction_updates.dart';
 import 'package:main/models/transactions/request/transaction_updates_request_model.dart';
@@ -172,6 +173,15 @@ class ModelEncryptionUtility {
     return TransactionUpdatesRequestModel(
         transactionUpdates:
             _encryptTransactionUpdates(updatesRequestModel.transactionUpdates));
+  }
+
+  ChangeBudgetRequestModel encryptChangeBudgetRequest(
+      ChangeBudgetRequestModel requestModel) {
+    return ChangeBudgetRequestModel(
+        transactionId: _beu.encrypt(requestModel.transactionId),
+        phone: _beu.encrypt(requestModel.phone),
+        currentBudgetId: _beu.encrypt(requestModel.currentBudgetId),
+        newBudgetId: _beu.encrypt(requestModel.newBudgetId));
   }
 
   List<LinkedTransactions> _decryptLinkedTransactions(Budgets budget) {
