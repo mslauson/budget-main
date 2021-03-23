@@ -12,7 +12,6 @@ import 'package:main/models/global/activeUser.dart';
 import 'package:main/models/transactions/request/transaction_updates.dart';
 import 'package:main/models/transactions/request/transaction_updates_request_model.dart';
 import 'package:main/models/transactions/transactions_get_response.dart';
-import 'package:main/security/blossom_encryption_utility.dart';
 import 'package:main/theme/blossom_neumorphic_styles.dart';
 import 'package:main/theme/blossom_neumorphic_text.dart';
 import 'package:main/theme/budget_icons.dart';
@@ -419,10 +418,10 @@ class TransactionDetailScreen extends StatelessWidget {
     budgetIds.forEach((budgetId) {
       returnWidgets.add(GestureDetector(
         onTap: () {
-          ChangeBudgetRequestModel changeBudgetRequestModel = _buildChangeBudgetRequest(
-              context, _transaction.budgetId, budgetId, _transaction
-              .transactionId);
-          _budgetClient.changeBudgetForTransaction(changeBudgetRequestModel)
+          ChangeBudgetRequestModel changeBudgetRequestModel =
+              _buildChangeBudgetRequest(context, _transaction.budgetId,
+                  budgetId, _transaction.transactionId);
+          _budgetClient.changeBudgetForTransaction(changeBudgetRequestModel);
         },
         child: Padding(
           padding: const EdgeInsets.all(8.0),
